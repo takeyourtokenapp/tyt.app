@@ -22,8 +22,20 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
+  .text-shadow-gold {
+    text-shadow: 0 0 20px rgba(210, 164, 76, 0.5);
+  }
+
   .animate-slide-in {
     animation: slideIn 0.3s ease-out;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 
   @keyframes slideIn {
@@ -35,5 +47,32 @@
       transform: translateX(0);
       opacity: 1;
     }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(210, 164, 76, 0.5);
+    }
+    to {
+      box-shadow: 0 0 30px rgba(210, 164, 76, 0.8);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .backdrop-blur-glass {
+    backdrop-filter: blur(12px);
+    background: rgba(10, 17, 34, 0.7);
+  }
+
+  .border-gradient-gold {
+    border-image: linear-gradient(135deg, #D2A44C, #B8923F, #9E7F32) 1;
   }
 }

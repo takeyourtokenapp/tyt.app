@@ -54,20 +54,21 @@ export default function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-owl-dark via-owl-navy to-black text-white">
       <div className="flex">
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-md border-r border-gray-800 transform transition-transform duration-300 lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-50 w-64 backdrop-blur-glass border-r border-gold-800 transform transition-transform duration-300 lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-6 border-b border-gray-800">
-              <Link to="/app" className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-xl">
-                  TYT
+            <div className="flex items-center justify-between p-6 border-b border-gold-800">
+              <Link to="/app" className="flex items-center gap-2 group">
+                <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT" className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all" />
+                <div>
+                  <span className="text-lg font-bold bg-owl-gradient bg-clip-text text-transparent">TYT</span>
+                  <div className="text-xs text-gray-400">Owl Warrior</div>
                 </div>
-                <span className="text-xl font-semibold">TYT</span>
               </Link>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -87,8 +88,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                       isActive(item.path)
-                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/50'
-                        : 'hover:bg-gray-800 text-gray-300 hover:text-white'
+                        ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50 shadow-gold-glow'
+                        : 'hover:bg-owl-slate text-gray-300 hover:text-gold-200 hover:border-gold-700 border border-transparent'
                     }`}
                   >
                     <Icon size={20} />
@@ -98,14 +99,14 @@ export default function AppLayout({ children }: AppLayoutProps) {
               })}
             </nav>
 
-            <div className="p-4 border-t border-gray-800">
-              <div className="mb-4 p-4 bg-gray-800/50 rounded-lg">
+            <div className="p-4 border-t border-gold-800">
+              <div className="mb-4 p-4 bg-owl-slate/50 rounded-lg border border-gold-800">
                 <div className="text-sm text-gray-400 mb-1">Signed in as</div>
-                <div className="text-sm font-semibold truncate">{user?.email}</div>
+                <div className="text-sm font-semibold truncate text-gold-300">{user?.email}</div>
               </div>
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-400 transition-all"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-400 border border-transparent hover:border-red-500/50 transition-all"
               >
                 <LogOut size={20} />
                 <span>Sign Out</span>
@@ -115,21 +116,21 @@ export default function AppLayout({ children }: AppLayoutProps) {
         </aside>
 
         <div className="flex-1 lg:ml-64">
-          <header className="sticky top-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 px-6 py-4">
+          <header className="sticky top-0 z-40 backdrop-blur-glass border-b border-gold-800 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden"
+                className="lg:hidden text-gold-400 hover:text-gold-300"
               >
                 <Menu size={24} />
               </button>
 
               <div className="flex items-center gap-4 ml-auto">
-                <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-800/50 rounded-lg border border-gray-700">
-                  <Shield className="w-4 h-4 text-amber-400" />
+                <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-owl-slate/50 rounded-lg border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all">
+                  <div className="text-xl">🦉</div>
                   <span className="text-sm">
                     <span className="text-gray-400">Rank:</span>{' '}
-                    <span className="font-semibold text-amber-400">Worker</span>
+                    <span className="font-semibold bg-owl-gradient bg-clip-text text-transparent">Worker Owl</span>
                   </span>
                 </div>
               </div>
