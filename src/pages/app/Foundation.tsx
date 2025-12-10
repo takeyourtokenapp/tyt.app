@@ -15,10 +15,14 @@ import {
   Calendar,
   CheckCircle2,
   Filter,
-  Search
+  Search,
+  Building2,
+  GraduationCap,
+  PieChart
 } from 'lucide-react';
 import type { FoundationCampaign } from '../../types/database';
 import { makeDonation } from '../../utils/payments';
+import { getCharitySummary, getRecentCharityFlows } from '../../utils/depositFees';
 
 type ModalType = 'donate' | 'detail' | 'impact' | 'donors' | null;
 type CampaignFilter = 'all' | 'research' | 'family_support' | 'equipment' | 'other';
@@ -39,9 +43,29 @@ export default function Foundation() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<CampaignFilter>('all');
 
+  const [charitySummary, setCharitySummary] = useState<any>(null);
+  const [recentFlows, setRecentFlows] = useState<any[]>([]);
+  const [showTransparency, setShowTransparency] = useState(false);
+
   useEffect(() => {
     loadCampaigns();
+    loadCharitySummary();
+    loadRecentFlows();
   }, []);
+
+  const loadCharitySummary = async () => {
+    const summary = await getCharitySummary();
+    if (summary) {
+      setCharitySummary(summary);
+    }
+  };
+
+  const loadRecentFlows = async () => {
+    const flows = await getRecentCharityFlows(20);
+    if (flows) {
+      setRecentFlows(flows);
+    }
+  };
 
   const loadCampaigns = async () => {
     setLoading(true);
@@ -222,6 +246,91 @@ export default function Foundation() {
             <div className="text-xs text-gray-400">Of ${totalGoal.toLocaleString()} goal</div>
           </div>
         </div>
+      </div>
+
+      <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <PieChart className="w-6 h-6 text-blue-400" />
+            <div>
+              <h3 className="text-xl font-bold">Fee-Based Funding Transparency</h3>
+              <p className="text-sm text-gray-400">Every transaction supports our mission</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowTransparency(!showTransparency)}
+            className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all"
+          >
+            {showTransparency ? 'Hide Details' : 'View Details'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-to-br from-pink-500/10 to-red-500/10 border border-pink-500/30 rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <Heart className="w-5 h-5 text-pink-400" />
+              <span className="text-sm font-medium text-gray-300">Foundation (30%)</span>
+            </div>
+            <div className="text-2xl font-bold text-pink-400 mb-1">
+              ${charitySummary?.find((s: any) => s.flow_type === 'charity')?.total_usd?.toFixed(2) || '0.00'}
+            </div>
+            <div className="text-xs text-gray-400">From deposit & marketplace fees</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/30 rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <GraduationCap className="w-5 h-5 text-purple-400" />
+              <span className="text-sm font-medium text-gray-300">Academy (10%)</span>
+            </div>
+            <div className="text-2xl font-bold text-purple-400 mb-1">
+              ${charitySummary?.find((s: any) => s.flow_type === 'academy')?.total_usd?.toFixed(2) || '0.00'}
+            </div>
+            <div className="text-xs text-gray-400">Educational content funding</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <Building2 className="w-5 h-5 text-blue-400" />
+              <span className="text-sm font-medium text-gray-300">Total Impact</span>
+            </div>
+            <div className="text-2xl font-bold text-blue-400 mb-1">
+              ${((charitySummary?.reduce((sum: number, s: any) => sum + (parseFloat(s.total_usd) || 0), 0)) || 0).toFixed(2)}
+            </div>
+            <div className="text-xs text-gray-400">Combined contributions</div>
+          </div>
+        </div>
+
+        {showTransparency && recentFlows.length > 0 && (
+          <div className="mt-6 bg-gray-800/50 rounded-lg p-4">
+            <h4 className="font-semibold mb-4 flex items-center gap-2">
+              <Info size={16} className="text-blue-400" />
+              Recent Fee-Based Contributions
+            </h4>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {recentFlows.slice(0, 10).map((flow) => (
+                <div key={flow.id} className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg text-sm">
+                  <div className="flex items-center gap-3">
+                    {flow.flow_type === 'charity' ? (
+                      <Heart size={14} className="text-pink-400" />
+                    ) : (
+                      <GraduationCap size={14} className="text-purple-400" />
+                    )}
+                    <div>
+                      <div className="font-medium capitalize">{flow.source_type.replace(/_/g, ' ')}</div>
+                      <div className="text-xs text-gray-500">
+                        {new Date(flow.created_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold">{parseFloat(flow.amount).toFixed(8)} {flow.asset}</div>
+                    <div className="text-xs text-gray-400">${parseFloat(flow.amount_usd).toFixed(2)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

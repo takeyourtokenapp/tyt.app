@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useWallets } from '../../hooks/useAPI';
 import {
@@ -13,9 +13,14 @@ import {
   Filter,
   Download,
   Search,
-  TrendingUp
+  TrendingUp,
+  Info,
+  Heart,
+  GraduationCap,
+  Building2
 } from 'lucide-react';
 import type { CustodialWallet } from '../../types/database';
+import { calculateDepositFees, processDeposit, formatFeeBreakdown, type FeeBreakdown } from '../../utils/depositFees';
 
 interface Transaction {
   id: string;
@@ -39,6 +44,10 @@ export default function Wallet() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [copiedAddress, setCopiedAddress] = useState('');
 
+  const [depositAmount, setDepositAmount] = useState('');
+  const [depositFees, setDepositFees] = useState<FeeBreakdown | null>(null);
+  const [isProcessingDeposit, setIsProcessingDeposit] = useState(false);
+
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');
 
@@ -48,6 +57,52 @@ export default function Wallet() {
 
   const [txFilter, setTxFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const loadFees = async () => {
+      if (depositAmount && parseFloat(depositAmount) > 0) {
+        const fees = await calculateDepositFees(parseFloat(depositAmount), selectedAsset);
+        setDepositFees(fees);
+      } else {
+        setDepositFees(null);
+      }
+    };
+
+    const debounce = setTimeout(() => {
+      loadFees();
+    }, 500);
+
+    return () => clearTimeout(debounce);
+  }, [depositAmount, selectedAsset]);
+
+  const handleDepositSubmit = async () => {
+    if (!depositAmount || parseFloat(depositAmount) <= 0) {
+      return;
+    }
+
+    setIsProcessingDeposit(true);
+    try {
+      const result = await processDeposit(
+        selectedAsset,
+        parseFloat(depositAmount)
+      );
+
+      if (result.success) {
+        setActiveModal(null);
+        setDepositAmount('');
+        setDepositFees(null);
+        refetch();
+        alert(`Deposit successful! ${result.amount_credited} ${selectedAsset} credited to your wallet.`);
+      } else {
+        alert(`Deposit failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Deposit error:', error);
+      alert('Deposit failed. Please try again.');
+    } finally {
+      setIsProcessingDeposit(false);
+    }
+  };
 
   const mockTransactions: Transaction[] = [
     {
@@ -379,7 +434,7 @@ export default function Wallet() {
 
       {activeModal === 'deposit' && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-md w-full p-6">
+          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold">Deposit {selectedAsset}</h3>
               <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
@@ -399,6 +454,62 @@ export default function Wallet() {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-3">Amount to Deposit</label>
+                <input
+                  type="number"
+                  value={depositAmount}
+                  onChange={(e) => setDepositAmount(e.target.value)}
+                  placeholder="0.00"
+                  step="any"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
+                />
+              </div>
+
+              {depositFees && (
+                <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-blue-400 font-semibold mb-2">
+                    <Info size={18} />
+                    <span>Fee Breakdown (1%)</span>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Gross Amount:</span>
+                      <span className="font-bold">{parseFloat(depositAmount).toFixed(8)} {selectedAsset}</span>
+                    </div>
+                    <div className="h-px bg-gray-700"></div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <Building2 size={14} className="text-blue-400" />
+                        <span className="text-gray-400">Protocol (60%):</span>
+                      </div>
+                      <span className="font-mono">{depositFees.fee_protocol.toFixed(8)} {selectedAsset}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <Heart size={14} className="text-pink-400" />
+                        <span className="text-gray-400">Foundation (30%):</span>
+                      </div>
+                      <span className="font-mono">{depositFees.fee_charity.toFixed(8)} {selectedAsset}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <GraduationCap size={14} className="text-purple-400" />
+                        <span className="text-gray-400">Academy (10%):</span>
+                      </div>
+                      <span className="font-mono">{depositFees.fee_academy.toFixed(8)} {selectedAsset}</span>
+                    </div>
+                    <div className="h-px bg-gray-700"></div>
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="text-amber-400 font-semibold">You Receive:</span>
+                      <span className="text-amber-400 font-bold text-lg">{depositFees.amount_user.toFixed(8)} {selectedAsset}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium mb-3">Deposit Address</label>
                 <div className="flex gap-2">
@@ -416,13 +527,22 @@ export default function Wallet() {
                   </button>
                 </div>
               </div>
+
               <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-4 flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-gray-300">
-                  Only send {selectedAsset} to this address. Sending other assets may result in permanent loss.
-                  Minimum deposit: {selectedAsset === 'BTC' ? '0.0001' : '1'} {selectedAsset}
+                  Only send {selectedAsset} to this address. A 1% deposit fee applies to support platform operations (60%),
+                  children's brain cancer research (30%), and education (10%).
                 </div>
               </div>
+
+              <button
+                onClick={handleDepositSubmit}
+                disabled={!depositAmount || parseFloat(depositAmount) <= 0 || isProcessingDeposit}
+                className="w-full px-4 py-3 bg-green-500 rounded-lg font-semibold hover:bg-green-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isProcessingDeposit ? 'Processing...' : 'Confirm Deposit'}
+              </button>
             </div>
           </div>
         </div>
