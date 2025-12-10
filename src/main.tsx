@@ -7,6 +7,7 @@ import './index.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { Web3Provider } from './contexts/Web3Context';
+import { MultiChainWeb3Provider } from './contexts/MultiChainWeb3Context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,9 +25,11 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <AuthProvider>
           <Web3Provider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
+            <MultiChainWeb3Provider>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </MultiChainWeb3Provider>
           </Web3Provider>
         </AuthProvider>
       </BrowserRouter>

@@ -42,6 +42,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     { path: '/app/rewards', icon: TrendingUp, label: 'Rewards' },
     { path: '/app/marketplace', icon: ShoppingCart, label: 'Marketplace' },
     { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
+    { path: '/app/crypto-wallet', icon: Shield, label: 'Crypto Wallet' },
     { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
     { path: '/app/academy', icon: GraduationCap, label: 'Academy' },
     { path: '/app/foundation', icon: Heart, label: 'Foundation' },
