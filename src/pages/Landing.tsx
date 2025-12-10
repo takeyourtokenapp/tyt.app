@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, TrendingUp, Zap, Shield, Coins, BarChart3, Wallet, CheckCircle2, AlertCircle, DollarSign, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import IncomeCalculator from '../components/IncomeCalculator';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,6 +29,7 @@ export default function Landing() {
 
           <nav className="hidden md:flex gap-8">
             <a href="#how-it-works" className="hover:text-gold-400 transition-colors">How It Works</a>
+            <a href="#calculator" className="hover:text-gold-400 transition-colors">Calculator</a>
             <a href="#features" className="hover:text-gold-400 transition-colors">Features</a>
             <a href="#tokenomics" className="hover:text-gold-400 transition-colors">Tokenomics</a>
             <a href="#academy" className="hover:text-gold-400 transition-colors">Academy</a>
@@ -53,6 +55,7 @@ export default function Landing() {
           <div className="md:hidden bg-owl-dark border-t border-gold-800">
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">How It Works</a>
+              <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Calculator</a>
               <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Features</a>
               <a href="#tokenomics" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Tokenomics</a>
               <a href="#academy" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Academy</a>
@@ -163,7 +166,21 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="features" className="py-20 px-4">
+      <section id="calculator" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-owl-gradient bg-clip-text text-transparent">
+              Calculate Your Earnings
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              See how much you can earn with TYT NFT miners. Adjust parameters to match your strategy.
+            </p>
+          </div>
+          <IncomeCalculator />
+        </div>
+      </section>
+
+      <section id="features" className="py-20 px-4 bg-owl-navy/30">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center bg-owl-gradient bg-clip-text text-transparent">
             Owl Warrior Arsenal

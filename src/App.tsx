@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
+import MinerDetail from './pages/app/MinerDetail';
 import Rewards from './pages/app/Rewards';
 import Wallet from './pages/app/Wallet';
 import Marketplace from './pages/app/Marketplace';
@@ -46,6 +47,7 @@ function App() {
               <Routes>
                 <Route index element={<Dashboard />} />
                 <Route path="miners" element={<Miners />} />
+                <Route path="miners/:id" element={<MinerDetail />} />
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
                 <Route path="wallet" element={<Wallet />} />

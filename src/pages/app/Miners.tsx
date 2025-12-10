@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Cpu, Zap, DollarSign, TrendingUp, AlertCircle, CheckCircle2, Settings, ArrowRight } from 'lucide-react';
@@ -165,9 +166,10 @@ export default function Miners() {
             const discountTier = getUserDiscountTier(tytBalance, dailyCost);
 
             return (
-              <div
+              <Link
                 key={miner.id}
-                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all"
+                to={`/app/miners/${miner.id}`}
+                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all block"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -181,7 +183,10 @@ export default function Miners() {
                     </div>
                   </div>
                   <button
-                    onClick={() => setSelectedMiner(miner)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedMiner(miner);
+                    }}
                     className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                   >
                     <Settings size={20} />
@@ -223,14 +228,20 @@ export default function Miners() {
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-gray-700 grid grid-cols-2 gap-2">
-                  <button className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold hover:bg-amber-500/30 transition-all text-sm">
+                  <button
+                    onClick={(e) => e.preventDefault()}
+                    className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold hover:bg-amber-500/30 transition-all text-sm"
+                  >
                     Upgrade
                   </button>
-                  <button className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg font-semibold hover:bg-gray-600 transition-all text-sm">
+                  <button
+                    onClick={(e) => e.preventDefault()}
+                    className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg font-semibold hover:bg-gray-600 transition-all text-sm"
+                  >
                     Pay Maint.
                   </button>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
