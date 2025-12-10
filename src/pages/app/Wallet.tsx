@@ -17,10 +17,30 @@ import {
   Info,
   Heart,
   GraduationCap,
-  Building2
+  Building2,
+  QrCode,
+  ExternalLink,
+  Loader2,
+  Network,
+  Clock
 } from 'lucide-react';
 import type { CustodialWallet } from '../../types/database';
 import { calculateDepositFees, processDeposit, formatFeeBreakdown, type FeeBreakdown } from '../../utils/depositFees';
+import {
+  getSupportedNetworks,
+  getDepositAddresses,
+  generateDepositAddress,
+  getBlockchainDeposits,
+  getExplorerTxUrl,
+  getExplorerAddressUrl,
+  formatDepositAmount,
+  getDepositStatusColor,
+  getDepositStatusLabel,
+  triggerDepositMonitoring,
+  type BlockchainNetwork,
+  type DepositAddress,
+  type BlockchainDeposit
+} from '../../utils/blockchainDeposits';
 
 interface Transaction {
   id: string;
@@ -57,6 +77,28 @@ export default function Wallet() {
 
   const [txFilter, setTxFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [txView, setTxView] = useState<'internal' | 'blockchain'>('internal');
+
+  const [networks, setNetworks] = useState<BlockchainNetwork[]>([]);
+  const [depositAddresses, setDepositAddresses] = useState<DepositAddress[]>([]);
+  const [blockchainDeposits, setBlockchainDeposits] = useState<BlockchainDeposit[]>([]);
+  const [isGeneratingAddress, setIsGeneratingAddress] = useState<string | null>(null);
+  const [isMonitoring, setIsMonitoring] = useState(false);
+  const [copiedBlockchainAddress, setCopiedBlockchainAddress] = useState('');
+
+  useEffect(() => {
+    const loadBlockchainData = async () => {
+      const [networksData, addressesData, depositsData] = await Promise.all([
+        getSupportedNetworks(),
+        getDepositAddresses(),
+        getBlockchainDeposits()
+      ]);
+      setNetworks(networksData);
+      setDepositAddresses(addressesData);
+      setBlockchainDeposits(depositsData);
+    };
+    loadBlockchainData();
+  }, []);
 
   useEffect(() => {
     const loadFees = async () => {
@@ -74,6 +116,51 @@ export default function Wallet() {
 
     return () => clearTimeout(debounce);
   }, [depositAmount, selectedAsset]);
+
+  const handleGenerateAddress = async (networkCode: string) => {
+    setIsGeneratingAddress(networkCode);
+    try {
+      const result = await generateDepositAddress(networkCode);
+      if (result.success && result.address) {
+        const addressesData = await getDepositAddresses();
+        setDepositAddresses(addressesData);
+        alert(`Address generated successfully!\n\n${result.address}`);
+      } else {
+        alert(`Failed to generate address: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error generating address:', error);
+      alert('Failed to generate address. Please try again.');
+    } finally {
+      setIsGeneratingAddress(null);
+    }
+  };
+
+  const handleMonitorDeposits = async () => {
+    setIsMonitoring(true);
+    try {
+      const result = await triggerDepositMonitoring();
+      if (result.success) {
+        const depositsData = await getBlockchainDeposits();
+        setBlockchainDeposits(depositsData);
+        refetch();
+        alert(`Monitoring complete!\nChecked ${result.checked_addresses || 0} addresses\nFound ${result.new_deposits || 0} new deposits`);
+      } else {
+        alert(`Monitoring failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error monitoring deposits:', error);
+      alert('Monitoring failed. Please try again.');
+    } finally {
+      setIsMonitoring(false);
+    }
+  };
+
+  const copyBlockchainAddress = (address: string) => {
+    navigator.clipboard.writeText(address);
+    setCopiedBlockchainAddress(address);
+    setTimeout(() => setCopiedBlockchainAddress(''), 2000);
+  };
 
   const handleDepositSubmit = async () => {
     if (!depositAmount || parseFloat(depositAmount) <= 0) {
@@ -336,10 +423,160 @@ export default function Wallet() {
         </div>
       </div>
 
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold">Blockchain Deposit Addresses</h2>
+            <p className="text-sm text-gray-400 mt-1">Real blockchain addresses for receiving crypto deposits</p>
+          </div>
+          <button
+            onClick={handleMonitorDeposits}
+            disabled={isMonitoring}
+            className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
+          >
+            {isMonitoring ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Checking...
+              </>
+            ) : (
+              <>
+                <RefreshCw size={18} />
+                Check Deposits
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {networks.map((network) => {
+            const address = depositAddresses.find(a => a.network_code === network.network_code);
+            const isGenerating = isGeneratingAddress === network.network_code;
+
+            return (
+              <div
+                key={network.network_code}
+                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                      <Network className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-lg">{network.network_name}</div>
+                      <div className="text-xs text-gray-400">{network.native_symbol}</div>
+                    </div>
+                  </div>
+                  {address && (
+                    <a
+                      href={getExplorerAddressUrl(network.explorer_url, address.address)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                    >
+                      <ExternalLink size={18} />
+                    </a>
+                  )}
+                </div>
+
+                {address ? (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-xs text-gray-400 mb-2 block">Deposit Address</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={address.address}
+                          readOnly
+                          className="flex-1 px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono"
+                        />
+                        <button
+                          onClick={() => copyBlockchainAddress(address.address)}
+                          className="px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all"
+                        >
+                          {copiedBlockchainAddress === address.address ? (
+                            <CheckCircle2 size={18} />
+                          ) : (
+                            <Copy size={18} />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Min. {network.min_confirmations} confirmations</span>
+                      {address.is_verified && (
+                        <span className="text-green-400 flex items-center gap-1">
+                          <CheckCircle2 size={12} />
+                          Verified
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 text-xs text-gray-300">
+                      <div className="flex items-start gap-2">
+                        <Info className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div>
+                          Send {network.native_symbol} or tokens on {network.network_name}.
+                          1% fee applies (60% operations, 30% charity, 10% education).
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleGenerateAddress(network.network_code)}
+                    disabled={isGenerating}
+                    className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-semibold hover:from-blue-400 hover:to-cyan-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <QrCode className="w-5 h-5" />
+                        Generate Address
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700">
         <div className="p-6 border-b border-gray-700">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <h2 className="text-xl font-bold">Transaction History</h2>
+            <div>
+              <h2 className="text-xl font-bold">Transaction History</h2>
+              <div className="flex items-center gap-2 mt-2">
+                <button
+                  onClick={() => setTxView('internal')}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                    txView === 'internal'
+                      ? 'bg-amber-500/20 text-amber-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Internal
+                </button>
+                <button
+                  onClick={() => setTxView('blockchain')}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                    txView === 'blockchain'
+                      ? 'bg-blue-500/20 text-blue-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Blockchain ({blockchainDeposits.length})
+                </button>
+              </div>
+            </div>
             <div className="flex items-center gap-3">
               <div className="relative flex-1 lg:flex-initial">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -367,67 +604,135 @@ export default function Wallet() {
           </div>
         </div>
         <div className="divide-y divide-gray-700">
-          {filteredTransactions.length === 0 ? (
-            <div className="p-12 text-center text-gray-400">
-              <WalletIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>No transactions found</p>
-            </div>
-          ) : (
-            filteredTransactions.map((tx) => (
-              <div key={tx.id} className="p-6 hover:bg-gray-800/30 transition-colors">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      tx.type === 'deposit' || tx.type === 'reward' ? 'bg-green-500/20' :
-                      tx.type === 'swap' ? 'bg-blue-500/20' :
-                      'bg-red-500/20'
-                    }`}>
-                      {tx.type === 'deposit' || tx.type === 'reward' ? (
-                        <ArrowDownLeft className="w-6 h-6 text-green-400" />
-                      ) : tx.type === 'swap' ? (
-                        <ArrowRightLeft className="w-6 h-6 text-blue-400" />
-                      ) : (
-                        <ArrowUpRight className="w-6 h-6 text-red-400" />
-                      )}
-                    </div>
-                    <div>
-                      <div className="font-semibold capitalize mb-1">
-                        {tx.type === 'swap' && tx.from_asset && tx.to_asset
-                          ? `Swap ${tx.from_asset} → ${tx.to_asset}`
-                          : tx.type}
+          {txView === 'internal' ? (
+            filteredTransactions.length === 0 ? (
+              <div className="p-12 text-center text-gray-400">
+                <WalletIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p>No transactions found</p>
+              </div>
+            ) : (
+              filteredTransactions.map((tx) => (
+                <div key={tx.id} className="p-6 hover:bg-gray-800/30 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                        tx.type === 'deposit' || tx.type === 'reward' ? 'bg-green-500/20' :
+                        tx.type === 'swap' ? 'bg-blue-500/20' :
+                        'bg-red-500/20'
+                      }`}>
+                        {tx.type === 'deposit' || tx.type === 'reward' ? (
+                          <ArrowDownLeft className="w-6 h-6 text-green-400" />
+                        ) : tx.type === 'swap' ? (
+                          <ArrowRightLeft className="w-6 h-6 text-blue-400" />
+                        ) : (
+                          <ArrowUpRight className="w-6 h-6 text-red-400" />
+                        )}
                       </div>
-                      <div className="text-sm text-gray-400">
-                        {new Date(tx.created_at).toLocaleString()}
-                      </div>
-                      {tx.tx_hash && (
-                        <div className="text-xs text-gray-500 font-mono mt-1">
-                          {tx.tx_hash.slice(0, 16)}...
+                      <div>
+                        <div className="font-semibold capitalize mb-1">
+                          {tx.type === 'swap' && tx.from_asset && tx.to_asset
+                            ? `Swap ${tx.from_asset} → ${tx.to_asset}`
+                            : tx.type}
                         </div>
-                      )}
+                        <div className="text-sm text-gray-400">
+                          {new Date(tx.created_at).toLocaleString()}
+                        </div>
+                        {tx.tx_hash && (
+                          <div className="text-xs text-gray-500 font-mono mt-1">
+                            {tx.tx_hash.slice(0, 16)}...
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`font-bold text-lg ${
-                      tx.type === 'deposit' || tx.type === 'reward' ? 'text-green-400' :
-                      tx.type === 'swap' ? 'text-blue-400' :
-                      'text-red-400'
-                    }`}>
-                      {tx.type === 'deposit' || tx.type === 'reward' ? '+' :
-                       tx.type === 'swap' ? '' : '-'}
-                      {tx.amount} {tx.asset}
-                    </div>
-                    <div className={`text-xs font-semibold mt-1 ${
-                      tx.status === 'completed' ? 'text-green-400' :
-                      tx.status === 'pending' ? 'text-yellow-400' :
-                      'text-red-400'
-                    }`}>
-                      {tx.status === 'completed' && <CheckCircle2 className="w-3 h-3 inline mr-1" />}
-                      {tx.status.toUpperCase()}
+                    <div className="text-right">
+                      <div className={`font-bold text-lg ${
+                        tx.type === 'deposit' || tx.type === 'reward' ? 'text-green-400' :
+                        tx.type === 'swap' ? 'text-blue-400' :
+                        'text-red-400'
+                      }`}>
+                        {tx.type === 'deposit' || tx.type === 'reward' ? '+' :
+                         tx.type === 'swap' ? '' : '-'}
+                        {tx.amount} {tx.asset}
+                      </div>
+                      <div className={`text-xs font-semibold mt-1 ${
+                        tx.status === 'completed' ? 'text-green-400' :
+                        tx.status === 'pending' ? 'text-yellow-400' :
+                        'text-red-400'
+                      }`}>
+                        {tx.status === 'completed' && <CheckCircle2 className="w-3 h-3 inline mr-1" />}
+                        {tx.status.toUpperCase()}
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))
+            )
+          ) : (
+            blockchainDeposits.length === 0 ? (
+              <div className="p-12 text-center text-gray-400">
+                <Network className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p>No blockchain deposits yet</p>
+                <p className="text-sm mt-2">Generate an address and make a deposit to get started</p>
               </div>
-            ))
+            ) : (
+              blockchainDeposits.map((deposit) => {
+                const network = networks.find(n => n.network_code === deposit.network_code);
+                return (
+                  <div key={deposit.id} className="p-6 hover:bg-gray-800/30 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-500/20">
+                          <ArrowDownLeft className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <div>
+                          <div className="font-semibold mb-1">
+                            Blockchain Deposit - {deposit.asset}
+                          </div>
+                          <div className="text-xs text-gray-400 mb-1">
+                            {deposit.network_code} • {new Date(deposit.detected_at).toLocaleString()}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={network ? getExplorerTxUrl(network.explorer_url, deposit.tx_hash) : '#'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-blue-400 hover:text-blue-300 font-mono flex items-center gap-1"
+                            >
+                              {deposit.tx_hash.slice(0, 12)}...{deposit.tx_hash.slice(-8)}
+                              <ExternalLink size={12} />
+                            </a>
+                          </div>
+                          {deposit.confirmations > 0 && (
+                            <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                              <Clock size={12} />
+                              {deposit.confirmations} / {network?.min_confirmations || 0} confirmations
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-lg text-blue-400">
+                          +{formatDepositAmount(deposit.amount, deposit.asset)} {deposit.asset}
+                        </div>
+                        {deposit.amount_credited && (
+                          <div className="text-sm text-green-400 mt-1">
+                            Credited: {formatDepositAmount(deposit.amount_credited, deposit.asset)} {deposit.asset}
+                          </div>
+                        )}
+                        <div className={`text-xs font-semibold mt-1 ${getDepositStatusColor(deposit.status)}`}>
+                          {getDepositStatusLabel(deposit.status).toUpperCase()}
+                        </div>
+                        {deposit.fee_charged && deposit.fee_charged > 0 && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            Fee: {formatDepositAmount(deposit.fee_charged, deposit.asset)} (1%)
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )
           )}
         </div>
       </div>
