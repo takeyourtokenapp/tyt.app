@@ -6,6 +6,7 @@ import App from './App.tsx';
 import './index.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { Web3Provider } from './contexts/Web3Context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +23,11 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
+          <Web3Provider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </Web3Provider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

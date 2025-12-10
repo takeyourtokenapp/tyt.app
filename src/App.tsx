@@ -13,6 +13,7 @@ import Marketplace from './pages/app/Marketplace';
 import Academy from './pages/app/Academy';
 import Foundation from './pages/app/Foundation';
 import Settings from './pages/app/Settings';
+import TYTTrading from './pages/app/TYTTrading';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -51,6 +52,7 @@ function App() {
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
                 <Route path="wallet" element={<Wallet />} />
+                <Route path="tyt-trading" element={<TYTTrading />} />
                 <Route path="academy" element={<Academy />} />
                 <Route path="foundation" element={<Foundation />} />
                 <Route path="settings" element={<Settings />} />
