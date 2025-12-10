@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Wallet, Cpu, TrendingUp, AlertCircle, ArrowRight, Database } from 'lucide-react';
+import { Wallet, Cpu, TrendingUp, AlertCircle, ArrowRight, Database, ShoppingCart } from 'lucide-react';
 import type { CustodialWallet, NFTMiner, DailyReward } from '../../types/database';
 import { seedDemoData } from '../../utils/seedData';
 
