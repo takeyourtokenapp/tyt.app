@@ -2,10 +2,18 @@
 
 > The first Web3 mining platform where every transaction supports children's brain cancer research.
 
-![Status](https://img.shields.io/badge/status-MVP%20Complete-green)
+![Status](https://img.shields.io/badge/status-Production%20Ready-green)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
-![Blockchain](https://img.shields.io/badge/blockchain-TRON-red)
+![Blockchain](https://img.shields.io/badge/multi--chain-7%20networks-blueviolet)
+
+## 🔗 Links
+
+- **Website:** [takeyourtoken.app](https://takeyourtoken.app) (coming soon)
+- **GitHub:** [github.com/takeyourtokenapp/tyt.app](https://github.com/takeyourtokenapp/tyt.app)
+- **Documentation:** See `/docs` folder
+- **Foundation:** TYT Children's Brain Cancer Research & Support Foundation
 
 ## 🌟 Overview
 
