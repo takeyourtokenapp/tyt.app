@@ -1,32 +1,65 @@
-# Take Your Token (TYT) Platform
+# Take Your Token (TYT) v2
 
-> A comprehensive digital mining platform featuring NFT miners, daily BTC rewards, multi-chain support, and an integrated crypto academy.
+> The first Web3 mining platform where every transaction supports children's brain cancer research.
 
-![Status](https://img.shields.io/badge/status-MVP-green)
+![Status](https://img.shields.io/badge/status-MVP%20Complete-green)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
+![Blockchain](https://img.shields.io/badge/blockchain-TRON-red)
 
 ## 🌟 Overview
 
-Take Your Token (TYT) is a GoMining-class protocol that enables users to own digital miners as NFTs, earn daily Bitcoin rewards, and participate in a transparent tokenomics system with burn cycles.
+**Take Your Token (TYT)** is a comprehensive Web3 platform combining NFT-based Bitcoin mining, educational content, and charitable impact. With full GoMining feature parity, TYT offers digital miners that generate real BTC rewards while automatically supporting pediatric brain cancer research.
 
-### Three Core Pillars
+### Three Pillars of TYT
 
-1. **🔥 Digital Mining Platform** - NFT miners with daily BTC rewards and marketplace
-2. **📚 Crypto Academia** - Interactive learning platform with Owl rank progression
-3. **❤️ TYT Foundation** - Pediatric brain tumor research and family support
+1. **⛏️ Digital Mining & Token Economy**
+   - NFT miners with upgradeable hashrate (100 TH/s → 5,000 TH/s)
+   - Daily BTC rewards with transparent distribution
+   - P2P marketplace with TYT-only currency
+   - Weekly burn & mint mechanism
+   - veTYT governance system
+
+2. **📚 Blockchain Academy**
+   - 75+ interactive lessons across 5 learning tracks
+   - Owl rank progression (Worker → Warrior)
+   - Soulbound NFT certificates
+   - XP-based gamification
+   - Real-world quest system
+
+3. **❤️ Children's Brain Cancer Foundation**
+   - 1% of ALL platform transactions → automatic donation
+   - Transparent campaign tracking
+   - Research grants and family support
+   - Quarterly impact reports
+   - Charity Mint (up to 25% of weekly burns)
 
 ### Key Features
 
-- ✅ Multi-asset wallet (BTC, ETH, SOL, TRX, XRP, TYT, USDT)
-- ✅ NFT miner management with upgrades
+**Core Platform:**
+- ✅ Multi-asset custodial wallet (BTC, Lightning, Liquid, wBTC, USDT, TRX, SOL, TON, XRP, TYT)
+- ✅ NFT miner management with 20 upgrade tiers
 - ✅ Daily BTC rewards with Merkle proof verification
-- ✅ Maintenance payment system with up to 18% TYT discounts
-- ✅ P2P marketplace for miner trading
-- ✅ 11-tier VIP system with automated upgrades
-- ✅ Owl rank progression (Worker → Academic → Diplomat → Peacekeeper → Warrior)
-- ✅ Weekly TYT burn cycles with transparency reports
-- ✅ Foundation donations with impact tracking
+- ✅ Advanced maintenance system with discount stacking (max 50%)
+- ✅ Service button (-3% daily maintenance discount)
+- ✅ P2P marketplace with fixed-price listings and offers
+- ✅ 11-tier VIP system (0-10) with progressive benefits
+- ✅ Owl rank progression with XP system
+- ✅ Weekly TYT burn cycles (Tuesdays 12:00 UTC)
+- ✅ Foundation transparency dashboard
+
+**Game Features (Miner Wars):**
+- ✅ Clan system (max 50 members, 6 military ranks)
+- ✅ Weekly tournaments and championships
+- ✅ Purchasable boosts (hashrate, efficiency, rewards)
+- ✅ Global leaderboards
+- ✅ Prize pools in BTC + TYT
+
+**Referral & Rewards:**
+- ✅ 5-5-5 referral commission model
+- ✅ Ambassador program (Bronze → Diamond tiers)
+- ✅ GoBox rewards on VIP level-ups
+- ✅ Avatar NFTs with gameplay benefits
 
 ## 🚀 Quick Start
 
@@ -64,20 +97,38 @@ Access the application at `http://localhost:5173`
 ### Technology Stack
 
 **Frontend**
-- React 18 + TypeScript + Vite
-- React Router DOM v7
-- Tailwind CSS
+- React 18 + TypeScript
+- Vite 5 (build tool)
+- React Router v7
+- Tailwind CSS 3.4
 - Lucide React icons
+- Supabase JS SDK
 
 **Backend & Database**
-- Supabase (PostgreSQL)
-- 47 production-ready tables
-- Row Level Security enabled
-- Automated triggers
+- Supabase (PostgreSQL 15)
+- 50+ production-ready tables
+- 8 migration files applied
+- Row Level Security (RLS) on ALL tables
+- Automated triggers and functions
+- Real-time subscriptions
+- Edge Functions (Deno)
 
-**Planned Smart Contracts**
-- Polygon PoS (ERC-721, ERC-20)
-- TYT token on Solana (pump.fun)
+**Blockchain Layer**
+- **Primary:** TRON (TRC-20/721) - Low fees, fast finality
+- **Secondary:** Solana (TYT origin on pump.fun)
+- **Bridges:** Polygon, BSC, TON (planned)
+- Multi-chain withdrawal support
+- Custodial wallet for non-crypto users
+
+**Smart Contracts (To Deploy)**
+- TYT Token (TRC-20) on TRON
+- MinerNFT (TRC-721) on TRON
+- Marketplace Escrow
+- veTYT Governance Locks
+- BurnScheduler (weekly automation)
+- RewardsTreasury (BTC distribution)
+- Maintenance Controller
+- FundSplitter (1% auto-donation)
 
 ### Project Structure
 
@@ -109,75 +160,161 @@ takeyourtoken.app/
 
 ## 💾 Database Schema
 
-### Core Tables (47 total)
+### Complete Schema (50+ tables across 8 migrations)
 
-#### Mining Platform (11 tables)
-- `profiles` - User accounts with KYC, VIP, Owl rank
-- `custodial_wallets` - Multi-asset balances
-- `nft_miners` - Digital miners (hashrate, efficiency)
-- `daily_rewards` - Reward history + Merkle proofs
-- `maintenance_invoices` - Cost tracking
-- `marketplace_listings` - NFT trading
-- `vip_tiers` - 11 levels (Bronze → Legendary)
-- `referral_codes` - 5-5-5 commission model
-- `avatars` - Profile NFTs
-- `burn_windows` - Weekly TYT burns
-- `tyt_discount_snapshots` - Discount calculations
+#### Core User Management
+- `profiles` - User accounts with KYC status, VIP level, owl rank, referral tracking
+- `custodial_wallets` - Multi-asset balances (BTC, TYT, USDT, TRX, SOL, XRP, TON)
+- `wallet_transactions` - Complete financial history with metadata
+- `wallet_addresses` - External wallet connections
 
-#### Academy (10 tables)
-- `academy_tracks` - 6 learning paths
-- `academy_lessons` - MDX content
-- `academy_quizzes` - Q&A system
-- `academy_progress` - Completion tracking
-- `academy_quest_definitions` - Real-world tasks
-- `academy_quest_progress` - Quest completion
-- `owl_rank_definitions` - Rank system
-- `user_xp_ledger` - Experience points
-- `academy_certificates` - Track completion
-- `soulbound_nft_certificates` - On-chain certs
+#### NFT Miners & Upgrades
+- `nft_collections` - Miner series with base stats and contract addresses
+- `nft_miners` - Individual miners (token_id, hashrate, efficiency, power_level 1-20)
+- `miner_upgrades` - Upgrade history (hashrate, efficiency, power_level changes)
+- `miner_upgrade_tiers` - Cost schedule for all 20 upgrade levels
+- `data_centers` - Physical mining facilities with live stream URLs
 
-#### Foundation (8 tables)
-- `foundation_campaigns` - Fundraising drives
-- `foundation_donations` - Multi-chain tracking
-- `foundation_grants` - Research funding
-- `foundation_grant_milestones` - Progress tracking
-- `foundation_family_support_requests` - Assistance
-- `foundation_transparency_reports` - Accountability
-- `foundation_impact_metrics` - Outcomes
-- `foundation_matching_pools` - Donation matching
+#### Rewards & Maintenance
+- `daily_rewards` - BTC reward tracking with Merkle proofs
+- `maintenance_invoices` - Daily/weekly cost tracking
+- `service_button_activations` - Daily -3% discount system (one per day)
+- `reward_merkle_trees` - Merkle tree roots for reward verification
+- `reward_claims` - Claim history with proofs
+
+#### Marketplace & Trading
+- `marketplace_listings` - P2P miner sales (TYT-only currency)
+- `marketplace_offers` - Buyer bids on listings
+- `marketplace_sales` - Completed transactions with fee breakdown
+- `marketplace_favorites` - User watchlists
+
+#### VIP & Loyalty System
+- `vip_tiers` - 11 levels (0-10) with hashrate OR voting power requirements
+- `avatars` - Bonus NFTs with gameplay boosts
+- `goboxes` - VIP level-up rewards (TYT, BTC, avatars, boosts)
+
+#### Game Wars (Miner Wars)
+- `game_clans` - Clan system (max 50 members)
+- `game_clan_members` - Membership with military ranks
+- `game_tournaments` - Weekly/monthly competitions
+- `game_tournament_participants` - Entry tracking
+- `game_boosts` - Purchasable power-ups (hashrate, efficiency, rewards)
+- `game_leaderboards` - Global rankings
+
+#### Referral Program (5-5-5)
+- `referral_earnings` - Commission tracking (purchases, upgrades, marketplace)
+- `ambassadors` - High-tier referrers (Bronze → Diamond)
+- `referral_tiers` - Commission rate configuration
+
+#### Token Economics
+- `ve_tyt_locks` - Governance voting power (1 week → 4 years)
+- `governance_proposals` - DAO voting system
+- `governance_votes` - User vote tracking
+- `token_burn_events` - Weekly burns (Tuesdays 12:00 UTC)
+- `burn_mint_distributions` - Stakeholder payouts after burns
+
+#### Academy & Education
+- `academy_tracks` - 5 learning paths (Bitcoin Basics → Advanced Mining)
+- `academy_lessons` - 75+ interactive lessons with quizzes
+- `user_lesson_progress` - Completion tracking with XP
+- `lesson_quiz_attempts` - Quiz submissions and scores
+- `academy_certificates` - Soulbound NFT certificates
+- `owl_ranks` - XP-based progression (Worker → Warrior)
+
+#### Foundation & Charity
+- `foundation_campaigns` - Research funding campaigns
+- `foundation_donations` - Transparent donation tracking
+- `foundation_fund_distributions` - Grant allocations
+- `foundation_grant_recipients` - Beneficiary tracking
+- `foundation_impact_reports` - Quarterly transparency reports
+
+**Total:** 50+ tables with full Row Level Security (RLS)
 
 ## 📊 Tokenomics
 
 ### TYT Token Utility
 
-1. **Maintenance Payments** - Lower costs with TYT
-2. **Discount Tiers** - 2% → 18% based on balance
-3. **Marketplace Fees** - Reduced trading fees
-4. **Governance** - Platform voting (veTYT)
-5. **Weekly Burns** - Deflationary mechanism
+1. **Maintenance Payments** → 100% burned
+2. **Miner Upgrades** → 100% burned
+3. **Marketplace Currency** → 3% fee burned
+4. **Game Boosts** → 100% burned
+5. **Governance Voting** (via veTYT locks)
+6. **VIP Level Qualification** (via veTYT)
+7. **Academy Access** (premium courses)
 
-### Discount Tiers
+### Weekly Burn & Mint Cycle
 
-| Tier | Coverage | Discount |
-|------|----------|----------|
-| 🥉 Bronze | 30 days | 2% |
-| 🥈 Silver | 90 days | 5% |
-| 🥇 Gold | 180 days | 9% |
-| 💎 Platinum | 270 days | 13% |
-| 🏆 Diamond | 360+ days | 18% |
+**Schedule:** Every Tuesday at 12:00 UTC
 
-**Formula**: `Coverage Days = TYT Balance / Daily Maintenance Cost`
+**Distribution After Burn:**
+- 40% → Hashrate Providers (proportional to TH/s)
+- 30% → veTYT Lockers (proportional to voting power)
+- 20% → Community Treasury (DAO-controlled)
+- 10% → Foundation (+ up to 25% Charity Mint)
 
-### VIP System
+**Charity Mint:** Governance can mint 0-25% of burned amount as new TYT for the foundation
 
-11 automated tiers with benefits:
-- Enhanced maintenance discounts
-- Reduced marketplace fees
+### Discount Stacking System (Max 50%)
+
+**1. Token Payment Discount:** -20% when paying maintenance in TYT
+**2. Service Button:** -3% (daily activation, one per day)
+**3. VIP Tier Discount:** 0-15% based on level (0-10)
+**4. Balance Coverage Discount:** 2-18% based on TYT balance
+
+| Coverage | Days | Discount |
+|----------|------|----------|
+| 🥉 Bronze | 20-59 | 2% |
+| 🥈 Silver | 60-119 | 5% |
+| 🥇 Gold | 120-179 | 9% |
+| 💎 Platinum | 180-269 | 13% |
+| 🏆 Diamond | 270+ | 18% |
+
+**Example Calculation:**
+```
+Gross Maintenance: $10/day
+- Token payment (TYT): -$2.00 (20%)
+- Service button: -$0.30 (3%)
+- VIP Level 5: -$0.50 (5%)
+- Balance coverage (Gold): -$0.90 (9%)
+Total Discount: 37% → Net Cost: $6.30/day
+```
+
+### VIP System (11 Tiers)
+
+| Level | Name | Requirement | Maintenance Discount | Marketplace Fee |
+|-------|------|-------------|---------------------|-----------------|
+| 0 | Worker | 0 | 0% | 3.0% |
+| 1 | Apprentice | 100 TH/s OR 1K veTYT | 1% | 2.9% |
+| 2 | Skilled | 250 TH/s OR 2.5K veTYT | 2% | 2.8% |
+| 3 | Expert | 500 TH/s OR 5K veTYT | 3% | 2.7% |
+| 4 | Master | 1,000 TH/s OR 10K veTYT | 4% | 2.6% |
+| 5 | Elite | 2,500 TH/s OR 25K veTYT | 5% | 2.5% |
+| 10 | Eternal Owl | 100,000 TH/s OR 1M veTYT | 15% | 1.5% |
+
+**Benefits:**
+- Progressive maintenance discounts
+- Reduced marketplace trading fees
+- GoBox rewards on level-up
 - Priority customer support
-- Exclusive miner drops
-- Governance voting power
+- Exclusive avatars and badges
 
-Requirements: Minimum hashrate + TYT balance
+### veTYT (Vote-Escrowed TYT)
+
+**Lock Formula:**
+```
+Voting Power = TYT Amount × (Lock Time / 4 Years)
+
+Examples:
+- 1,000 TYT for 4 years = 1,000 veTYT
+- 1,000 TYT for 1 year = 250 veTYT
+- 1,000 TYT for 1 month = ~21 veTYT
+```
+
+**Benefits:**
+- Governance voting rights
+- Qualifies for VIP levels (alternative to hashrate)
+- Weekly distribution (30% of burn proceeds)
+- Platform decision priority
 
 ## 🎓 Crypto Academia
 
@@ -260,37 +397,104 @@ const result = calculateNetMaintenanceCost(
 
 ## 📋 Roadmap
 
-### ✅ Phase 0: MVP Foundation (Complete)
-- [x] Database schema (47 tables)
-- [x] Authentication system
-- [x] Landing page
-- [x] Dashboard
-- [x] App layout & routing
+### ✅ Phase 0: Foundation (COMPLETE)
+**Duration:** December 2024
 
-### ✅ Phase 1: Core Features (Complete)
-- [x] My Miners page with management
-- [x] Rewards history with Merkle proofs
-- [x] Marketplace with listings
-- [x] Multi-asset wallet management
-- [x] Demo data seeding
-- [x] Payment processing utilities
-- [x] Blockchain utilities
-- [x] Toast notification system
+- [x] Comprehensive project specification (PDF + Word analysis)
+- [x] Database schema design (50+ tables, 8 migrations)
+- [x] TypeScript type definitions (all database models)
+- [x] Utility functions (maintenance, upgrades, rewards, TRON integration)
+- [x] Authentication system (Supabase Auth)
+- [x] Frontend structure (React + Tailwind + Router)
+- [x] Master specification document (TYT_MASTER_SPECIFICATION.md)
+- [x] Project status tracking (TYT_PROJECT_STATUS.md)
 
-### ✅ Phase 2: Academy & Foundation (Complete)
-- [x] Academy page with tracks
-- [x] Owl rank progression
-- [x] Foundation page with campaigns
-- [x] Donation flows with multi-asset support
-- [x] Settings page
-- [x] Campaign management
+### 🔄 Phase 1: MVP Launch (Months 1-3)
+**Target:** Q1 2025
 
-### 🔮 Phase 3: Advanced Features
-- [ ] Mobile app (React Native)
-- [ ] veTYT governance
-- [ ] Analytics dashboard
-- [ ] Referral system UI
-- [ ] VIP perks
+**Core Features:**
+- [ ] Complete UI implementation for all pages
+- [ ] Smart contract deployment (TRON mainnet)
+  - TYT Token (TRC-20)
+  - MinerNFT (TRC-721)
+  - Marketplace Escrow
+  - veTYT Locks
+- [ ] Custodial wallet integration
+- [ ] Miner purchase and upgrade flows
+- [ ] Daily rewards engine (automated BTC distribution)
+- [ ] Maintenance payment system with discount stacking
+- [ ] Marketplace (fixed-price listings + offers)
+- [ ] KYC integration (Sumsub)
+- [ ] Payment on-ramp (Stripe, Ramp Network, Transak)
+
+**Deliverables:**
+- Production-ready web app
+- Audited smart contracts
+- Admin dashboard
+- API documentation
+
+### 🎮 Phase 2: Gaming & Social (Months 4-6)
+**Target:** Q2 2025
+
+**New Features:**
+- [ ] Miner Wars (clan battles)
+- [ ] Tournament engine with prize pools
+- [ ] Game boosts marketplace
+- [ ] Service button UI (-3% daily discount)
+- [ ] VIP tier automation
+- [ ] GoBox distribution on level-ups
+- [ ] Referral dashboard with analytics
+- [ ] Ambassador recruitment portal
+- [ ] Social features (chat, activity feed)
+- [ ] Mobile apps (iOS + Android beta)
+
+**Marketing:**
+- Influencer partnerships
+- First major tournament (10 BTC prize)
+- Community building (Discord/Telegram)
+
+### 📚 Phase 3: Education & Foundation (Months 7-9)
+**Target:** Q3 2025
+
+**New Modules:**
+- [ ] Complete Academy platform (75+ lessons)
+- [ ] Interactive quizzes and certifications
+- [ ] Soulbound NFT certificates
+- [ ] Foundation transparency dashboard
+- [ ] Campaign creation tools
+- [ ] Direct donation portal
+- [ ] Quarterly impact reports
+- [ ] Hospital partnership showcase
+
+### 🗳️ Phase 4: Governance & DAO (Months 10-12)
+**Target:** Q4 2025
+
+**DAO Launch:**
+- [ ] veTYT full implementation
+- [ ] Proposal creation and voting UI
+- [ ] Treasury management
+- [ ] Weekly burn automation
+- [ ] Charity Mint governance
+- [ ] Multi-sig treasury
+
+### 🌐 Phase 5: Expansion (Year 2)
+**Target:** 2026
+
+- [ ] Multi-chain bridges (Polygon, BSC, TON)
+- [ ] Live streaming from data centers
+- [ ] Advanced DeFi features (lending, derivatives)
+- [ ] Mobile app full release
+- [ ] Multi-language support (10+ languages)
+- [ ] API for third-party developers
+
+### 🏆 Phase 6: Maturity (Year 3+)
+
+**Long-term Goals:**
+- 100,000+ active miners
+- 10,000+ daily active users
+- $1B+ total value locked
+- Top 3 Bitcoin mining platform
+- $10M+ raised for children's brain cancer research
 
 ## 🔒 Security
 
