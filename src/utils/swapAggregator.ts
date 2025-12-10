@@ -170,7 +170,7 @@ export async function getUserSwapHistory(userId: string) {
 export const POPULAR_TOKENS: Record<BlockchainNetwork, Array<{symbol: string, address: string, name: string}>> = {
   solana: [
     { symbol: 'SOL', address: 'So11111111111111111111111111111111111111112', name: 'Solana' },
-    { symbol: 'TYT', address: process.env.VITE_TYT_TOKEN_MINT || '', name: 'TYT Token' },
+    { symbol: 'TYT', address: import.meta.env.VITE_TYT_TOKEN_MINT || '', name: 'TYT Token' },
     { symbol: 'USDC', address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', name: 'USD Coin' },
     { symbol: 'USDT', address: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', name: 'Tether' },
   ],
