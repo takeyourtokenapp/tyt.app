@@ -14,7 +14,6 @@ import Academy from './pages/app/Academy';
 import Foundation from './pages/app/Foundation';
 import Settings from './pages/app/Settings';
 import TYTTrading from './pages/app/TYTTrading';
-import CryptoWallet from './pages/app/CryptoWallet';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -53,7 +52,6 @@ function App() {
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
                 <Route path="wallet" element={<Wallet />} />
-                <Route path="crypto-wallet" element={<CryptoWallet />} />
                 <Route path="tyt-trading" element={<TYTTrading />} />
                 <Route path="academy" element={<Academy />} />
                 <Route path="foundation" element={<Foundation />} />

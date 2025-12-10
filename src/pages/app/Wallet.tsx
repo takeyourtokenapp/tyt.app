@@ -22,7 +22,11 @@ import {
   ExternalLink,
   Loader2,
   Network,
-  Clock
+  Clock,
+  Lock,
+  DollarSign,
+  Send,
+  Zap
 } from 'lucide-react';
 import type { CustodialWallet } from '../../types/database';
 import { calculateDepositFees, processDeposit, formatFeeBreakdown, type FeeBreakdown } from '../../utils/depositFees';
@@ -54,14 +58,14 @@ interface Transaction {
   to_asset?: string;
 }
 
-type ModalType = 'deposit' | 'withdraw' | 'swap' | null;
+type Tab = 'overview' | 'deposit' | 'withdraw' | 'swap' | 'stake' | 'history';
 
 export default function Wallet() {
   const { user } = useAuth();
   const { data: wallets = [], isLoading, refetch } = useWallets(user?.id);
 
+  const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
-  const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [copiedAddress, setCopiedAddress] = useState('');
 
   const [depositAmount, setDepositAmount] = useState('');
@@ -175,7 +179,6 @@ export default function Wallet() {
       );
 
       if (result.success) {
-        setActiveModal(null);
         setDepositAmount('');
         setDepositFees(null);
         refetch();
@@ -277,7 +280,7 @@ export default function Wallet() {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 border-3 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+          <Loader2 className="w-8 h-8 text-gold-400 animate-spin" />
           <div className="text-gray-400">Loading wallet...</div>
         </div>
       </div>
@@ -288,8 +291,11 @@ export default function Wallet() {
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Wallet</h1>
-          <p className="text-gray-400">Manage your multi-asset custodial wallet</p>
+          <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
+            <WalletIcon className="w-8 h-8 text-gold-400" />
+            TYT Ecosystem Wallet
+          </h1>
+          <p className="text-gray-400">Your unified custodial wallet for all TYT operations</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -299,25 +305,25 @@ export default function Wallet() {
             <RefreshCw size={18} />
             Refresh
           </button>
-          <button className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold hover:bg-amber-500/30 transition-all flex items-center gap-2">
+          <button className="px-4 py-2 bg-gold-500/20 text-gold-400 rounded-lg font-semibold hover:bg-gold-500/30 transition-all flex items-center gap-2">
             <Download size={18} />
             Export
           </button>
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-xl p-8 border border-amber-500/50">
+      <div className="bg-gradient-to-br from-gold-500/20 to-amber-500/20 rounded-xl p-8 border border-gold-500/50 shadow-gold-glow">
         <div className="flex items-start justify-between">
           <div>
             <div className="text-sm text-gray-300 mb-2 flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
               Total Portfolio Value
             </div>
-            <div className="text-4xl md:text-5xl font-bold text-amber-400 mb-2">
+            <div className="text-4xl md:text-5xl font-bold bg-owl-gradient bg-clip-text text-transparent mb-2">
               ${totalBalanceUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             <div className="text-sm text-gray-400">
-              Across {wallets.length} assets
+              Across {wallets.length} assets • Secured by TYT
             </div>
           </div>
           <div className="text-right">
@@ -327,426 +333,274 @@ export default function Wallet() {
         </div>
       </div>
 
-      <div>
-        <h2 className="text-xl font-bold mb-4">Assets</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {wallets.map((wallet) => {
-            const usdValue = parseFloat(wallet.balance) * (assetPrices[wallet.asset] || 0);
-
-            return (
-              <div
-                key={wallet.id}
-                className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border transition-all cursor-pointer ${
-                  selectedAsset === wallet.asset
-                    ? 'border-amber-500 shadow-lg shadow-amber-500/20'
-                    : 'border-gray-700 hover:border-amber-500/50'
-                }`}
-                onClick={() => setSelectedAsset(wallet.asset)}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center text-xl font-bold text-amber-400">
-                      {wallet.asset[0]}
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">{wallet.asset}</div>
-                      <div className="text-xs text-gray-500">Available</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-2xl font-bold text-white">
-                    {parseFloat(wallet.balance).toFixed(wallet.asset === 'BTC' ? 8 : 2)}
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    ≈ ${usdValue.toFixed(2)} USD
-                  </div>
-                  {parseFloat(wallet.locked_balance) > 0 && (
-                    <div className="text-xs text-amber-400 mt-2">
-                      🔒 Locked: {parseFloat(wallet.locked_balance).toFixed(wallet.asset === 'BTC' ? 8 : 2)}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div>
-        <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button
-            onClick={() => setActiveModal('deposit')}
-            className="group p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 rounded-xl border border-green-500/30 hover:border-green-500/50 transition-all"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-green-500/20 rounded-xl group-hover:bg-green-500/30 transition-colors">
-                <ArrowDownLeft className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-lg mb-1">Deposit</div>
-                <div className="text-sm text-gray-400">Add funds to wallet</div>
-              </div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveModal('withdraw')}
-            className="group p-6 bg-gradient-to-br from-red-500/10 to-rose-500/10 hover:from-red-500/20 hover:to-rose-500/20 rounded-xl border border-red-500/30 hover:border-red-500/50 transition-all"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-red-500/20 rounded-xl group-hover:bg-red-500/30 transition-colors">
-                <ArrowUpRight className="w-6 h-6 text-red-400" />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-lg mb-1">Withdraw</div>
-                <div className="text-sm text-gray-400">Send to external wallet</div>
-              </div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveModal('swap')}
-            className="group p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition-all"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-500/20 rounded-xl group-hover:bg-blue-500/30 transition-colors">
-                <ArrowRightLeft className="w-6 h-6 text-blue-400" />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-lg mb-1">Swap</div>
-                <div className="text-sm text-gray-400">Exchange between assets</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-xl font-bold">Blockchain Deposit Addresses</h2>
-            <p className="text-sm text-gray-400 mt-1">Real blockchain addresses for receiving crypto deposits</p>
-          </div>
-          <button
-            onClick={handleMonitorDeposits}
-            disabled={isMonitoring}
-            className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
-          >
-            {isMonitoring ? (
-              <>
-                <Loader2 size={18} className="animate-spin" />
-                Checking...
-              </>
-            ) : (
-              <>
-                <RefreshCw size={18} />
-                Check Deposits
-              </>
-            )}
-          </button>
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700">
+        <div className="flex overflow-x-auto border-b border-gray-700">
+          {[
+            { id: 'overview', label: 'Overview', icon: WalletIcon },
+            { id: 'deposit', label: 'Deposit', icon: ArrowDownLeft },
+            { id: 'withdraw', label: 'Withdraw', icon: ArrowUpRight },
+            { id: 'swap', label: 'Swap', icon: ArrowRightLeft },
+            { id: 'stake', label: 'Stake', icon: Lock },
+            { id: 'history', label: 'History', icon: Clock }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as Tab)}
+              className={`flex-shrink-0 px-6 py-4 font-semibold transition-all flex items-center justify-center gap-2 ${
+                activeTab === tab.id
+                  ? 'bg-gold-500/20 text-gold-400 border-b-2 border-gold-500'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+              }`}
+            >
+              <tab.icon size={18} />
+              <span className="hidden sm:inline">{tab.label}</span>
+            </button>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {networks.map((network) => {
-            const address = depositAddresses.find(a => a.network_code === network.network_code);
-            const isGenerating = isGeneratingAddress === network.network_code;
+        <div className="p-6">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              <h2 className="text-xl font-bold">Your Assets</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {wallets.map((wallet) => {
+                  const usdValue = parseFloat(wallet.balance) * (assetPrices[wallet.asset] || 0);
 
-            return (
-              <div
-                key={network.network_code}
-                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                      <Network className="w-6 h-6 text-blue-400" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">{network.network_name}</div>
-                      <div className="text-xs text-gray-400">{network.native_symbol}</div>
-                    </div>
-                  </div>
-                  {address && (
-                    <a
-                      href={getExplorerAddressUrl(network.explorer_url, address.address)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                  return (
+                    <div
+                      key={wallet.id}
+                      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-gold-500/50 transition-all cursor-pointer"
+                      onClick={() => setSelectedAsset(wallet.asset)}
                     >
-                      <ExternalLink size={18} />
-                    </a>
-                  )}
-                </div>
-
-                {address ? (
-                  <div className="space-y-3">
-                    <div>
-                      <label className="text-xs text-gray-400 mb-2 block">Deposit Address</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={address.address}
-                          readOnly
-                          className="flex-1 px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono"
-                        />
-                        <button
-                          onClick={() => copyBlockchainAddress(address.address)}
-                          className="px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all"
-                        >
-                          {copiedBlockchainAddress === address.address ? (
-                            <CheckCircle2 size={18} />
-                          ) : (
-                            <Copy size={18} />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Min. {network.min_confirmations} confirmations</span>
-                      {address.is_verified && (
-                        <span className="text-green-400 flex items-center gap-1">
-                          <CheckCircle2 size={12} />
-                          Verified
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 text-xs text-gray-300">
-                      <div className="flex items-start gap-2">
-                        <Info className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <div>
-                          Send {network.native_symbol} or tokens on {network.network_name}.
-                          1% fee applies (60% operations, 30% charity, 10% education).
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-500/20 to-amber-500/20 flex items-center justify-center text-xl font-bold text-gold-400">
+                            {wallet.asset[0]}
+                          </div>
+                          <div>
+                            <div className="font-bold text-lg">{wallet.asset}</div>
+                            <div className="text-xs text-gray-500">Available</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => handleGenerateAddress(network.network_code)}
-                    disabled={isGenerating}
-                    className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-semibold hover:from-blue-400 hover:to-cyan-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <QrCode className="w-5 h-5" />
-                        Generate Address
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700">
-        <div className="p-6 border-b border-gray-700">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold">Transaction History</h2>
-              <div className="flex items-center gap-2 mt-2">
-                <button
-                  onClick={() => setTxView('internal')}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
-                    txView === 'internal'
-                      ? 'bg-amber-500/20 text-amber-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Internal
-                </button>
-                <button
-                  onClick={() => setTxView('blockchain')}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
-                    txView === 'blockchain'
-                      ? 'bg-blue-500/20 text-blue-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Blockchain ({blockchainDeposits.length})
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="relative flex-1 lg:flex-initial">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search transactions..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full lg:w-64 pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm"
-                />
-              </div>
-              <select
-                value={txFilter}
-                onChange={(e) => setTxFilter(e.target.value)}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm"
-              >
-                <option value="all">All Types</option>
-                <option value="deposit">Deposits</option>
-                <option value="withdrawal">Withdrawals</option>
-                <option value="reward">Rewards</option>
-                <option value="swap">Swaps</option>
-                <option value="maintenance">Maintenance</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div className="divide-y divide-gray-700">
-          {txView === 'internal' ? (
-            filteredTransactions.length === 0 ? (
-              <div className="p-12 text-center text-gray-400">
-                <WalletIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p>No transactions found</p>
-              </div>
-            ) : (
-              filteredTransactions.map((tx) => (
-                <div key={tx.id} className="p-6 hover:bg-gray-800/30 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                        tx.type === 'deposit' || tx.type === 'reward' ? 'bg-green-500/20' :
-                        tx.type === 'swap' ? 'bg-blue-500/20' :
-                        'bg-red-500/20'
-                      }`}>
-                        {tx.type === 'deposit' || tx.type === 'reward' ? (
-                          <ArrowDownLeft className="w-6 h-6 text-green-400" />
-                        ) : tx.type === 'swap' ? (
-                          <ArrowRightLeft className="w-6 h-6 text-blue-400" />
-                        ) : (
-                          <ArrowUpRight className="w-6 h-6 text-red-400" />
-                        )}
-                      </div>
-                      <div>
-                        <div className="font-semibold capitalize mb-1">
-                          {tx.type === 'swap' && tx.from_asset && tx.to_asset
-                            ? `Swap ${tx.from_asset} → ${tx.to_asset}`
-                            : tx.type}
+                      <div className="space-y-1">
+                        <div className="text-2xl font-bold text-white">
+                          {parseFloat(wallet.balance).toFixed(wallet.asset === 'BTC' ? 8 : 2)}
                         </div>
                         <div className="text-sm text-gray-400">
-                          {new Date(tx.created_at).toLocaleString()}
+                          ≈ ${usdValue.toFixed(2)} USD
                         </div>
-                        {tx.tx_hash && (
-                          <div className="text-xs text-gray-500 font-mono mt-1">
-                            {tx.tx_hash.slice(0, 16)}...
+                        {parseFloat(wallet.locked_balance) > 0 && (
+                          <div className="text-xs text-gold-400 mt-2 flex items-center gap-1">
+                            <Lock size={12} />
+                            Locked: {parseFloat(wallet.locked_balance).toFixed(wallet.asset === 'BTC' ? 8 : 2)}
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className={`font-bold text-lg ${
-                        tx.type === 'deposit' || tx.type === 'reward' ? 'text-green-400' :
-                        tx.type === 'swap' ? 'text-blue-400' :
-                        'text-red-400'
-                      }`}>
-                        {tx.type === 'deposit' || tx.type === 'reward' ? '+' :
-                         tx.type === 'swap' ? '' : '-'}
-                        {tx.amount} {tx.asset}
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button
+                  onClick={() => setActiveTab('deposit')}
+                  className="group p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 rounded-xl border border-green-500/30 hover:border-green-500/50 transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-green-500/20 rounded-xl group-hover:bg-green-500/30 transition-colors">
+                      <ArrowDownLeft className="w-6 h-6 text-green-400" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-lg mb-1">Deposit</div>
+                      <div className="text-sm text-gray-400">Add funds via blockchain</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('withdraw')}
+                  className="group p-6 bg-gradient-to-br from-red-500/10 to-rose-500/10 hover:from-red-500/20 hover:to-rose-500/20 rounded-xl border border-red-500/30 hover:border-red-500/50 transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-red-500/20 rounded-xl group-hover:bg-red-500/30 transition-colors">
+                      <ArrowUpRight className="w-6 h-6 text-red-400" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-lg mb-1">Withdraw</div>
+                      <div className="text-sm text-gray-400">Send to external wallet</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('swap')}
+                  className="group p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-blue-500/20 rounded-xl group-hover:bg-blue-500/30 transition-colors">
+                      <ArrowRightLeft className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-lg mb-1">Swap</div>
+                      <div className="text-sm text-gray-400">Exchange between assets</div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'deposit' && (
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold mb-2">Deposit Crypto</h2>
+                <p className="text-gray-400">Generate blockchain addresses to receive crypto deposits</p>
+              </div>
+
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                <div className="flex items-start gap-3">
+                  <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-gray-300 space-y-2">
+                    <p className="font-semibold text-white">Transparent Fee Structure (1%)</p>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center gap-2">
+                        <Building2 size={12} className="text-blue-400" />
+                        <span>60% → Platform Operations</span>
                       </div>
-                      <div className={`text-xs font-semibold mt-1 ${
-                        tx.status === 'completed' ? 'text-green-400' :
-                        tx.status === 'pending' ? 'text-yellow-400' :
-                        'text-red-400'
-                      }`}>
-                        {tx.status === 'completed' && <CheckCircle2 className="w-3 h-3 inline mr-1" />}
-                        {tx.status.toUpperCase()}
+                      <div className="flex items-center gap-2">
+                        <Heart size={12} className="text-pink-400" />
+                        <span>30% → Children's Brain Cancer Foundation</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <GraduationCap size={12} className="text-purple-400" />
+                        <span>10% → Blockchain Academy</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              ))
-            )
-          ) : (
-            blockchainDeposits.length === 0 ? (
-              <div className="p-12 text-center text-gray-400">
-                <Network className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p>No blockchain deposits yet</p>
-                <p className="text-sm mt-2">Generate an address and make a deposit to get started</p>
               </div>
-            ) : (
-              blockchainDeposits.map((deposit) => {
-                const network = networks.find(n => n.network_code === deposit.network_code);
-                return (
-                  <div key={deposit.id} className="p-6 hover:bg-gray-800/30 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-500/20">
-                          <ArrowDownLeft className="w-6 h-6 text-blue-400" />
-                        </div>
-                        <div>
-                          <div className="font-semibold mb-1">
-                            Blockchain Deposit - {deposit.asset}
-                          </div>
-                          <div className="text-xs text-gray-400 mb-1">
-                            {deposit.network_code} • {new Date(deposit.detected_at).toLocaleString()}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <a
-                              href={network ? getExplorerTxUrl(network.explorer_url, deposit.tx_hash) : '#'}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs text-blue-400 hover:text-blue-300 font-mono flex items-center gap-1"
-                            >
-                              {deposit.tx_hash.slice(0, 12)}...{deposit.tx_hash.slice(-8)}
-                              <ExternalLink size={12} />
-                            </a>
-                          </div>
-                          {deposit.confirmations > 0 && (
-                            <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                              <Clock size={12} />
-                              {deposit.confirmations} / {network?.min_confirmations || 0} confirmations
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-lg text-blue-400">
-                          +{formatDepositAmount(deposit.amount, deposit.asset)} {deposit.asset}
-                        </div>
-                        {deposit.amount_credited && (
-                          <div className="text-sm text-green-400 mt-1">
-                            Credited: {formatDepositAmount(deposit.amount_credited, deposit.asset)} {deposit.asset}
-                          </div>
-                        )}
-                        <div className={`text-xs font-semibold mt-1 ${getDepositStatusColor(deposit.status)}`}>
-                          {getDepositStatusLabel(deposit.status).toUpperCase()}
-                        </div>
-                        {deposit.fee_charged && deposit.fee_charged > 0 && (
-                          <div className="text-xs text-gray-400 mt-1">
-                            Fee: {formatDepositAmount(deposit.fee_charged, deposit.asset)} (1%)
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )
-          )}
-        </div>
-      </div>
 
-      {activeModal === 'deposit' && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Deposit {selectedAsset}</h3>
-              <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
-                ✕
-              </button>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold">Blockchain Deposit Addresses</h3>
+                <button
+                  onClick={handleMonitorDeposits}
+                  disabled={isMonitoring}
+                  className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isMonitoring ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Checking...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw size={18} />
+                      Check Deposits
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {networks.map((network) => {
+                  const address = depositAddresses.find(a => a.network_code === network.network_code);
+                  const isGenerating = isGeneratingAddress === network.network_code;
+
+                  return (
+                    <div
+                      key={network.network_code}
+                      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                            <Network className="w-6 h-6 text-blue-400" />
+                          </div>
+                          <div>
+                            <div className="font-bold text-lg">{network.network_name}</div>
+                            <div className="text-xs text-gray-400">{network.native_symbol}</div>
+                          </div>
+                        </div>
+                        {address && (
+                          <a
+                            href={getExplorerAddressUrl(network.explorer_url, address.address)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-blue-400 transition-colors"
+                          >
+                            <ExternalLink size={18} />
+                          </a>
+                        )}
+                      </div>
+
+                      {address ? (
+                        <div className="space-y-3">
+                          <div>
+                            <label className="text-xs text-gray-400 mb-2 block">Deposit Address</label>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={address.address}
+                                readOnly
+                                className="flex-1 px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono"
+                              />
+                              <button
+                                onClick={() => copyBlockchainAddress(address.address)}
+                                className="px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all"
+                              >
+                                {copiedBlockchainAddress === address.address ? (
+                                  <CheckCircle2 size={18} />
+                                ) : (
+                                  <Copy size={18} />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-400">Min. {network.min_confirmations} confirmations</span>
+                            {address.is_verified && (
+                              <span className="text-green-400 flex items-center gap-1">
+                                <CheckCircle2 size={12} />
+                                Verified
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleGenerateAddress(network.network_code)}
+                          disabled={isGenerating}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-semibold hover:from-blue-400 hover:to-cyan-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                          {isGenerating ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              Generating...
+                            </>
+                          ) : (
+                            <>
+                              <QrCode className="w-5 h-5" />
+                              Generate Address
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="space-y-4">
+          )}
+
+          {activeTab === 'withdraw' && (
+            <div className="max-w-md mx-auto space-y-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold mb-2">Withdraw Crypto</h2>
+                <p className="text-gray-400">Send funds to an external wallet</p>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium mb-3">Select Asset</label>
                 <select
@@ -760,168 +614,63 @@ export default function Wallet() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-3">Amount to Deposit</label>
-                <input
-                  type="number"
-                  value={depositAmount}
-                  onChange={(e) => setDepositAmount(e.target.value)}
-                  placeholder="0.00"
-                  step="any"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                />
-              </div>
-
-              {depositFees && (
-                <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-lg p-4 space-y-3">
-                  <div className="flex items-center gap-2 text-blue-400 font-semibold mb-2">
-                    <Info size={18} />
-                    <span>Fee Breakdown (1%)</span>
-                  </div>
-
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Gross Amount:</span>
-                      <span className="font-bold">{parseFloat(depositAmount).toFixed(8)} {selectedAsset}</span>
-                    </div>
-                    <div className="h-px bg-gray-700"></div>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <Building2 size={14} className="text-blue-400" />
-                        <span className="text-gray-400">Protocol (60%):</span>
-                      </div>
-                      <span className="font-mono">{depositFees.fee_protocol.toFixed(8)} {selectedAsset}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <Heart size={14} className="text-pink-400" />
-                        <span className="text-gray-400">Foundation (30%):</span>
-                      </div>
-                      <span className="font-mono">{depositFees.fee_charity.toFixed(8)} {selectedAsset}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <GraduationCap size={14} className="text-purple-400" />
-                        <span className="text-gray-400">Academy (10%):</span>
-                      </div>
-                      <span className="font-mono">{depositFees.fee_academy.toFixed(8)} {selectedAsset}</span>
-                    </div>
-                    <div className="h-px bg-gray-700"></div>
-                    <div className="flex justify-between items-center pt-2">
-                      <span className="text-amber-400 font-semibold">You Receive:</span>
-                      <span className="text-amber-400 font-bold text-lg">{depositFees.amount_user.toFixed(8)} {selectedAsset}</span>
+              {selectedWallet && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium mb-3">Available Balance</label>
+                    <div className="text-2xl font-bold text-gold-400">
+                      {parseFloat(selectedWallet.balance).toFixed(selectedAsset === 'BTC' ? 8 : 2)} {selectedAsset}
                     </div>
                   </div>
-                </div>
-              )}
 
-              <div>
-                <label className="block text-sm font-medium mb-3">Deposit Address</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={getDepositAddress(selectedAsset)}
-                    readOnly
-                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-sm font-mono"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium mb-3">Amount</label>
+                    <input
+                      type="number"
+                      value={withdrawAmount}
+                      onChange={(e) => setWithdrawAmount(e.target.value)}
+                      placeholder="0.00"
+                      step="any"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-3">Destination Address</label>
+                    <input
+                      type="text"
+                      value={withdrawAddress}
+                      onChange={(e) => setWithdrawAddress(e.target.value)}
+                      placeholder={`Enter ${selectedAsset} address`}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg font-mono text-sm"
+                    />
+                  </div>
+
+                  <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-gray-300">
+                      Double-check the address. Withdrawals are irreversible. Network fee applies.
+                    </div>
+                  </div>
+
                   <button
-                    onClick={() => copyToClipboard(getDepositAddress(selectedAsset), selectedAsset)}
-                    className="px-4 py-3 bg-amber-500/20 text-amber-400 rounded-lg hover:bg-amber-500/30 transition-all"
+                    disabled={!withdrawAmount || !withdrawAddress}
+                    className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-rose-500 rounded-lg font-semibold hover:from-red-400 hover:to-rose-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {copiedAddress === selectedAsset ? <CheckCircle2 size={20} /> : <Copy size={20} />}
+                    Withdraw {selectedAsset}
                   </button>
-                </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'swap' && swapFromWallet && (
+            <div className="max-w-md mx-auto space-y-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold mb-2">Swap Assets</h2>
+                <p className="text-gray-400">Exchange between different cryptocurrencies</p>
               </div>
 
-              <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-4 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-gray-300">
-                  Only send {selectedAsset} to this address. A 1% deposit fee applies to support platform operations (60%),
-                  children's brain cancer research (30%), and education (10%).
-                </div>
-              </div>
-
-              <button
-                onClick={handleDepositSubmit}
-                disabled={!depositAmount || parseFloat(depositAmount) <= 0 || isProcessingDeposit}
-                className="w-full px-4 py-3 bg-green-500 rounded-lg font-semibold hover:bg-green-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isProcessingDeposit ? 'Processing...' : 'Confirm Deposit'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeModal === 'withdraw' && selectedWallet && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-md w-full p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Withdraw {selectedAsset}</h3>
-              <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
-                ✕
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-3">Available Balance</label>
-                <div className="text-2xl font-bold text-amber-400">
-                  {parseFloat(selectedWallet.balance).toFixed(selectedAsset === 'BTC' ? 8 : 2)} {selectedAsset}
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-3">Amount</label>
-                <input
-                  type="number"
-                  value={withdrawAmount}
-                  onChange={(e) => setWithdrawAmount(e.target.value)}
-                  placeholder="0.00"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-3">Destination Address</label>
-                <input
-                  type="text"
-                  value={withdrawAddress}
-                  onChange={(e) => setWithdrawAddress(e.target.value)}
-                  placeholder={`Enter ${selectedAsset} address`}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg font-mono text-sm"
-                />
-              </div>
-              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-gray-300">
-                  Double-check the address. Withdrawals are irreversible.
-                  Network fee: ~$2.50
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="flex-1 px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
-                >
-                  Cancel
-                </button>
-                <button className="flex-1 px-4 py-3 bg-red-500 rounded-lg font-semibold hover:bg-red-400 transition-all">
-                  Withdraw
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeModal === 'swap' && swapFromWallet && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-md w-full p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Swap Assets</h3>
-              <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
-                ✕
-              </button>
-            </div>
-            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-3">From</label>
                 <select
@@ -938,6 +687,7 @@ export default function Wallet() {
                   value={swapAmount}
                   onChange={(e) => setSwapAmount(e.target.value)}
                   placeholder="0.00"
+                  step="any"
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
                 />
                 <div className="text-xs text-gray-400 mt-2">
@@ -947,7 +697,7 @@ export default function Wallet() {
 
               <div className="flex justify-center">
                 <div className="p-2 bg-gray-800 rounded-lg">
-                  <ArrowRightLeft className="w-5 h-5 text-amber-400" />
+                  <ArrowRightLeft className="w-5 h-5 text-gold-400" />
                 </div>
               </div>
 
@@ -962,7 +712,7 @@ export default function Wallet() {
                     <option key={w.asset} value={w.asset}>{w.asset}</option>
                   ))}
                 </select>
-                <div className="px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-amber-400 font-bold">
+                <div className="px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-gold-400 font-bold">
                   {swapAmount ? (parseFloat(swapAmount) * swapRate).toFixed(8) : '0.00'}
                 </div>
                 <div className="text-xs text-gray-400 mt-2">
@@ -976,21 +726,228 @@ export default function Wallet() {
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="flex-1 px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
-                >
-                  Cancel
-                </button>
-                <button className="flex-1 px-4 py-3 bg-blue-500 rounded-lg font-semibold hover:bg-blue-400 transition-all">
-                  Swap
-                </button>
+              <button
+                disabled={!swapAmount || parseFloat(swapAmount) <= 0}
+                className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-semibold hover:from-blue-400 hover:to-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Swap Assets
+              </button>
+            </div>
+          )}
+
+          {activeTab === 'stake' && (
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold mb-2">Stake TYT</h2>
+                <p className="text-gray-400">Lock TYT tokens to earn rewards and governance power</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { duration: 30, apy: 8, label: '30 Days' },
+                  { duration: 90, apy: 15, label: '90 Days' },
+                  { duration: 180, apy: 25, label: '180 Days' },
+                  { duration: 365, apy: 40, label: '1 Year' }
+                ].map(pool => (
+                  <div
+                    key={pool.duration}
+                    className="p-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 hover:border-gold-500/50 transition-all cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="font-bold text-lg">{pool.label}</div>
+                      <div className="text-green-400 font-bold text-xl">{pool.apy}% APY</div>
+                    </div>
+                    <div className="space-y-2 text-sm text-gray-400">
+                      <div className="flex items-center gap-2">
+                        <Lock size={14} />
+                        <span>Lock period: {pool.duration} days</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Zap size={14} />
+                        <span>Daily rewards</span>
+                      </div>
+                    </div>
+                    <button className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg font-semibold hover:from-green-400 hover:to-emerald-400 transition-all">
+                      Stake Now
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {activeTab === 'history' && (
+            <div className="space-y-6">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <h2 className="text-xl font-bold">Transaction History</h2>
+                <div className="flex items-center gap-3">
+                  <div className="relative flex-1 lg:flex-initial">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search transactions..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full lg:w-64 pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm"
+                    />
+                  </div>
+                  <select
+                    value={txFilter}
+                    onChange={(e) => setTxFilter(e.target.value)}
+                    className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm"
+                  >
+                    <option value="all">All Types</option>
+                    <option value="deposit">Deposits</option>
+                    <option value="withdrawal">Withdrawals</option>
+                    <option value="reward">Rewards</option>
+                    <option value="swap">Swaps</option>
+                    <option value="maintenance">Maintenance</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 mb-4">
+                <button
+                  onClick={() => setTxView('internal')}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                    txView === 'internal'
+                      ? 'bg-gold-500/20 text-gold-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Internal
+                </button>
+                <button
+                  onClick={() => setTxView('blockchain')}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                    txView === 'blockchain'
+                      ? 'bg-blue-500/20 text-blue-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Blockchain ({blockchainDeposits.length})
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {txView === 'internal' ? (
+                  filteredTransactions.length === 0 ? (
+                    <div className="p-12 text-center text-gray-400">
+                      <WalletIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                      <p>No transactions found</p>
+                    </div>
+                  ) : (
+                    filteredTransactions.map((tx) => (
+                      <div key={tx.id} className="p-6 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                              tx.type === 'deposit' || tx.type === 'reward' ? 'bg-green-500/20' :
+                              tx.type === 'swap' ? 'bg-blue-500/20' :
+                              'bg-red-500/20'
+                            }`}>
+                              {tx.type === 'deposit' || tx.type === 'reward' ? (
+                                <ArrowDownLeft className="w-6 h-6 text-green-400" />
+                              ) : tx.type === 'swap' ? (
+                                <ArrowRightLeft className="w-6 h-6 text-blue-400" />
+                              ) : (
+                                <ArrowUpRight className="w-6 h-6 text-red-400" />
+                              )}
+                            </div>
+                            <div>
+                              <div className="font-semibold capitalize mb-1">
+                                {tx.type === 'swap' && tx.from_asset && tx.to_asset
+                                  ? `Swap ${tx.from_asset} → ${tx.to_asset}`
+                                  : tx.type}
+                              </div>
+                              <div className="text-sm text-gray-400">
+                                {new Date(tx.created_at).toLocaleString()}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className={`font-bold text-lg ${
+                              tx.type === 'deposit' || tx.type === 'reward' ? 'text-green-400' :
+                              tx.type === 'swap' ? 'text-blue-400' :
+                              'text-red-400'
+                            }`}>
+                              {tx.type === 'deposit' || tx.type === 'reward' ? '+' :
+                               tx.type === 'swap' ? '' : '-'}
+                              {tx.amount} {tx.asset}
+                            </div>
+                            <div className={`text-xs font-semibold mt-1 ${
+                              tx.status === 'completed' ? 'text-green-400' :
+                              tx.status === 'pending' ? 'text-yellow-400' :
+                              'text-red-400'
+                            }`}>
+                              {tx.status.toUpperCase()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )
+                ) : (
+                  blockchainDeposits.length === 0 ? (
+                    <div className="p-12 text-center text-gray-400">
+                      <Network className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                      <p>No blockchain deposits yet</p>
+                      <p className="text-sm mt-2">Generate an address and make a deposit to get started</p>
+                    </div>
+                  ) : (
+                    blockchainDeposits.map((deposit) => {
+                      const network = networks.find(n => n.network_code === deposit.network_code);
+                      return (
+                        <div key={deposit.id} className="p-6 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-500/20">
+                                <ArrowDownLeft className="w-6 h-6 text-blue-400" />
+                              </div>
+                              <div>
+                                <div className="font-semibold mb-1">
+                                  Blockchain Deposit - {deposit.asset}
+                                </div>
+                                <div className="text-xs text-gray-400 mb-1">
+                                  {deposit.network_code} • {new Date(deposit.detected_at).toLocaleString()}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <a
+                                    href={network ? getExplorerTxUrl(network.explorer_url, deposit.tx_hash) : '#'}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-blue-400 hover:text-blue-300 font-mono flex items-center gap-1"
+                                  >
+                                    {deposit.tx_hash.slice(0, 12)}...{deposit.tx_hash.slice(-8)}
+                                    <ExternalLink size={12} />
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-bold text-lg text-blue-400">
+                                +{formatDepositAmount(deposit.amount, deposit.asset)} {deposit.asset}
+                              </div>
+                              {deposit.amount_credited && (
+                                <div className="text-sm text-green-400 mt-1">
+                                  Credited: {formatDepositAmount(deposit.amount_credited, deposit.asset)} {deposit.asset}
+                                </div>
+                              )}
+                              <div className={`text-xs font-semibold mt-1 ${getDepositStatusColor(deposit.status)}`}>
+                                {getDepositStatusLabel(deposit.status).toUpperCase()}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
