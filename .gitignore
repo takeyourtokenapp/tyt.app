@@ -21,3 +21,12 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.*
+*.key
+*.pem
+wallets/
+*.wallet
+mnemonic.txt
+private-keys/
+admin/
+secrets/
