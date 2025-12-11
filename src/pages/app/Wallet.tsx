@@ -48,6 +48,7 @@ import {
 } from '../../utils/blockchainDeposits';
 import { DepositModal } from '../../components/DepositModal';
 import { DepositAddressCard } from '../../components/DepositAddressCard';
+import { WithdrawalForm } from '../../components/WithdrawalForm';
 
 interface Transaction {
   id: string;
@@ -560,72 +561,19 @@ export default function Wallet() {
           )}
 
           {activeTab === 'withdraw' && (
-            <div className="max-w-md mx-auto space-y-6">
+            <div className="max-w-2xl mx-auto">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold mb-2">Withdraw Crypto</h2>
-                <p className="text-gray-400">Send funds to an external wallet</p>
+                <p className="text-gray-400">Send funds to an external wallet with KYC-based limits</p>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-3">Select Asset</label>
-                <select
-                  value={selectedAsset}
-                  onChange={(e) => setSelectedAsset(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                >
-                  {wallets.map(w => (
-                    <option key={w.asset} value={w.asset}>{w.asset}</option>
-                  ))}
-                </select>
-              </div>
-
-              {selectedWallet && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium mb-3">Available Balance</label>
-                    <div className="text-2xl font-bold text-gold-400">
-                      {parseFloat(selectedWallet.balance).toFixed(selectedAsset === 'BTC' ? 8 : 2)} {selectedAsset}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-3">Amount</label>
-                    <input
-                      type="number"
-                      value={withdrawAmount}
-                      onChange={(e) => setWithdrawAmount(e.target.value)}
-                      placeholder="0.00"
-                      step="any"
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-3">Destination Address</label>
-                    <input
-                      type="text"
-                      value={withdrawAddress}
-                      onChange={(e) => setWithdrawAddress(e.target.value)}
-                      placeholder={`Enter ${selectedAsset} address`}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg font-mono text-sm"
-                    />
-                  </div>
-
-                  <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-gray-300">
-                      Double-check the address. Withdrawals are irreversible. Network fee applies.
-                    </div>
-                  </div>
-
-                  <button
-                    disabled={!withdrawAmount || !withdrawAddress}
-                    className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-rose-500 rounded-lg font-semibold hover:from-red-400 hover:to-rose-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Withdraw {selectedAsset}
-                  </button>
-                </>
-              )}
+              <WithdrawalForm
+                availableAssets={wallets.map(w => ({
+                  asset: w.asset,
+                  balance: parseFloat(w.balance)
+                }))}
+                onSuccess={handleRefresh}
+              />
             </div>
           )}
 
