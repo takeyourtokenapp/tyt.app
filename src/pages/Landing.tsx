@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, TrendingUp, Zap, Shield, Coins, BarChart3, Wallet, CheckCircle2, AlertCircle, DollarSign, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import IncomeCalculator from '../components/IncomeCalculator';
+import Footer from '../components/Footer';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,8 +32,8 @@ export default function Landing() {
             <a href="#how-it-works" className="hover:text-gold-400 transition-colors">How It Works</a>
             <a href="#calculator" className="hover:text-gold-400 transition-colors">Calculator</a>
             <a href="#features" className="hover:text-gold-400 transition-colors">Features</a>
-            <a href="#tokenomics" className="hover:text-gold-400 transition-colors">Tokenomics</a>
-            <a href="#academy" className="hover:text-gold-400 transition-colors">Academy</a>
+            <Link to="/about" className="hover:text-gold-400 transition-colors">About</Link>
+            <Link to="/roadmap" className="hover:text-gold-400 transition-colors">Roadmap</Link>
             <a href="#foundation" className="hover:text-neon-cyan transition-colors">Foundation</a>
           </nav>
 
@@ -57,8 +58,8 @@ export default function Landing() {
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">How It Works</a>
               <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Calculator</a>
               <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Features</a>
-              <a href="#tokenomics" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Tokenomics</a>
-              <a href="#academy" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Academy</a>
+              <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">About</Link>
+              <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Roadmap</Link>
               <a href="#foundation" onClick={() => setMobileMenuOpen(false)} className="hover:text-neon-cyan transition-colors">Foundation</a>
               <Link to="/app" onClick={() => setMobileMenuOpen(false)} className="text-gold-400 font-semibold">Launch App</Link>
             </nav>
@@ -392,46 +393,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="py-12 px-4 border-t border-gold-800 bg-owl-dark">
-        <div className="container mx-auto max-w-6xl">
-          <div className="mb-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-              <div className="flex items-center gap-3">
-                <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT Logo" className="w-16 h-16" />
-                <div>
-                  <div className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">Take Your Token</div>
-                  <div className="text-sm text-gray-400">Owl Warrior Ecosystem</div>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <a href="https://t.me/takeyourtoken" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-owl-gradient rounded-lg font-semibold hover:shadow-gold-glow transition-all">
-                  Join Telegram
-                </a>
-                <a href="https://pump.fun/APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump" target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-gold-500 rounded-lg font-semibold hover:bg-gold-500/10 transition-all">
-                  TYT Token
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-owl-navy/50 rounded-lg p-6 mb-6 border border-gold-800">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="font-semibold text-gold-500 mb-2">⚠️ Legal Disclosure</h5>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Take Your Token (TYT) is a digital mining platform. Not investment advice, not a security, not a deposit. Review risks, terms, and your jurisdiction requirements. Rewards and costs are variable. No physical device mining is performed. NFT miners represent access to cloud mining services. Platform availability depends on region and regulatory compliance.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center text-gray-400">
-              <p className="text-sm mb-2">© 2025 Take Your Token (TYT). All rights reserved.</p>
-              <p className="text-xs text-gray-500">Built by the Owl Warriors. Protected by the Shield. Powered by the Sword.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

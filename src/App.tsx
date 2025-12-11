@@ -7,6 +7,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import About from './pages/About';
 import Roadmap from './pages/Roadmap';
+import Help from './pages/Help';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
@@ -51,6 +52,7 @@ function App() {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/about" element={<About />} />
       <Route path="/roadmap" element={<Roadmap />} />
+      <Route path="/help" element={<Help />} />
 
       <Route
         path="/app/*"
