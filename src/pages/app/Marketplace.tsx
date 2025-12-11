@@ -20,6 +20,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import type { MarketplaceListing, NFTMiner } from '../../types/database';
+import { BuyModal, SellModal } from './MarketplaceActions';
 
 type ListingWithMiner = MarketplaceListing & {
   nft_miners: NFTMiner;
@@ -491,140 +492,19 @@ export default function Marketplace() {
       </div>
 
       {activeModal === 'buy' && selectedListing && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-lg w-full p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Confirm Purchase</h3>
-              <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-gray-800/50 rounded-lg p-4">
-                <div className="text-sm text-gray-400 mb-2">Miner Details</div>
-                <div className="font-semibold mb-1">{selectedListing.nft_miners.miner_model}</div>
-                <div className="text-xs text-gray-500 font-mono mb-3">
-                  #{selectedListing.nft_miners.id}
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <div className="text-xs text-gray-400">Hashrate</div>
-                    <div className="font-bold text-amber-400">{selectedListing.nft_miners.hashrate_th} TH/s</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-400">Efficiency</div>
-                    <div className="font-bold text-green-400">{selectedListing.nft_miners.efficiency_w_per_th} W/TH</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-lg p-4 border border-amber-500/50">
-                <div className="text-sm text-gray-300 mb-1">Total Price</div>
-                <div className="text-3xl font-bold text-amber-400 mb-1">
-                  {parseFloat(selectedListing.list_price_amount).toLocaleString()} {selectedListing.list_price_asset}
-                </div>
-                <div className="text-xs text-gray-400">
-                  + 2.5% marketplace fee
-                </div>
-              </div>
-
-              <div className="bg-blue-500/10 border border-blue-500/50 rounded-lg p-4">
-                <div className="text-sm text-gray-300">
-                  This purchase will be processed immediately. The NFT miner will be transferred to your account.
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="flex-1 px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
-                >
-                  Cancel
-                </button>
-                <button className="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-amber-500/50 transition-all">
-                  Confirm Purchase
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BuyModal
+          listing={selectedListing}
+          onClose={() => setActiveModal(null)}
+          onSuccess={loadMarketplaceData}
+        />
       )}
 
       {activeModal === 'sell' && selectedMinerToSell && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-lg w-full p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">List Miner for Sale</h3>
-              <button onClick={() => setActiveModal(null)} className="text-gray-400 hover:text-white">
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-gray-800/50 rounded-lg p-4">
-                <div className="text-sm text-gray-400 mb-2">Miner Details</div>
-                <div className="font-semibold mb-1">{selectedMinerToSell.miner_model}</div>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`text-xs px-2 py-1 rounded-full border ${getRarityColor(selectedMinerToSell.rarity)}`}>
-                    {selectedMinerToSell.rarity}
-                  </span>
-                  <span className="text-xs px-2 py-1 bg-gray-700 rounded">{selectedMinerToSell.tier}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <div className="text-xs text-gray-400">Hashrate</div>
-                    <div className="font-bold text-amber-400">{selectedMinerToSell.hashrate_th} TH/s</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-400">Efficiency</div>
-                    <div className="font-bold text-green-400">{selectedMinerToSell.efficiency_w_per_th} W/TH</div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-3">Listing Price</label>
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    value={sellPrice}
-                    onChange={(e) => setSellPrice(e.target.value)}
-                    placeholder="0.00"
-                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                  />
-                  <select
-                    value={sellAsset}
-                    onChange={(e) => setSellAsset(e.target.value as any)}
-                    className="px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg"
-                  >
-                    <option value="USDT">USDT</option>
-                    <option value="TYT">TYT</option>
-                    <option value="BTC">BTC</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-4">
-                <div className="text-sm text-gray-300">
-                  Marketplace fee: 2.5% (VIP members get up to 50% discount)
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="flex-1 px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
-                >
-                  Cancel
-                </button>
-                <button className="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-amber-500/50 transition-all">
-                  List for Sale
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SellModal
+          miner={selectedMinerToSell}
+          onClose={() => setActiveModal(null)}
+          onSuccess={loadMarketplaceData}
+        />
       )}
 
       {activeModal === 'detail' && selectedListing && (
