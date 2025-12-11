@@ -40,7 +40,7 @@ export interface TransactionBroadcastResult {
   error?: string;
 }
 
-class Bitcoin Service {
+class BitcoinService {
   async generateDepositAddress(
     userId: string,
     addressType: 'legacy' | 'segwit' | 'native_segwit' | 'taproot' = 'native_segwit',
