@@ -3,6 +3,10 @@ import { useAuth } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import About from './pages/About';
+import Roadmap from './pages/Roadmap';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
@@ -14,6 +18,10 @@ import Academy from './pages/app/Academy';
 import Foundation from './pages/app/Foundation';
 import Settings from './pages/app/Settings';
 import TYTTrading from './pages/app/TYTTrading';
+// Admin imports temporarily disabled - will be enabled when files exist
+// import AdminDashboard from './pages/app/admin/Dashboard';
+// import KYCReview from './pages/app/admin/KYCReview';
+// import WithdrawalApprovals from './pages/app/admin/WithdrawalApprovals';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -39,6 +47,10 @@ function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/roadmap" element={<Roadmap />} />
 
       <Route
         path="/app/*"
@@ -47,6 +59,7 @@ function App() {
             <AppLayout>
               <Routes>
                 <Route index element={<Dashboard />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="miners" element={<Miners />} />
                 <Route path="miners/:id" element={<MinerDetail />} />
                 <Route path="rewards" element={<Rewards />} />
@@ -56,6 +69,10 @@ function App() {
                 <Route path="academy" element={<Academy />} />
                 <Route path="foundation" element={<Foundation />} />
                 <Route path="settings" element={<Settings />} />
+                {/* Admin routes temporarily disabled - will be enabled when components exist */}
+                {/* <Route path="admin" element={<AdminDashboard />} />
+                <Route path="admin/kyc" element={<KYCReview />} />
+                <Route path="admin/withdrawals" element={<WithdrawalApprovals />} /> */}
               </Routes>
             </AppLayout>
           </ProtectedRoute>
