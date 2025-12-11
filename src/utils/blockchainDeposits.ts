@@ -19,6 +19,7 @@ export interface DepositAddress {
   address: string;
   is_verified: boolean;
   created_at: string;
+  derivation_path?: string;
   network?: BlockchainNetwork;
 }
 
@@ -78,6 +79,8 @@ export async function generateDepositAddress(networkCode: string): Promise<{
   address?: string;
   network_name?: string;
   explorer_url?: string;
+  qr_code?: string;
+  derivation_path?: string;
   error?: string;
 }> {
   try {

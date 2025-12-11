@@ -26,7 +26,8 @@ import {
   Lock,
   DollarSign,
   Send,
-  Zap
+  Zap,
+  CreditCard
 } from 'lucide-react';
 import type { CustodialWallet } from '../../types/database';
 import { calculateDepositFees, processDeposit, formatFeeBreakdown, type FeeBreakdown } from '../../utils/depositFees';
@@ -45,6 +46,8 @@ import {
   type DepositAddress,
   type BlockchainDeposit
 } from '../../utils/blockchainDeposits';
+import { DepositModal } from '../../components/DepositModal';
+import { DepositAddressCard } from '../../components/DepositAddressCard';
 
 interface Transaction {
   id: string;
@@ -90,6 +93,13 @@ export default function Wallet() {
   const [isMonitoring, setIsMonitoring] = useState(false);
   const [copiedBlockchainAddress, setCopiedBlockchainAddress] = useState('');
 
+  const [qrCodes, setQrCodes] = useState<Record<string, string>>({});
+  const [derivationPaths, setDerivationPaths] = useState<Record<string, string>>({});
+
+  // Stripe deposit modal
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [depositModalCurrency, setDepositModalCurrency] = useState<'USD' | 'BTC' | 'USDT'>('USD');
+
   useEffect(() => {
     const loadBlockchainData = async () => {
       const [networksData, addressesData, depositsData] = await Promise.all([
@@ -128,6 +138,14 @@ export default function Wallet() {
       if (result.success && result.address) {
         const addressesData = await getDepositAddresses();
         setDepositAddresses(addressesData);
+
+        if (result.qr_code) {
+          setQrCodes(prev => ({ ...prev, [networkCode]: result.qr_code! }));
+        }
+        if (result.derivation_path) {
+          setDerivationPaths(prev => ({ ...prev, [networkCode]: result.derivation_path! }));
+        }
+
         alert(`Address generated successfully!\n\n${result.address}`);
       } else {
         alert(`Failed to generate address: ${result.error}`);
@@ -402,7 +420,25 @@ export default function Wallet() {
                 })}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button
+                  onClick={() => {
+                    setDepositModalCurrency('USD');
+                    setIsDepositModalOpen(true);
+                  }}
+                  className="group p-6 bg-gradient-to-br from-yellow-500/10 to-amber-500/10 hover:from-yellow-500/20 hover:to-amber-500/20 rounded-xl border border-yellow-500/30 hover:border-yellow-500/50 transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-yellow-500/20 rounded-xl group-hover:bg-yellow-500/30 transition-colors">
+                      <CreditCard className="w-6 h-6 text-yellow-400" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-lg mb-1">Deposit via Card</div>
+                      <div className="text-sm text-gray-400">Instant deposit (Stripe)</div>
+                    </div>
+                  </div>
+                </button>
+
                 <button
                   onClick={() => setActiveTab('deposit')}
                   className="group p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 rounded-xl border border-green-500/30 hover:border-green-500/50 transition-all"
@@ -412,7 +448,7 @@ export default function Wallet() {
                       <ArrowDownLeft className="w-6 h-6 text-green-400" />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-lg mb-1">Deposit</div>
+                      <div className="font-bold text-lg mb-1">Deposit Crypto</div>
                       <div className="text-sm text-gray-400">Add funds via blockchain</div>
                     </div>
                   </div>
@@ -508,86 +544,15 @@ export default function Wallet() {
                   const isGenerating = isGeneratingAddress === network.network_code;
 
                   return (
-                    <div
+                    <DepositAddressCard
                       key={network.network_code}
-                      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                            <Network className="w-6 h-6 text-blue-400" />
-                          </div>
-                          <div>
-                            <div className="font-bold text-lg">{network.network_name}</div>
-                            <div className="text-xs text-gray-400">{network.native_symbol}</div>
-                          </div>
-                        </div>
-                        {address && (
-                          <a
-                            href={getExplorerAddressUrl(network.explorer_url, address.address)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-400 hover:text-blue-400 transition-colors"
-                          >
-                            <ExternalLink size={18} />
-                          </a>
-                        )}
-                      </div>
-
-                      {address ? (
-                        <div className="space-y-3">
-                          <div>
-                            <label className="text-xs text-gray-400 mb-2 block">Deposit Address</label>
-                            <div className="flex gap-2">
-                              <input
-                                type="text"
-                                value={address.address}
-                                readOnly
-                                className="flex-1 px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono"
-                              />
-                              <button
-                                onClick={() => copyBlockchainAddress(address.address)}
-                                className="px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all"
-                              >
-                                {copiedBlockchainAddress === address.address ? (
-                                  <CheckCircle2 size={18} />
-                                ) : (
-                                  <Copy size={18} />
-                                )}
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-gray-400">Min. {network.min_confirmations} confirmations</span>
-                            {address.is_verified && (
-                              <span className="text-green-400 flex items-center gap-1">
-                                <CheckCircle2 size={12} />
-                                Verified
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => handleGenerateAddress(network.network_code)}
-                          disabled={isGenerating}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg font-semibold hover:from-blue-400 hover:to-cyan-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                        >
-                          {isGenerating ? (
-                            <>
-                              <Loader2 className="w-5 h-5 animate-spin" />
-                              Generating...
-                            </>
-                          ) : (
-                            <>
-                              <QrCode className="w-5 h-5" />
-                              Generate Address
-                            </>
-                          )}
-                        </button>
-                      )}
-                    </div>
+                      network={network}
+                      address={address?.address}
+                      qrCode={qrCodes[network.network_code] || ''}
+                      derivationPath={address?.derivation_path || derivationPaths[network.network_code]}
+                      onGenerate={() => handleGenerateAddress(network.network_code)}
+                      isGenerating={isGenerating}
+                    />
                   );
                 })}
               </div>
@@ -948,6 +913,17 @@ export default function Wallet() {
           )}
         </div>
       </div>
+
+      {/* Stripe Deposit Modal */}
+      <DepositModal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+        currency={depositModalCurrency}
+        onSuccess={() => {
+          setIsDepositModalOpen(false);
+          refetch();
+        }}
+      />
     </div>
   );
 }
