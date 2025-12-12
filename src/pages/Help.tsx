@@ -20,8 +20,6 @@ import {
   CheckCircle,
   Clock
 } from 'lucide-react';
-import Footer from '../components/Footer';
-
 interface FAQCategory {
   id: string;
   title: string;
@@ -500,8 +498,6 @@ export default function Help() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

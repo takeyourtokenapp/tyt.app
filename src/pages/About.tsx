@@ -13,8 +13,6 @@ import {
   CheckCircle,
   ArrowRight
 } from 'lucide-react';
-import Footer from '../components/Footer';
-
 export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
@@ -253,7 +251,6 @@ export default function About() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

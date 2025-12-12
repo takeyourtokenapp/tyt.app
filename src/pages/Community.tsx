@@ -19,8 +19,6 @@ import {
 } from 'lucide-react';
 import CommunityLeaderboard from '../components/CommunityLeaderboard';
 import CommunityChat from '../components/CommunityChat';
-import Footer from '../components/Footer';
-
 export default function Community() {
   const stats = [
     { label: 'Community Members', value: '12,450+', icon: Users, color: 'blue' },
@@ -444,7 +442,6 @@ export default function Community() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

@@ -31,44 +31,7 @@ import {
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
-      <nav className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">TakeYourToken</span>
-            </div>
-            <div className="hidden md:flex items-center gap-6">
-              <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
-              <a href="#calculator" className="text-gray-300 hover:text-white transition-colors">Calculator</a>
-              <a href="#tokenomics" className="text-gray-300 hover:text-white transition-colors">Tokenomics</a>
-              <Link to="/roadmap" className="text-gray-300 hover:text-white transition-colors">Roadmap</Link>
-              <Link to="/vip" className="text-gray-300 hover:text-white transition-colors">VIP</Link>
-              <Link to="/community" className="text-gray-300 hover:text-white transition-colors">Community</Link>
-              <Link to="/help" className="text-gray-300 hover:text-white transition-colors">Help</Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                to="/login"
-                className="text-gray-300 hover:text-white font-semibold transition-colors"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-amber-500/50"
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <PriceTicker />
+    <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
 
       <section className="relative py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-blue-500/5"></div>
@@ -467,51 +430,6 @@ export default function Landing() {
           </Link>
         </div>
       </section>
-
-      <footer className="border-t border-gray-800 bg-gray-900/80 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-xl font-bold text-white">TYT</span>
-              </div>
-              <p className="text-gray-400 text-sm">
-                Mining with purpose. Building with impact.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Platform</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
-                <li><Link to="/roadmap" className="text-gray-400 hover:text-white transition-colors">Roadmap</Link></li>
-                <li><Link to="/tokenomics" className="text-gray-400 hover:text-white transition-colors">Tokenomics</Link></li>
-                <li><Link to="/vip" className="text-gray-400 hover:text-white transition-colors">VIP Program</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/foundation" className="text-gray-400 hover:text-white transition-colors">Foundation</Link></li>
-                <li><Link to="/community" className="text-gray-400 hover:text-white transition-colors">Community</Link></li>
-                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</Link></li>
-                <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-            <p>&copy; 2024 TakeYourToken. All rights reserved. Mining with purpose.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

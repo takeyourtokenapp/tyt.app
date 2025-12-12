@@ -1,24 +1,8 @@
-import { ArrowLeft, Shield, Lock, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Shield, Lock, Eye } from 'lucide-react';
 
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
-      <nav className="border-b border-gray-800 bg-black/50 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-              <ArrowLeft size={20} />
-              <span>Back to Home</span>
-            </Link>
-            <div className="flex items-center gap-2">
-              <Lock className="w-6 h-6 text-amber-400" />
-              <span className="font-bold text-lg">Privacy Policy</span>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 p-8 md:p-12">
           <div className="flex items-center gap-4 mb-8">

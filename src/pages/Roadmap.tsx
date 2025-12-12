@@ -1,5 +1,4 @@
 import { CheckCircle, Circle, Clock, Sparkles, Rocket, Target, Award, Zap } from 'lucide-react';
-import Footer from '../components/Footer';
 import InteractiveRoadmap from '../components/InteractiveRoadmap';
 
 interface RoadmapPhase {
@@ -327,8 +326,6 @@ export default function Roadmap() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import LiveSupportWidget from './components/LiveSupportWidget';
 import RealtimePriceTicker from './components/RealtimePriceTicker';
+import PublicLayout from './components/PublicLayout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -66,18 +67,18 @@ function App() {
       <CookieConsent />
       <LiveSupportWidget />
       <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/privacy" element={<Privacy />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/roadmap" element={<Roadmap />} />
-      <Route path="/help" element={<Help />} />
-      <Route path="/foundation" element={<FoundationPublic />} />
-      <Route path="/tokenomics" element={<Tokenomics />} />
-      <Route path="/vip" element={<VIP />} />
-      <Route path="/community" element={<Community />} />
+      <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
+      <Route path="/login" element={<PublicLayout showFooter={false}><Login /></PublicLayout>} />
+      <Route path="/signup" element={<PublicLayout showFooter={false}><Signup /></PublicLayout>} />
+      <Route path="/terms" element={<PublicLayout><Terms /></PublicLayout>} />
+      <Route path="/privacy" element={<PublicLayout><Privacy /></PublicLayout>} />
+      <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+      <Route path="/roadmap" element={<PublicLayout><Roadmap /></PublicLayout>} />
+      <Route path="/help" element={<PublicLayout><Help /></PublicLayout>} />
+      <Route path="/foundation" element={<PublicLayout><FoundationPublic /></PublicLayout>} />
+      <Route path="/tokenomics" element={<PublicLayout><Tokenomics /></PublicLayout>} />
+      <Route path="/vip" element={<PublicLayout><VIP /></PublicLayout>} />
+      <Route path="/community" element={<PublicLayout><Community /></PublicLayout>} />
 
       <Route
         path="/app/*"
