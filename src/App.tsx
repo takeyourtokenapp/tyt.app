@@ -24,10 +24,8 @@ import Profile from './pages/app/Profile';
 import Transactions from './pages/app/Transactions';
 import Referrals from './pages/app/Referrals';
 import TYTTrading from './pages/app/TYTTrading';
-// Admin imports temporarily disabled - will be enabled when files exist
-// import AdminDashboard from './pages/app/admin/Dashboard';
-// import KYCReview from './pages/app/admin/KYCReview';
-// import WithdrawalApprovals from './pages/app/admin/WithdrawalApprovals';
+import AdminWithdrawals from './pages/app/AdminWithdrawals';
+import UserManagement from './pages/app/admin/UserManagement';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -82,10 +80,8 @@ function App() {
                 <Route path="profile" element={<Profile />} />
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="referrals" element={<Referrals />} />
-                {/* Admin routes temporarily disabled - will be enabled when components exist */}
-                {/* <Route path="admin" element={<AdminDashboard />} />
-                <Route path="admin/kyc" element={<KYCReview />} />
-                <Route path="admin/withdrawals" element={<WithdrawalApprovals />} /> */}
+                <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
+                <Route path="admin/users" element={<UserManagement />} />
               </Routes>
             </AppLayout>
           </ProtectedRoute>
