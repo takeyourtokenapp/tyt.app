@@ -21,6 +21,9 @@ import {
 } from 'lucide-react';
 import type { CustodialWallet, NFTMiner, DailyReward, UserProfile, VIPLevel } from '../../types/database';
 import { seedDemoData } from '../../utils/seedData';
+import MinerPerformanceWidget from '../../components/MinerPerformanceWidget';
+import RewardsSummaryWidget from '../../components/RewardsSummaryWidget';
+import NetworkStatsWidget from '../../components/NetworkStatsWidget';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -431,6 +434,13 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      <NetworkStatsWidget />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <MinerPerformanceWidget />
+        <RewardsSummaryWidget />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">

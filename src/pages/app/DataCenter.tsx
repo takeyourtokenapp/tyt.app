@@ -13,6 +13,7 @@ import {
   Globe,
   Clock
 } from 'lucide-react';
+import EcosystemStatus from '../../components/EcosystemStatus';
 
 interface DataCenterStatus {
   id: string;
@@ -369,6 +370,8 @@ export default function DataCenter() {
           </div>
         </div>
       </div>
+
+      <EcosystemStatus />
     </div>
   );
 }

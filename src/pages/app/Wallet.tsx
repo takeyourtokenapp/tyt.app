@@ -572,7 +572,7 @@ export default function Wallet() {
                   asset: w.asset,
                   balance: parseFloat(w.balance)
                 }))}
-                onSuccess={handleRefresh}
+                onSuccess={() => refetch()}
               />
             </div>
           )}
