@@ -25,6 +25,86 @@ export interface CustodialWallet {
   updated_at: string;
 }
 
+export type WalletAccountType =
+  | 'user_main'
+  | 'user_locked'
+  | 'user_staking'
+  | 'protocol_fees'
+  | 'charity_fund'
+  | 'academy_fund'
+  | 'burn_pool'
+  | 'treasury'
+  | 'escrow';
+
+export type LedgerEntryType =
+  | 'deposit'
+  | 'withdrawal'
+  | 'reward'
+  | 'maintenance_fee'
+  | 'marketplace_fee'
+  | 'miner_purchase'
+  | 'miner_upgrade'
+  | 'charity_donation'
+  | 'academy_payment'
+  | 'burn'
+  | 'staking_lock'
+  | 'staking_unlock'
+  | 'referral_commission'
+  | 'internal_transfer'
+  | 'adjustment';
+
+export interface WalletAccount {
+  id: string;
+  user_id: string | null;
+  account_type: WalletAccountType;
+  currency: string;
+  network: string | null;
+  balance: string;
+  locked_balance: string;
+  pending_balance: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LedgerEntry {
+  id: string;
+  entry_batch_id: string;
+  account_id: string;
+  entry_type: LedgerEntryType;
+  debit: string;
+  credit: string;
+  balance_after: string;
+  currency: string;
+  ref_type: string | null;
+  ref_id: string | null;
+  description: string | null;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+}
+
+export interface FeeConfiguration {
+  id: string;
+  fee_key: string;
+  fee_name: string;
+  fee_bps_total: number;
+  protocol_pct: number;
+  charity_pct: number;
+  academy_pct: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AggregatedBalance {
+  currency: string;
+  total_balance: number;
+  available_balance: number;
+  locked_balance: number;
+  pending_balance: number;
+  usd_value: number;
+}
+
 export interface NFTMiner {
   id: string;
   owner_id: string;

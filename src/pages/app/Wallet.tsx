@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useWallets } from '../../hooks/useAPI';
+import { useWallets, useAggregatedBalances, useLedgerHistory, useFeeConfiguration } from '../../hooks/useAPI';
 import {
   Wallet as WalletIcon,
   ArrowUpRight,
@@ -67,6 +67,9 @@ type Tab = 'overview' | 'deposit' | 'withdraw' | 'swap' | 'stake' | 'history';
 export default function Wallet() {
   const { user } = useAuth();
   const { data: wallets = [], isLoading, refetch } = useWallets(user?.id);
+  const { data: aggregatedBalances = [] } = useAggregatedBalances(user?.id);
+  const { data: ledgerHistory = [] } = useLedgerHistory(user?.id, { limit: 50 });
+  const { data: feeConfig } = useFeeConfiguration('deposit.default');
 
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
@@ -499,21 +502,26 @@ export default function Wallet() {
                 <div className="flex items-start gap-3">
                   <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-gray-300 space-y-2">
-                    <p className="font-semibold text-white">Transparent Fee Structure (1%)</p>
+                    <p className="font-semibold text-white">
+                      V3 Transparent Fee Structure ({feeConfig?.[0]?.fee_bps_total ? feeConfig[0].fee_bps_total / 100 : 10}%)
+                    </p>
                     <div className="space-y-1 text-xs">
                       <div className="flex items-center gap-2">
                         <Building2 size={12} className="text-blue-400" />
-                        <span>60% → Platform Operations</span>
+                        <span>{feeConfig?.[0]?.protocol_pct || 60}% → Platform Operations (6% of deposit)</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Heart size={12} className="text-pink-400" />
-                        <span>30% → Children's Brain Cancer Foundation</span>
+                        <span>{feeConfig?.[0]?.charity_pct || 30}% → Children's Brain Cancer Foundation (3% of deposit)</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <GraduationCap size={12} className="text-purple-400" />
-                        <span>10% → Blockchain Academy</span>
+                        <GraduationCap size={12} className="text-cyan-400" />
+                        <span>{feeConfig?.[0]?.academy_pct || 10}% → Blockchain Academy (1% of deposit)</span>
                       </div>
                     </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      All fee distributions are recorded in immutable ledger for full transparency.
+                    </p>
                   </div>
                 </div>
               </div>
