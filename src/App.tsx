@@ -35,6 +35,7 @@ import AdminUsers from './pages/app/AdminUsers';
 import Notifications from './pages/app/Notifications';
 import Governance from './pages/app/Governance';
 import MiningStatsDashboard from './components/MiningStatsDashboard';
+import Certificates from './pages/app/Certificates';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -98,6 +99,7 @@ function App() {
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="notifications" element={<Notifications />} />
                 <Route path="governance" element={<Governance />} />
+                <Route path="certificates" element={<Certificates />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
               </Routes>

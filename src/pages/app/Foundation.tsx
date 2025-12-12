@@ -15,6 +15,8 @@ import {
   Target,
   Activity
 } from 'lucide-react';
+import ImpactReportsDashboard from '../../components/ImpactReportsDashboard';
+import DonationWidget from '../../components/DonationWidget';
 
 interface Campaign {
   id: string;
@@ -224,6 +226,13 @@ export default function Foundation() {
         <div className="p-8">
           {activeTab === 'overview' && (
             <div className="space-y-8">
+              <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                <DonationWidget />
+                <div className="space-y-6">
+                  <ImpactReportsDashboard />
+                </div>
+              </div>
+
               <div>
                 <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
                 <p className="text-gray-300 leading-relaxed mb-6">
