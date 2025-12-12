@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import CookieConsent from './components/CookieConsent';
+import AnnouncementBanner from './components/AnnouncementBanner';
+import LiveSupportWidget from './components/LiveSupportWidget';
+import RealtimePriceTicker from './components/RealtimePriceTicker';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -54,7 +57,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <>
+      <AnnouncementBanner />
+      <RealtimePriceTicker />
       <CookieConsent />
+      <LiveSupportWidget />
       <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />

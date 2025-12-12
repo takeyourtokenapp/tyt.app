@@ -1,5 +1,6 @@
 import { CheckCircle, Circle, Clock, Sparkles, Rocket, Target, Award, Zap } from 'lucide-react';
 import Footer from '../components/Footer';
+import InteractiveRoadmap from '../components/InteractiveRoadmap';
 
 interface RoadmapPhase {
   id: string;
@@ -295,6 +296,11 @@ export default function Roadmap() {
               <PhaseCard key={phase.id} phase={phase} index={index} />
             ))}
           </div>
+        </div>
+
+        <div className="mt-16 mb-16">
+          <h2 className="text-4xl font-bold mb-8 text-center">Interactive Timeline</h2>
+          <InteractiveRoadmap />
         </div>
 
         <div className="mt-16 bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-xl p-12 text-center">
