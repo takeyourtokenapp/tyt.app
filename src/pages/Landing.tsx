@@ -1,399 +1,469 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, ChevronRight, TrendingUp, Zap, Shield, Coins, BarChart3, Wallet, CheckCircle2, AlertCircle, DollarSign, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import IncomeCalculator from '../components/IncomeCalculator';
-import Footer from '../components/Footer';
+import {
+  ArrowRight,
+  Zap,
+  Shield,
+  TrendingUp,
+  Users,
+  Heart,
+  Cpu,
+  Coins,
+  Award,
+  CheckCircle,
+  BarChart3,
+  Sparkles
+} from 'lucide-react';
+import { CompactFAQ } from '../components/FAQWidget';
+import StatisticsCard, { StatisticsGrid } from '../components/StatisticsCard';
+import {
+  BitcoinIcon,
+  MiningIcon,
+  HeartIcon,
+  RocketIcon,
+  ShieldCheckIcon,
+  ChartIcon
+} from '../components/illustrations/IconLibrary';
 
 export default function Landing() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-owl-dark via-owl-navy to-black text-white">
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-owl-dark/95 backdrop-blur-md shadow-lg shadow-gold-glow' : 'bg-transparent'}`}>
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT Logo" className="w-12 h-12" />
-            <div>
-              <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">Take Your Token</span>
-              <div className="text-xs text-gold-500">Owl Warrior Ecosystem</div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+      <nav className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xl font-bold text-white">TakeYourToken</span>
             </div>
-          </div>
-
-          <nav className="hidden md:flex gap-8">
-            <a href="#how-it-works" className="hover:text-gold-400 transition-colors">How It Works</a>
-            <a href="#calculator" className="hover:text-gold-400 transition-colors">Calculator</a>
-            <a href="#features" className="hover:text-gold-400 transition-colors">Features</a>
-            <Link to="/about" className="hover:text-gold-400 transition-colors">About</Link>
-            <Link to="/roadmap" className="hover:text-gold-400 transition-colors">Roadmap</Link>
-            <a href="#foundation" className="hover:text-neon-cyan transition-colors">Foundation</a>
-          </nav>
-
-          <Link
-            to="/app"
-            className="hidden md:block px-6 py-2 bg-owl-gradient rounded-lg font-semibold hover:shadow-gold-glow transition-all"
-          >
-            Launch App
-          </Link>
-
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-owl-dark border-t border-gold-800">
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">How It Works</a>
-              <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Calculator</a>
-              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Features</a>
-              <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">About</Link>
-              <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors">Roadmap</Link>
-              <a href="#foundation" onClick={() => setMobileMenuOpen(false)} className="hover:text-neon-cyan transition-colors">Foundation</a>
-              <Link to="/app" onClick={() => setMobileMenuOpen(false)} className="text-gold-400 font-semibold">Launch App</Link>
-            </nav>
-          </div>
-        )}
-      </header>
-
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-shield-gradient opacity-5"></div>
-        <div className="container mx-auto max-w-6xl relative">
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-8">
-              <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT Owl Warrior" className="w-32 h-32 drop-shadow-[0_0_30px_rgba(210,164,76,0.6)]" />
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
+              <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
+              <a href="#foundation" className="text-gray-300 hover:text-white transition-colors">Foundation</a>
+              <Link to="/about" className="text-gray-300 hover:text-white transition-colors">About</Link>
+              <Link to="/help" className="text-gray-300 hover:text-white transition-colors">Help</Link>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-owl-gradient bg-clip-text text-transparent drop-shadow-lg">
-              NFT Bitcoin Hashpower Protocol
-            </h1>
-            <p className="text-2xl md:text-3xl text-gold-200 mb-4 font-semibold">
-              Join the Owl Warrior Ecosystem. Earn Daily BTC.
-            </p>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-4">
-              Take Your Token is a digital multi-chain mining platform. Purchase NFT miners, receive daily rewards in BTC, ETH, XRP, SOL, TRON, TON and other Layer 1, 2, 3 tokens.
-            </p>
-            <p className="text-sm text-gold-400 italic mb-8">
-              No device mining. Cloud-based digital mining powered by the Owl Warrior shield.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex items-center gap-4">
               <Link
-                to="/app"
-                className="px-8 py-4 bg-owl-gradient rounded-lg font-semibold hover:shadow-gold-glow transition-all flex items-center justify-center gap-2 shadow-lg"
+                to="/login"
+                className="text-gray-300 hover:text-white font-semibold transition-colors"
               >
-                Launch App <Shield className="w-5 h-5" />
+                Login
               </Link>
-              <a
-                href="#how-it-works"
-                className="px-8 py-4 border-2 border-gold-500 rounded-lg font-semibold hover:bg-gold-500/10 transition-all"
+              <Link
+                to="/signup"
+                className="px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-amber-500/50"
               >
-                Learn More
-              </a>
+                Get Started
+              </Link>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mt-16">
-            {[
-              { label: 'Blockchain', value: 'Multi-Chain', icon: '⚡' },
-              { label: 'Token', value: 'TYT', icon: '🦉' },
-              { label: 'Rewards', value: 'BTC + More', icon: '🛡️' },
-              { label: 'Status', value: 'MVP Live', icon: '⚔️' }
-            ].map((stat) => (
-              <div key={stat.label} className="bg-owl-navy/50 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all">
-                <div className="text-2xl mb-2">{stat.icon}</div>
-                <div className="text-sm text-gray-400 mb-2">{stat.label}</div>
-                <div className="text-xl md:text-2xl font-bold text-gold-400">{stat.value}</div>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
+      </nav>
 
-      <section id="how-it-works" className="py-20 px-4 bg-owl-navy/30">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center bg-owl-gradient bg-clip-text text-transparent">
-            How It Works
-          </h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            Join the Owl Warrior ranks in 4 simple steps
-          </p>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                step: '1',
-                icon: '🦉',
-                title: 'Sign Up & KYC',
-                description: 'Create account and complete verification to become an Owl Worker'
-              },
-              {
-                step: '2',
-                icon: '⚔️',
-                title: 'Buy NFT Miner',
-                description: 'Purchase digital miner with hashrate (TH/s) and efficiency (W/TH)'
-              },
-              {
-                step: '3',
-                icon: '💰',
-                title: 'Earn Rewards',
-                description: 'Receive daily BTC, ETH, SOL, XRP, and more to your wallet'
-              },
-              {
-                step: '4',
-                icon: '🛡️',
-                title: 'Trade & Govern',
-                description: 'Trade miners on marketplace, participate in governance'
-              }
-            ].map((item) => (
-              <div key={item.step} className="bg-gradient-to-br from-owl-navy to-owl-slate rounded-xl p-8 border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all group">
-                <div className="w-12 h-12 bg-owl-gradient rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-gold-glow group-hover:scale-110 transition-transform">
-                  {item.step}
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-blue-500/5"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <span className="text-amber-400 font-semibold text-sm">Mining with Purpose</span>
+              </div>
+
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
+                  Earn Bitcoin Daily
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                  Save Children's Lives
+                </span>
+              </h1>
+
+              <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
+                Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically
+                supports research and treatment for children with brain cancer.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/signup"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
+                >
+                  Start Mining Now
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a
+                  href="#how-it-works"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-semibold rounded-xl transition-all"
+                >
+                  Learn More
+                </a>
+              </div>
+
+              <div className="flex items-center gap-8 pt-4">
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-green-400" />
+                  <span className="text-sm text-gray-400">100% Secure</span>
                 </div>
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 text-gold-300">{item.title}</h3>
-                <p className="text-gray-400">{item.description}</p>
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-blue-400" />
+                  <span className="text-sm text-gray-400">5,000+ Users</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-pink-400" />
+                  <span className="text-sm text-gray-400">$250K+ Donated</span>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-3xl"></div>
+              <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 shadow-2xl">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="col-span-2 flex items-center justify-center py-8">
+                    <BitcoinIcon size={120} />
+                  </div>
+                  <StatCard
+                    icon={<TrendingUp className="w-6 h-6" />}
+                    label="Daily Rewards"
+                    value="0.00045 BTC"
+                    color="green"
+                  />
+                  <StatCard
+                    icon={<Cpu className="w-6 h-6" />}
+                    label="Total Power"
+                    value="250 TH/s"
+                    color="blue"
+                  />
+                  <StatCard
+                    icon={<Users className="w-6 h-6" />}
+                    label="Active Miners"
+                    value="5,247"
+                    color="purple"
+                  />
+                  <StatCard
+                    icon={<Heart className="w-6 h-6" />}
+                    label="Donated"
+                    value="$256K"
+                    color="pink"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="calculator" className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-owl-gradient bg-clip-text text-transparent">
-              Calculate Your Earnings
+      <section id="features" className="py-20 bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Why Choose TakeYourToken
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              See how much you can earn with TYT NFT miners. Adjust parameters to match your strategy.
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              The world's first mining platform where profits meet purpose
             </p>
           </div>
-          <IncomeCalculator />
-        </div>
-      </section>
 
-      <section id="features" className="py-20 px-4 bg-owl-navy/30">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center bg-owl-gradient bg-clip-text text-transparent">
-            Owl Warrior Arsenal
-          </h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            Powerful tools for the digital mining ecosystem
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: <BarChart3 className="w-8 h-8" />,
-                title: 'Command Center',
-                description: 'Track hashrate, rewards, maintenance costs, and portfolio performance',
-                badge: '🛡️'
-              },
-              {
-                icon: <ShoppingCart className="w-8 h-8" />,
-                title: 'Marketplace',
-                description: 'Buy and sell NFT miners with transparent pricing',
-                badge: '⚔️'
-              },
-              {
-                icon: <DollarSign className="w-8 h-8" />,
-                title: 'TYT Discounts',
-                description: 'Pay maintenance with TYT tokens for up to 18% discount',
-                badge: '💎'
-              },
-              {
-                icon: <TrendingUp className="w-8 h-8" />,
-                title: 'Miner Upgrades',
-                description: 'Increase hashrate or improve efficiency of your miners',
-                badge: '⚡'
-              },
-              {
-                icon: <Wallet className="w-8 h-8" />,
-                title: 'Multi-Chain Vault',
-                description: 'Custodial wallet supporting BTC, ETH, SOL, TRX, TON, XRP, and more',
-                badge: '🏦'
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: 'Weekly Burn Ritual',
-                description: 'TYT tokens from maintenance are burned weekly in sacred ceremony',
-                badge: '🔥'
-              }
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-owl-navy to-owl-slate rounded-xl p-6 border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all group"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-gold-400">{feature.icon}</div>
-                  <div className="text-2xl">{feature.badge}</div>
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-gold-300">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<MiningIcon size={60} />}
+              title="Real Bitcoin Mining"
+              description="Own NFT miners backed by real hardware in professional data centers. Earn daily BTC rewards automatically."
+            />
+            <FeatureCard
+              icon={<HeartIcon size={60} />}
+              title="Built-in Charity"
+              description="1% of every transaction supports children's brain cancer research. Track donations transparently on blockchain."
+            />
+            <FeatureCard
+              icon={<ShieldCheckIcon size={60} />}
+              title="Fully Secure"
+              description="Enterprise-grade custody with Fireblocks. Your funds are protected by multi-signature cold storage."
+            />
+            <FeatureCard
+              icon={<ChartIcon size={60} />}
+              title="Real-Time Analytics"
+              description="Monitor your mining performance, revenue, and ROI with professional charts and detailed statistics."
+            />
+            <FeatureCard
+              icon={<RocketIcon size={60} />}
+              title="TYT Token Benefits"
+              description="Pay maintenance with TYT token for up to 20% discount. Tokens are automatically burned, creating scarcity."
+            />
+            <FeatureCard
+              icon={<Award className="w-12 h-12 text-amber-400" />}
+              title="4-Tier Referral Program"
+              description="Earn 5-15% commission on referrals. Build your network and create passive income streams."
+            />
           </div>
         </div>
       </section>
 
-      <section id="tokenomics" className="py-20 px-4 bg-owl-navy/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-owl-gradient bg-clip-text text-transparent">TYT</span> Token
+      <section id="how-it-works" className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              How It Works
             </h2>
-            <h3 className="text-2xl font-semibold mb-4 text-gold-200">Deflationary Utility Token</h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Built on Solana for high performance and low fees
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Start earning Bitcoin in 4 simple steps
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-owl-navy to-owl-slate rounded-xl p-8 border border-gold-700 hover:shadow-gold-glow transition-all">
-              <h4 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <Coins className="w-6 h-6 text-gold-400" />
-                <span className="text-gold-300">Utility Powers</span>
-              </h4>
-              <ul className="space-y-4">
-                {[
-                  'Pay maintenance for NFT miners',
-                  'Discounts up to 18% when paying with TYT',
-                  'Marketplace transaction fees',
-                  'Governance participation (veTYT)',
-                  'Weekly burn cycles with public reports',
-                  'Owl rank progression & rewards'
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-300">{item}</span>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <StepCard
+              number="1"
+              title="Create Account"
+              description="Sign up in 60 seconds. No credit card required to get started."
+              icon={<Users className="w-8 h-8" />}
+            />
+            <StepCard
+              number="2"
+              title="Choose Miner"
+              description="Browse NFT miners with different power levels and ROI projections."
+              icon={<Cpu className="w-8 h-8" />}
+            />
+            <StepCard
+              number="3"
+              title="Start Mining"
+              description="Your miner starts working immediately. Watch rewards accumulate daily."
+              icon={<Zap className="w-8 h-8" />}
+            />
+            <StepCard
+              number="4"
+              title="Withdraw Anytime"
+              description="Withdraw your BTC rewards to any wallet. Fast and secure transfers."
+              icon={<Coins className="w-8 h-8" />}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <StatisticsGrid columns={4}>
+            <StatisticsCard
+              icon={<Users className="w-6 h-6" />}
+              label="Active Users"
+              value="5,247"
+              change={12.5}
+              changeLabel="this month"
+              color="blue"
+            />
+            <StatisticsCard
+              icon={<Cpu className="w-6 h-6" />}
+              label="Total Hashrate"
+              value="250 TH/s"
+              change={8.3}
+              changeLabel="this week"
+              color="green"
+            />
+            <StatisticsCard
+              icon={<BarChart3 className="w-6 h-6" />}
+              label="Daily BTC Mined"
+              value="2.45 BTC"
+              change={5.7}
+              changeLabel="vs yesterday"
+              color="amber"
+            />
+            <StatisticsCard
+              icon={<Heart className="w-6 h-6" />}
+              label="Foundation Donations"
+              value="$256,890"
+              change={15.2}
+              changeLabel="all time"
+              color="purple"
+            />
+          </StatisticsGrid>
+        </div>
+      </section>
+
+      <section id="foundation" className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-pink-900/20 to-red-900/20 border border-pink-500/30 rounded-2xl p-12">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <HeartIcon size={60} />
+                  <h2 className="text-4xl font-bold">Foundation Impact</h2>
+                </div>
+                <h3 className="text-2xl font-semibold mb-4 text-pink-300">
+                  TYT Children's Brain Cancer Research & Support Foundation
+                </h3>
+                <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                  Every transaction on our platform automatically contributes 1% to support children
+                  battling brain cancer. Funds go directly to medical research, family assistance,
+                  and clinical trials.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-300">Transparent blockchain-tracked donations</span>
                   </li>
-                ))}
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-300">Direct partnerships with leading hospitals</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-300">Annual public impact reports</span>
+                  </li>
+                </ul>
+                <Link
+                  to="/foundation"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg transition-colors"
+                >
+                  Learn More About Our Mission
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
+              <div className="space-y-6">
+                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-gray-400">Total Donated</span>
+                    <Heart className="w-6 h-6 text-pink-400" />
+                  </div>
+                  <p className="text-3xl font-bold text-pink-400">$256,890</p>
+                  <p className="text-sm text-gray-500 mt-1">Lifetime contributions</p>
+                </div>
+                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-gray-400">Families Helped</span>
+                    <Users className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <p className="text-3xl font-bold text-blue-400">127</p>
+                  <p className="text-sm text-gray-500 mt-1">Direct assistance provided</p>
+                </div>
+                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-gray-400">Research Grants</span>
+                    <Award className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <p className="text-3xl font-bold text-amber-400">$180,000</p>
+                  <p className="text-sm text-gray-500 mt-1">Funding for 3 clinical trials</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-900/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <CompactFAQ maxItems={6} />
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Start Mining?
+          </h2>
+          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+            Join thousands of miners earning Bitcoin daily while making a real difference
+            in children's lives.
+          </p>
+          <Link
+            to="/signup"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-lg font-bold rounded-xl transition-all transform hover:scale-105 shadow-2xl shadow-amber-500/50"
+          >
+            Get Started for Free
+            <ArrowRight className="w-6 h-6" />
+          </Link>
+        </div>
+      </section>
+
+      <footer className="border-t border-gray-800 bg-gray-900/80 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">TYT</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Mining with purpose. Building with impact.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Platform</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
+                <li><Link to="/roadmap" className="text-gray-400 hover:text-white transition-colors">Roadmap</Link></li>
+                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
               </ul>
             </div>
-            <div className="bg-gradient-to-br from-owl-navy to-owl-slate rounded-xl p-8 border border-gold-700 hover:shadow-gold-glow transition-all">
-              <h4 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <Shield className="w-6 h-6 text-gold-400" />
-                <span className="text-gold-300">Burn Mechanism</span>
-              </h4>
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                All TYT tokens paid for maintenance and fees are accumulated and burned weekly in the sacred Owl Warrior ritual. This deflationary mechanism is transparent with public on-chain events.
-              </p>
-              <div className="bg-gold-900/20 border border-gold-500/30 rounded-lg p-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gold-400 mb-2">🔥 Weekly Burns</div>
-                  <div className="text-sm text-gray-400">Public reports & on-chain verification</div>
-                  <a href="https://pump.fun/APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 px-4 py-2 bg-owl-gradient rounded-lg text-sm font-semibold hover:shadow-gold-glow transition-all">
-                    View on Pump.fun
-                  </a>
-                </div>
-              </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Foundation</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/foundation" className="text-gray-400 hover:text-white transition-colors">Mission</Link></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Impact Reports</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Partners</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</Link></li>
+                <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link></li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="academy" className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-owl-gradient bg-clip-text text-transparent">Digital-Interactive-Technology-Blockchain</span>
-            </h2>
-            <h3 className="text-2xl font-semibold mb-4 text-gold-200">Crypto Academia</h3>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Master crypto, mining, NFTs, and blockchain technology through our interactive academy. Rise through the Owl Warrior ranks as you learn.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
-            {[
-              { rank: 'Worker', xp: '0-99', icon: '🦉', color: 'from-gray-600 to-gray-700' },
-              { rank: 'Academic', xp: '100-299', icon: '📚', color: 'from-blue-600 to-blue-700' },
-              { rank: 'Diplomat', xp: '300-699', icon: '🤝', color: 'from-green-600 to-green-700' },
-              { rank: 'Peacekeeper', xp: '700-1499', icon: '🛡️', color: 'from-purple-600 to-purple-700' },
-              { rank: 'Warrior', xp: '1500+', icon: '⚔️', color: 'from-gold-600 to-gold-700' }
-            ].map((item, i) => (
-              <div key={i} className={`bg-gradient-to-br ${item.color} rounded-xl p-6 border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all text-center group`}>
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">{item.icon}</div>
-                <h4 className="text-lg font-semibold mb-1 text-white">{item.rank}</h4>
-                <p className="text-xs text-gray-200">{item.xp} XP</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center">
-            <Link
-              to="/app/academy"
-              className="px-8 py-3 bg-owl-gradient rounded-lg font-semibold hover:shadow-gold-glow transition-all inline-block"
-            >
-              Begin Your Journey
-            </Link>
+          <div className="mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+            <p>&copy; 2024 TakeYourToken. All rights reserved. Mining with purpose.</p>
           </div>
         </div>
-      </section>
+      </footer>
+    </div>
+  );
+}
 
-      <section id="foundation" className="py-20 px-4 bg-gradient-to-b from-owl-navy/50 to-neon-cyan/10">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-neon-cyan to-gold-500 flex items-center justify-center text-4xl shadow-neon-cyan">
-                🎗️
-              </div>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-neon-cyan to-gold-400 bg-clip-text text-transparent">TYT Foundation</span>
-            </h2>
-            <h3 className="text-2xl font-semibold mb-4 text-gold-200">Pediatric Brain Tumor Research & Care</h3>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-6">
-              A transparent, crypto-native fund dedicated to childhood brain tumor research, early detection, treatment access, and family support.
-            </p>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              The Owl-Knight Shield with inverted sword subtly forms the gold childhood cancer awareness ribbon, symbolizing our commitment to protecting and healing children.
-            </p>
-          </div>
+function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
+  const colors: any = {
+    green: 'bg-green-500/10 border-green-500/50 text-green-400',
+    blue: 'bg-blue-500/10 border-blue-500/50 text-blue-400',
+    purple: 'bg-purple-500/10 border-purple-500/50 text-purple-400',
+    pink: 'bg-pink-500/10 border-pink-500/50 text-pink-400'
+  };
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {[
-              {
-                icon: '🔬',
-                title: 'Research Grants',
-                description: 'Funding breakthrough research in pediatric neuro-oncology, imaging, and genomics'
-              },
-              {
-                icon: '❤️',
-                title: 'Family Support',
-                description: 'Micro-grants for travel, housing, and rehabilitation for affected families'
-              },
-              {
-                icon: '📊',
-                title: 'Full Transparency',
-                description: 'On-chain proof-of-use, public reports, and impact metrics'
-              }
-            ].map((item, i) => (
-              <div key={i} className="bg-gradient-to-br from-owl-navy to-owl-slate rounded-xl p-6 border border-neon-cyan/30 hover:border-neon-cyan hover:shadow-neon-cyan transition-all">
-                <div className="text-5xl mb-4 text-center">{item.icon}</div>
-                <h4 className="text-xl font-semibold mb-3 text-gold-300 text-center">{item.title}</h4>
-                <p className="text-gray-400 text-center">{item.description}</p>
-              </div>
-            ))}
-          </div>
+  return (
+    <div className={`${colors[color]} border rounded-xl p-4`}>
+      <div className="flex items-center gap-2 mb-2">
+        {icon}
+        <span className="text-xs text-gray-400">{label}</span>
+      </div>
+      <p className="text-xl font-bold">{value}</p>
+    </div>
+  );
+}
 
-          <div className="text-center">
-            <Link
-              to="/app/foundation"
-              className="px-8 py-3 bg-gradient-to-r from-neon-cyan to-gold-500 text-owl-dark rounded-lg font-semibold hover:shadow-neon-cyan transition-all inline-block"
-            >
-              Learn More About The Foundation
-            </Link>
-          </div>
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-8 hover:border-amber-500/50 transition-all hover:scale-105">
+      <div className="mb-4">{icon}</div>
+      <h3 className="text-xl font-bold mb-3">{title}</h3>
+      <p className="text-gray-400 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function StepCard({ number, title, description, icon }: { number: string; title: string; description: string; icon: React.ReactNode }) {
+  return (
+    <div className="relative">
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all">
+        <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+          {number}
         </div>
-      </section>
-
-      <Footer />
+        <div className="text-blue-400 mb-4">{icon}</div>
+        <h3 className="text-xl font-bold mb-3">{title}</h3>
+        <p className="text-gray-400">{description}</p>
+      </div>
     </div>
   );
 }

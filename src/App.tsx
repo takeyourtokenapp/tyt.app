@@ -25,7 +25,6 @@ import Transactions from './pages/app/Transactions';
 import Referrals from './pages/app/Referrals';
 import TYTTrading from './pages/app/TYTTrading';
 import AdminWithdrawals from './pages/app/AdminWithdrawals';
-import UserManagement from './pages/app/admin/UserManagement';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -81,7 +80,6 @@ function App() {
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
-                <Route path="admin/users" element={<UserManagement />} />
               </Routes>
             </AppLayout>
           </ProtectedRoute>
