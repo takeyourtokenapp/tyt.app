@@ -1,0 +1,37 @@
+{
+  "network": "polygon_amoy",
+  "chainId": 80002,
+  "deployedAt": null,
+  "contracts": {
+    "FeeConfig": {
+      "address": null,
+      "deployTx": null
+    },
+    "CharityVault": {
+      "address": null,
+      "deployTx": null
+    },
+    "MinerNFT": {
+      "address": null,
+      "deployTx": null
+    },
+    "RewardsMerkleRegistry": {
+      "address": null,
+      "deployTx": null
+    },
+    "MinerMarketplace": {
+      "address": null,
+      "deployTx": null
+    }
+  },
+  "feeProfiles": {
+    "deposit.default": {
+      "totalBps": 1000,
+      "split": "60/30/10 (protocol/charity/academy)"
+    },
+    "marketplace.default": {
+      "totalBps": 500,
+      "split": "60/30/10 (protocol/charity/academy)"
+    }
+  }
+}
