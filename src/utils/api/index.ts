@@ -3,6 +3,12 @@
  * Централизованный экспорт всех blockchain API
  */
 
+// Wallet Ledger Service (Double-Entry)
+export * from './walletLedgerService';
+
+// Blockchain Gateway (Multi-Chain)
+export * from './blockchainGateway';
+
 // Bitcoin
 export * from './bitcoinApi';
 export { bitcoinMainnet, bitcoinTestnet, BitcoinAPI } from './bitcoinApi';
