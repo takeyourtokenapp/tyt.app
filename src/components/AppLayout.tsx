@@ -13,7 +13,14 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  BarChart3,
+  Vote,
+  Users,
+  Gift,
+  Bell,
+  User,
+  Receipt
 } from 'lucide-react';
 
 interface AppLayoutProps {
@@ -38,12 +45,21 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const navItems = [
     { path: '/app', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/app/miners', icon: Cpu, label: 'My Miners' },
+    { path: '/app/mining-stats', icon: BarChart3, label: 'Mining Stats' },
     { path: '/app/rewards', icon: TrendingUp, label: 'Rewards' },
     { path: '/app/marketplace', icon: ShoppingCart, label: 'Marketplace' },
     { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
+    { path: '/app/transactions', icon: Receipt, label: 'Transactions' },
     { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
+    { path: '/app/governance', icon: Vote, label: 'Governance' },
+    { path: '/app/referrals', icon: Gift, label: 'Referrals' },
     { path: '/app/academy', icon: GraduationCap, label: 'Academy' },
     { path: '/app/foundation', icon: Heart, label: 'Foundation' },
+  ];
+
+  const bottomNavItems = [
+    { path: '/app/profile', icon: User, label: 'Profile' },
+    { path: '/app/notifications', icon: Bell, label: 'Notifications' },
     { path: '/app/settings', icon: Settings, label: 'Settings' },
   ];
 
@@ -80,24 +96,50 @@ export default function AppLayout({ children }: AppLayoutProps) {
             </div>
 
             <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                      isActive(item.path)
-                        ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50 shadow-gold-glow'
-                        : 'hover:bg-owl-slate text-gray-300 hover:text-gold-200 hover:border-gold-700 border border-transparent'
-                    }`}
-                  >
-                    <Icon size={20} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
+              <div className="space-y-1">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                        isActive(item.path)
+                          ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50 shadow-gold-glow'
+                          : 'hover:bg-owl-slate text-gray-300 hover:text-gold-200 hover:border-gold-700 border border-transparent'
+                      }`}
+                    >
+                      <Icon size={20} />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              <div className="border-t border-gold-800 my-4 pt-4 space-y-1">
+                <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Account
+                </div>
+                {bottomNavItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                        isActive(item.path)
+                          ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50 shadow-gold-glow'
+                          : 'hover:bg-owl-slate text-gray-300 hover:text-gold-200 hover:border-gold-700 border border-transparent'
+                      }`}
+                    >
+                      <Icon size={20} />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
             </nav>
 
             <div className="p-4 border-t border-gold-800">
@@ -127,6 +169,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </button>
 
               <div className="flex items-center gap-4 ml-auto">
+                <a
+                  href="/community"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-owl-slate/50 transition-all text-sm text-gray-300 hover:text-gold-400"
+                >
+                  <Users size={18} />
+                  <span>Community</span>
+                </a>
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-owl-slate/50 rounded-lg border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all">
                   <div className="text-xl">🦉</div>
                   <span className="text-sm">

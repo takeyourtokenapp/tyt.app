@@ -31,6 +31,7 @@ import AdminWithdrawals from './pages/app/AdminWithdrawals';
 import AdminUsers from './pages/app/AdminUsers';
 import Notifications from './pages/app/Notifications';
 import Governance from './pages/app/Governance';
+import MiningStatsDashboard from './components/MiningStatsDashboard';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -78,6 +79,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="miners" element={<Miners />} />
                 <Route path="miners/:id" element={<MinerDetail />} />
+                <Route path="mining-stats" element={<MiningStatsDashboard />} />
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
                 <Route path="wallet" element={<Wallet />} />
