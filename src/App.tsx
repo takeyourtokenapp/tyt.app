@@ -10,6 +10,8 @@ import About from './pages/About';
 import Roadmap from './pages/Roadmap';
 import Help from './pages/Help';
 import FoundationPublic from './pages/Foundation';
+import Tokenomics from './pages/Tokenomics';
+import VIP from './pages/VIP';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
@@ -25,6 +27,8 @@ import Transactions from './pages/app/Transactions';
 import Referrals from './pages/app/Referrals';
 import TYTTrading from './pages/app/TYTTrading';
 import AdminWithdrawals from './pages/app/AdminWithdrawals';
+import AdminUsers from './pages/app/AdminUsers';
+import Notifications from './pages/app/Notifications';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -58,6 +62,8 @@ function App() {
       <Route path="/roadmap" element={<Roadmap />} />
       <Route path="/help" element={<Help />} />
       <Route path="/foundation" element={<FoundationPublic />} />
+      <Route path="/tokenomics" element={<Tokenomics />} />
+      <Route path="/vip" element={<VIP />} />
 
       <Route
         path="/app/*"
@@ -79,7 +85,9 @@ function App() {
                 <Route path="profile" element={<Profile />} />
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="referrals" element={<Referrals />} />
+                <Route path="notifications" element={<Notifications />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
+                <Route path="admin/users" element={<AdminUsers />} />
               </Routes>
             </AppLayout>
           </ProtectedRoute>

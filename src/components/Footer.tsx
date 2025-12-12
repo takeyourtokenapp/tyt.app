@@ -63,6 +63,16 @@ export default function Footer() {
                   Академия
                 </Link>
               </li>
+              <li>
+                <Link to="/tokenomics" className="text-gray-400 hover:text-white transition-colors">
+                  Tokenomics
+                </Link>
+              </li>
+              <li>
+                <Link to="/vip" className="text-gray-400 hover:text-white transition-colors">
+                  VIP Levels
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -181,7 +191,7 @@ export default function Footer() {
             Built with <Heart size={12} className="inline text-pink-400" /> for a better future
           </p>
           <p className="text-xs text-gray-600 mt-2">
-            Platform Version 2.0 • Last Updated: December 11, 2024
+            Platform Version 2.0 • Last Updated: December 12, 2024
           </p>
         </div>
       </div>
