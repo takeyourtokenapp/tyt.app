@@ -1,405 +1,472 @@
-import { ArrowLeft, Shield, FileText, Scale } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Shield, FileText, AlertCircle, Scale, Lock, Users } from 'lucide-react';
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
-      <nav className="border-b border-gray-800 bg-black/50 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-              <ArrowLeft size={20} />
-              <span>Back to Home</span>
-            </Link>
-            <div className="flex items-center gap-2">
-              <Scale className="w-6 h-6 text-amber-400" />
-              <span className="font-bold text-lg">Legal Terms</span>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 mb-6">
+            <Scale className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+            Terms of Service
+          </h1>
+          <p className="text-gray-400 text-lg">Last Updated: December 12, 2024</p>
+          <p className="text-gray-500 mt-2">Effective Date: January 1, 2025</p>
+        </div>
+
+        {/* Important Notice */}
+        <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
+          <div className="flex items-start gap-4">
+            <AlertCircle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="font-bold text-blue-400 mb-2">Please Read Carefully</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                These Terms of Service ("Terms") constitute a legally binding agreement between you and TakeYourToken ("TYT", "we", "us", or "our").
+                By accessing or using our platform, you agree to be bound by these Terms. If you do not agree, do not use our services.
+              </p>
             </div>
           </div>
         </div>
-      </nav>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 p-8 md:p-12">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-amber-500/50">
-              <FileText className="w-8 h-8 text-amber-400" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>
-              <p className="text-gray-400">Last Updated: December 11, 2024</p>
+        {/* Content */}
+        <div className="space-y-8">
+          {/* 1. Definitions */}
+          <Section
+            icon={FileText}
+            title="1. Definitions"
+            content={
+              <>
+                <p><strong>"Platform"</strong> refers to the TakeYourToken web application, mobile applications, and all related services.</p>
+                <p><strong>"Digital Miner" or "NFT Miner"</strong> refers to non-fungible tokens that represent mining capacity and associated benefits.</p>
+                <p><strong>"TYT Token"</strong> refers to our utility token used for platform operations and governance.</p>
+                <p><strong>"Mining Rewards"</strong> refers to Bitcoin (BTC) distributions generated from mining operations.</p>
+                <p><strong>"User"</strong> refers to any individual or entity that accesses or uses the Platform.</p>
+                <p><strong>"Foundation"</strong> refers to the TYT Children's Brain Cancer Research & Support Foundation.</p>
+              </>
+            }
+          />
+
+          {/* 2. Eligibility */}
+          <Section
+            icon={Users}
+            title="2. Eligibility and Account Registration"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">2.1 Age Requirement</h4>
+                <p>You must be at least 18 years old to use our Platform. By registering, you represent and warrant that you meet this requirement.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">2.2 Jurisdictional Restrictions</h4>
+                <p>Our services are not available to residents of:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>United States (pending regulatory clarity)</li>
+                  <li>Countries subject to international sanctions</li>
+                  <li>Jurisdictions where our services are prohibited</li>
+                </ul>
+                <p className="mt-2">It is your responsibility to ensure compliance with local laws.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">2.3 Account Security</h4>
+                <p>You are responsible for:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Maintaining the confidentiality of your account credentials</li>
+                  <li>All activities that occur under your account</li>
+                  <li>Notifying us immediately of any unauthorized access</li>
+                  <li>Using strong passwords and enabling two-factor authentication</li>
+                </ul>
+              </>
+            }
+          />
+
+          {/* 3. Platform Services */}
+          <Section
+            icon={Shield}
+            title="3. Platform Services"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">3.1 Digital Miners (NFTs)</h4>
+                <p>Digital Miners are non-fungible tokens that provide:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Access to mining rewards based on hashrate capacity</li>
+                  <li>Ability to trade on our marketplace</li>
+                  <li>Participation in platform governance (future)</li>
+                  <li>VIP benefits based on ownership tier</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">3.2 Mining Rewards Distribution</h4>
+                <p>Mining rewards are:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Calculated daily based on Bitcoin network conditions</li>
+                  <li>Subject to electricity costs and maintenance fees</li>
+                  <li>Distributed after deducting platform service fees (15%)</li>
+                  <li>Not guaranteed and may vary based on market conditions</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">3.3 Maintenance Fees</h4>
+                <p>Users must pay daily maintenance fees covering:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Electricity consumption</li>
+                  <li>Data center operations</li>
+                  <li>Equipment maintenance</li>
+                  <li>Platform operations</li>
+                </ul>
+                <p className="mt-2">Fees can be paid in TYT tokens (with 20% discount), USDT, or BTC.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">3.4 Marketplace</h4>
+                <p>Our marketplace allows:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Buying and selling Digital Miners between users</li>
+                  <li>Setting custom prices and accepting offers</li>
+                  <li>All transactions occur in TYT tokens</li>
+                  <li>Platform fee: 5% (2% to seller, 2% to buyer, 1% to Foundation)</li>
+                </ul>
+              </>
+            }
+          />
+
+          {/* 4. Financial Terms */}
+          <Section
+            icon={Lock}
+            title="4. Financial Terms and Risks"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">4.1 No Investment Advice</h4>
+                <p className="font-semibold text-red-400">
+                  TYT DOES NOT PROVIDE INVESTMENT, FINANCIAL, OR LEGAL ADVICE.
+                </p>
+                <p className="mt-2">
+                  Our Platform provides access to mining services. You should consult with qualified professionals
+                  before making any financial decisions.
+                </p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">4.2 No Guaranteed Returns</h4>
+                <p>Mining rewards are:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Variable and dependent on Bitcoin network difficulty</li>
+                  <li>Affected by Bitcoin price volatility</li>
+                  <li>Subject to operational costs and fees</li>
+                  <li>NOT guaranteed and may result in losses</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">4.3 Risk Disclosure</h4>
+                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mt-2">
+                  <p className="font-semibold text-red-400 mb-2">HIGH RISK WARNING</p>
+                  <p>Cryptocurrency mining involves substantial risks including but not limited to:</p>
+                  <ul className="list-disc ml-6 mt-2 space-y-1">
+                    <li>Total loss of invested capital</li>
+                    <li>Bitcoin price volatility (can drop 50%+ rapidly)</li>
+                    <li>Network difficulty increases reducing profitability</li>
+                    <li>Regulatory changes affecting operations</li>
+                    <li>Technical failures and operational issues</li>
+                    <li>Smart contract vulnerabilities</li>
+                  </ul>
+                  <p className="mt-3 font-semibold">ONLY INVEST WHAT YOU CAN AFFORD TO LOSE.</p>
+                </div>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">4.4 Taxation</h4>
+                <p>
+                  You are solely responsible for determining applicable taxes and reporting requirements in your jurisdiction.
+                  Mining rewards and token transactions may be taxable events.
+                </p>
+              </>
+            }
+          />
+
+          {/* 5. KYC and Compliance */}
+          <Section
+            icon={Shield}
+            title="5. KYC and Compliance"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">5.1 Identity Verification</h4>
+                <p>We implement a three-tier KYC system:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li><strong>Tier 1</strong>: Basic information (up to $1,000/day withdrawals)</li>
+                  <li><strong>Tier 2</strong>: Government ID and selfie (up to $10,000/day)</li>
+                  <li><strong>Tier 3</strong>: Enhanced due diligence (up to $50,000/day)</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">5.2 AML/CTF Compliance</h4>
+                <p>We reserve the right to:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Request additional documentation at any time</li>
+                  <li>Freeze or terminate accounts suspected of illegal activity</li>
+                  <li>Report suspicious transactions to authorities</li>
+                  <li>Refuse service without explanation</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">5.3 Withdrawal Limits</h4>
+                <p>Withdrawal limits are enforced based on your KYC tier and may be:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Reduced or suspended during investigations</li>
+                  <li>Subject to additional verification requirements</li>
+                  <li>Delayed for large transactions (manual review)</li>
+                </ul>
+              </>
+            }
+          />
+
+          {/* 6. Prohibited Activities */}
+          <Section
+            icon={AlertCircle}
+            title="6. Prohibited Activities"
+            content={
+              <>
+                <p>You agree NOT to:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-2">
+                  <li>Use the Platform for any illegal purposes</li>
+                  <li>Engage in market manipulation or wash trading</li>
+                  <li>Create multiple accounts to circumvent limits</li>
+                  <li>Use automated tools without authorization</li>
+                  <li>Reverse engineer or attempt to access our systems</li>
+                  <li>Interfere with other users' experience</li>
+                  <li>Impersonate others or provide false information</li>
+                  <li>Use the Platform to launder money or finance terrorism</li>
+                  <li>Transfer or sell your account</li>
+                  <li>Violate any applicable laws or regulations</li>
+                </ul>
+                <p className="mt-3 font-semibold text-red-400">
+                  Violation may result in immediate account termination and legal action.
+                </p>
+              </>
+            }
+          />
+
+          {/* 7. Intellectual Property */}
+          <Section
+            icon={FileText}
+            title="7. Intellectual Property"
+            content={
+              <>
+                <p>All Platform content, including but not limited to:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Owl Warrior design system and branding</li>
+                  <li>Website code and architecture</li>
+                  <li>Smart contracts and algorithms</li>
+                  <li>Text, graphics, logos, and images</li>
+                </ul>
+                <p className="mt-2">
+                  ...are owned by TYT or our licensors and protected by copyright, trademark, and other intellectual property laws.
+                </p>
+                <p className="mt-2">
+                  You are granted a limited, non-exclusive, non-transferable license to access and use the Platform for personal use only.
+                </p>
+              </>
+            }
+          />
+
+          {/* 8. Disclaimers */}
+          <Section
+            icon={AlertCircle}
+            title="8. Disclaimers and Limitations of Liability"
+            content={
+              <>
+                <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                  <h4 className="font-semibold text-yellow-400 mb-2">8.1 "AS IS" Service</h4>
+                  <p>
+                    THE PLATFORM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND,
+                    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+                    PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+                  </p>
+                </div>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">8.2 No Guarantee of Availability</h4>
+                <p>We do not guarantee that the Platform will:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Be available at all times or free from interruptions</li>
+                  <li>Be error-free or secure</li>
+                  <li>Meet your specific requirements</li>
+                  <li>Produce specific results or returns</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">8.3 Limitation of Liability</h4>
+                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mt-2">
+                  <p className="font-semibold mb-2">
+                    TO THE MAXIMUM EXTENT PERMITTED BY LAW, TYT SHALL NOT BE LIABLE FOR:
+                  </p>
+                  <ul className="list-disc ml-6 space-y-1">
+                    <li>Any indirect, incidental, special, or consequential damages</li>
+                    <li>Loss of profits, revenue, or data</li>
+                    <li>Business interruption</li>
+                    <li>Losses resulting from market volatility</li>
+                    <li>Smart contract vulnerabilities or exploits</li>
+                    <li>Third-party actions or failures</li>
+                  </ul>
+                  <p className="mt-3 font-semibold">
+                    OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID TO US IN THE 12 MONTHS
+                    PRECEDING THE CLAIM.
+                  </p>
+                </div>
+              </>
+            }
+          />
+
+          {/* 9. Termination */}
+          <Section
+            icon={Lock}
+            title="9. Termination"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">9.1 By You</h4>
+                <p>You may terminate your account at any time by:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Withdrawing all balances</li>
+                  <li>Selling all Digital Miners</li>
+                  <li>Contacting support to close your account</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">9.2 By Us</h4>
+                <p>We may suspend or terminate your account:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>For violation of these Terms</li>
+                  <li>For suspected illegal activity</li>
+                  <li>For failure to complete KYC verification</li>
+                  <li>At our discretion with or without notice</li>
+                </ul>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">9.3 Effect of Termination</h4>
+                <p>Upon termination:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>You must withdraw all funds within 30 days</li>
+                  <li>Unclaimed funds may be subject to escheatment laws</li>
+                  <li>You lose access to all Platform services</li>
+                  <li>Provisions that should survive termination will remain in effect</li>
+                </ul>
+              </>
+            }
+          />
+
+          {/* 10. Dispute Resolution */}
+          <Section
+            icon={Scale}
+            title="10. Dispute Resolution and Governing Law"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">10.1 Governing Law</h4>
+                <p>
+                  These Terms shall be governed by and construed in accordance with the laws of [JURISDICTION TBD],
+                  without regard to its conflict of law provisions.
+                </p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">10.2 Arbitration</h4>
+                <p>
+                  Any dispute arising from these Terms shall be resolved through binding arbitration in accordance with
+                  [ARBITRATION RULES TBD]. You waive your right to participate in class action lawsuits.
+                </p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">10.3 Exceptions</h4>
+                <p>The arbitration requirement does not apply to:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Claims for intellectual property infringement</li>
+                  <li>Small claims court proceedings</li>
+                  <li>Injunctive or equitable relief</li>
+                </ul>
+              </>
+            }
+          />
+
+          {/* 11. Changes to Terms */}
+          <Section
+            icon={FileText}
+            title="11. Changes to These Terms"
+            content={
+              <>
+                <p>We reserve the right to modify these Terms at any time. Changes will be effective:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Immediately upon posting for non-material changes</li>
+                  <li>30 days after notification for material changes</li>
+                </ul>
+                <p className="mt-2">
+                  Your continued use of the Platform after changes constitutes acceptance of the modified Terms.
+                </p>
+              </>
+            }
+          />
+
+          {/* 12. Foundation Contribution */}
+          <Section
+            icon={Users}
+            title="12. Children's Brain Cancer Foundation"
+            content={
+              <>
+                <p>
+                  A portion of all Platform revenue (approximately 1-2%) is automatically contributed to the
+                  TYT Children's Brain Cancer Research & Support Foundation.
+                </p>
+                <p className="mt-2">By using our Platform, you acknowledge and support this charitable mission.</p>
+                <p className="mt-2 font-semibold text-amber-400">
+                  Foundation contributions are NOT tax-deductible donations from users but rather corporate allocations.
+                </p>
+                <p className="mt-2">
+                  For transparency, all Foundation transactions are recorded on-chain and publicly auditable.
+                </p>
+              </>
+            }
+          />
+
+          {/* 13. Miscellaneous */}
+          <Section
+            icon={FileText}
+            title="13. Miscellaneous"
+            content={
+              <>
+                <h4 className="font-semibold text-amber-400 mb-2">13.1 Entire Agreement</h4>
+                <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and TYT.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">13.2 Severability</h4>
+                <p>If any provision is found unenforceable, the remaining provisions remain in full effect.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">13.3 Waiver</h4>
+                <p>Failure to enforce any provision does not constitute a waiver of that provision.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">13.4 Assignment</h4>
+                <p>You may not assign these Terms. We may assign our rights without restriction.</p>
+
+                <h4 className="font-semibold text-amber-400 mb-2 mt-4">13.5 Force Majeure</h4>
+                <p>
+                  We are not liable for failures caused by events beyond our reasonable control, including natural disasters,
+                  war, pandemics, or government actions.
+                </p>
+              </>
+            }
+          />
+
+          {/* Contact */}
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-8 mt-12">
+            <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
+            <p className="text-gray-300 mb-4">
+              If you have questions about these Terms, please contact us:
+            </p>
+            <div className="space-y-2 text-gray-400">
+              <p><strong className="text-amber-400">Email:</strong> legal@takeyourtoken.app</p>
+              <p><strong className="text-amber-400">Support:</strong> support@takeyourtoken.app</p>
+              <p><strong className="text-amber-400">Address:</strong> [Legal Entity Address TBD]</p>
             </div>
           </div>
 
-          <div className="prose prose-invert max-w-none">
-            <div className="bg-amber-500/10 border border-amber-500/50 rounded-lg p-6 mb-8">
-              <div className="flex items-start gap-3">
-                <Shield className="w-6 h-6 text-amber-400 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-bold text-amber-400 mb-2">Important Notice</h3>
-                  <p className="text-gray-300 text-sm">
-                    Please read these Terms of Service carefully before using the TakeYourToken platform.
-                    By accessing or using our services, you agree to be bound by these terms.
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Acknowledgment */}
+          <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl p-6 mt-8">
+            <p className="text-center">
+              <strong>By using TakeYourToken, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">1. Service Description</h2>
-              <p className="text-gray-300 mb-4">
-                TakeYourToken ("TYT", "we", "us", or "our") operates a Web3 platform that provides:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>NFT-based digital mining services</li>
-                <li>Cryptocurrency wallet services (custodial)</li>
-                <li>Digital asset marketplace</li>
-                <li>Educational resources (TYT Academy)</li>
-                <li>Charitable foundation support</li>
-              </ul>
-              <p className="text-gray-300 mt-4">
-                Our services are provided "as is" and are subject to availability. We reserve the right to modify,
-                suspend, or discontinue any part of our services at any time.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">2. Eligibility and Account Registration</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">2.1 Age Requirements</h3>
-              <p className="text-gray-300 mb-4">
-                You must be at least 18 years old (or the age of majority in your jurisdiction) to use our services.
-                By registering, you represent and warrant that you meet this requirement.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">2.2 Geographic Restrictions</h3>
-              <p className="text-gray-300 mb-4">
-                Our services are not available to residents of certain jurisdictions, including but not limited to:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4 mb-4">
-                <li>United States (pending regulatory approval)</li>
-                <li>Sanctioned countries (Iran, North Korea, Syria, Cuba, etc.)</li>
-                <li>Jurisdictions where cryptocurrency services are prohibited</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">2.3 Account Security</h3>
-              <p className="text-gray-300 mb-4">
-                You are responsible for:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Maintaining the confidentiality of your account credentials</li>
-                <li>All activities that occur under your account</li>
-                <li>Notifying us immediately of any unauthorized access</li>
-                <li>Using strong passwords and enabling two-factor authentication</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">3. KYC and AML Compliance</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">3.1 Identity Verification</h3>
-              <p className="text-gray-300 mb-4">
-                We implement Know Your Customer (KYC) procedures in compliance with applicable regulations.
-                You may be required to provide:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4 mb-4">
-                <li>Government-issued photo identification</li>
-                <li>Proof of address</li>
-                <li>Selfie verification</li>
-                <li>Additional documentation as requested</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">3.2 Withdrawal Limits</h3>
-              <p className="text-gray-300 mb-4">
-                KYC verification determines your withdrawal limits:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li><strong>Tier 1:</strong> $1,000 daily / $5,000 weekly / $20,000 monthly</li>
-                <li><strong>Tier 2:</strong> $10,000 daily / $50,000 weekly / $200,000 monthly</li>
-                <li><strong>Tier 3:</strong> $50,000 daily / $250,000 weekly / Unlimited monthly</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">3.3 Anti-Money Laundering</h3>
-              <p className="text-gray-300 mb-4">
-                We reserve the right to:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Monitor and investigate suspicious transactions</li>
-                <li>Freeze accounts pending investigation</li>
-                <li>Report suspicious activity to authorities</li>
-                <li>Request source of funds documentation</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">4. NFT Digital Miners</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">4.1 Nature of Digital Miners</h3>
-              <p className="text-gray-300 mb-4">
-                NFT Digital Miners represent access rights to our mining services. They are NOT:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4 mb-4">
-                <li>Securities or investment contracts</li>
-                <li>Ownership of physical mining hardware</li>
-                <li>Guaranteed profit-generating assets</li>
-                <li>Subject to any profit-sharing agreements</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">4.2 Rewards Structure</h3>
-              <p className="text-gray-300 mb-4">
-                Daily BTC rewards are calculated based on:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4 mb-4">
-                <li>NFT hashrate (TH/s)</li>
-                <li>Current Bitcoin network difficulty</li>
-                <li>Electricity costs (variable)</li>
-                <li>15% service fee</li>
-                <li>Applicable discounts (VIP, service button)</li>
-              </ul>
-              <p className="text-gray-300 mb-4 text-sm italic">
-                Rewards are NOT guaranteed and may fluctuate based on network conditions,
-                electricity costs, and Bitcoin price volatility.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">4.3 Maintenance Fees</h3>
-              <p className="text-gray-300 mb-4">
-                You are responsible for monthly maintenance fees covering:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Electricity consumption</li>
-                <li>Cooling and facility costs</li>
-                <li>Hardware maintenance</li>
-                <li>Technical support</li>
-              </ul>
-              <p className="text-gray-300 mt-4">
-                Failure to pay maintenance fees may result in temporary suspension or permanent deactivation of your NFT miner.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">5. Financial Terms</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">5.1 Fees</h3>
-              <p className="text-gray-300 mb-4">
-                We charge the following fees:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4 mb-4">
-                <li><strong>Deposit:</strong> Network fees only (paid to blockchain)</li>
-                <li><strong>Withdrawal:</strong> 1% platform fee + network fees</li>
-                <li><strong>Marketplace:</strong> 5% seller fee, 1% to TYT Foundation</li>
-                <li><strong>Mining Service:</strong> 15% of gross BTC rewards</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">5.2 Payment Processing</h3>
-              <p className="text-gray-300 mb-4">
-                All payments are processed in cryptocurrency. We do not accept fiat currency.
-                You are responsible for ensuring sufficient funds for transactions and fees.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">5.3 Refund Policy</h3>
-              <p className="text-gray-300 mb-4">
-                Due to the nature of blockchain transactions and digital assets:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>NFT purchases are final and non-refundable</li>
-                <li>Maintenance fee payments are non-refundable</li>
-                <li>Marketplace transactions cannot be reversed</li>
-                <li>We may offer refunds at our sole discretion in exceptional cases</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">6. Wallet Services</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">6.1 Custodial Wallet</h3>
-              <p className="text-gray-300 mb-4">
-                We provide custodial wallet services, meaning we hold the private keys to your assets.
-                You acknowledge and accept the risks associated with custodial services.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">6.2 Asset Security</h3>
-              <p className="text-gray-300 mb-4">
-                While we implement industry-standard security measures, we cannot guarantee absolute security.
-                You understand that:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Digital assets may be lost due to hacks, technical failures, or regulatory action</li>
-                <li>We are not liable for losses beyond our direct control</li>
-                <li>Insurance coverage may be limited or unavailable</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">6.3 Withdrawal Delays</h3>
-              <p className="text-gray-300 mb-4">
-                Withdrawal requests may be delayed or rejected if:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>KYC verification is incomplete</li>
-                <li>Suspicious activity is detected</li>
-                <li>Withdrawal limits are exceeded</li>
-                <li>Regulatory compliance requires additional review</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">7. Marketplace Terms</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">7.1 Listing Requirements</h3>
-              <p className="text-gray-300 mb-4">
-                When listing NFTs for sale:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>You must own the NFT you are listing</li>
-                <li>Pricing must be in TYT tokens only</li>
-                <li>You agree to pay the 5% seller fee</li>
-                <li>Listings may be removed for policy violations</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">7.2 Transaction Finality</h3>
-              <p className="text-gray-300 mb-4">
-                Marketplace transactions are final upon completion. Buyers should verify NFT details before purchase.
-                We are not responsible for buyer's remorse or misunderstood listings.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">7.3 Dispute Resolution</h3>
-              <p className="text-gray-300 mb-4">
-                In case of disputes, we may mediate but are not obligated to refund or reverse transactions.
-                Our decision is final and binding.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">8. Prohibited Activities</h2>
-              <p className="text-gray-300 mb-4">
-                You agree NOT to:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Use the platform for money laundering, terrorist financing, or illegal activities</li>
-                <li>Create multiple accounts to circumvent limits or policies</li>
-                <li>Manipulate markets or engage in wash trading</li>
-                <li>Reverse engineer, hack, or exploit platform vulnerabilities</li>
-                <li>Impersonate others or provide false information</li>
-                <li>Use bots or automated systems without permission</li>
-                <li>Spam, harass, or abuse other users or staff</li>
-              </ul>
-              <p className="text-gray-300 mt-4">
-                Violation of these terms may result in account suspension, asset freezing, and legal action.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">9. Disclaimers and Limitations of Liability</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">9.1 No Investment Advice</h3>
-              <p className="text-gray-300 mb-4">
-                Nothing on this platform constitutes financial, investment, legal, or tax advice.
-                You should consult professionals before making financial decisions.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">9.2 No Guarantees</h3>
-              <p className="text-gray-300 mb-4">
-                We make no guarantees regarding:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Profitability of mining operations</li>
-                <li>Future value of TYT tokens or NFTs</li>
-                <li>Uninterrupted platform availability</li>
-                <li>Accuracy of calculations or data</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">9.3 Limitation of Liability</h3>
-              <p className="text-gray-300 mb-4">
-                To the maximum extent permitted by law, TakeYourToken and its officers, directors, employees,
-                and affiliates shall not be liable for:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Loss of profits, revenue, or business opportunities</li>
-                <li>Loss of digital assets due to market volatility</li>
-                <li>Indirect, incidental, or consequential damages</li>
-                <li>Losses exceeding the fees you paid in the prior 12 months</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">10. Intellectual Property</h2>
-              <p className="text-gray-300 mb-4">
-                All content, trademarks, logos, and intellectual property on this platform are owned by
-                TakeYourToken or licensed to us. You may not use our intellectual property without written permission.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">11. Termination</h2>
-              <p className="text-gray-300 mb-4">
-                We reserve the right to suspend or terminate your account at any time for:
-              </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                <li>Violation of these Terms</li>
-                <li>Suspected fraudulent or illegal activity</li>
-                <li>Regulatory or legal requirements</li>
-                <li>Extended inactivity</li>
-              </ul>
-              <p className="text-gray-300 mt-4">
-                Upon termination, you may withdraw your assets subject to applicable limits and compliance requirements.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">12. Governing Law and Dispute Resolution</h2>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">12.1 Governing Law</h3>
-              <p className="text-gray-300 mb-4">
-                These Terms shall be governed by and construed in accordance with the laws of [Jurisdiction TBD],
-                without regard to conflict of law principles.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">12.2 Arbitration</h3>
-              <p className="text-gray-300 mb-4">
-                Any disputes arising from these Terms or your use of our services shall be resolved through
-                binding arbitration, except where prohibited by law.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3 text-gray-200">12.3 Class Action Waiver</h3>
-              <p className="text-gray-300 mb-4">
-                You agree to resolve disputes on an individual basis and waive any right to participate in
-                class action lawsuits.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">13. Changes to Terms</h2>
-              <p className="text-gray-300 mb-4">
-                We may modify these Terms at any time. Changes will be effective upon posting to the platform.
-                Continued use of our services constitutes acceptance of the updated Terms.
-              </p>
-              <p className="text-gray-300">
-                We will notify users of material changes via email or platform notification.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-amber-400">14. Contact Information</h2>
-              <p className="text-gray-300 mb-4">
-                For questions about these Terms, please contact us:
-              </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
-                <p className="text-gray-300 mb-2"><strong>Email:</strong> legal@takeyourtoken.app</p>
-                <p className="text-gray-300 mb-2"><strong>Support:</strong> support@takeyourtoken.app</p>
-                <p className="text-gray-300"><strong>Address:</strong> [To Be Determined]</p>
-              </div>
-            </section>
-
-            <div className="bg-blue-500/10 border border-blue-500/50 rounded-lg p-6 mt-8">
-              <p className="text-gray-300 text-sm">
-                <strong>Acknowledgment:</strong> By clicking "I Agree" during registration or by using our services,
-                you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
-              </p>
-            </div>
-
-            <div className="mt-8 pt-8 border-t border-gray-700">
-              <p className="text-gray-500 text-center text-sm">
-                Last Updated: December 11, 2024 • Version 1.0
-              </p>
-            </div>
+function Section({ icon: Icon, title, content }: { icon: any; title: string; content: React.ReactNode }) {
+  return (
+    <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
+      <div className="flex items-start gap-4">
+        <div className="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center flex-shrink-0 border border-amber-500/50">
+          <Icon className="w-5 h-5 text-amber-400" />
+        </div>
+        <div className="flex-1">
+          <h2 className="text-xl font-bold mb-4">{title}</h2>
+          <div className="text-gray-300 space-y-3 leading-relaxed">
+            {content}
           </div>
         </div>
       </div>
