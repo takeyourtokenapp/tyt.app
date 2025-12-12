@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import CookieConsent from './components/CookieConsent';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -19,6 +20,8 @@ import Marketplace from './pages/app/Marketplace';
 import Academy from './pages/app/Academy';
 import Foundation from './pages/app/Foundation';
 import Settings from './pages/app/Settings';
+import Profile from './pages/app/Profile';
+import Transactions from './pages/app/Transactions';
 import TYTTrading from './pages/app/TYTTrading';
 // Admin imports temporarily disabled - will be enabled when files exist
 // import AdminDashboard from './pages/app/admin/Dashboard';
@@ -45,7 +48,9 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <Routes>
+    <>
+      <CookieConsent />
+      <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
@@ -73,6 +78,8 @@ function App() {
                 <Route path="academy" element={<Academy />} />
                 <Route path="foundation" element={<Foundation />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="transactions" element={<Transactions />} />
                 {/* Admin routes temporarily disabled - will be enabled when components exist */}
                 {/* <Route path="admin" element={<AdminDashboard />} />
                 <Route path="admin/kyc" element={<KYCReview />} />
@@ -85,6 +92,7 @@ function App() {
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   );
 }
 
