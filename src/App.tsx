@@ -12,6 +12,7 @@ import Help from './pages/Help';
 import FoundationPublic from './pages/Foundation';
 import Tokenomics from './pages/Tokenomics';
 import VIP from './pages/VIP';
+import Community from './pages/Community';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
@@ -29,6 +30,7 @@ import TYTTrading from './pages/app/TYTTrading';
 import AdminWithdrawals from './pages/app/AdminWithdrawals';
 import AdminUsers from './pages/app/AdminUsers';
 import Notifications from './pages/app/Notifications';
+import Governance from './pages/app/Governance';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -64,6 +66,7 @@ function App() {
       <Route path="/foundation" element={<FoundationPublic />} />
       <Route path="/tokenomics" element={<Tokenomics />} />
       <Route path="/vip" element={<VIP />} />
+      <Route path="/community" element={<Community />} />
 
       <Route
         path="/app/*"
@@ -86,6 +89,7 @@ function App() {
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="notifications" element={<Notifications />} />
+                <Route path="governance" element={<Governance />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
               </Routes>
