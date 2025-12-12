@@ -41,6 +41,7 @@ export default function Landing() {
               <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
               <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
               <a href="#foundation" className="text-gray-300 hover:text-white transition-colors">Foundation</a>
+              <Link to="/community" className="text-gray-300 hover:text-white transition-colors">Community</Link>
               <Link to="/about" className="text-gray-300 hover:text-white transition-colors">About</Link>
               <Link to="/help" className="text-gray-300 hover:text-white transition-colors">Help</Link>
             </div>

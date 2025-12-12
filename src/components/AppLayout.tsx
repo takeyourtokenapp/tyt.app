@@ -55,6 +55,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     { path: '/app/referrals', icon: Gift, label: 'Referrals' },
     { path: '/app/academy', icon: GraduationCap, label: 'Academy' },
     { path: '/app/foundation', icon: Heart, label: 'Foundation' },
+    { path: '/community', icon: Users, label: 'Community' },
   ];
 
   const bottomNavItems = [
@@ -169,15 +170,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </button>
 
               <div className="flex items-center gap-4 ml-auto">
-                <a
-                  href="/community"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-owl-slate/50 transition-all text-sm text-gray-300 hover:text-gold-400"
-                >
-                  <Users size={18} />
-                  <span>Community</span>
-                </a>
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-owl-slate/50 rounded-lg border border-gold-700 hover:border-gold-500 hover:shadow-gold-glow transition-all">
                   <div className="text-xl">🦉</div>
                   <span className="text-sm">
