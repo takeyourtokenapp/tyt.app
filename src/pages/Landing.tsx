@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { CompactFAQ } from '../components/FAQWidget';
 import StatisticsCard, { StatisticsGrid } from '../components/StatisticsCard';
+import PriceTicker from '../components/PriceTicker';
 import {
   BitcoinIcon,
   MiningIcon,
@@ -60,6 +61,8 @@ export default function Landing() {
           </div>
         </div>
       </nav>
+
+      <PriceTicker />
 
       <section className="relative py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-blue-500/5"></div>
