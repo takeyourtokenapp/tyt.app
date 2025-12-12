@@ -36,6 +36,9 @@ import Notifications from './pages/app/Notifications';
 import Governance from './pages/app/Governance';
 import MiningStatsDashboard from './components/MiningStatsDashboard';
 import Certificates from './pages/app/Certificates';
+import BurnReports from './pages/app/BurnReports';
+import Avatars from './pages/app/Avatars';
+import DataCenter from './pages/app/DataCenter';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -100,6 +103,9 @@ function App() {
                 <Route path="notifications" element={<Notifications />} />
                 <Route path="governance" element={<Governance />} />
                 <Route path="certificates" element={<Certificates />} />
+                <Route path="burn-reports" element={<BurnReports />} />
+                <Route path="avatars" element={<Avatars />} />
+                <Route path="data-center" element={<DataCenter />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
               </Routes>

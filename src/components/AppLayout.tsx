@@ -20,7 +20,10 @@ import {
   Gift,
   Bell,
   User,
-  Receipt
+  Receipt,
+  Flame,
+  Sparkles,
+  Server
 } from 'lucide-react';
 
 interface AppLayoutProps {
@@ -46,13 +49,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
     { path: '/app', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/app/miners', icon: Cpu, label: 'My Miners' },
     { path: '/app/mining-stats', icon: BarChart3, label: 'Mining Stats' },
+    { path: '/app/data-center', icon: Server, label: 'Data Centers' },
     { path: '/app/rewards', icon: TrendingUp, label: 'Rewards' },
     { path: '/app/marketplace', icon: ShoppingCart, label: 'Marketplace' },
     { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
     { path: '/app/transactions', icon: Receipt, label: 'Transactions' },
     { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
+    { path: '/app/burn-reports', icon: Flame, label: 'Burn Reports' },
     { path: '/app/governance', icon: Vote, label: 'Governance' },
     { path: '/app/referrals', icon: Gift, label: 'Referrals' },
+    { path: '/app/avatars', icon: Sparkles, label: 'Owl Avatars' },
     { path: '/app/academy', icon: GraduationCap, label: 'Academy' },
     { path: '/app/foundation', icon: Heart, label: 'Foundation' },
     { path: '/community', icon: Users, label: 'Community' },

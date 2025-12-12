@@ -11,11 +11,15 @@ import {
   Award,
   CheckCircle,
   BarChart3,
-  Sparkles
+  Sparkles,
+  Flame,
+  Lock,
+  PieChart
 } from 'lucide-react';
 import { CompactFAQ } from '../components/FAQWidget';
 import StatisticsCard, { StatisticsGrid } from '../components/StatisticsCard';
 import PriceTicker from '../components/PriceTicker';
+import IncomeCalculator from '../components/IncomeCalculator';
 import {
   BitcoinIcon,
   MiningIcon,
@@ -37,12 +41,13 @@ export default function Landing() {
               </div>
               <span className="text-xl font-bold text-white">TakeYourToken</span>
             </div>
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
-              <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
-              <a href="#foundation" className="text-gray-300 hover:text-white transition-colors">Foundation</a>
+              <a href="#calculator" className="text-gray-300 hover:text-white transition-colors">Calculator</a>
+              <a href="#tokenomics" className="text-gray-300 hover:text-white transition-colors">Tokenomics</a>
+              <Link to="/roadmap" className="text-gray-300 hover:text-white transition-colors">Roadmap</Link>
+              <Link to="/vip" className="text-gray-300 hover:text-white transition-colors">VIP</Link>
               <Link to="/community" className="text-gray-300 hover:text-white transition-colors">Community</Link>
-              <Link to="/about" className="text-gray-300 hover:text-white transition-colors">About</Link>
               <Link to="/help" className="text-gray-300 hover:text-white transition-colors">Help</Link>
             </div>
             <div className="flex items-center gap-4">
@@ -247,7 +252,23 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900/50">
+      <section id="calculator" className="py-20 bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Calculate Your Earnings
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Estimate your potential daily, weekly, and monthly Bitcoin income based on hashrate
+            </p>
+          </div>
+          <div className="max-w-5xl mx-auto">
+            <IncomeCalculator />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <StatisticsGrid columns={4}>
             <StatisticsCard
@@ -283,6 +304,72 @@ export default function Landing() {
               color="purple"
             />
           </StatisticsGrid>
+        </div>
+      </section>
+
+      <section id="tokenomics" className="py-20 bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full mb-6">
+              <Flame className="w-4 h-4 text-amber-400" />
+              <span className="text-amber-400 font-medium">Deflationary Token</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">TYT Token Economy</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              A utility token built on Solana with real use cases and continuous burn mechanics
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
+              <Coins className="w-8 h-8 text-amber-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-amber-400 mb-1">1B TYT</div>
+              <div className="text-sm text-gray-400">Total Supply</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
+              <Flame className="w-8 h-8 text-orange-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-orange-400 mb-1">100%</div>
+              <div className="text-sm text-gray-400">Burn on Maintenance</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
+              <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-green-400 mb-1">Up to 38%</div>
+              <div className="text-sm text-gray-400">Discount Savings</div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
+              <Lock className="w-8 h-8 text-blue-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-blue-400 mb-1">veTYT</div>
+              <div className="text-sm text-gray-400">Governance Power</div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <TokenUtilityCard
+              icon={<PieChart className="w-6 h-6 text-amber-400" />}
+              title="Maintenance Discounts"
+              description="Pay maintenance with TYT for 20% base discount plus VIP bonuses up to 18%"
+            />
+            <TokenUtilityCard
+              icon={<Coins className="w-6 h-6 text-amber-400" />}
+              title="Marketplace Currency"
+              description="Buy and sell NFT miners exclusively with TYT on our secondary market"
+            />
+            <TokenUtilityCard
+              icon={<Lock className="w-6 h-6 text-amber-400" />}
+              title="Governance Voting"
+              description="Lock TYT for veTYT and participate in platform decisions and proposals"
+            />
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/tokenomics"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105"
+            >
+              View Full Tokenomics
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -400,15 +487,16 @@ export default function Landing() {
               <ul className="space-y-2 text-sm">
                 <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
                 <li><Link to="/roadmap" className="text-gray-400 hover:text-white transition-colors">Roadmap</Link></li>
-                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
+                <li><Link to="/tokenomics" className="text-gray-400 hover:text-white transition-colors">Tokenomics</Link></li>
+                <li><Link to="/vip" className="text-gray-400 hover:text-white transition-colors">VIP Program</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Foundation</h4>
+              <h4 className="font-semibold text-white mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/foundation" className="text-gray-400 hover:text-white transition-colors">Mission</Link></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Impact Reports</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Partners</a></li>
+                <li><Link to="/foundation" className="text-gray-400 hover:text-white transition-colors">Foundation</Link></li>
+                <li><Link to="/community" className="text-gray-400 hover:text-white transition-colors">Community</Link></li>
+                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
               </ul>
             </div>
             <div>
@@ -468,6 +556,18 @@ function StepCard({ number, title, description, icon }: { number: string; title:
         <h3 className="text-xl font-bold mb-3">{title}</h3>
         <p className="text-gray-400">{description}</p>
       </div>
+    </div>
+  );
+}
+
+function TokenUtilityCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-amber-500/50 transition-all">
+      <div className="p-3 bg-amber-500/10 rounded-lg w-fit mb-4">
+        {icon}
+      </div>
+      <h3 className="text-lg font-bold mb-2">{title}</h3>
+      <p className="text-gray-400 text-sm">{description}</p>
     </div>
   );
 }
