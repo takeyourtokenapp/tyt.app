@@ -22,6 +22,7 @@ import Foundation from './pages/app/Foundation';
 import Settings from './pages/app/Settings';
 import Profile from './pages/app/Profile';
 import Transactions from './pages/app/Transactions';
+import Referrals from './pages/app/Referrals';
 import TYTTrading from './pages/app/TYTTrading';
 // Admin imports temporarily disabled - will be enabled when files exist
 // import AdminDashboard from './pages/app/admin/Dashboard';
@@ -80,6 +81,7 @@ function App() {
                 <Route path="settings" element={<Settings />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="transactions" element={<Transactions />} />
+                <Route path="referrals" element={<Referrals />} />
                 {/* Admin routes temporarily disabled - will be enabled when components exist */}
                 {/* <Route path="admin" element={<AdminDashboard />} />
                 <Route path="admin/kyc" element={<KYCReview />} />
