@@ -33,6 +33,11 @@ import {
   MessageCircle,
   Calculator,
   Trophy,
+  ArrowLeftRight,
+  RefreshCw,
+  Shield,
+  FileCheck,
+  DollarSign,
   type LucideIcon
 } from 'lucide-react';
 
@@ -97,6 +102,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'green',
       items: [
         { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
+        { path: '/app/swap', icon: RefreshCw, label: 'Swap' },
+        { path: '/app/bridge', icon: ArrowLeftRight, label: 'Bridge' },
         { path: '/app/transactions', icon: Receipt, label: 'Transactions' },
         { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
         { path: '/app/burn-reports', icon: Flame, label: 'Burn Reports' },
@@ -110,6 +117,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'blue',
       items: [
         { path: '/app/academy', icon: BookOpen, label: 'Lessons' },
+        { path: '/app/quests', icon: Target, label: 'Quests' },
         { path: '/app/calculators', icon: Calculator, label: 'Calculators' },
         { path: '/app/certificates', icon: Award, label: 'Certificates' },
         { path: '/app/avatars', icon: Sparkles, label: 'Owl Avatars' },
@@ -122,8 +130,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'pink',
       items: [
         { path: '/app/foundation', icon: Heart, label: 'Overview' },
+        { path: '/app/grants', icon: DollarSign, label: 'Grants' },
         { path: '/app/charity-staking', icon: Gift, label: 'Charity Staking' },
-        { path: '/app/foundation#impact', icon: Target, label: 'Impact Reports' },
       ]
     },
     {
@@ -133,6 +141,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'cyan',
       items: [
         { path: '/app/leaderboard', icon: Trophy, label: 'Leaderboard' },
+        { path: '/app/clans', icon: Shield, label: 'Clans & Wars' },
         { path: '/app/referrals', icon: Users, label: 'Referrals' },
         { path: '/community', icon: MessageCircle, label: 'Forum' },
       ]
@@ -141,6 +150,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   const accountItems = [
     { path: '/app/profile', icon: User, label: 'Profile' },
+    { path: '/app/kyc', icon: FileCheck, label: 'KYC Verification' },
     { path: '/app/notifications', icon: Bell, label: 'Notifications' },
     { path: '/app/settings', icon: Settings, label: 'Settings' },
   ];

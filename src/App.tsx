@@ -43,6 +43,12 @@ import DataCenter from './pages/app/DataCenter';
 import Calculators from './pages/app/Calculators';
 import CharityStaking from './pages/app/CharityStaking';
 import Leaderboard from './pages/app/Leaderboard';
+import Bridge from './pages/app/Bridge';
+import Swap from './pages/app/Swap';
+import KYC from './pages/app/KYC';
+import Quests from './pages/app/Quests';
+import Grants from './pages/app/Grants';
+import Clans from './pages/app/Clans';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -113,6 +119,12 @@ function App() {
                 <Route path="burn-reports" element={<BurnReports />} />
                 <Route path="avatars" element={<Avatars />} />
                 <Route path="data-center" element={<DataCenter />} />
+                <Route path="bridge" element={<Bridge />} />
+                <Route path="swap" element={<Swap />} />
+                <Route path="kyc" element={<KYC />} />
+                <Route path="quests" element={<Quests />} />
+                <Route path="grants" element={<Grants />} />
+                <Route path="clans" element={<Clans />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
               </Routes>
