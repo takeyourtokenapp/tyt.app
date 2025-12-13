@@ -61,16 +61,23 @@ export default function Quests() {
     if (!user) return;
 
     const { data } = await supabase
-      .from('academy_quest_completions')
-      .select('*, academy_quests(*)')
+      .from('academy_user_quests')
+      .select('*')
       .eq('user_id', user.id);
 
     if (data) {
       setCompletions(data);
 
-      // Calculate totals
-      const xp = data.reduce((sum, c) => sum + (c.xp_claimed || 0), 0);
-      const tyt = data.reduce((sum, c) => sum + parseFloat(c.tyt_claimed || '0'), 0);
+      const xp = data.filter(c => c.completed_at).reduce((sum, c) => {
+        const quest = quests.find(q => q.id === c.quest_id);
+        return sum + (quest?.xp_reward || 0);
+      }, 0);
+
+      const tyt = data.filter(c => c.completed_at).reduce((sum, c) => {
+        const quest = quests.find(q => q.id === c.quest_id);
+        return sum + (quest?.tyt_reward || 0);
+      }, 0);
+
       setTotalXP(xp);
       setTotalTYT(tyt);
     }
@@ -79,7 +86,8 @@ export default function Quests() {
   const getQuestStatus = (quest: Quest): QuestStatus => {
     const completion = completions.find((c) => c.quest_id === quest.id);
     if (completion) {
-      return completion.status;
+      if (completion.completed_at) return 'completed';
+      return 'in_progress';
     }
     return 'available';
   };
@@ -90,10 +98,10 @@ export default function Quests() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.from('academy_quest_completions').insert({
+      const { error } = await supabase.from('academy_user_quests').insert({
         user_id: user.id,
         quest_id: quest.id,
-        status: 'in_progress',
+        progress: {},
       });
 
       if (error) throw error;
