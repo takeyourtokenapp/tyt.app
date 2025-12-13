@@ -553,7 +553,7 @@ Contributions welcome in:
 
 - **Website**: https://takeyourtoken.app
 - **Telegram**: https://t.me/takeyourtoken
-- **Token**: [View on pump.fun](https://pump.fun/APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump)
+- **Token**: [View on pump.fun](https://pump.fun/coin/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump)
 
 ## 📜 License
 

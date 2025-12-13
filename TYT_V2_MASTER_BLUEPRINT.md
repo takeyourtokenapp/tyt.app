@@ -1026,7 +1026,7 @@ contract VotingEscrowTYT {
 
 ### 5.1 TYT Token (Solana SPL)
 
-**Already Deployed**: https://pump.fun/APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump
+**Already Deployed**: https://pump.fun/coin/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump
 
 **Initial Supply**: TBD (from pump.fun)
 **Max Supply**: Fixed (deflationary through burns)

@@ -2,7 +2,7 @@
 
 **Дата аудита**: 11 декабря 2024
 **Статус**: Week 1 Backend Automation завершена
-**Токен**: APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump (Solana/pump.fun)
+**Токен**: 8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump (Solana/pump.fun)
 
 ---
 

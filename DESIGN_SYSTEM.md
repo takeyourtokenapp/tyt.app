@@ -383,7 +383,7 @@ High contrast, keyboard navigation, screen reader support.
 
 ### Social & Token
 - **Telegram**: https://t.me/takeyourtoken
-- **TYT Token**: https://pump.fun/APadkPpjonaLBpLYDzKB6753QQU3s8VZhEtkvLgrpump
+- **TYT Token**: https://pump.fun/coin/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump
 - **Domain**: takeyourtoken.app
 
 ### Tech Stack
