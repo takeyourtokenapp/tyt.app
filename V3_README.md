@@ -1,326 +1,291 @@
-# 🚀 TYT V3.0 - AGENT ORCHESTRATION GUIDE
+# TYT v3 - Production Transition
 
-**Status**: Phase 3 Complete → Ready for v3.0 Transition
-**Date**: 13 December 2024
-
----
-
-## 📖 QUICK START
-
-You have **4 specialized agents** + **1 integrator** ready to transform TYT from "complete ecosystem with mocks" to "production-ready with real blockchain integration".
-
-### Your Team:
-
-1. **contracts-agent** - Deploys Foundry contracts to Polygon
-2. **backend-agent** - Integrates blockchain indexer + merkle proofs
-3. **frontend-agent** - Wires UI to real APIs
-4. **infra-agent** - Sets up CI/CD + staging
-5. **integrator** - Merges everything and runs E2E tests
+**From MVP to Real Platform**
 
 ---
 
-## 📁 KEY DOCUMENTS
+## 🎯 What is v3?
 
-| Document | Purpose | Who Uses |
-|----------|---------|----------|
-| `docs/AGENT_PROMPTS_V3.md` | **Complete prompts for all 4 agents** | All agents |
-| `docs/V3_TRANSITION_PLAN.md` | **Roadmap, timeline, risks** | Project manager |
-| `docs/PHASE3_COMPLETE_REPORT.md` | **Current state analysis** | Everyone |
-| `START_HERE.md` | Original project overview | New team members |
+v3 is the **production-ready version** of TakeYourToken.app that replaces all mock/demo components with:
 
----
-
-## 🎯 THE V3.0 MISSION
-
-### What Changes?
-
-**From (v2 - Current)**:
-- Mock rewards calculations
-- Simulated blockchain events
-- Database-only marketplace
-- Trust-based verification
-
-**To (v3.0 - Target)**:
-- Real on-chain contracts (Foundry)
-- Automated blockchain indexer
-- On-chain marketplace with escrow
-- Cryptographic proof verification
-
-### What Stays the Same?
-
-✅ Supabase backend (Edge Functions)
-✅ React + Vite frontend
-✅ 120+ database tables
-✅ Complete UI/UX design
-✅ All existing features
-
-**v3.0 adds blockchain layer, not rebuilds everything!**
+- ✅ Real smart contracts on Polygon
+- ✅ Real money handling (deposits/withdrawals)
+- ✅ Real NFT miners (ERC-721)
+- ✅ Real rewards with Merkle proofs
+- ✅ Real foundation accounting
+- ✅ Production infrastructure
 
 ---
 
-## 🏗️ ARCHITECTURE OVERVIEW
+## 📦 What's Already Done (v2)
 
+The heavy lifting is complete:
+
+✅ **UI/UX** - Full design system, 50+ components  
+✅ **Academy** - 5 tracks, 15+ lessons, 10 quests, Owl ranks  
+✅ **Wallet** - Unified interface (Balance, Swap, Bridge)  
+✅ **Database** - Complete Supabase schema with RLS  
+✅ **Auth** - Email/password, KYC ready  
+✅ **Frontend** - All pages, routing, forms  
+✅ **Branding** - Logo, colors, owl warrior theme  
+
+**Current state**: Beautiful, functional, but running on mocks.
+
+---
+
+## 🚀 What's Needed (v3 Agents)
+
+### 5 Specialized Agents
+
+Each agent is a focused task with clear deliverables:
+
+#### 1. `contracts-agent` 🔷
+**Role**: Deploy production smart contracts  
+**Deliverables**: 5 Solidity contracts on Polygon Amoy  
+**Time**: 2 weeks
+
+#### 2. `backend-agent` 🟦
+**Role**: Build real services (ledger, indexer, rewards)  
+**Deliverables**: 5 NestJS microservices  
+**Time**: 2 weeks
+
+#### 3. `frontend-agent` 🟨
+**Role**: Connect UI to real data  
+**Deliverables**: Replace mocks with API calls  
+**Time**: 1 week
+
+#### 4. `infra-agent` ⚙️
+**Role**: Make it deployable  
+**Deliverables**: Docker, CI/CD, docs  
+**Time**: 1 week
+
+#### 5. `integrator-agent` 🔧
+**Role**: Merge everything and verify  
+**Deliverables**: Staging deployment + E2E tests  
+**Time**: 1 week
+
+**Total**: ~7 weeks to production
+
+---
+
+## 📋 How to Use These Prompts
+
+### Step 1: Read the Prompts
+Open [`docs/AGENT_PROMPTS_V3.md`](./docs/AGENT_PROMPTS_V3.md)
+
+### Step 2: Execute in Order
+1. Copy **PROMPT 1** (contracts-agent)
+2. Paste into bolt.new
+3. Wait for completion
+4. Repeat for PROMPT 2, 3, 4, 5
+
+### Step 3: Merge
+Each agent creates a branch:
 ```
-┌─────────────────────────────────────────────────────┐
-│                   FRONTEND (React)                   │
-│  - Wallet UI                                         │
-│  - Miners Dashboard                                  │
-│  - Marketplace                                       │
-│  - Rewards Verification                              │
-└────────────────────┬────────────────────────────────┘
-                     │
-                     ↓
-┌─────────────────────────────────────────────────────┐
-│            BACKEND (Supabase Edge Functions)         │
-│  - API Endpoints                                     │
-│  - Blockchain Indexer ← NEW!                        │
-│  - Merkle Tree Builder ← NEW!                       │
-│  - Journal Ledger                                    │
-└────────────────────┬────────────────────────────────┘
-                     │
-                     ↓
-┌─────────────────────────────────────────────────────┐
-│            SMART CONTRACTS (Polygon) ← NEW!          │
-│  - FeeConfig                                         │
-│  - CharityVault                                      │
-│  - MinerNFT (ERC-721)                               │
-│  - RewardsMerkleRegistry                            │
-│  - MinerMarketplace                                  │
-└─────────────────────────────────────────────────────┘
-```
-
----
-
-## 📊 FEE CANON (CRITICAL)
-
-**EVERY agent MUST implement exactly:**
-
-### Deposits: 10% Total Fee
-```
-User deposits: 1000 USDT
-───────────────────────────────
-Total Fee:      100 USDT (10%)
-  ├─ Protocol:   60 USDT (6%)
-  ├─ Charity:    30 USDT (3%)
-  └─ Academy:    10 USDT (1%)
-
-User receives:  900 USDT (90%)
+feat/v3-contracts-core
+feat/v3-backend-rails
+feat/v3-frontend-real-api
+feat/v3-infra-rails
+feat/v3-integration-runbook
 ```
 
-### Marketplace: 3% Total Fee
-```
-Miner sells for: 1000 TYT
-───────────────────────────────
-Total Fee:       30 TYT (3%)
-  ├─ Protocol:   18 TYT (1.8%)
-  ├─ Charity:     9 TYT (0.9%)
-  └─ Academy:     3 TYT (0.3%)
-
-Seller receives: 970 TYT (97%)
-```
-
-**Implementation**:
-- FeeConfig contract stores all fee profiles
-- Backend validates against contract
-- Frontend displays breakdown
-- Charity funds auto-route to CharityVault
+Merge in order after testing.
 
 ---
 
-## 🗓️ TIMELINE
+## 🎓 Academy Status
+
+**READY** ✅
+
+Just run 3 migrations in Supabase:
+1. `20251213201711_fix_academy_tracks_english.sql`
+2. `20251213200708_add_more_academy_content.sql`
+3. `20251213201814_add_comprehensive_lessons.sql`
+
+Then academy shows:
+- 5 learning tracks
+- 15+ professional lessons
+- 10 quests with XP/TYT rewards
+- Owl rank progression system
+
+See [`ACADEMY_COMPLETE_UPDATE.md`](./ACADEMY_COMPLETE_UPDATE.md)
+
+---
+
+## 💰 Foundation Integration
+
+The **TYT Children's Brain Cancer Research & Support Foundation** is core to v3:
+
+### Automatic Donations
+Every transaction generates charity revenue:
+- 3% of deposits → charity
+- 3% of marketplace fees → charity
+- 3% of maintenance fees → charity
+- Optional charity staking
+
+### Transparency
+- Real-time balance tracking
+- Monthly reports
+- Annual impact reports
+- Public wallet addresses
+- Blockchain-verified donations
+
+### Implementation
+- `CharityVault.sol` smart contract
+- `foundation-service` backend
+- Foundation dashboard in UI
+- Grant application system
+
+---
+
+## 🏗️ Architecture Overview
 
 ```
-┌──────────┬────────────────────────────────────┐
-│  Week    │  Deliverable                       │
-├──────────┼────────────────────────────────────┤
-│  1-2     │  Contracts deployed to Amoy        │
-│  3-4     │  Indexer + Merkle proofs working   │
-│  5       │  Frontend wired to real APIs       │
-│  6       │  CI/CD + staging automated         │
-│  7       │  Integration testing + fixes       │
-├──────────┼────────────────────────────────────┤
-│  TOTAL   │  7 weeks to production v3.0        │
-└──────────┴────────────────────────────────────┘
-```
-
-**Start**: Dec 16, 2024
-**Launch**: Feb 3, 2025
-
----
-
-## 🎯 E2E SUCCESS CRITERIA
-
-Platform is v3.0-ready when these 5 scenarios pass:
-
-### ✅ E2E-1: Login Flow
-- User registers → receives JWT → session persists
-
-### ✅ E2E-2: Deposit with Fees
-- Deposit 1000 USDT → user gets 900, protocol 60, charity 30, academy 10
-
-### ✅ E2E-3: Miner On-Chain
-- Mint NFT → indexer syncs → appears in Miners page
-
-### ✅ E2E-4: Rewards Verification
-- Cron generates merkle tree → root on-chain → user verifies proof ✅
-
-### ✅ E2E-5: Marketplace Transaction
-- List miner → buyer purchases → fees split correctly → ownership transfers
-
----
-
-## 📋 HOW TO USE THIS GUIDE
-
-### For Project Manager:
-1. Read `V3_TRANSITION_PLAN.md` for full roadmap
-2. Assign agents to their prompts in `AGENT_PROMPTS_V3.md`
-3. Monitor weekly progress
-4. Coordinate via integrator for E2E testing
-
-### For contracts-agent:
-1. Read your section in `AGENT_PROMPTS_V3.md`
-2. Start with FeeConfig.sol
-3. Deploy to Polygon Amoy
-4. Provide addresses to backend-agent
-
-### For backend-agent:
-1. Wait for contract addresses from contracts-agent
-2. Implement blockchain indexer
-3. Build merkle proof system
-4. Enhance edge functions
-
-### For frontend-agent:
-1. Wait for API specs from backend-agent
-2. Create API client layer
-3. Wire pages to real endpoints
-4. Add merkle verification UI
-
-### For infra-agent:
-1. Setup CI/CD pipeline
-2. Configure staging environment
-3. Create deployment automation
-4. Write runbooks
-
-### For integrator:
-1. Merge all branches in correct order
-2. Deploy to staging
-3. Run E2E tests
-4. Create fix tasks if needed
-
----
-
-## 🔧 COMMANDS CHEAT SHEET
-
-```bash
-# Install
-npm install
-cd contracts/evm && forge install
-
-# Development
-npm run dev                    # Frontend
-supabase functions serve       # Backend
-
-# Testing
-npm run test                   # Frontend tests
-cd contracts/evm && forge test # Contract tests
-
-# Building
-npm run build                  # Frontend
-forge build                    # Contracts
-
-# Deployment
-forge script script/DeployAmoy.s.sol --broadcast  # Contracts
-supabase functions deploy      # Backend
-npm run build && deploy        # Frontend
+┌─────────────────────────────────────────┐
+│           Frontend (Next.js)            │
+│  ┌─────────┬─────────┬──────────────┐  │
+│  │ Wallet  │ Academy │ Marketplace  │  │
+│  └─────────┴─────────┴──────────────┘  │
+└──────────────────┬──────────────────────┘
+                   │ API
+┌──────────────────▼──────────────────────┐
+│      Backend Services (NestJS)          │
+│  ┌──────────────┬──────────────────┐   │
+│  │ Ledger       │ Indexer          │   │
+│  │ Gateway      │ Rewards Engine   │   │
+│  │ Foundation   │ Auth             │   │
+│  └──────────────┴──────────────────┘   │
+└──────────────────┬──────────────────────┘
+                   │
+┌──────────────────▼──────────────────────┐
+│        Blockchain (Polygon)             │
+│  ┌──────────────┬──────────────────┐   │
+│  │ MinerNFT     │ Marketplace      │   │
+│  │ CharityVault │ RewardsMerkle    │   │
+│  │ FeeConfig    │                  │   │
+│  └──────────────┴──────────────────┘   │
+└─────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚨 CRITICAL PATHS
+## 📊 Key Differences v2 → v3
 
-**Must complete in order:**
-
-1. **Contracts** (Week 1-2)
-   - Blocks everything else
-   - Get addresses ASAP
-
-2. **Indexer** (Week 3)
-   - Frontend needs synced data
-   - Critical for UX
-
-3. **Merkle System** (Week 4)
-   - Core value proposition
-   - Must be secure
-
-4. **Integration** (Week 7)
-   - All pieces must work together
-   - E2E tests validate everything
+| Feature | v2 (MVP) | v3 (Production) |
+|---------|----------|-----------------|
+| Network | Hardhat local | Polygon mainnet |
+| Deposits | Mock | Real ERC20 |
+| Withdrawals | Fake | Real + limits |
+| NFT Miners | Concept | ERC-721 minted |
+| Rewards | Random | Merkle proofs |
+| Marketplace | UI only | Real trades |
+| Foundation | Idea | Live accounting |
+| Fees | Hardcoded | Smart contracts |
+| Data | Mock arrays | PostgreSQL |
+| Auth | Basic | JWT + KYC |
 
 ---
 
-## 📚 ADDITIONAL RESOURCES
+## 🔐 Security Considerations
 
-### Current State:
-- `PHASE3_COMPLETE_REPORT.md` - What's already done (98%!)
-- `IMPLEMENTATION_STATUS_DEC13.md` - Technical details
+### Smart Contracts
+- ✅ OpenZeppelin base contracts
+- ✅ Access control (roles)
+- ⚠️ Needs audit before mainnet
 
-### Planning:
-- `MVP_TO_FULL_ROADMAP.md` - Original roadmap
-- `TYT_V2_MASTER_BLUEPRINT.md` - Product vision
+### Backend
+- ✅ JWT authentication
+- ✅ Rate limiting
+- ✅ Withdraw limits
+- ✅ Input validation
 
-### Technical:
-- `TYT_API_TECHNICAL_SPEC.md` - API specifications
-- `DESIGN_SYSTEM.md` - UI/UX guidelines
-- `SECURE_DEPLOYMENT_GUIDE.md` - Security best practices
-
----
-
-## ⚠️ IMPORTANT NOTES
-
-### Do NOT:
-- ❌ Change existing database schema without discussion
-- ❌ Copy GoMining branding/UI 1:1
-- ❌ Commit private keys to repo
-- ❌ Deploy to mainnet without audit
-
-### Do:
-- ✅ Follow fee canon exactly (10% deposit, split 60/30/10)
-- ✅ Use double-entry ledger for all money movements
-- ✅ Write comprehensive tests (>90% coverage)
-- ✅ Document everything
-- ✅ Communicate blockers early
+### Infrastructure
+- ✅ Environment variables (no secrets in code)
+- ✅ HTTPS only
+- ✅ Database RLS policies
+- ✅ API key rotation
 
 ---
 
-## 🎉 WHY THIS WILL SUCCEED
+## 💵 Cost Breakdown
 
-1. **Strong Foundation**: Phase 3 already 98% complete
-2. **Clear Scope**: Not rebuilding, just adding blockchain layer
-3. **Proven Stack**: Supabase + Foundry are battle-tested
-4. **Detailed Plans**: Every agent has exact instructions
-5. **Incremental Approach**: Week-by-week milestones
-6. **E2E Validation**: Clear success criteria
+### Development
+- Agent execution: 7 weeks
+- Smart contract audit: $5-15K
+- Legal review: $2-5K
 
----
+### Monthly Operations
+- Hosting: $50-100
+- RPC nodes: $50-200
+- Database: $25
+- Monitoring: $20
+- **Total**: ~$150-350/month
 
-## 🚀 READY TO START?
-
-### Next Actions:
-1. **contracts-agent**: Begin Foundry setup today
-2. **Project Manager**: Schedule weekly syncs
-3. **All agents**: Read your sections in `AGENT_PROMPTS_V3.md`
-
-### Questions?
-- Technical: See `docs/AGENT_PROMPTS_V3.md`
-- Planning: See `docs/V3_TRANSITION_PLAN.md`
-- Current state: See `PHASE3_COMPLETE_REPORT.md`
+### Per Transaction
+- Gas fees: ~$0.10-1.00 (Polygon)
+- Database writes: negligible
+- API calls: negligible
 
 ---
 
-**Let's build the world's first transparent Web3 mining platform with integrated charity! 🦉⚡**
+## 📚 Documentation Index
+
+1. **[Agent Prompts v3](./docs/AGENT_PROMPTS_V3.md)** - Ready-to-use prompts
+2. **[Transition Plan](./docs/V3_TRANSITION_PLAN.md)** - Detailed roadmap
+3. **[Master Blueprint](./TYT_V2_MASTER_BLUEPRINT.md)** - Full architecture
+4. **[Academy Update](./ACADEMY_COMPLETE_UPDATE.md)** - Content guide
+5. **[Final Summary](./FINAL_SUMMARY.md)** - Recent changes
 
 ---
 
-*Version*: 1.0
-*Created*: 13 December 2024
-*Status*: Ready for Agent Execution
+## 🎯 Success Criteria
+
+v3 is **production-ready** when:
+
+- [ ] Smart contracts deployed + audited
+- [ ] Backend services running
+- [ ] Frontend connected to real data
+- [ ] $100 test deposit works end-to-end
+- [ ] Rewards verify on-chain
+- [ ] Foundation receives donations
+- [ ] Academy content accessible
+- [ ] All E2E tests pass
+- [ ] Documentation complete
+- [ ] Security review passed
+
+---
+
+## 🚦 Current Status
+
+**Phase**: Planning Complete ✅  
+**Next**: Execute `contracts-agent v3` prompt  
+**Timeline**: 7 weeks to beta launch  
+**Blockers**: None
+
+---
+
+## 🤝 How to Contribute
+
+1. Read [`docs/AGENT_PROMPTS_V3.md`](./docs/AGENT_PROMPTS_V3.md)
+2. Pick an agent role
+3. Follow the prompt exactly
+4. Create branch (e.g., `feat/v3-contracts-core`)
+5. Submit PR when done
+
+---
+
+## 📞 Support
+
+- **Docs**: `docs/` folder
+- **Issues**: GitHub Issues
+- **Discord**: [Coming soon]
+
+---
+
+**Let's make TYT real.** 🚀
+
+---
+
+**Version**: 3.0-plan  
+**Date**: December 13, 2024  
+**Status**: Ready for execution
