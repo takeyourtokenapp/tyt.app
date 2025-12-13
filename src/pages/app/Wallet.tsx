@@ -49,6 +49,7 @@ import {
 import { DepositModal } from '../../components/DepositModal';
 import { DepositAddressCard } from '../../components/DepositAddressCard';
 import { WithdrawalForm } from '../../components/WithdrawalForm';
+import NetworkSelector from '../../components/NetworkSelector';
 
 interface Transaction {
   id: string;
@@ -81,10 +82,13 @@ export default function Wallet() {
 
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');
+  const [selectedWithdrawNetwork, setSelectedWithdrawNetwork] = useState('BTC');
 
   const [swapFromAsset, setSwapFromAsset] = useState('BTC');
   const [swapToAsset, setSwapToAsset] = useState('TYT');
   const [swapAmount, setSwapAmount] = useState('');
+
+  const [selectedDepositNetwork, setSelectedDepositNetwork] = useState('BTC');
 
   const [txFilter, setTxFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -526,62 +530,102 @@ export default function Wallet() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold">Blockchain Deposit Addresses</h3>
-                <button
-                  onClick={handleMonitorDeposits}
-                  disabled={isMonitoring}
-                  className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
-                >
-                  {isMonitoring ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" />
-                      Checking...
-                    </>
-                  ) : (
-                    <>
-                      <RefreshCw size={18} />
-                      Check Deposits
-                    </>
-                  )}
-                </button>
+              <NetworkSelector
+                selectedNetwork={selectedDepositNetwork}
+                onNetworkSelect={setSelectedDepositNetwork}
+                showTokens={true}
+              />
+
+              <div className="mt-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold">Your Deposit Address</h3>
+                  <button
+                    onClick={handleMonitorDeposits}
+                    disabled={isMonitoring}
+                    className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {isMonitoring ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Checking...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw size={18} />
+                        Check Deposits
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {selectedDepositNetwork && networks.find(n => n.network_code === selectedDepositNetwork) && (
+                  <div className="max-w-2xl mx-auto">
+                    <DepositAddressCard
+                      network={networks.find(n => n.network_code === selectedDepositNetwork)!}
+                      address={depositAddresses.find(a => a.network_code === selectedDepositNetwork)?.address}
+                      qrCode={qrCodes[selectedDepositNetwork] || ''}
+                      derivationPath={depositAddresses.find(a => a.network_code === selectedDepositNetwork)?.derivation_path || derivationPaths[selectedDepositNetwork]}
+                      onGenerate={() => handleGenerateAddress(selectedDepositNetwork)}
+                      isGenerating={isGeneratingAddress === selectedDepositNetwork}
+                    />
+                  </div>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {networks.map((network) => {
-                  const address = depositAddresses.find(a => a.network_code === network.network_code);
-                  const isGenerating = isGeneratingAddress === network.network_code;
+              <div className="mt-8">
+                <h3 className="text-lg font-bold mb-4">All Your Addresses</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {networks.filter(network => depositAddresses.find(a => a.network_code === network.network_code)).map((network) => {
+                    const address = depositAddresses.find(a => a.network_code === network.network_code);
 
-                  return (
-                    <DepositAddressCard
-                      key={network.network_code}
-                      network={network}
-                      address={address?.address}
-                      qrCode={qrCodes[network.network_code] || ''}
-                      derivationPath={address?.derivation_path || derivationPaths[network.network_code]}
-                      onGenerate={() => handleGenerateAddress(network.network_code)}
-                      isGenerating={isGenerating}
-                    />
-                  );
-                })}
+                    return (
+                      <div
+                        key={network.network_code}
+                        onClick={() => setSelectedDepositNetwork(network.network_code)}
+                        className="p-4 bg-gray-800/50 border border-gray-700 hover:border-gold-500 rounded-xl cursor-pointer transition-all group"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-bold">{network.network_name}</span>
+                          <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded border border-blue-500/30">
+                            {network.native_symbol}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-400 font-mono truncate">
+                          {address?.address}
+                        </div>
+                        <div className="mt-2 text-xs text-gray-500 group-hover:text-gold-400 transition-colors">
+                          Click to view details →
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}
 
           {activeTab === 'withdraw' && (
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-4xl mx-auto space-y-6">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold mb-2">Withdraw Crypto</h2>
                 <p className="text-gray-400">Send funds to an external wallet with KYC-based limits</p>
               </div>
 
-              <WithdrawalForm
-                availableAssets={wallets.map(w => ({
-                  asset: w.asset,
-                  balance: parseFloat(w.balance)
-                }))}
-                onSuccess={() => refetch()}
+              <NetworkSelector
+                selectedNetwork={selectedWithdrawNetwork}
+                onNetworkSelect={setSelectedWithdrawNetwork}
+                showTokens={true}
               />
+
+              <div className="mt-8 max-w-2xl mx-auto">
+                <WithdrawalForm
+                  availableAssets={wallets.map(w => ({
+                    asset: w.asset,
+                    balance: parseFloat(w.balance)
+                  }))}
+                  onSuccess={() => refetch()}
+                />
+              </div>
             </div>
           )}
 
