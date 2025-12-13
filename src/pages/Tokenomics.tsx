@@ -136,7 +136,7 @@ export default function Tokenomics() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
-                href="https://pump.fun"
+                href="https://pump.fun/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-gray-800 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all flex items-center gap-2"

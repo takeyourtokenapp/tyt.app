@@ -165,7 +165,7 @@ export default function TYTTrading() {
             </span>
             TYT Token Trading
           </h1>
-          <p className="text-gray-400">Trade TYT on pump.fun via Solana blockchain</p>
+          <p className="text-gray-400">Trade TYT on Pump.fun via Solana blockchain</p>
         </div>
         <div className="flex items-center gap-3">
           {connectedWallet ? (
@@ -255,12 +255,12 @@ export default function TYTTrading() {
                 ${formatTokenAmount(tokenData.liquidity)}
               </div>
               <a
-                href="https://pump.fun"
+                href="https://pump.fun/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1"
               >
-                View on pump.fun
+                View on Pump.fun
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
@@ -302,7 +302,7 @@ export default function TYTTrading() {
           <Wallet className="w-16 h-16 mx-auto mb-4 text-purple-400 opacity-50" />
           <h3 className="text-xl font-bold mb-2">Connect Your Wallet</h3>
           <p className="text-gray-400 mb-6">
-            Connect your Phantom wallet to start trading TYT tokens on pump.fun
+            Connect your Phantom wallet to start trading TYT tokens on Pump.fun
           </p>
           <button
             onClick={connectPhantom}
