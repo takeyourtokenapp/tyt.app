@@ -31,6 +31,7 @@ import {
   Banknote,
   PieChart,
   MessageCircle,
+  Calculator,
   type LucideIcon
 } from 'lucide-react';
 
@@ -108,6 +109,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'blue',
       items: [
         { path: '/app/academy', icon: BookOpen, label: 'Lessons' },
+        { path: '/app/calculators', icon: Calculator, label: 'Calculators' },
         { path: '/app/certificates', icon: Award, label: 'Certificates' },
         { path: '/app/avatars', icon: Sparkles, label: 'Owl Avatars' },
       ]

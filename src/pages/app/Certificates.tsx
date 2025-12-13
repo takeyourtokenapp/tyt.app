@@ -1,7 +1,68 @@
+import { useState, useEffect } from 'react';
 import CertificateGallery from '../../components/CertificateGallery';
 import { GraduationCap, Shield, Award } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
+
+interface CertificateStats {
+  totalCertificates: number;
+  totalSkills: number;
+  totalXP: number;
+}
 
 export default function Certificates() {
+  const { user } = useAuth();
+  const [stats, setStats] = useState<CertificateStats>({
+    totalCertificates: 0,
+    totalSkills: 0,
+    totalXP: 0
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      loadStats();
+    }
+  }, [user]);
+
+  const loadStats = async () => {
+    try {
+      setIsLoading(true);
+
+      const { data: certificates, error: certError } = await supabase
+        .from('academy_certificates')
+        .select('skills_earned, template:cert_template_id(skill_points)')
+        .eq('user_id', user?.id);
+
+      if (certError) throw certError;
+
+      const totalCertificates = certificates?.length || 0;
+
+      const allSkills = new Set<string>();
+      let totalXP = 0;
+
+      certificates?.forEach((cert) => {
+        if (cert.skills_earned && Array.isArray(cert.skills_earned)) {
+          cert.skills_earned.forEach((skill: string) => allSkills.add(skill));
+        }
+
+        if (cert.template && typeof cert.template === 'object' && 'skill_points' in cert.template) {
+          totalXP += (cert.template.skill_points as number) || 0;
+        }
+      });
+
+      setStats({
+        totalCertificates,
+        totalSkills: allSkills.size,
+        totalXP
+      });
+    } catch (error) {
+      console.error('Error loading certificate stats:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
@@ -21,7 +82,13 @@ export default function Certificates() {
               <Award className="w-6 h-6 text-blue-400" />
               <span className="text-sm text-gray-400">Total Certificates</span>
             </div>
-            <div className="text-3xl font-bold text-blue-400">0</div>
+            <div className="text-3xl font-bold text-blue-400">
+              {isLoading ? (
+                <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                stats.totalCertificates
+              )}
+            </div>
           </div>
 
           <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-xl p-6">
@@ -29,7 +96,13 @@ export default function Certificates() {
               <Shield className="w-6 h-6 text-purple-400" />
               <span className="text-sm text-gray-400">Total Skills</span>
             </div>
-            <div className="text-3xl font-bold text-purple-400">0</div>
+            <div className="text-3xl font-bold text-purple-400">
+              {isLoading ? (
+                <div className="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                stats.totalSkills
+              )}
+            </div>
           </div>
 
           <div className="bg-gradient-to-br from-amber-900/20 to-orange-900/20 border border-amber-500/30 rounded-xl p-6">
@@ -37,7 +110,13 @@ export default function Certificates() {
               <GraduationCap className="w-6 h-6 text-amber-400" />
               <span className="text-sm text-gray-400">Total XP Earned</span>
             </div>
-            <div className="text-3xl font-bold text-amber-400">0</div>
+            <div className="text-3xl font-bold text-amber-400">
+              {isLoading ? (
+                <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                stats.totalXP.toLocaleString()
+              )}
+            </div>
           </div>
         </div>
       </div>

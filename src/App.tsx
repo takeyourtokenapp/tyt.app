@@ -40,6 +40,7 @@ import Certificates from './pages/app/Certificates';
 import BurnReports from './pages/app/BurnReports';
 import Avatars from './pages/app/Avatars';
 import DataCenter from './pages/app/DataCenter';
+import Calculators from './pages/app/Calculators';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -96,6 +97,7 @@ function App() {
                 <Route path="wallet" element={<Wallet />} />
                 <Route path="tyt-trading" element={<TYTTrading />} />
                 <Route path="academy" element={<Academy />} />
+                <Route path="calculators" element={<Calculators />} />
                 <Route path="foundation" element={<Foundation />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="profile" element={<Profile />} />

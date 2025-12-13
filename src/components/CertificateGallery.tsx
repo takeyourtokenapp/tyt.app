@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase';
 interface Certificate {
   id: string;
   certificate_number: string;
-  issued_date: string;
+  issued_at: string;
   verification_code: string;
   skills_earned: string[];
   endorsements: number;
@@ -157,7 +157,7 @@ export default function CertificateGallery() {
                 <span className="text-gray-400">{cert.template.skill_points} XP</span>
               </div>
               <div className="text-gray-500">
-                {new Date(cert.issued_date).toLocaleDateString()}
+                {new Date(cert.issued_at).toLocaleDateString()}
               </div>
             </div>
 
@@ -229,7 +229,7 @@ export default function CertificateGallery() {
 
               <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
                 <span className="text-gray-400">Issued Date</span>
-                <span className="font-bold">{new Date(selectedCert.issued_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                <span className="font-bold">{new Date(selectedCert.issued_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
               </div>
 
               <div className="p-4 bg-gray-800 rounded-xl">

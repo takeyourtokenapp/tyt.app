@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import type { AcademyTrack, AcademyLesson } from '../../types/database';
 import AcademyQuiz from '../../components/AcademyQuiz';
+import AcademyProgressTracker from '../../components/AcademyProgressTracker';
 
 interface TrackWithProgress extends AcademyTrack {
   lessons_count: number;
@@ -36,6 +37,7 @@ interface QuizQuestion {
 }
 
 type ModalType = 'track' | 'lesson' | 'quiz' | 'leaderboard' | 'certificates' | null;
+type TabType = 'tracks' | 'progress';
 
 export default function Academy() {
   const { user } = useAuth();
@@ -44,6 +46,7 @@ export default function Academy() {
   const [owlRank, setOwlRank] = useState<'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior'>('worker');
   const [loading, setLoading] = useState(true);
 
+  const [activeTab, setActiveTab] = useState<TabType>('tracks');
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [selectedTrack, setSelectedTrack] = useState<TrackWithProgress | null>(null);
   const [trackLessons, setTrackLessons] = useState<AcademyLesson[]>([]);
@@ -254,6 +257,39 @@ export default function Academy() {
         </div>
       </div>
 
+      <div className="flex gap-2 border-b border-gray-700">
+        <button
+          onClick={() => setActiveTab('tracks')}
+          className={`px-6 py-3 font-semibold transition-all ${
+            activeTab === 'tracks'
+              ? 'text-gold-400 border-b-2 border-gold-400'
+              : 'text-gray-400 hover:text-gray-300'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <BookOpen size={18} />
+            Learning Tracks
+          </div>
+        </button>
+        <button
+          onClick={() => setActiveTab('progress')}
+          className={`px-6 py-3 font-semibold transition-all ${
+            activeTab === 'progress'
+              ? 'text-gold-400 border-b-2 border-gold-400'
+              : 'text-gray-400 hover:text-gray-300'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <Target size={18} />
+            Progress & Achievements
+          </div>
+        </button>
+      </div>
+
+      {activeTab === 'progress' ? (
+        <AcademyProgressTracker />
+      ) : (
+        <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-xl p-8 border border-amber-500/50">
           <div className="flex items-center gap-4 mb-6">
@@ -802,6 +838,8 @@ export default function Academy() {
             </button>
           </div>
         </div>
+      )}
+      </>
       )}
     </div>
   );
