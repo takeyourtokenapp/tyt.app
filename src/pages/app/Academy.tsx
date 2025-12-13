@@ -20,10 +20,19 @@ import {
   Search
 } from 'lucide-react';
 import type { AcademyTrack, AcademyLesson } from '../../types/database';
+import AcademyQuiz from '../../components/AcademyQuiz';
 
 interface TrackWithProgress extends AcademyTrack {
   lessons_count: number;
   completed_count: number;
+}
+
+interface QuizQuestion {
+  id: string;
+  question_text: string;
+  options: string[];
+  correct_answer_index: number;
+  explanation: string;
 }
 
 type ModalType = 'track' | 'lesson' | 'quiz' | 'leaderboard' | 'certificates' | null;
@@ -39,6 +48,7 @@ export default function Academy() {
   const [selectedTrack, setSelectedTrack] = useState<TrackWithProgress | null>(null);
   const [trackLessons, setTrackLessons] = useState<AcademyLesson[]>([]);
   const [selectedLesson, setSelectedLesson] = useState<AcademyLesson | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterLevel, setFilterLevel] = useState<'all' | '1' | '2' | '3'>('all');
@@ -121,9 +131,60 @@ export default function Academy() {
     setActiveModal('track');
   };
 
-  const handleLessonClick = (lesson: AcademyLesson) => {
+  const handleLessonClick = async (lesson: AcademyLesson) => {
     setSelectedLesson(lesson);
     setActiveModal('lesson');
+
+    const { data: questions } = await supabase
+      .from('academy_quiz_questions')
+      .select('*')
+      .eq('lesson_id', lesson.id)
+      .order('display_order', { ascending: true });
+
+    if (questions && questions.length > 0) {
+      setQuizQuestions(questions.map(q => ({
+        id: q.id,
+        question_text: q.question_text,
+        options: q.options as string[],
+        correct_answer_index: q.correct_answer_index,
+        explanation: q.explanation || ''
+      })));
+    }
+  };
+
+  const handleStartQuiz = () => {
+    if (quizQuestions.length > 0) {
+      setActiveModal('quiz');
+    } else {
+      alert('No quiz available for this lesson yet.');
+    }
+  };
+
+  const handleQuizComplete = async (score: number, xpEarned: number) => {
+    if (!user || !selectedLesson) return;
+
+    try {
+      await supabase
+        .from('academy_quiz_attempts')
+        .insert({
+          user_id: user.id,
+          lesson_id: selectedLesson.id,
+          score,
+          xp_earned: xpEarned,
+          answers: [],
+          completed_at: new Date().toISOString()
+        });
+
+      await supabase.rpc('add_user_xp', {
+        p_user_id: user.id,
+        p_xp_amount: xpEarned
+      });
+
+      loadAcademyData();
+    } catch (error) {
+      console.error('Error saving quiz results:', error);
+      throw error;
+    }
   };
 
   const getOwlRankInfo = (rank: string) => {
@@ -564,11 +625,71 @@ export default function Academy() {
             <div className="flex gap-3">
               <button
                 onClick={() => setActiveModal(null)}
-                className="flex-1 px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
+                className="px-4 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
               >
                 Close
               </button>
-              <button className="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-amber-500/50 transition-all">
+              {quizQuestions.length > 0 && (
+                <button
+                  onClick={handleStartQuiz}
+                  className="px-4 py-3 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2"
+                >
+                  <Trophy size={18} />
+                  Take Quiz
+                </button>
+              )}
+              <button
+                onClick={async () => {
+                  if (!user || !selectedLesson) return;
+
+                  try {
+                    const { data: existingProgress } = await supabase
+                      .from('academy_user_progress')
+                      .select('*')
+                      .eq('user_id', user.id)
+                      .eq('lesson_id', selectedLesson.id)
+                      .maybeSingle();
+
+                    if (existingProgress) {
+                      if (existingProgress.completed) {
+                        alert('You have already completed this lesson!');
+                        return;
+                      }
+
+                      await supabase
+                        .from('academy_user_progress')
+                        .update({
+                          completed: true,
+                          completed_at: new Date().toISOString()
+                        })
+                        .eq('id', existingProgress.id);
+                    } else {
+                      await supabase
+                        .from('academy_user_progress')
+                        .insert({
+                          user_id: user.id,
+                          lesson_id: selectedLesson.id,
+                          track_id: selectedLesson.track_id,
+                          completed: true,
+                          completed_at: new Date().toISOString()
+                        });
+                    }
+
+                    await supabase.rpc('add_user_xp', {
+                      p_user_id: user.id,
+                      p_xp_amount: selectedLesson.xp_reward
+                    });
+
+                    setActiveModal(null);
+                    loadAcademyData();
+                    alert(`Lesson completed! You earned ${selectedLesson.xp_reward} XP!`);
+                  } catch (error) {
+                    console.error('Error completing lesson:', error);
+                    alert('Failed to complete lesson. Please try again.');
+                  }
+                }}
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-amber-500/50 transition-all"
+              >
                 Mark as Complete
               </button>
             </div>
@@ -630,6 +751,26 @@ export default function Academy() {
             </button>
           </div>
         </div>
+      )}
+
+      {activeModal === 'quiz' && selectedLesson && quizQuestions.length > 0 && (
+        <AcademyQuiz
+          lessonId={selectedLesson.id}
+          lessonTitle={selectedLesson.title}
+          questions={quizQuestions.map(q => ({
+            id: q.id,
+            question: q.question_text,
+            options: q.options,
+            correctAnswer: q.correct_answer_index,
+            explanation: q.explanation
+          }))}
+          xpReward={selectedLesson.xp_reward * 2}
+          onComplete={handleQuizComplete}
+          onClose={() => {
+            setActiveModal('lesson');
+            setQuizQuestions([]);
+          }}
+        />
       )}
 
       {activeModal === 'certificates' && (

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Heart, CreditCard, Bitcoin, DollarSign, User, MessageSquare, Download } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function DonationWidget() {
+  const { user } = useAuth();
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState<'usd' | 'btc' | 'tyt'>('usd');
+  const [currency, setCurrency] = useState<'USD' | 'BTC' | 'TYT'>('USD');
   const [donorName, setDonorName] = useState('');
   const [message, setMessage] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -13,10 +16,10 @@ export default function DonationWidget() {
 
   const getCurrencySymbol = () => {
     switch (currency) {
-      case 'btc':
+      case 'BTC':
         return '₿';
-      case 'tyt':
-        return 'TYT';
+      case 'TYT':
+        return 'TYT ';
       default:
         return '$';
     }
@@ -24,26 +27,42 @@ export default function DonationWidget() {
 
   const handleDonate = async () => {
     const donationAmount = parseFloat(amount);
-    if (isNaN(donationAmount) || donationAmount <= 0) return;
+    if (isNaN(donationAmount) || donationAmount <= 0) {
+      alert('Please enter a valid donation amount');
+      return;
+    }
 
     setIsDonating(true);
     try {
-      console.log('Processing donation:', {
-        amount: donationAmount,
-        currency,
-        donorName: isAnonymous ? 'Anonymous' : donorName,
-        message
-      });
+      const usdEquivalent = currency === 'BTC'
+        ? donationAmount * 95000
+        : currency === 'TYT'
+        ? donationAmount * 0.05
+        : donationAmount;
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const { error } = await supabase
+        .from('foundation_donations')
+        .insert({
+          user_id: user?.id || null,
+          amount: donationAmount,
+          currency: currency,
+          usd_equivalent: usdEquivalent,
+          donor_name: isAnonymous ? null : (donorName || 'Anonymous'),
+          message: message || null,
+          is_anonymous: isAnonymous,
+          status: 'pending'
+        });
 
-      alert(`Thank you for your donation of ${getCurrencySymbol()}${donationAmount}!`);
+      if (error) throw error;
+
+      alert(`Thank you for your donation of ${getCurrencySymbol()}${donationAmount}! Your contribution will help children fighting brain cancer.`);
 
       setAmount('');
       setDonorName('');
       setMessage('');
     } catch (error) {
       console.error('Donation failed:', error);
+      alert('Failed to process donation. Please try again.');
     } finally {
       setIsDonating(false);
     }
@@ -66,9 +85,9 @@ export default function DonationWidget() {
           <label className="block text-sm font-medium mb-3">Select Currency</label>
           <div className="grid grid-cols-3 gap-3">
             <button
-              onClick={() => setCurrency('usd')}
+              onClick={() => setCurrency('USD')}
               className={`p-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
-                currency === 'usd'
+                currency === 'USD'
                   ? 'border-green-500 bg-green-500/20'
                   : 'border-gray-700 hover:border-green-700'
               }`}
@@ -77,9 +96,9 @@ export default function DonationWidget() {
               <span className="font-bold">USD</span>
             </button>
             <button
-              onClick={() => setCurrency('btc')}
+              onClick={() => setCurrency('BTC')}
               className={`p-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
-                currency === 'btc'
+                currency === 'BTC'
                   ? 'border-orange-500 bg-orange-500/20'
                   : 'border-gray-700 hover:border-orange-700'
               }`}
@@ -88,11 +107,11 @@ export default function DonationWidget() {
               <span className="font-bold">BTC</span>
             </button>
             <button
-              onClick={() => setCurrency('tyt')}
+              onClick={() => setCurrency('TYT')}
               className={`p-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
-                currency === 'tyt'
-                  ? 'border-gold-500 bg-gold-500/20'
-                  : 'border-gray-700 hover:border-gold-700'
+                currency === 'TYT'
+                  ? 'border-amber-500 bg-amber-500/20'
+                  : 'border-gray-700 hover:border-amber-700'
               }`}
             >
               <CreditCard size={20} />
@@ -124,7 +143,7 @@ export default function DonationWidget() {
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Custom amount"
               className="w-full pl-12 pr-4 py-4 bg-gray-800 border border-gray-700 rounded-xl text-xl font-bold focus:border-pink-500 focus:ring-2 focus:ring-pink-500/50 transition-all"
-              step={currency === 'btc' ? '0.0001' : '1'}
+              step={currency === 'BTC' ? '0.0001' : '1'}
             />
           </div>
         </div>
@@ -185,7 +204,7 @@ export default function DonationWidget() {
             <div className="flex items-center justify-between mb-2">
               <span className="text-gray-400">Your Donation</span>
               <span className="text-2xl font-bold text-pink-400">
-                {getCurrencySymbol()}{parseFloat(amount).toFixed(currency === 'btc' ? 8 : 2)}
+                {getCurrencySymbol()}{parseFloat(amount).toFixed(currency === 'BTC' ? 8 : 2)}
               </span>
             </div>
             <div className="text-xs text-gray-400">
@@ -221,7 +240,7 @@ export default function DonationWidget() {
           ) : (
             <>
               <Heart size={20} />
-              Donate {amount && parseFloat(amount) > 0 ? `${getCurrencySymbol()}${parseFloat(amount).toFixed(currency === 'btc' ? 8 : 2)}` : 'Now'}
+              Donate {amount && parseFloat(amount) > 0 ? `${getCurrencySymbol()}${parseFloat(amount).toFixed(currency === 'BTC' ? 8 : 2)}` : 'Now'}
             </>
           )}
         </button>
