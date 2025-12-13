@@ -3,6 +3,7 @@ import { useAuth } from './contexts/AuthContext';
 import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import LiveSupportWidget from './components/LiveSupportWidget';
+import EnhancedPriceTicker from './components/EnhancedPriceTicker';
 import PublicLayout from './components/PublicLayout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -71,6 +72,7 @@ function App() {
   return (
     <>
       <AnnouncementBanner />
+      <EnhancedPriceTicker />
       <CookieConsent />
       <LiveSupportWidget />
       <Routes>
