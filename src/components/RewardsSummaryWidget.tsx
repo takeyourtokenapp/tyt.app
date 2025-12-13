@@ -12,7 +12,6 @@ import {
   Gift
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { getProjectedEarnings, type ProjectedEarning } from '../utils/rewardsEngine';
 
 interface RewardsSummary {
   today: number;

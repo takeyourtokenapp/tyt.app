@@ -20,7 +20,6 @@ import {
   Flame
 } from 'lucide-react';
 import type { CustodialWallet, NFTMiner, DailyReward, UserProfile, VIPLevel } from '../../types/database';
-import { seedDemoData } from '../../utils/seedData';
 import MinerPerformanceWidget from '../../components/MinerPerformanceWidget';
 import RewardsSummaryWidget from '../../components/RewardsSummaryWidget';
 import NetworkStatsWidget from '../../components/NetworkStatsWidget';
@@ -34,7 +33,6 @@ export default function Dashboard() {
   const [vipLevel, setVIPLevel] = useState<VIPLevel | null>(null);
   const [serviceButtonCooldown, setServiceButtonCooldown] = useState<number>(0);
   const [loading, setLoading] = useState(true);
-  const [seeding, setSeeding] = useState(false);
   const [pressingService, setPressingService] = useState(false);
 
   useEffect(() => {
@@ -107,19 +105,6 @@ export default function Dashboard() {
       return () => clearInterval(timer);
     }
   }, [serviceButtonCooldown]);
-
-  const handleSeedData = async () => {
-    if (!user) return;
-    setSeeding(true);
-    try {
-      await seedDemoData(user.id);
-      await loadDashboardData();
-    } catch (error) {
-      console.error('Error seeding data:', error);
-    } finally {
-      setSeeding(false);
-    }
-  };
 
   const handleServiceButton = async () => {
     if (!user || !profile || serviceButtonCooldown > 0 || pressingService) return;
@@ -212,16 +197,6 @@ export default function Dashboard() {
                 <div className="font-bold text-amber-400">{vipLevel.level}</div>
               </div>
             </div>
-          )}
-          {miners.length === 0 && wallets.length === 0 && (
-            <button
-              onClick={handleSeedData}
-              disabled={seeding}
-              className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold hover:bg-amber-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              <Database size={20} />
-              {seeding ? 'Loading...' : 'Demo Data'}
-            </button>
           )}
         </div>
       </div>
