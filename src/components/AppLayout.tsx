@@ -32,6 +32,7 @@ import {
   PieChart,
   MessageCircle,
   Calculator,
+  Trophy,
   type LucideIcon
 } from 'lucide-react';
 
@@ -121,6 +122,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'pink',
       items: [
         { path: '/app/foundation', icon: Heart, label: 'Overview' },
+        { path: '/app/charity-staking', icon: Gift, label: 'Charity Staking' },
         { path: '/app/foundation#impact', icon: Target, label: 'Impact Reports' },
       ]
     },
@@ -130,7 +132,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
       icon: Users,
       color: 'cyan',
       items: [
-        { path: '/app/referrals', icon: Gift, label: 'Referrals' },
+        { path: '/app/leaderboard', icon: Trophy, label: 'Leaderboard' },
+        { path: '/app/referrals', icon: Users, label: 'Referrals' },
         { path: '/community', icon: MessageCircle, label: 'Forum' },
       ]
     },
