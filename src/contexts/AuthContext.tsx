@@ -19,11 +19,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Failed to get session:', err);
+        setLoading(false);
+      });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       (async () => {
@@ -63,6 +68,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string) => {
     console.log('Attempting sign up:', { email });
+    console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
+    console.log('Supabase Key present:', !!import.meta.env.VITE_SUPABASE_ANON_KEY);
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -88,6 +96,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return data;
     } catch (err) {
       console.error('Sign up exception:', err);
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        throw new Error('Cannot connect to Supabase. Please refresh the page and try again.');
+      }
       throw err;
     }
   };
