@@ -5,17 +5,33 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./FeeConfig.sol";
 import "./MinerNFT.sol";
+
+interface IFeeConfigMarketplace {
+    function calculateFees(bytes32 key, uint256 amount) external view returns (
+        uint256 feeTotal,
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee
+    );
+
+    function getFeeRecipients(bytes32 key) external view returns (
+        address protocolTreasury,
+        address charityVault,
+        address academyVault
+    );
+}
 
 /**
  * @title MinerMarketplace
- * @notice TYT v3 Miner NFT Marketplace - List and buy MinerNFTs with fee distribution
- * @dev Uses FeeConfig for configurable fee profiles. Fees are split to protocol/charity/academy.
+ * @notice TYT v3 Miner NFT Marketplace - List and buy MinerNFTs with 60/30/10 fee distribution
+ * @dev Integrates with FeeConfigGovernance for configurable fee profiles.
+ *      Fees are split: 60% Protocol, 30% Charity Foundation, 10% Academy
  */
-contract MinerMarketplace is AccessControl, ReentrancyGuard {
+contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     using SafeERC20 for IERC20;
     using Counters for Counters.Counter;
 
@@ -23,9 +39,8 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard {
 
     Counters.Counter private _orderIdCounter;
 
-    FeeConfig public feeConfig;
+    IFeeConfigMarketplace public feeConfig;
     MinerNFT public minerNFT;
-    bytes32 public feeProfileKey;
 
     enum OrderStatus { Active, Filled, Cancelled }
 
@@ -88,20 +103,13 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard {
     constructor(
         address _feeConfig,
         address _minerNFT,
-        bytes32 _feeProfileKey,
         address admin
     ) {
-        feeConfig = FeeConfig(_feeConfig);
+        feeConfig = IFeeConfigMarketplace(_feeConfig);
         minerNFT = MinerNFT(_minerNFT);
-        feeProfileKey = _feeProfileKey;
 
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(OPERATOR_ROLE, admin);
-    }
-
-    modifier whenNotPaused() {
-        if (isPaused) revert MarketplacePausedError();
-        _;
     }
 
     function createOrder(
@@ -142,38 +150,85 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard {
         return orderId;
     }
 
-    function fillOrder(uint256 orderId) external whenNotPaused nonReentrant {
+    function fillOrder(uint256 orderId) external payable whenNotPaused nonReentrant {
         Order storage order = orders[orderId];
 
         if (order.createdAt == 0) revert OrderNotFound(orderId);
         if (order.status != OrderStatus.Active) revert OrderNotActive(orderId);
         if (order.seller == msg.sender) revert CannotBuyOwnToken();
 
+        bytes32 marketplaceKey = keccak256("marketplace.default");
+
+        // Calculate fees with 60/30/10 split
         (
             uint256 feeTotal,
-            address[] memory recipients,
-            uint256[] memory feeAmounts
-        ) = feeConfig.calculateFee(feeProfileKey, order.price);
+            uint256 protocolFee,
+            uint256 charityFee,
+            uint256 academyFee
+        ) = feeConfig.calculateFees(marketplaceKey, order.price);
+
+        (
+            address protocolTreasury,
+            address charityVault,
+            address academyVault
+        ) = feeConfig.getFeeRecipients(marketplaceKey);
 
         uint256 sellerReceives = order.price - feeTotal;
 
         if (order.paymentToken == address(0)) {
-            if (msg.sender.balance < order.price) {
-                revert InsufficientPayment(order.price, msg.sender.balance);
+            // Native token payment (e.g., ETH/MATIC)
+            if (msg.value < order.price) {
+                revert InsufficientPayment(order.price, msg.value);
+            }
+
+            // Transfer to seller
+            (bool successSeller, ) = order.seller.call{value: sellerReceives}("");
+            if (!successSeller) revert TransferFailed();
+
+            // Distribute fees
+            if (protocolFee > 0) {
+                (bool successProtocol, ) = protocolTreasury.call{value: protocolFee}("");
+                if (!successProtocol) revert TransferFailed();
+            }
+
+            if (charityFee > 0) {
+                (bool successCharity, ) = charityVault.call{value: charityFee}("");
+                if (!successCharity) revert TransferFailed();
+            }
+
+            if (academyFee > 0) {
+                (bool successAcademy, ) = academyVault.call{value: academyFee}("");
+                if (!successAcademy) revert TransferFailed();
+            }
+
+            // Refund excess
+            if (msg.value > order.price) {
+                (bool successRefund, ) = msg.sender.call{value: msg.value - order.price}("");
+                if (!successRefund) revert TransferFailed();
             }
         } else {
+            // ERC20 token payment
             IERC20 token = IERC20(order.paymentToken);
             token.safeTransferFrom(msg.sender, address(this), order.price);
 
+            // Transfer to seller
             token.safeTransfer(order.seller, sellerReceives);
 
-            for (uint256 i = 0; i < recipients.length; i++) {
-                if (feeAmounts[i] > 0) {
-                    token.safeTransfer(recipients[i], feeAmounts[i]);
-                }
+            // Distribute fees
+            if (protocolFee > 0) {
+                token.safeTransfer(protocolTreasury, protocolFee);
+            }
+
+            if (charityFee > 0) {
+                token.safeTransfer(charityVault, charityFee);
+            }
+
+            if (academyFee > 0) {
+                token.safeTransfer(academyVault, academyFee);
             }
         }
 
+        // Transfer NFT to buyer
         minerNFT.transferFrom(address(this), msg.sender, order.tokenId);
 
         order.status = OrderStatus.Filled;
@@ -181,6 +236,12 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard {
         order.buyer = msg.sender;
 
         _removeFromActiveOrders(orderId);
+
+        // Create feeAmounts array for event
+        uint256[] memory feeAmounts = new uint256[](3);
+        feeAmounts[0] = protocolFee;
+        feeAmounts[1] = charityFee;
+        feeAmounts[2] = academyFee;
 
         emit OrderFilled(orderId, order.tokenId, msg.sender, order.price, feeTotal, feeAmounts);
     }

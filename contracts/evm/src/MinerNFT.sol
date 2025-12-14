@@ -5,21 +5,41 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+
+interface IFeeConfig {
+    function calculateFees(bytes32 key, uint256 amount) external view returns (
+        uint256 feeTotal,
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee
+    );
+
+    function getFeeRecipients(bytes32 key) external view returns (
+        address protocolTreasury,
+        address charityVault,
+        address academyVault
+    );
+}
 
 /**
  * @title MinerNFT
  * @notice TYT v3 Miner NFT - Represents ownership of virtual mining power
  * @dev ERC-721 with metadata for miner type, hashrate/power, level, and active status.
  *      Supports upgrades and status changes with proper event emission.
+ *      Integrates with FeeConfigGovernance for 60/30/10 fee splits.
  */
-contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
+contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, ReentrancyGuard {
     using Counters for Counters.Counter;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
 
     Counters.Counter private _tokenIdCounter;
+
+    IFeeConfig public feeConfig;
+    uint256 public mintPrice;
 
     struct MinerData {
         uint256 minerTypeId;
@@ -58,6 +78,15 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
     );
 
     event BaseURIUpdated(string newBaseURI);
+    event FeeConfigUpdated(address indexed newFeeConfig);
+    event MintPriceUpdated(uint256 newPrice);
+    event FeesDistributed(
+        uint256 indexed tokenId,
+        uint256 totalFee,
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee
+    );
 
     error MinerNotFound(uint256 tokenId);
     error NotOwnerOrApproved(uint256 tokenId, address caller);
@@ -65,20 +94,64 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
     error InvalidLevel(uint256 level);
     error MinerInactive(uint256 tokenId);
     error AlreadyMaxLevel(uint256 tokenId);
+    error InsufficientPayment(uint256 required, uint256 provided);
+    error InvalidFeeConfig();
+    error FeeTransferFailed();
 
     constructor(
         string memory name,
         string memory symbol,
         string memory baseURI,
-        address admin
+        address admin,
+        address _feeConfig,
+        uint256 _mintPrice
     ) ERC721(name, symbol) {
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(MINTER_ROLE, admin);
         _grantRole(UPGRADER_ROLE, admin);
         _baseTokenURI = baseURI;
+        feeConfig = IFeeConfig(_feeConfig);
+        mintPrice = _mintPrice;
     }
 
     function mint(
+        address to,
+        uint256 minerTypeId,
+        uint256 initialPower,
+        string calldata tokenURI_
+    ) external payable nonReentrant returns (uint256) {
+        if (initialPower == 0 || initialPower > MAX_POWER) {
+            revert InvalidPower(initialPower);
+        }
+
+        if (msg.value < mintPrice) {
+            revert InsufficientPayment(mintPrice, msg.value);
+        }
+
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+
+        // Distribute fees (60/30/10 split)
+        _distributeFees(tokenId, msg.value);
+
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, tokenURI_);
+
+        _minerData[tokenId] = MinerData({
+            minerTypeId: minerTypeId,
+            powerHashrate: initialPower,
+            level: 1,
+            isActive: true,
+            mintedAt: block.timestamp,
+            lastUpgradeAt: block.timestamp
+        });
+
+        emit MinerMinted(tokenId, to, minerTypeId, initialPower);
+
+        return tokenId;
+    }
+
+    function mintFree(
         address to,
         uint256 minerTypeId,
         uint256 initialPower,
@@ -106,6 +179,41 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
         emit MinerMinted(tokenId, to, minerTypeId, initialPower);
 
         return tokenId;
+    }
+
+    function _distributeFees(uint256 tokenId, uint256 amount) internal {
+        bytes32 mintKey = keccak256("mint.default");
+
+        (
+            uint256 feeTotal,
+            uint256 protocolFee,
+            uint256 charityFee,
+            uint256 academyFee
+        ) = feeConfig.calculateFees(mintKey, amount);
+
+        (
+            address protocolTreasury,
+            address charityVault,
+            address academyVault
+        ) = feeConfig.getFeeRecipients(mintKey);
+
+        // Transfer fees to recipients
+        if (protocolFee > 0) {
+            (bool success, ) = protocolTreasury.call{value: protocolFee}("");
+            if (!success) revert FeeTransferFailed();
+        }
+
+        if (charityFee > 0) {
+            (bool success, ) = charityVault.call{value: charityFee}("");
+            if (!success) revert FeeTransferFailed();
+        }
+
+        if (academyFee > 0) {
+            (bool success, ) = academyVault.call{value: academyFee}("");
+            if (!success) revert FeeTransferFailed();
+        }
+
+        emit FeesDistributed(tokenId, feeTotal, protocolFee, charityFee, academyFee);
     }
 
     function upgrade(
@@ -205,6 +313,25 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
     function setBaseURI(string calldata newBaseURI) external onlyRole(DEFAULT_ADMIN_ROLE) {
         _baseTokenURI = newBaseURI;
         emit BaseURIUpdated(newBaseURI);
+    }
+
+    function setFeeConfig(address _feeConfig) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (_feeConfig == address(0)) revert InvalidFeeConfig();
+        feeConfig = IFeeConfig(_feeConfig);
+        emit FeeConfigUpdated(_feeConfig);
+    }
+
+    function setMintPrice(uint256 _mintPrice) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        mintPrice = _mintPrice;
+        emit MintPriceUpdated(_mintPrice);
+    }
+
+    function withdrawBalance() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        uint256 balance = address(this).balance;
+        if (balance > 0) {
+            (bool success, ) = msg.sender.call{value: balance}("");
+            require(success, "Withdrawal failed");
+        }
     }
 
     function _baseURI() internal view override returns (string memory) {
