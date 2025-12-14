@@ -2,11 +2,11 @@
 
 ## Credentials Updated
 
-New Supabase credentials are now active:
+New Supabase credentials are now active (Legacy JWT token):
 
 ```env
 VITE_SUPABASE_URL=https://xyoaobelwkmrncvktrkv.supabase.co
-VITE_SUPABASE_ANON_KEY=sb_publishable_9NElgpeKUBspEkCxyE0u_g_jgy34m
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5b2FvYmVsd2ttcm5jdmt0cmt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg0MDM3MDAsImV4cCI6MjAwMzk3OTcwMH0.j1iiVxNb1-mKKJU3c0r0D8yTXqjZEKH_Chs0BjhOGp4
 ```
 
 ## Testing Steps
