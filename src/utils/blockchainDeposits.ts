@@ -209,12 +209,19 @@ export async function triggerDepositMonitoring(): Promise<{
   error?: string;
 }> {
   try {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      throw new Error('Not authenticated');
+    }
+
     const response = await fetch(
-      `${SUPABASE_URL}/functions/v1/monitor-deposits?secret=${import.meta.env.VITE_CRON_SECRET || 'change-in-production'}`,
+      `${SUPABASE_URL}/functions/v1/trigger-deposit-monitor`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
         },
       }
     );

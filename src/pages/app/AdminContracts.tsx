@@ -3,6 +3,7 @@ import { Shield, Settings, Pause, Play, DollarSign, Flame, RefreshCw, AlertCircl
 import { useAccount } from 'wagmi';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/contexts/ToastContext';
+import { contractAddresses } from '@/lib/web3/config';
 
 interface ContractInfo {
   name: string;
@@ -71,35 +72,41 @@ export default function AdminContracts() {
 
   const loadContractData = async () => {
     try {
-      // Load contract addresses from env
+      // Load contract addresses from centralized config
       const contractList: ContractInfo[] = [
         {
           name: 'Miner NFT',
-          address: import.meta.env.VITE_MINER_NFT_ADDRESS || '0x0000000000000000000000000000000000000000',
+          address: contractAddresses.minerNFT,
           isPaused: false,
           balance: '0',
         },
         {
           name: 'Marketplace',
-          address: import.meta.env.VITE_MARKETPLACE_ADDRESS || '0x0000000000000000000000000000000000000000',
+          address: contractAddresses.marketplace,
           isPaused: false,
           balance: '0',
         },
         {
-          name: 'Rewards Registry',
-          address: import.meta.env.VITE_REWARDS_REGISTRY_ADDRESS || '0x0000000000000000000000000000000000000000',
+          name: 'Rewards Merkle',
+          address: contractAddresses.rewardsMerkle,
           isPaused: false,
           balance: '0',
         },
         {
           name: 'Charity Vault',
-          address: import.meta.env.VITE_CHARITY_VAULT_ADDRESS || '0x0000000000000000000000000000000000000000',
+          address: contractAddresses.charityVault,
+          isPaused: false,
+          balance: '0',
+        },
+        {
+          name: 'Academy Vault',
+          address: contractAddresses.academyVault,
           isPaused: false,
           balance: '0',
         },
         {
           name: 'Fee Config',
-          address: import.meta.env.VITE_FEE_CONFIG_ADDRESS || '0x0000000000000000000000000000000000000000',
+          address: contractAddresses.feeConfig,
           isPaused: false,
           balance: '0',
         },
