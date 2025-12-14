@@ -147,48 +147,38 @@ export default function WalletUnified() {
       <div className="min-h-[600px]">
         {activeTab === 'balance' && (
           <WalletBalance
-            wallets={wallets}
-            aggregatedBalances={aggregatedBalances}
-            isLoading={isLoading}
-            onRefetch={refetch}
+            onSelectAsset={(asset) => {
+              setActiveTab('deposit');
+            }}
           />
         )}
 
         {activeTab === 'deposit' && (
           <WalletDeposit
-            wallets={wallets}
             onSuccess={refetch}
           />
         )}
 
         {activeTab === 'withdraw' && (
           <WalletWithdraw
-            wallets={wallets}
-            aggregatedBalances={aggregatedBalances}
             onSuccess={refetch}
           />
         )}
 
         {activeTab === 'swap' && (
           <WalletSwap
-            wallets={wallets}
-            aggregatedBalances={aggregatedBalances}
             onSuccess={refetch}
           />
         )}
 
         {activeTab === 'bridge' && (
           <WalletBridge
-            wallets={wallets}
-            aggregatedBalances={aggregatedBalances}
             onSuccess={refetch}
           />
         )}
 
         {activeTab === 'history' && (
-          <WalletHistory
-            ledgerHistory={ledgerHistory}
-          />
+          <WalletHistory />
         )}
       </div>
     </div>
