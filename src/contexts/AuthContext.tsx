@@ -37,13 +37,59 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
+    console.log('Attempting sign in:', { email });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        console.error('Sign in error:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        });
+        throw new Error(error.message || 'Failed to sign in');
+      }
+
+      console.log('Sign in successful:', { userId: data.user?.id });
+      return data;
+    } catch (err) {
+      console.error('Sign in exception:', err);
+      throw err;
+    }
   };
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) throw error;
+    console.log('Attempting sign up:', { email });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: undefined
+        }
+      });
+
+      if (error) {
+        console.error('Sign up error:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        });
+        throw new Error(error.message || 'Failed to create account');
+      }
+
+      console.log('Sign up successful:', {
+        userId: data.user?.id,
+        needsConfirmation: !data.session
+      });
+      return data;
+    } catch (err) {
+      console.error('Sign up exception:', err);
+      throw err;
+    }
   };
 
   const signOut = async () => {

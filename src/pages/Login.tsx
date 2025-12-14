@@ -16,11 +16,30 @@ export default function Login() {
     setError('');
     setLoading(true);
 
+    console.log('Login form submitted:', { email });
+
     try {
       await signIn(email, password);
+      console.log('Sign in successful, navigating to /app');
       navigate('/app');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in');
+      console.error('Login error:', err);
+
+      let errorMessage = 'Failed to sign in';
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+
+        if (err.message.includes('fetch')) {
+          errorMessage = 'Network error. Check your connection and Supabase configuration.';
+        } else if (err.message.includes('Invalid login credentials')) {
+          errorMessage = 'Invalid email or password';
+        } else if (err.message.includes('Email not confirmed')) {
+          errorMessage = 'Please confirm your email address';
+        }
+      }
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -28,15 +28,33 @@ export default function Signup() {
     }
 
     setLoading(true);
+    console.log('Signup form submitted:', { email });
 
     try {
       await signUp(email, password);
+      console.log('Sign up successful');
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create account');
+      console.error('Signup error:', err);
+
+      let errorMessage = 'Failed to create account';
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+
+        if (err.message.includes('fetch')) {
+          errorMessage = 'Network error. Check your connection and Supabase configuration.';
+        } else if (err.message.includes('already registered')) {
+          errorMessage = 'This email is already registered. Try logging in.';
+        } else if (err.message.includes('User already registered')) {
+          errorMessage = 'This email is already registered. Try logging in.';
+        }
+      }
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
