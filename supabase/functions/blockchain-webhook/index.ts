@@ -34,11 +34,19 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    // CRITICAL: Verify WEBHOOK_SECRET
     const webhookSecret = Deno.env.get('WEBHOOK_SECRET') || 'change-in-production';
     const providedSecret = req.headers.get('X-Webhook-Secret');
-    
-    if (providedSecret !== webhookSecret) {
-      console.warn('Invalid webhook secret');
+
+    if (!providedSecret || providedSecret !== webhookSecret) {
+      console.warn('Unauthorized: Invalid or missing WEBHOOK_SECRET');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
     }
 
     const payload = await req.json();
