@@ -31,26 +31,32 @@ export default function Signup() {
     console.log('Signup form submitted:', { email });
 
     try {
-      await signUp(email, password);
-      console.log('Sign up successful');
+      const result = await signUp(email, password);
+      console.log('Sign up successful:', result);
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (err) {
-      console.error('Signup error:', err);
+      console.error('Signup error details:', {
+        error: err,
+        message: err instanceof Error ? err.message : 'Unknown',
+        stack: err instanceof Error ? err.stack : undefined
+      });
 
       let errorMessage = 'Failed to create account';
 
       if (err instanceof Error) {
         errorMessage = err.message;
 
-        if (err.message.includes('fetch')) {
+        if (err.message.includes('fetch') || err.message.includes('Failed to fetch')) {
           errorMessage = 'Network error. Check your connection and Supabase configuration.';
-        } else if (err.message.includes('already registered')) {
+        } else if (err.message.includes('already registered') || err.message.includes('User already registered')) {
           errorMessage = 'This email is already registered. Try logging in.';
-        } else if (err.message.includes('User already registered')) {
-          errorMessage = 'This email is already registered. Try logging in.';
+        } else if (err.message.includes('Database')) {
+          errorMessage = 'Database error saving new user. Check Supabase Auth settings (disable email confirmation).';
+        } else if (err.message.includes('Email')) {
+          errorMessage = err.message;
         }
       }
 

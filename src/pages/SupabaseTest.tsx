@@ -75,7 +75,21 @@ export default function SupabaseTest() {
             <li>Check that VITE_SUPABASE_ANON_KEY is present and has proper length</li>
             <li>If values are missing, restart the dev server</li>
             <li>If error persists, check browser console for details</li>
+            <li>
+              <strong>If signup fails:</strong> Check Supabase Dashboard → Authentication → Settings
+              <br />
+              Ensure "Confirm Email" is DISABLED for development
+            </li>
           </ol>
+
+          <div className="mt-6 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+            <h3 className="font-semibold text-blue-300 mb-2">Common Issues:</h3>
+            <ul className="space-y-1 text-sm text-gray-300">
+              <li>• "Database error" → Disable email confirmation in Supabase Dashboard</li>
+              <li>• "Network error" → Check environment variables above</li>
+              <li>• "Invalid credentials" → User doesn't exist, try signup first</li>
+            </ul>
+          </div>
 
           <div className="flex gap-4 mt-6">
             <a
