@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { Link } from 'react-router-dom';
 
 export default function SupabaseTest() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [details, setDetails] = useState<any>({});
+  const [authTest, setAuthTest] = useState<'pending' | 'testing' | 'success' | 'error'>('pending');
 
   useEffect(() => {
     async function testConnection() {
@@ -22,16 +24,33 @@ export default function SupabaseTest() {
 
         if (error) {
           setStatus('error');
-          setDetails((prev: any) => ({ ...prev, error: error.message }));
+          setDetails((prev: any) => ({ ...prev, db_error: error.message }));
         } else {
           setStatus('success');
-          setDetails((prev: any) => ({ ...prev, query_result: 'OK' }));
+          setDetails((prev: any) => ({ ...prev, db_connection: 'OK' }));
+        }
+
+        setAuthTest('testing');
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          setAuthTest('error');
+          setDetails((prev: any) => ({ ...prev, auth_error: sessionError.message }));
+        } else {
+          setAuthTest('success');
+          setDetails((prev: any) => ({
+            ...prev,
+            auth_api: 'OK',
+            session: sessionData.session ? 'Active' : 'None'
+          }));
         }
       } catch (err) {
         setStatus('error');
+        setAuthTest('error');
         setDetails((prev: any) => ({
           ...prev,
-          exception: err instanceof Error ? err.message : 'Unknown error'
+          exception: err instanceof Error ? err.message : 'Unknown error',
+          is_network_error: err instanceof TypeError && err.message.includes('fetch')
         }));
       }
     }
@@ -42,24 +61,58 @@ export default function SupabaseTest() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white p-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Supabase Connection Test</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Supabase Connection Test</h1>
+          <Link to="/" className="text-sm text-gray-400 hover:text-gray-300">
+            Back to home
+          </Link>
+        </div>
+
+        <div className="space-y-4 mb-8">
+          <div className={`p-4 rounded-lg border ${
+            status === 'loading' ? 'bg-blue-900/20 border-blue-500/30' :
+            status === 'success' ? 'bg-green-900/20 border-green-500/30' :
+            'bg-red-900/20 border-red-500/30'
+          }`}>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Database: </span>
+              <span className={`${
+                status === 'loading' ? 'text-blue-400' :
+                status === 'success' ? 'text-green-400' :
+                'text-red-400'
+              }`}>
+                {status === 'loading' ? 'Testing...' : status === 'success' ? 'Connected' : 'Failed'}
+              </span>
+            </div>
+          </div>
+
+          <div className={`p-4 rounded-lg border ${
+            authTest === 'pending' ? 'bg-gray-900/20 border-gray-500/30' :
+            authTest === 'testing' ? 'bg-blue-900/20 border-blue-500/30' :
+            authTest === 'success' ? 'bg-green-900/20 border-green-500/30' :
+            'bg-red-900/20 border-red-500/30'
+          }`}>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Auth API: </span>
+              <span className={`${
+                authTest === 'pending' ? 'text-gray-400' :
+                authTest === 'testing' ? 'text-blue-400' :
+                authTest === 'success' ? 'text-green-400' :
+                'text-red-400'
+              }`}>
+                {authTest === 'pending' ? 'Waiting...' :
+                 authTest === 'testing' ? 'Testing...' :
+                 authTest === 'success' ? 'Connected' : 'Failed'}
+              </span>
+            </div>
+          </div>
+        </div>
 
         <div className={`p-6 rounded-lg ${
           status === 'loading' ? 'bg-blue-900/20' :
-          status === 'success' ? 'bg-green-900/20' :
+          status === 'success' && authTest === 'success' ? 'bg-green-900/20' :
           'bg-red-900/20'
         }`}>
-          <div className="mb-4">
-            <span className="font-semibold">Status: </span>
-            <span className={`${
-              status === 'loading' ? 'text-blue-400' :
-              status === 'success' ? 'text-green-400' :
-              'text-red-400'
-            }`}>
-              {status.toUpperCase()}
-            </span>
-          </div>
-
           <div className="space-y-2">
             <h2 className="font-semibold mb-2">Details:</h2>
             <pre className="bg-black/30 p-4 rounded text-sm overflow-auto">
@@ -67,6 +120,20 @@ export default function SupabaseTest() {
             </pre>
           </div>
         </div>
+
+        {details.is_network_error && (
+          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
+            <h3 className="text-red-400 font-semibold mb-2">Network Error Detected</h3>
+            <p className="text-sm text-gray-300">
+              Unable to connect to Supabase Auth API. This usually means:
+            </p>
+            <ul className="mt-2 space-y-1 text-sm text-gray-300 list-disc list-inside">
+              <li>Supabase project is paused (check dashboard)</li>
+              <li>Invalid Supabase URL in .env file</li>
+              <li>Network connectivity issues</li>
+            </ul>
+          </div>
+        )}
 
         <div className="mt-8 space-y-4">
           <h2 className="text-xl font-semibold">Instructions:</h2>
