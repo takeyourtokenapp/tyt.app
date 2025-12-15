@@ -18,6 +18,7 @@ import Tokenomics from './pages/Tokenomics';
 import VIP from './pages/VIP';
 import Community from './pages/Community';
 import SupabaseTest from './pages/SupabaseTest';
+import AuthTest from './pages/AuthTest';
 import AppLayout from './components/AppLayout';
 import Dashboard from './pages/app/Dashboard';
 import Miners from './pages/app/Miners';
@@ -88,6 +89,7 @@ function App() {
       <Route path="/vip" element={<PublicLayout><VIP /></PublicLayout>} />
       <Route path="/community" element={<PublicLayout><Community /></PublicLayout>} />
       <Route path="/test-supabase" element={<SupabaseTest />} />
+      <Route path="/test-auth" element={<AuthTest />} />
 
       <Route
         path="/app/*"
