@@ -18,9 +18,12 @@ export interface Profile {
 export interface CustodialWallet {
   id: string;
   user_id: string;
-  asset: 'BTC' | 'USDT' | 'TYT' | 'ETH' | 'SOL' | 'TRX' | 'XRP';
+  currency: 'BTC' | 'TYT' | 'USDT' | 'TRX' | 'ETH' | 'SOL';
   balance: string;
   locked_balance: string;
+  address?: string;
+  blockchain?: string;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -132,15 +135,19 @@ export interface NFTMiner {
 
 export interface DailyReward {
   id: string;
+  user_id: string;
   miner_id: string;
   reward_date: string;
-  gross_btc: string;
-  maintenance_cost_btc: string;
-  net_btc: string;
-  hashrate_snapshot_th: number;
-  global_difficulty?: string;
-  pool_hashrate_th?: string;
-  merkle_leaf?: string;
+  btc_amount: string;
+  hashrate_snapshot: number;
+  efficiency_snapshot: number;
+  uptime_percent?: number;
+  network_difficulty?: string;
+  btc_price_usd?: string;
+  status: 'pending' | 'processing' | 'processed' | 'paid' | 'failed';
+  wallet_transaction_id?: string;
+  processed_at?: string;
+  metadata?: Record<string, any>;
   created_at: string;
 }
 
@@ -188,7 +195,52 @@ export interface VIPTier {
   exclusive_avatars: boolean;
   custom_badge?: string;
   description?: string;
+  service_button_reward?: number;
+  min_spent?: number;
+  max_spent?: number;
+  created_at: string;
 }
+
+export interface UserProfile {
+  user_id: string;
+  kyc_status: 'not_submitted' | 'pending' | 'approved' | 'rejected';
+  kyc_tier: number;
+  access_level: 'restricted' | 'standard' | 'premium' | 'vip';
+  reward_points: number;
+  total_trading_volume: number;
+  service_button_last_pressed?: string;
+  service_button_presses?: number;
+  total_spent?: number;
+  registration_date: string;
+  kyc_submitted_at?: string;
+  kyc_approved_at?: string;
+  last_active: string;
+  metadata?: Record<string, any>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Profile {
+  id: string;
+  username?: string;
+  email: string;
+  full_name?: string;
+  kyc_status: 'not_submitted' | 'pending' | 'approved' | 'rejected';
+  kyc_submitted_at?: string;
+  kyc_document_url?: string;
+  two_fa_enabled: boolean;
+  referral_code: string;
+  referred_by?: string;
+  vip_level: number;
+  total_hashrate: number;
+  service_button_last_pressed?: string;
+  service_button_presses?: number;
+  total_spent?: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export type VIPLevel = VIPTier;
 
 export interface OwlRank {
   rank: 'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior';

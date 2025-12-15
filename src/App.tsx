@@ -49,6 +49,9 @@ import KYC from './pages/app/KYC';
 import Quests from './pages/app/Quests';
 import Grants from './pages/app/Grants';
 import Clans from './pages/app/Clans';
+import Swap from './pages/app/Swap';
+import Bridge from './pages/app/Bridge';
+import AdminContracts from './pages/app/AdminContracts';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -105,6 +108,8 @@ function App() {
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
                 <Route path="wallet" element={<WalletNew />} />
+                <Route path="swap" element={<Swap />} />
+                <Route path="bridge" element={<Bridge />} />
                 <Route path="tyt-trading" element={<TYTTrading />} />
                 <Route path="academy" element={<Academy />} />
                 <Route path="calculators" element={<Calculators />} />
@@ -127,6 +132,7 @@ function App() {
                 <Route path="clans" element={<Clans />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
+                <Route path="admin/contracts" element={<AdminContracts />} />
               </Routes>
             </AppLayout>
           </ProtectedRoute>

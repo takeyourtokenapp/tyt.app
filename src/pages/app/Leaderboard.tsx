@@ -81,11 +81,11 @@ export default function Leaderboard() {
       .from('nft_miners')
       .select(`
         owner_id,
-        power_th,
-        user_profiles!nft_miners_owner_id_fkey (
-          user_id,
+        hashrate,
+        profiles!nft_miners_owner_id_fkey (
+          id,
           username,
-          avatar_url
+          email
         )
       `)
       .eq('status', 'active');
@@ -97,12 +97,12 @@ export default function Leaderboard() {
       if (!acc[userId]) {
         acc[userId] = {
           user_id: userId,
-          username: miner.user_profiles?.username || 'Anonymous',
-          avatar_url: miner.user_profiles?.avatar_url,
+          username: miner.profiles?.username || miner.profiles?.email?.split('@')[0] || 'Anonymous',
+          avatar_url: undefined,
           value: 0
         };
       }
-      acc[userId].value += parseFloat(miner.power_th);
+      acc[userId].value += parseFloat(miner.hashrate);
       return acc;
     }, {});
 
@@ -121,11 +121,11 @@ export default function Leaderboard() {
       .from('daily_rewards')
       .select(`
         user_id,
-        net_btc_rewarded,
-        user_profiles!daily_rewards_user_id_fkey (
-          user_id,
+        btc_amount,
+        profiles!daily_rewards_user_id_fkey (
+          id,
           username,
-          avatar_url
+          email
         )
       `);
 
@@ -136,12 +136,12 @@ export default function Leaderboard() {
       if (!acc[userId]) {
         acc[userId] = {
           user_id: userId,
-          username: reward.user_profiles?.username || 'Anonymous',
-          avatar_url: reward.user_profiles?.avatar_url,
+          username: reward.profiles?.username || reward.profiles?.email?.split('@')[0] || 'Anonymous',
+          avatar_url: undefined,
           value: 0
         };
       }
-      acc[userId].value += parseFloat(reward.net_btc_rewarded);
+      acc[userId].value += parseFloat(reward.btc_amount);
       return acc;
     }, {});
 
@@ -161,10 +161,10 @@ export default function Leaderboard() {
       .select(`
         user_id,
         total_donated,
-        user_profiles!charity_stakes_user_id_fkey (
-          user_id,
+        profiles!charity_stakes_user_id_fkey (
+          id,
           username,
-          avatar_url
+          email
         )
       `)
       .eq('status', 'active');
@@ -176,8 +176,8 @@ export default function Leaderboard() {
       if (!acc[userId]) {
         acc[userId] = {
           user_id: userId,
-          username: stake.user_profiles?.username || 'Anonymous',
-          avatar_url: stake.user_profiles?.avatar_url,
+          username: stake.profiles?.username || stake.profiles?.email?.split('@')[0] || 'Anonymous',
+          avatar_url: undefined,
           value: 0
         };
       }
@@ -196,37 +196,61 @@ export default function Leaderboard() {
   };
 
   const loadReferralsLeaderboard = async () => {
-    const { data, error } = await supabase
-      .from('user_profiles')
-      .select('user_id, username, avatar_url, total_referrals')
-      .order('total_referrals', { ascending: false })
-      .limit(100);
+    // Count referrals per user from referral_earnings
+    const { data: earnings, error } = await supabase
+      .from('referral_earnings')
+      .select('referrer_id');
 
-    if (error || !data) return [];
+    if (error || !earnings) return [];
 
-    return data.map((entry, index) => ({
-      user_id: entry.user_id,
-      username: entry.username || 'Anonymous',
-      avatar_url: entry.avatar_url,
-      rank: index + 1,
-      value: entry.total_referrals || 0,
-      badge: index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : undefined
+    // Aggregate counts
+    const referralCounts = earnings.reduce((acc: any, earning: any) => {
+      const referrerId = earning.referrer_id;
+      acc[referrerId] = (acc[referrerId] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Get user details
+    const userIds = Object.keys(referralCounts);
+    if (userIds.length === 0) return [];
+
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id, username, email')
+      .in('id', userIds);
+
+    if (!profiles) return [];
+
+    const leaderboardData = profiles.map((profile: any) => ({
+      user_id: profile.id,
+      username: profile.username || profile.email?.split('@')[0] || 'Anonymous',
+      avatar_url: undefined,
+      value: referralCounts[profile.id] || 0
     }));
+
+    return leaderboardData
+      .sort((a: any, b: any) => b.value - a.value)
+      .slice(0, 100)
+      .map((entry: any, index) => ({
+        ...entry,
+        rank: index + 1,
+        badge: index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : undefined
+      }));
   };
 
   const loadVIPLeaderboard = async () => {
     const { data, error } = await supabase
-      .from('user_profiles')
-      .select('user_id, username, avatar_url, vip_level')
+      .from('profiles')
+      .select('id, username, email, vip_level')
       .order('vip_level', { ascending: false })
       .limit(100);
 
     if (error || !data) return [];
 
     return data.map((entry, index) => ({
-      user_id: entry.user_id,
-      username: entry.username || 'Anonymous',
-      avatar_url: entry.avatar_url,
+      user_id: entry.id,
+      username: entry.username || entry.email?.split('@')[0] || 'Anonymous',
+      avatar_url: undefined,
       rank: index + 1,
       value: entry.vip_level || 0,
       badge: index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : undefined
@@ -235,19 +259,27 @@ export default function Leaderboard() {
 
   const loadAcademyLeaderboard = async () => {
     const { data, error } = await supabase
-      .from('user_profiles')
-      .select('user_id, username, avatar_url, academy_xp')
-      .order('academy_xp', { ascending: false })
+      .from('user_academy_stats')
+      .select(`
+        user_id,
+        total_xp,
+        profiles!user_academy_stats_user_id_fkey (
+          id,
+          username,
+          email
+        )
+      `)
+      .order('total_xp', { ascending: false })
       .limit(100);
 
     if (error || !data) return [];
 
-    return data.map((entry, index) => ({
+    return data.map((entry: any, index) => ({
       user_id: entry.user_id,
-      username: entry.username || 'Anonymous',
-      avatar_url: entry.avatar_url,
+      username: entry.profiles?.username || entry.profiles?.email?.split('@')[0] || 'Anonymous',
+      avatar_url: undefined,
       rank: index + 1,
-      value: entry.academy_xp || 0,
+      value: entry.total_xp || 0,
       badge: index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : undefined
     }));
   };

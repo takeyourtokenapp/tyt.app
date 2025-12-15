@@ -19,7 +19,7 @@ import {
   DollarSign,
   Flame
 } from 'lucide-react';
-import type { CustodialWallet, NFTMiner, DailyReward, UserProfile, VIPLevel } from '../../types/database';
+import type { CustodialWallet, NFTMiner, DailyReward, Profile, VIPLevel } from '../../types/database';
 import MinerPerformanceWidget from '../../components/MinerPerformanceWidget';
 import RewardsSummaryWidget from '../../components/RewardsSummaryWidget';
 import NetworkStatsWidget from '../../components/NetworkStatsWidget';
@@ -29,7 +29,7 @@ export default function Dashboard() {
   const [wallets, setWallets] = useState<CustodialWallet[]>([]);
   const [miners, setMiners] = useState<NFTMiner[]>([]);
   const [recentRewards, setRecentRewards] = useState<DailyReward[]>([]);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [vipLevel, setVIPLevel] = useState<VIPLevel | null>(null);
   const [serviceButtonCooldown, setServiceButtonCooldown] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -58,12 +58,13 @@ export default function Dashboard() {
         supabase
           .from('daily_rewards')
           .select('*')
+          .eq('user_id', user.id)
           .order('reward_date', { ascending: false })
           .limit(7),
         supabase
-          .from('user_profiles')
+          .from('profiles')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .maybeSingle()
       ]);
 
@@ -75,7 +76,7 @@ export default function Dashboard() {
         setProfile(profileRes.data);
 
         const vipRes = await supabase
-          .from('vip_levels')
+          .from('vip_tiers')
           .select('*')
           .eq('level', profileRes.data.vip_level)
           .maybeSingle();
@@ -114,14 +115,14 @@ export default function Dashboard() {
       const rewardAmount = vipLevel ? parseFloat(vipLevel.service_button_reward) : 10;
 
       await supabase
-        .from('user_profiles')
+        .from('profiles')
         .update({
           service_button_last_pressed: new Date().toISOString(),
           service_button_presses: (profile.service_button_presses || 0) + 1
         })
-        .eq('user_id', user.id);
+        .eq('id', user.id);
 
-      const tytWallet = wallets.find(w => w.asset === 'TYT');
+      const tytWallet = wallets.find(w => w.currency === 'TYT');
       if (tytWallet) {
         const newBalance = parseFloat(tytWallet.balance) + rewardAmount;
         await supabase
@@ -146,14 +147,14 @@ export default function Dashboard() {
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
-  const totalHashrate = miners.reduce((sum, miner) => sum + miner.hashrate_th, 0);
+  const totalHashrate = miners.reduce((sum, miner) => sum + parseFloat(miner.hashrate as any), 0);
   const avgEfficiency = miners.length > 0
-    ? miners.reduce((sum, miner) => sum + miner.efficiency_w_per_th, 0) / miners.length
+    ? miners.reduce((sum, miner) => sum + parseFloat(miner.efficiency as any), 0) / miners.length
     : 0;
 
   const todayReward = recentRewards[0];
   const weeklyRewards = recentRewards.reduce(
-    (sum, reward) => sum + parseFloat(reward.net_btc),
+    (sum, reward) => sum + parseFloat(reward.btc_amount),
     0
   );
 
@@ -508,11 +509,11 @@ export default function Dashboard() {
                   <div className="grid grid-cols-3 gap-3">
                     <div className="text-center p-2 bg-gray-900/50 rounded">
                       <div className="text-xs text-gray-400 mb-1">Hashrate</div>
-                      <div className="font-bold text-amber-400">{miner.hashrate_th} TH/s</div>
+                      <div className="font-bold text-amber-400">{parseFloat(miner.hashrate as any).toFixed(2)} TH/s</div>
                     </div>
                     <div className="text-center p-2 bg-gray-900/50 rounded">
                       <div className="text-xs text-gray-400 mb-1">Efficiency</div>
-                      <div className="font-bold text-blue-400">{miner.efficiency_w_per_th} W/TH</div>
+                      <div className="font-bold text-blue-400">{parseFloat(miner.efficiency as any).toFixed(2)} W/TH</div>
                     </div>
                     <div className="text-center p-2 bg-gray-900/50 rounded">
                       <div className="text-xs text-gray-400 mb-1">Power</div>

@@ -102,6 +102,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'green',
       items: [
         { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
+        { path: '/app/swap', icon: RefreshCw, label: 'Swap' },
+        { path: '/app/bridge', icon: ArrowLeftRight, label: 'Bridge' },
         { path: '/app/transactions', icon: Receipt, label: 'Transactions' },
         { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
         { path: '/app/burn-reports', icon: Flame, label: 'Burn Reports' },

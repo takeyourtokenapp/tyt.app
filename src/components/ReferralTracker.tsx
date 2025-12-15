@@ -34,10 +34,10 @@ export default function ReferralTracker() {
       setIsLoading(true);
 
       const { data: userProfile } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('referral_code')
         .eq('id', user?.id)
-        .single();
+        .maybeSingle();
 
       const { data: referrals } = await supabase
         .from('referrals')

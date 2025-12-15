@@ -75,9 +75,9 @@ export default function WalletWithdraw({ selectedAsset, onSuccess }: WalletWithd
 
       if (!data) {
         const { data: profile } = await supabase
-          .from('user_profiles')
+          .from('profiles')
           .select('kyc_status')
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .maybeSingle();
 
         if (profile?.kyc_status !== 'approved') {
