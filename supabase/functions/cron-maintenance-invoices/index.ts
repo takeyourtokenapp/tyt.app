@@ -29,17 +29,17 @@ async function getBTCPrice(): Promise<number> {
 }
 
 function calculateMaintenanceCost(
-  hashrateT H: number,
+  hashrateTH: number,
   efficiencyWTH: number,
   btcPrice: number,
   electricityRate: number = 0.05
 ): number {
-  const powerKW = (hashrateT H * efficiencyWTH) / 1000;
+  const powerKW = (hashrateTH * efficiencyWTH) / 1000;
   const dailyKWh = powerKW * 24;
   const electricityCostUSD = dailyKWh * electricityRate;
 
   const serviceFeePercent = 0.15;
-  const serviceFeeUSD = (hashrateT H * 10) * serviceFeePercent;
+  const serviceFeeUSD = (hashrateTH * 10) * serviceFeePercent;
 
   const totalCostUSD = electricityCostUSD + serviceFeeUSD;
   return totalCostUSD / btcPrice;
