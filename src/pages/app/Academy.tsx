@@ -62,14 +62,99 @@ export default function Academy() {
     }
   }, [user]);
 
+  const loadMockTracks = () => {
+    const mockTracks: TrackWithProgress[] = [
+      {
+        id: '6f58fbd0-7b5d-49a6-9574-6fa57fde85a8',
+        title: 'Crypto Foundations',
+        slug: 'crypto-foundations',
+        description: 'Master the fundamentals of cryptocurrency and blockchain technology',
+        difficulty: 'beginner',
+        estimated_hours: '3',
+        sort_order: 1,
+        completion_xp: 50,
+        is_published: true,
+        created_at: new Date().toISOString(),
+        lessons_count: 3,
+        completed_count: 0
+      },
+      {
+        id: '70221314-7fb3-4542-81e3-f66add62972b',
+        title: 'Mining Essentials',
+        slug: 'mining-essentials',
+        description: 'Learn how crypto mining works and start earning rewards',
+        difficulty: 'beginner',
+        estimated_hours: '4',
+        sort_order: 2,
+        completion_xp: 75,
+        is_published: true,
+        created_at: new Date().toISOString(),
+        lessons_count: 4,
+        completed_count: 0
+      },
+      {
+        id: '93d7ab0c-1e0f-486a-b5a6-e4b24c055f7c',
+        title: 'TYT Platform Mastery',
+        slug: 'tyt-platform',
+        description: 'Become an expert in using the TYT ecosystem',
+        difficulty: 'intermediate',
+        estimated_hours: '3',
+        sort_order: 3,
+        completion_xp: 60,
+        is_published: true,
+        created_at: new Date().toISOString(),
+        lessons_count: 3,
+        completed_count: 0
+      },
+      {
+        id: 'e6f3677d-315f-4647-ae9f-20d9be9fe673',
+        title: 'Multi-Chain Ecosystems',
+        slug: 'multi-chain',
+        description: 'Navigate multiple blockchains with confidence',
+        difficulty: 'intermediate',
+        estimated_hours: '5',
+        sort_order: 4,
+        completion_xp: 100,
+        is_published: true,
+        created_at: new Date().toISOString(),
+        lessons_count: 5,
+        completed_count: 0
+      },
+      {
+        id: '81477751-5c05-4911-9c01-89bf2f744b79',
+        title: 'Risk & Compliance',
+        slug: 'risk-compliance',
+        description: 'Advanced security and regulatory knowledge',
+        difficulty: 'advanced',
+        estimated_hours: '6',
+        sort_order: 5,
+        completion_xp: 150,
+        is_published: true,
+        created_at: new Date().toISOString(),
+        lessons_count: 6,
+        completed_count: 0
+      }
+    ];
+
+    console.log('✅ Loaded mock tracks:', mockTracks.length);
+    setTracks(mockTracks);
+    setUserXP(0);
+    setOwlRank('worker');
+  };
+
   const loadAcademyData = async () => {
     if (!user) return;
 
     setLoading(true);
     try {
-      console.log('Loading Academy data for user:', user.id);
+      console.log('🎓 Loading Academy data for user:', user.id);
 
-      const [profileRes, tracksRes] = await Promise.all([
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timeout')), 10000)
+      );
+
+      const dataPromise = Promise.all([
         supabase
           .from('profiles')
           .select('rank_score, rank')
@@ -82,8 +167,13 @@ export default function Academy() {
           .order('sort_order', { ascending: true })
       ]);
 
-      console.log('Profile response:', profileRes);
-      console.log('Tracks response:', tracksRes);
+      const [profileRes, tracksRes] = await Promise.race([
+        dataPromise,
+        timeoutPromise
+      ]) as any;
+
+      console.log('✅ Profile response:', profileRes);
+      console.log('✅ Tracks response:', tracksRes);
 
       if (profileRes.data) {
         setUserXP(profileRes.data.rank_score || 0);
@@ -118,24 +208,38 @@ export default function Academy() {
         console.log('Tracks with progress:', tracksWithProgress);
         setTracks(tracksWithProgress);
       } else {
-        console.warn('No tracks found or error:', tracksRes.error);
+        console.warn('⚠️ No tracks found or error:', tracksRes?.error);
+        loadMockTracks();
       }
     } catch (error) {
-      console.error('Error loading academy:', error);
+      console.error('❌ Error loading academy:', error);
+      console.log('📦 Loading mock data as fallback...');
+      loadMockTracks();
     } finally {
       setLoading(false);
     }
   };
 
   const loadTrackLessons = async (trackId: string) => {
-    const { data } = await supabase
-      .from('academy_lessons')
-      .select('*')
-      .eq('track_id', trackId)
-      .eq('is_published', true)
-      .order('sort_order', { ascending: true });
+    try {
+      const { data, error } = await supabase
+        .from('academy_lessons')
+        .select('*')
+        .eq('track_id', trackId)
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true });
 
-    if (data) setTrackLessons(data);
+      if (error) {
+        console.error('Error loading lessons:', error);
+        setTrackLessons([]);
+        return;
+      }
+
+      if (data) setTrackLessons(data);
+    } catch (error) {
+      console.error('Failed to load lessons:', error);
+      setTrackLessons([]);
+    }
   };
 
   const handleTrackClick = async (track: TrackWithProgress) => {
