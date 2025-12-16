@@ -77,7 +77,7 @@ export default function Academy() {
           .from('academy_tracks')
           .select('*')
           .eq('is_published', true)
-          .order('display_order', { ascending: true })
+          .order('sort_order', { ascending: true })
       ]);
 
       if (profileRes.data) {
@@ -123,7 +123,7 @@ export default function Academy() {
       .select('*')
       .eq('track_id', trackId)
       .eq('is_published', true)
-      .order('lesson_order', { ascending: true });
+      .order('sort_order', { ascending: true });
 
     if (data) setTrackLessons(data);
   };
@@ -202,7 +202,10 @@ export default function Academy() {
   };
 
   const filteredTracks = tracks.filter(track => {
-    if (filterLevel !== 'all' && track.difficulty_level !== parseInt(filterLevel)) return false;
+    if (filterLevel !== 'all') {
+      const difficultyMap: Record<string, string> = { '1': 'beginner', '2': 'intermediate', '3': 'advanced' };
+      if (track.difficulty !== difficultyMap[filterLevel]) return false;
+    }
     if (searchQuery) {
       const search = searchQuery.toLowerCase();
       return (
@@ -441,7 +444,8 @@ export default function Academy() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {filteredTracks.map((track) => {
               const progress = track.lessons_count > 0 ? (track.completed_count / track.lessons_count) * 100 : 0;
-              const isLocked = track.difficulty_level > 1 && userXP < (track.difficulty_level - 1) * 100;
+              const difficultyLevel = track.difficulty === 'beginner' ? 1 : track.difficulty === 'intermediate' ? 2 : 3;
+              const isLocked = difficultyLevel > 1 && userXP < (difficultyLevel - 1) * 100;
 
               return (
                 <div
@@ -462,7 +466,7 @@ export default function Academy() {
                       <p className="text-sm text-gray-400 mb-3 line-clamp-2">{track.description}</p>
                       <div className="flex flex-wrap gap-2">
                         <div className="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-semibold">
-                          Level {track.difficulty_level}
+                          {track.difficulty === 'beginner' ? 'Beginner' : track.difficulty === 'intermediate' ? 'Intermediate' : 'Advanced'}
                         </div>
                         <div className="px-3 py-1 bg-gray-700 text-gray-300 rounded-full text-xs font-semibold flex items-center gap-1">
                           <Clock size={12} />
@@ -501,7 +505,7 @@ export default function Academy() {
                     {isLocked ? (
                       <>
                         <Lock size={20} />
-                        Requires {(track.difficulty_level - 1) * 100} XP
+                        Requires {(difficultyLevel - 1) * 100} XP
                       </>
                     ) : progress > 0 ? (
                       <>
@@ -563,7 +567,7 @@ export default function Academy() {
 
             <div className="flex items-center gap-4 mb-6">
               <div className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold">
-                Level {selectedTrack.difficulty_level}
+                {selectedTrack.difficulty === 'beginner' ? 'Beginner' : selectedTrack.difficulty === 'intermediate' ? 'Intermediate' : 'Advanced'}
               </div>
               <div className="px-4 py-2 bg-gray-800 rounded-lg">
                 <span className="text-gray-400">Estimated: </span>
@@ -604,7 +608,7 @@ export default function Academy() {
                             </span>
                             <span className="flex items-center gap-1">
                               <Award size={14} />
-                              {lesson.xp_reward} XP
+                              {lesson.completion_xp} XP
                             </span>
                           </div>
                         </div>
@@ -640,8 +644,10 @@ export default function Academy() {
               <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center mb-4">
                 <Play className="w-16 h-16 text-amber-400" />
               </div>
-              <div className="text-gray-300 leading-relaxed">
-                {selectedLesson.content_text || 'Lesson content will be displayed here. This would include text, images, code examples, and interactive elements to help you learn.'}
+              <div className="text-gray-300 leading-relaxed prose prose-invert max-w-none">
+                {selectedLesson.content_mdx ? (
+                  <div dangerouslySetInnerHTML={{ __html: selectedLesson.content_mdx.replace(/\n/g, '<br/>') }} />
+                ) : 'Lesson content will be displayed here.'}
               </div>
             </div>
 
@@ -649,7 +655,7 @@ export default function Academy() {
               <div className="flex items-center gap-4">
                 <div className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg font-semibold flex items-center gap-2">
                   <Award size={18} />
-                  {selectedLesson.xp_reward} XP
+                  {selectedLesson.completion_xp} XP
                 </div>
                 <div className="px-4 py-2 bg-gray-800 rounded-lg flex items-center gap-2">
                   <Clock size={18} className="text-gray-400" />
@@ -713,12 +719,12 @@ export default function Academy() {
 
                     await supabase.rpc('add_user_xp', {
                       p_user_id: user.id,
-                      p_xp_amount: selectedLesson.xp_reward
+                      p_xp_amount: selectedLesson.completion_xp
                     });
 
                     setActiveModal(null);
                     loadAcademyData();
-                    alert(`Lesson completed! You earned ${selectedLesson.xp_reward} XP!`);
+                    alert(`Lesson completed! You earned ${selectedLesson.completion_xp} XP!`);
                   } catch (error) {
                     console.error('Error completing lesson:', error);
                     alert('Failed to complete lesson. Please try again.');
@@ -800,7 +806,7 @@ export default function Academy() {
             correctAnswer: q.correct_answer_index,
             explanation: q.explanation
           }))}
-          xpReward={selectedLesson.xp_reward * 2}
+          xpReward={selectedLesson.completion_xp * 2}
           onComplete={handleQuizComplete}
           onClose={() => {
             setActiveModal('lesson');

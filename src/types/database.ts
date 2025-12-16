@@ -254,11 +254,14 @@ export interface AcademyTrack {
   slug: string;
   title: string;
   description: string;
-  difficulty_level: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   estimated_hours: number;
-  icon_name?: string;
-  display_order: number;
+  icon?: string;
+  color?: string;
+  sort_order: number;
+  completion_xp: number;
   is_published: boolean;
+  is_premium?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -268,13 +271,15 @@ export interface AcademyLesson {
   track_id: string;
   slug: string;
   title: string;
+  description: string;
   content_mdx: string;
-  difficulty_level: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   estimated_minutes: number;
-  lesson_type: 'theory' | 'interactive' | 'quiz' | 'quest';
-  xp_reward: number;
-  display_order: number;
+  has_quiz: boolean;
+  completion_xp: number;
+  sort_order: number;
   is_published: boolean;
+  is_free: boolean;
   created_at: string;
   updated_at: string;
 }
