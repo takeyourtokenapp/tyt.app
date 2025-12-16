@@ -58,20 +58,36 @@ export async function getSupportedNetworks(): Promise<BlockchainNetwork[]> {
 }
 
 export async function getDepositAddresses(): Promise<DepositAddress[]> {
-  const { data, error } = await supabase
-    .from('user_deposit_addresses')
-    .select(`
-      *,
-      blockchain_networks (*)
-    `)
-    .order('created_at', { ascending: false });
+  try {
+    const { data: addresses, error } = await supabase
+      .from('custodial_addresses')
+      .select('*')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching deposit addresses:', error);
+    if (error) {
+      console.error('Error fetching deposit addresses:', error);
+      return [];
+    }
+
+    if (!addresses || addresses.length === 0) {
+      console.log('No addresses found, returning empty array');
+      return [];
+    }
+
+    // Transform custodial_addresses to DepositAddress format
+    return addresses.map(addr => ({
+      id: addr.id,
+      network_code: addr.blockchain,
+      address: addr.address,
+      is_verified: true,
+      created_at: addr.created_at,
+      derivation_path: addr.derivation_path
+    }));
+  } catch (error) {
+    console.error('Error in getDepositAddresses:', error);
     return [];
   }
-
-  return data || [];
 }
 
 export async function generateDepositAddress(networkCode: string): Promise<{

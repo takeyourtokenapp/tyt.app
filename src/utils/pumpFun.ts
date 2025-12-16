@@ -58,16 +58,17 @@ export async function getTYTTokenData(): Promise<TYTTokenData> {
 
 export async function getUserTYTHoldings(userId: string): Promise<TradeSummary> {
   try {
+    // Try RPC function first
     const { data, error } = await supabase.rpc('get_user_tyt_holdings', {
       p_user_id: userId
     });
 
-    if (error) throw error;
-
-    if (data && data.length > 0) {
+    if (!error && data && data.length > 0) {
       return data[0];
     }
 
+    // Fallback: return zero holdings (user hasn't traded yet)
+    console.log('No TYT holdings found or RPC unavailable, returning zero balance');
     return {
       total_tyt_bought: 0,
       total_tyt_sold: 0,
@@ -79,7 +80,16 @@ export async function getUserTYTHoldings(userId: string): Promise<TradeSummary> 
     };
   } catch (error) {
     console.error('Error fetching TYT holdings:', error);
-    throw error;
+    // Return zero holdings instead of throwing
+    return {
+      total_tyt_bought: 0,
+      total_tyt_sold: 0,
+      net_tyt_balance: 0,
+      total_sol_spent: 0,
+      total_sol_received: 0,
+      average_buy_price: 0,
+      trade_count: 0
+    };
   }
 }
 
