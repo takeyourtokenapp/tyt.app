@@ -11,21 +11,26 @@ import {
   AlertTriangle,
   BarChart3,
   Globe,
-  Clock
+  Clock,
+  Play,
+  Pause,
+  Video
 } from 'lucide-react';
 import EcosystemStatus from '../../components/EcosystemStatus';
+import { supabase } from '../../lib/supabase';
 
 interface DataCenterStatus {
   id: string;
   name: string;
   location: string;
-  country: string;
-  status: 'online' | 'maintenance' | 'offline';
-  hashrate: number;
-  temperature: number;
-  efficiency: number;
-  uptime: number;
-  miners: number;
+  country_code: string;
+  kwh_rate: number;
+  total_capacity_th: number;
+  used_capacity_th: number;
+  live_stream_url: string | null;
+  is_active: boolean;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 interface LiveMetric {
@@ -38,6 +43,7 @@ export default function DataCenter() {
   const [dataCenters, setDataCenters] = useState<DataCenterStatus[]>([]);
   const [selectedCenter, setSelectedCenter] = useState<string | null>(null);
   const [liveMetrics, setLiveMetrics] = useState<LiveMetric[]>([]);
+  const [loading, setLoading] = useState(true);
   const [totalStats, setTotalStats] = useState({
     totalHashrate: 0,
     totalMiners: 0,
@@ -51,33 +57,54 @@ export default function DataCenter() {
     return () => clearInterval(interval);
   }, []);
 
-  function loadDataCenters() {
-    const centers: DataCenterStatus[] = [
+  async function loadDataCenters() {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('data_centers')
+        .select('*')
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setDataCenters(data);
+        if (!selectedCenter && data[0]) {
+          setSelectedCenter(data[0].id);
+        }
+
+        const totalCap = data.reduce((sum, dc) => sum + (dc.total_capacity_th || 0), 0);
+        const usedCap = data.reduce((sum, dc) => sum + (dc.used_capacity_th || 0), 0);
+
+        setTotalStats({
+          totalHashrate: usedCap,
+          totalMiners: Math.floor(usedCap / 100),
+          avgEfficiency: 28.5,
+          avgUptime: 99.95
+        });
+      }
+    } catch (error) {
+      console.error('Error loading data centers:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function getMockCenters(): DataCenterStatus[] {
+    return [
       {
         id: 'us-east',
         name: 'US East Coast',
         location: 'Virginia',
-        country: 'USA',
-        status: 'online',
-        hashrate: 85.5,
-        temperature: 42,
-        efficiency: 28.5,
-        uptime: 99.97,
-        miners: 1250
-      },
-      {
-        id: 'us-west',
-        name: 'US West Coast',
-        location: 'Oregon',
-        country: 'USA',
-        status: 'online',
-        hashrate: 72.3,
-        temperature: 38,
-        efficiency: 26.8,
-        uptime: 99.99,
-        miners: 980
-      },
-      {
+        country_code: 'USA',
+        kwh_rate: 0.08,
+        total_capacity_th: 150000,
+        used_capacity_th: 85500,
+        live_stream_url: null,
+        is_active: true,
+        latitude: 37.5,
+        longitude: -77.4,
         id: 'eu-north',
         name: 'EU Nordic',
         location: 'Stockholm',
