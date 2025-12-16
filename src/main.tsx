@@ -5,21 +5,24 @@ import App from './App.tsx';
 import './index.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
-import { Web3Provider } from './lib/web3/Web3Provider';
+import { Web3Provider as WagmiWeb3Provider } from './lib/web3/Web3Provider';
 import { MultiChainWeb3Provider } from './contexts/MultiChainWeb3Context';
+import { Web3Provider } from './contexts/Web3Context';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Web3Provider>
+    <WagmiWeb3Provider>
       <BrowserRouter>
         <AuthProvider>
-          <MultiChainWeb3Provider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
-          </MultiChainWeb3Provider>
+          <Web3Provider>
+            <MultiChainWeb3Provider>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </MultiChainWeb3Provider>
+          </Web3Provider>
         </AuthProvider>
       </BrowserRouter>
-    </Web3Provider>
+    </WagmiWeb3Provider>
   </StrictMode>
 );
