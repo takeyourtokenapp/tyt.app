@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
@@ -26,11 +27,11 @@ interface IFeeConfig {
 /**
  * @title MinerNFT
  * @notice TYT v3 Miner NFT - Represents ownership of virtual mining power
- * @dev ERC-721 with metadata for miner type, hashrate/power, level, and active status.
+ * @dev ERC-721 with metadata for miner type, hashrate/power, level, efficiency, and region.
  *      Supports upgrades and status changes with proper event emission.
- *      Integrates with FeeConfigGovernance for 60/30/10 fee splits.
+ *      Integrates with FeeConfigGovernance for 60/30/10 fee splits (Protocol/Charity/Academy).
  */
-contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, ReentrancyGuard {
+contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, Pausable, ReentrancyGuard {
     using Counters for Counters.Counter;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -43,60 +44,67 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
 
     struct MinerData {
         uint256 minerTypeId;
-        uint256 powerHashrate;
-        uint256 level;
+        uint256 powerHashrate;     // TH/s * 1e6
+        uint256 level;             // 1-20
         bool isActive;
         uint256 mintedAt;
         uint256 lastUpgradeAt;
     }
 
-    mapping(uint256 => MinerData) private _minerData;
+    struct MinerMetadata {
+        uint256 efficiencyWTH;     // W/TH * 1e6
+        string region;             // "USA", "Canada", "EU", "Asia"
+        uint256 maintenanceRate;   // basis points (100 = 1%)
+    }
 
-    uint256 public constant MAX_LEVEL = 10;
-    uint256 public constant MAX_POWER = 1_000_000 * 1e18; // 1M TH/s max
+    mapping(uint256 => MinerData) private _minerData;
+    mapping(uint256 => MinerMetadata) private _minerMetadata;
+
+    uint256 public constant MAX_LEVEL = 20;
+    uint256 public constant MAX_POWER = 1_000_000 * 1e6; // 1M TH/s * 1e6
+    uint256 public constant MIN_EFFICIENCY = 10 * 1e6;   // 10 W/TH minimum
+    uint256 public constant MAX_EFFICIENCY = 100 * 1e6;  // 100 W/TH maximum
 
     string private _baseTokenURI;
 
     event MinerMinted(
         uint256 indexed tokenId,
         address indexed owner,
-        uint256 minerTypeId,
-        uint256 initialPower
+        uint256 powerTH,
+        uint256 mintPrice,
+        uint256 feeTotal,
+        uint256 feeProtocol,
+        uint256 feeCharity,
+        uint256 feeAcademy
     );
 
     event MinerUpgraded(
         uint256 indexed tokenId,
-        uint256 oldPower,
-        uint256 newPower,
-        uint256 oldLevel,
-        uint256 newLevel
+        string upgradeType,
+        uint256 newValue
     );
 
     event MinerStatusChanged(
         uint256 indexed tokenId,
-        bool isActive
+        bool newStatus
     );
 
     event BaseURIUpdated(string newBaseURI);
     event FeeConfigUpdated(address indexed newFeeConfig);
     event MintPriceUpdated(uint256 newPrice);
-    event FeesDistributed(
-        uint256 indexed tokenId,
-        uint256 totalFee,
-        uint256 protocolFee,
-        uint256 charityFee,
-        uint256 academyFee
-    );
 
     error MinerNotFound(uint256 tokenId);
     error NotOwnerOrApproved(uint256 tokenId, address caller);
     error InvalidPower(uint256 power);
+    error InvalidEfficiency(uint256 efficiency);
+    error InvalidRegion(string region);
     error InvalidLevel(uint256 level);
     error MinerInactive(uint256 tokenId);
     error AlreadyMaxLevel(uint256 tokenId);
     error InsufficientPayment(uint256 required, uint256 provided);
     error InvalidFeeConfig();
     error FeeTransferFailed();
+    error ZeroAddress();
 
     constructor(
         string memory name,
@@ -117,13 +125,20 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
     function mint(
         address to,
         uint256 minerTypeId,
-        uint256 initialPower,
-        string calldata tokenURI_
-    ) external payable nonReentrant returns (uint256) {
-        if (initialPower == 0 || initialPower > MAX_POWER) {
-            revert InvalidPower(initialPower);
+        uint256 powerTH,
+        uint256 efficiencyWTH,
+        string calldata region
+    ) external payable nonReentrant whenNotPaused returns (uint256) {
+        if (to == address(0)) revert ZeroAddress();
+        if (powerTH == 0 || powerTH > MAX_POWER) {
+            revert InvalidPower(powerTH);
         }
-
+        if (efficiencyWTH < MIN_EFFICIENCY || efficiencyWTH > MAX_EFFICIENCY) {
+            revert InvalidEfficiency(efficiencyWTH);
+        }
+        if (!_isValidRegion(region)) {
+            revert InvalidRegion(region);
+        }
         if (msg.value < mintPrice) {
             revert InsufficientPayment(mintPrice, msg.value);
         }
@@ -131,22 +146,41 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
 
-        // Distribute fees (60/30/10 split)
-        _distributeFees(tokenId, msg.value);
+        // Calculate and distribute fees (60/30/10 split)
+        (
+            uint256 feeTotal,
+            uint256 feeProtocol,
+            uint256 feeCharity,
+            uint256 feeAcademy
+        ) = _distributeFees(tokenId, msg.value);
 
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, tokenURI_);
 
         _minerData[tokenId] = MinerData({
             minerTypeId: minerTypeId,
-            powerHashrate: initialPower,
+            powerHashrate: powerTH,
             level: 1,
             isActive: true,
             mintedAt: block.timestamp,
             lastUpgradeAt: block.timestamp
         });
 
-        emit MinerMinted(tokenId, to, minerTypeId, initialPower);
+        _minerMetadata[tokenId] = MinerMetadata({
+            efficiencyWTH: efficiencyWTH,
+            region: region,
+            maintenanceRate: 100  // Default 1% maintenance
+        });
+
+        emit MinerMinted(
+            tokenId,
+            to,
+            powerTH,
+            msg.value,
+            feeTotal,
+            feeProtocol,
+            feeCharity,
+            feeAcademy
+        );
 
         return tokenId;
     }
@@ -154,42 +188,55 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
     function mintFree(
         address to,
         uint256 minerTypeId,
-        uint256 initialPower,
-        string calldata tokenURI_
-    ) external onlyRole(MINTER_ROLE) returns (uint256) {
-        if (initialPower == 0 || initialPower > MAX_POWER) {
-            revert InvalidPower(initialPower);
+        uint256 powerTH,
+        uint256 efficiencyWTH,
+        string calldata region
+    ) external onlyRole(MINTER_ROLE) whenNotPaused returns (uint256) {
+        if (to == address(0)) revert ZeroAddress();
+        if (powerTH == 0 || powerTH > MAX_POWER) {
+            revert InvalidPower(powerTH);
+        }
+        if (efficiencyWTH < MIN_EFFICIENCY || efficiencyWTH > MAX_EFFICIENCY) {
+            revert InvalidEfficiency(efficiencyWTH);
+        }
+        if (!_isValidRegion(region)) {
+            revert InvalidRegion(region);
         }
 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
 
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, tokenURI_);
 
         _minerData[tokenId] = MinerData({
             minerTypeId: minerTypeId,
-            powerHashrate: initialPower,
+            powerHashrate: powerTH,
             level: 1,
             isActive: true,
             mintedAt: block.timestamp,
             lastUpgradeAt: block.timestamp
         });
 
-        emit MinerMinted(tokenId, to, minerTypeId, initialPower);
+        _minerMetadata[tokenId] = MinerMetadata({
+            efficiencyWTH: efficiencyWTH,
+            region: region,
+            maintenanceRate: 100
+        });
+
+        emit MinerMinted(tokenId, to, powerTH, 0, 0, 0, 0, 0);
 
         return tokenId;
     }
 
-    function _distributeFees(uint256 tokenId, uint256 amount) internal {
+    function _distributeFees(uint256 tokenId, uint256 amount) internal returns (
+        uint256 feeTotal,
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee
+    ) {
         bytes32 mintKey = keccak256("mint.default");
 
-        (
-            uint256 feeTotal,
-            uint256 protocolFee,
-            uint256 charityFee,
-            uint256 academyFee
-        ) = feeConfig.calculateFees(mintKey, amount);
+        (feeTotal, protocolFee, charityFee, academyFee) = feeConfig.calculateFees(mintKey, amount);
 
         (
             address protocolTreasury,
@@ -213,57 +260,55 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
             if (!success) revert FeeTransferFailed();
         }
 
-        emit FeesDistributed(tokenId, feeTotal, protocolFee, charityFee, academyFee);
+        return (feeTotal, protocolFee, charityFee, academyFee);
     }
 
-    function upgrade(
+    function upgradePower(
         uint256 tokenId,
-        uint256 newPower,
-        uint256 newLevel
-    ) external {
+        uint256 newPowerTH
+    ) external onlyRole(UPGRADER_ROLE) whenNotPaused {
         if (!_exists(tokenId)) revert MinerNotFound(tokenId);
-
-        address owner = ownerOf(tokenId);
-        if (
-            msg.sender != owner &&
-            !isApprovedForAll(owner, msg.sender) &&
-            getApproved(tokenId) != msg.sender &&
-            !hasRole(UPGRADER_ROLE, msg.sender)
-        ) {
-            revert NotOwnerOrApproved(tokenId, msg.sender);
-        }
 
         MinerData storage miner = _minerData[tokenId];
 
         if (!miner.isActive) revert MinerInactive(tokenId);
-        if (newPower == 0 || newPower > MAX_POWER) revert InvalidPower(newPower);
-        if (newLevel == 0 || newLevel > MAX_LEVEL) revert InvalidLevel(newLevel);
-        if (newLevel <= miner.level && newPower <= miner.powerHashrate) {
-            revert InvalidLevel(newLevel);
-        }
+        if (newPowerTH == 0 || newPowerTH > MAX_POWER) revert InvalidPower(newPowerTH);
+        if (newPowerTH <= miner.powerHashrate) revert InvalidPower(newPowerTH);
 
-        uint256 oldPower = miner.powerHashrate;
-        uint256 oldLevel = miner.level;
-
-        miner.powerHashrate = newPower;
-        miner.level = newLevel;
+        miner.powerHashrate = newPowerTH;
         miner.lastUpgradeAt = block.timestamp;
 
-        emit MinerUpgraded(tokenId, oldPower, newPower, oldLevel, newLevel);
+        emit MinerUpgraded(tokenId, "power", newPowerTH);
     }
 
-    function setActive(uint256 tokenId, bool isActive) external {
+    function upgradeEfficiency(
+        uint256 tokenId,
+        uint256 newEfficiency
+    ) external onlyRole(UPGRADER_ROLE) whenNotPaused {
         if (!_exists(tokenId)) revert MinerNotFound(tokenId);
 
-        address owner = ownerOf(tokenId);
-        if (
-            msg.sender != owner &&
-            !isApprovedForAll(owner, msg.sender) &&
-            getApproved(tokenId) != msg.sender &&
-            !hasRole(DEFAULT_ADMIN_ROLE, msg.sender)
-        ) {
-            revert NotOwnerOrApproved(tokenId, msg.sender);
+        MinerData storage miner = _minerData[tokenId];
+        MinerMetadata storage metadata = _minerMetadata[tokenId];
+
+        if (!miner.isActive) revert MinerInactive(tokenId);
+        if (newEfficiency < MIN_EFFICIENCY || newEfficiency > MAX_EFFICIENCY) {
+            revert InvalidEfficiency(newEfficiency);
         }
+        if (newEfficiency >= metadata.efficiencyWTH) {
+            revert InvalidEfficiency(newEfficiency);
+        }
+
+        metadata.efficiencyWTH = newEfficiency;
+        miner.lastUpgradeAt = block.timestamp;
+
+        emit MinerUpgraded(tokenId, "efficiency", newEfficiency);
+    }
+
+    function setActive(
+        uint256 tokenId,
+        bool isActive
+    ) external onlyRole(UPGRADER_ROLE) whenNotPaused {
+        if (!_exists(tokenId)) revert MinerNotFound(tokenId);
 
         _minerData[tokenId].isActive = isActive;
 
@@ -289,6 +334,30 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
             miner.mintedAt,
             miner.lastUpgradeAt
         );
+    }
+
+    function getMinerMetadata(uint256 tokenId) external view returns (
+        uint256 efficiencyWTH,
+        string memory region,
+        uint256 maintenanceRate
+    ) {
+        if (!_exists(tokenId)) revert MinerNotFound(tokenId);
+
+        MinerMetadata storage metadata = _minerMetadata[tokenId];
+        return (
+            metadata.efficiencyWTH,
+            metadata.region,
+            metadata.maintenanceRate
+        );
+    }
+
+    function getCompleteMinerInfo(uint256 tokenId) external view returns (
+        MinerData memory data,
+        MinerMetadata memory metadata
+    ) {
+        if (!_exists(tokenId)) revert MinerNotFound(tokenId);
+
+        return (_minerData[tokenId], _minerMetadata[tokenId]);
     }
 
     function getPower(uint256 tokenId) external view returns (uint256) {
@@ -326,12 +395,40 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
         emit MintPriceUpdated(_mintPrice);
     }
 
+    function setMaintenanceRate(
+        uint256 tokenId,
+        uint256 newRate
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (!_exists(tokenId)) revert MinerNotFound(tokenId);
+        if (newRate > 1000) revert InvalidLevel(newRate); // Max 10%
+
+        _minerMetadata[tokenId].maintenanceRate = newRate;
+    }
+
+    function _isValidRegion(string memory region) internal pure returns (bool) {
+        bytes32 regionHash = keccak256(bytes(region));
+        return (
+            regionHash == keccak256("USA") ||
+            regionHash == keccak256("Canada") ||
+            regionHash == keccak256("EU") ||
+            regionHash == keccak256("Asia")
+        );
+    }
+
     function withdrawBalance() external onlyRole(DEFAULT_ADMIN_ROLE) {
         uint256 balance = address(this).balance;
         if (balance > 0) {
             (bool success, ) = msg.sender.call{value: balance}("");
             require(success, "Withdrawal failed");
         }
+    }
+
+    function pause() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _pause();
+    }
+
+    function unpause() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _unpause();
     }
 
     function _baseURI() internal view override returns (string memory) {
@@ -354,6 +451,7 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
         delete _minerData[tokenId];
+        delete _minerMetadata[tokenId];
     }
 
     function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
