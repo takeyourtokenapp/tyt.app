@@ -51,20 +51,27 @@ export default function TYTTrading() {
   const [isTrading, setIsTrading] = useState(false);
 
   const loadData = async () => {
-    if (!user) return;
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
+      console.log('Loading TYT Trading data for user:', user.id);
+
       const [token, userHoldings, userTrades] = await Promise.all([
         getTYTTokenData(),
         getUserTYTHoldings(user.id),
         getUserTrades(user.id)
       ]);
 
+      console.log('TYT Data loaded:', { token, userHoldings, userTrades });
+
       setTokenData(token);
       setHoldings(userHoldings);
       setTrades(userTrades);
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('Error loading TYT data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -133,8 +140,10 @@ export default function TYTTrading() {
   };
 
   useEffect(() => {
-    loadData();
-  }, [user]);
+    if (user) {
+      loadData();
+    }
+  }, [user?.id]);
 
   if (isLoading) {
     return (

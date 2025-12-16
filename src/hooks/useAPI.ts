@@ -199,10 +199,19 @@ export function useWallets(userId?: string) {
         .from('custodial_wallets')
         .select('*')
         .eq('user_id', userId)
-        .order('asset');
+        .order('currency');
 
       if (error) throw error;
-      return data as CustodialWallet[];
+
+      // Transform currency to asset for backward compatibility
+      const wallets = (data || []).map(wallet => ({
+        ...wallet,
+        asset: wallet.currency,
+        balance: wallet.balance?.toString() || '0',
+        locked_balance: wallet.locked_balance?.toString() || '0'
+      }));
+
+      return wallets as any;
     },
     enabled: !!userId,
     refetchInterval: 10000
