@@ -40,6 +40,9 @@ contract VotingEscrowTYT is AccessControl, ReentrancyGuard {
     // user => lockIds[]
     mapping(address => uint256[]) public userLocks;
 
+    // lockId => owner (for efficient lookup)
+    mapping(uint256 => address) public lockOwner;
+
     // user => total active voting power
     mapping(address => uint256) public userVotingPower;
 
@@ -119,6 +122,7 @@ contract VotingEscrowTYT is AccessControl, ReentrancyGuard {
         });
 
         userLocks[msg.sender].push(lockId);
+        lockOwner[lockId] = msg.sender;
         userVotingPower[msg.sender] += votingPower;
         totalVotingPower += votingPower;
 
@@ -283,13 +287,7 @@ contract VotingEscrowTYT is AccessControl, ReentrancyGuard {
      * @dev Check if a lock belongs to a user
      */
     function _isUserLock(address user, uint256 lockId) internal view returns (bool) {
-        uint256[] memory locks = userLocks[user];
-        for (uint256 i = 0; i < locks.length; i++) {
-            if (locks[i] == lockId) {
-                return true;
-            }
-        }
-        return false;
+        return lockOwner[lockId] == user;
     }
 
     /**
@@ -323,8 +321,6 @@ contract VotingEscrowTYT is AccessControl, ReentrancyGuard {
     }
 
     function _findLockOwner(uint256 lockId) internal view returns (address) {
-        // Note: This is gas-inefficient for production.
-        // In production, add a lockId => owner mapping
-        return address(0); // Placeholder
+        return lockOwner[lockId];
     }
 }
