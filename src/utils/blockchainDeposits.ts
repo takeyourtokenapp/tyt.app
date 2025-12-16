@@ -75,10 +75,20 @@ export async function getDepositAddresses(): Promise<DepositAddress[]> {
       return [];
     }
 
+    // Map blockchain names to network codes for compatibility
+    const blockchainToNetworkCode: Record<string, string> = {
+      'ethereum': 'ETH',
+      'bsc': 'BSC',
+      'polygon': 'POLYGON',
+      'solana': 'SOL',
+      'tron': 'TRON',
+      'bitcoin': 'BTC'
+    };
+
     // Transform custodial_addresses to DepositAddress format
     return addresses.map(addr => ({
       id: addr.id,
-      network_code: addr.blockchain,
+      network_code: blockchainToNetworkCode[addr.blockchain] || addr.blockchain.toUpperCase(),
       address: addr.address,
       is_verified: true,
       created_at: addr.created_at,
