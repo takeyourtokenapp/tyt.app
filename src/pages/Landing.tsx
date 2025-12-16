@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   ArrowRight,
   Zap,
@@ -20,6 +21,7 @@ import { CompactFAQ } from '../components/FAQWidget';
 import StatisticsCard, { StatisticsGrid } from '../components/StatisticsCard';
 import PriceTicker from '../components/PriceTicker';
 import IncomeCalculator from '../components/IncomeCalculator';
+import { FeeModelTooltip } from '../components/Tooltip';
 import {
   BitcoinIcon,
   MiningIcon,
@@ -29,22 +31,47 @@ import {
   ChartIcon
 } from '../components/illustrations/IconLibrary';
 
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6 }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
 export default function Landing() {
   return (
-    <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 scroll-smooth">
 
-      <section className="relative py-20 md:py-32 overflow-hidden">
+      <motion.section
+        className="relative py-20 md:py-32 overflow-hidden"
+        initial="initial"
+        animate="animate"
+        variants={staggerContainer}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-blue-500/5"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full">
+            <motion.div className="space-y-8" variants={fadeInUp}>
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full"
+                variants={fadeInUp}
+              >
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span className="text-amber-400 font-semibold text-sm">Mining with Purpose</span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+              <motion.h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+                variants={fadeInUp}
+              >
                 <span className="bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
                   Earn Bitcoin Daily
                 </span>
@@ -52,14 +79,20 @@ export default function Landing() {
                 <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
                   Save Children's Lives
                 </span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically
-                supports research and treatment for children with brain cancer.
-              </p>
+              <motion.div variants={fadeInUp}>
+                <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
+                  Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically
+                  supports research and treatment for children with brain cancer.
+                </p>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="text-sm text-gray-400">Platform Fee Structure:</span>
+                  <FeeModelTooltip />
+                </div>
+              </motion.div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <motion.div className="flex flex-col sm:flex-row gap-4" variants={fadeInUp}>
                 <Link
                   to="/signup"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
@@ -73,9 +106,9 @@ export default function Landing() {
                 >
                   Learn More
                 </a>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center gap-8 pt-4">
+              <motion.div className="flex items-center gap-8 pt-4" variants={fadeInUp}>
                 <div className="flex items-center gap-2">
                   <Shield className="w-5 h-5 text-green-400" />
                   <span className="text-sm text-gray-400">100% Secure</span>
@@ -88,8 +121,8 @@ export default function Landing() {
                   <Heart className="w-5 h-5 text-pink-400" />
                   <span className="text-sm text-gray-400">$250K+ Donated</span>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-3xl"></div>
@@ -127,7 +160,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <section id="features" className="py-20 bg-gray-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,7 +182,7 @@ export default function Landing() {
             <FeatureCard
               icon={<HeartIcon size={60} />}
               title="Built-in Charity"
-              description="1% of every transaction supports children's brain cancer research. Track donations transparently on blockchain."
+              description="1% platform fee on all transactions: 30% goes to children's brain cancer research, 10% to academy education. Fully transparent on-chain tracking."
             />
             <FeatureCard
               icon={<ShieldCheckIcon size={60} />}
@@ -348,11 +381,22 @@ export default function Landing() {
                 <h3 className="text-2xl font-semibold mb-4 text-pink-300">
                   TYT Children's Brain Cancer Research & Support Foundation
                 </h3>
-                <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                  Every transaction on our platform automatically contributes 1% to support children
+                <p className="text-lg text-gray-300 mb-4 leading-relaxed">
+                  Every transaction on our platform automatically contributes to support children
                   battling brain cancer. Funds go directly to medical research, family assistance,
                   and clinical trials.
                 </p>
+                <div className="bg-gray-800/50 border border-pink-500/30 rounded-lg p-4 mb-6">
+                  <div className="flex items-start gap-2 mb-2">
+                    <p className="text-sm font-semibold text-pink-300">Automatic Fee Split (1% Total):</p>
+                    <FeeModelTooltip />
+                  </div>
+                  <ul className="text-sm text-gray-300 space-y-1">
+                    <li>• 60% → Protocol Operations</li>
+                    <li className="text-pink-300 font-medium">• 30% → Children's Brain Cancer Foundation (0.3% of transaction)</li>
+                    <li className="text-blue-300 font-medium">• 10% → Digital-Interactive-Technology-Blockchain Academia (0.1% of transaction)</li>
+                  </ul>
+                </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
@@ -455,18 +499,30 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-8 hover:border-amber-500/50 transition-all hover:scale-105">
+    <motion.div
+      className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-8 hover:border-amber-500/50 transition-all hover:scale-105"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="mb-4">{icon}</div>
       <h3 className="text-xl font-bold mb-3">{title}</h3>
       <p className="text-gray-400 leading-relaxed">{description}</p>
-    </div>
+    </motion.div>
   );
 }
 
 function StepCard({ number, title, description, icon }: { number: string; title: string; description: string; icon: React.ReactNode }) {
   return (
-    <div className="relative">
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all">
+    <motion.div
+      className="relative"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: parseInt(number) * 0.1 }}
+    >
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all hover:scale-105 transform">
         <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
           {number}
         </div>
@@ -474,7 +530,7 @@ function StepCard({ number, title, description, icon }: { number: string; title:
         <h3 className="text-xl font-bold mb-3">{title}</h3>
         <p className="text-gray-400">{description}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
