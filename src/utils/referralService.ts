@@ -61,9 +61,9 @@ export function getTierBonus(tier: number, vipBonusPercent: number = 0): number 
 
 export async function getUserReferralStats(userId: string): Promise<ReferralStats> {
   const { data: profile } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('referral_code, referral_count')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .maybeSingle();
 
   const referralCode = profile?.referral_code || generateReferralCode(userId);
@@ -209,8 +209,8 @@ export async function applyReferralCode(
   referralCode: string
 ): Promise<{ success: boolean; error?: string }> {
   const { data: referrer } = await supabase
-    .from('user_profiles')
-    .select('user_id')
+    .from('profiles')
+    .select('id')
     .eq('referral_code', referralCode)
     .maybeSingle();
 
@@ -218,7 +218,7 @@ export async function applyReferralCode(
     return { success: false, error: 'Invalid referral code' };
   }
 
-  if (referrer.user_id === newUserId) {
+  if (referrer.id === newUserId) {
     return { success: false, error: 'Cannot refer yourself' };
   }
 
@@ -235,7 +235,7 @@ export async function applyReferralCode(
   const { error } = await supabase
     .from('referrals')
     .insert({
-      referrer_id: referrer.user_id,
+      referrer_id: referrer.id,
       referred_id: newUserId,
       tier: 1,
       status: 'pending'
@@ -272,8 +272,8 @@ export async function getReferralLeaderboard(limit: number = 10): Promise<{
   rank: number;
 }[]> {
   const { data, error } = await supabase
-    .from('user_profiles')
-    .select('user_id, display_name, referral_count, referral_earnings')
+    .from('profiles')
+    .select('id, username, referral_count, referral_earnings')
     .gt('referral_count', 0)
     .order('referral_count', { ascending: false })
     .limit(limit);
@@ -281,8 +281,8 @@ export async function getReferralLeaderboard(limit: number = 10): Promise<{
   if (error) throw error;
 
   return (data || []).map((u, index) => ({
-    userId: u.user_id,
-    displayName: u.display_name || 'Anonymous',
+    userId: u.id,
+    displayName: u.username || 'Anonymous',
     totalReferrals: u.referral_count || 0,
     totalEarnings: u.referral_earnings || 0,
     rank: index + 1

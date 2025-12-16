@@ -199,9 +199,9 @@ export class BlockchainService {
     asset: string
   ): Promise<WithdrawalLimits> {
     const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('kyc_tier, kyc_status')
-      .eq('user_id', userId)
+      .from('profiles')
+      .select('kyc_level as kyc_tier, kyc_status')
+      .eq('id', userId)
       .maybeSingle();
 
     const kycTier = profile?.kyc_tier || 0;

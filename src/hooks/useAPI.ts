@@ -42,9 +42,9 @@ export function useDashboardData(userId?: string) {
           .order('reward_date', { ascending: false })
           .limit(30),
         supabase
-          .from('user_profiles')
-          .select('*, vip_levels(*)')
-          .eq('user_id', userId)
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
           .maybeSingle()
       ]);
 
@@ -130,7 +130,7 @@ export function useMarketplace(filters?: {
     queryFn: async () => {
       let query = supabase
         .from('marketplace_listings')
-        .select('*, nft_miners(*), user_profiles!seller_id(*)')
+        .select('*, nft_miners(*), profiles!seller_id(*)')
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
@@ -372,12 +372,12 @@ export function useServiceButton(userId?: string) {
       if (!userId) throw new Error('User ID required');
 
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .update({
           service_button_last_pressed: new Date().toISOString(),
           service_button_presses: supabase.rpc('increment')
         })
-        .eq('user_id', userId)
+        .eq('id', userId)
         .select()
         .single();
 
