@@ -66,10 +66,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   const handleSignOut = async () => {
     try {
+      console.log('Signing out...');
       await signOut();
-      navigate('/');
+      console.log('Sign out successful, redirecting to home...');
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Failed to sign out:', error);
+      alert('Failed to sign out. Please try again.');
     }
   };
 

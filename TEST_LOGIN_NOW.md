@@ -1,52 +1,68 @@
-# Test Login - Quick Guide
+# ✅ ТЕСТИРОВАНИЕ LOGIN & SIGN OUT
 
-## Credentials Updated
+## Что исправлено:
 
-New Supabase credentials are now active (Legacy JWT token):
-
+### 1. ✅ Supabase URL - ИСПРАВЛЕН
 ```env
 VITE_SUPABASE_URL=https://xyoaobelwkmrncvktrkv.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5b2FvYmVsd2ttcm5jdmt0cmt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzNTYxMjgsImV4cCI6MjA4MDkzMjEyOH0.5w5K25BXMlZeVPVeuBAFEF7sEOT7LrNwn17kyjdjOas
 ```
 
-## Testing Steps
-
-### 1. Restart Dev Server
-
-```bash
-# Stop current server (Ctrl+C)
-npm run dev
-```
-
-### 2. Clear Browser State
-
-- Open DevTools (F12)
-- Go to Application tab
-- Click "Clear site data"
-- Refresh page
-
-### 3. Test Sign Up
-
-Navigate to `/signup` and watch browser console for detailed logs.
-
-Expected console output:
-```
-Initializing Supabase client
-Signup form submitted
-Sign up successful
-```
-
-### 4. Test Sign In
-
-Use same credentials at `/login` - should redirect to `/app`.
-
-## Success Criteria
-
-✅ Console shows Supabase client initialized
-✅ Sign up works without errors
-✅ Sign in redirects to /app
-✅ Session persists on reload
+### 2. ✅ Sign Out - УЛУЧШЕН
+- Добавлено немедленное очищение состояния
+- Улучшена обработка ошибок
+- Добавлено логирование для отладки
+- Redirect с `replace: true` (не оставляет в истории)
 
 ---
 
-**Action:** Restart dev server and test
+## 🧪 КАК ПРОТЕСТИРОВАТЬ
+
+### Шаг 1: Перезагрузите страницу
+После изменения .env нужно:
+1. Полная перезагрузка: `Ctrl+Shift+R` (Windows) или `Cmd+Shift+R` (Mac)
+2. Или: Закройте вкладку и откройте заново
+
+### Шаг 2: Залогиньтесь
+Откройте: `/login`
+
+**Существующие пользователи:**
+- `olekfribel@hotmail.com`
+- `test@tyt.app`
+
+Или создайте новый аккаунт через `/signup`
+
+### Шаг 3: Проверьте Sign Out
+После успешного входа:
+1. Откройте консоль браузера (F12)
+2. Найдите кнопку **Sign Out** в нижней части сайдбара (красная кнопка)
+3. Нажмите Sign Out
+4. В консоли должны увидеть:
+   ```
+   AuthContext: Starting sign out process...
+   Signing out...
+   AuthContext: Sign out successful
+   Sign out successful, redirecting to home...
+   ```
+5. Должны быть перенаправлены на главную страницу `/`
+
+---
+
+## 🔍 ГДЕ НАХОДИТСЯ КНОПКА SIGN OUT
+
+Кнопка Sign Out находится в **левом сайдбаре** внутри приложения.
+
+**Расположение**: Внизу сайдбара, под карточкой пользователя - красная кнопка с иконкой выхода.
+
+---
+
+## ✅ ОЖИДАЕМОЕ ПОВЕДЕНИЕ
+
+1. Нажимаете Sign Out
+2. Консоль показывает логи
+3. Перенаправление на главную страницу
+4. Header показывает "Sign In" вместо "Open App"
+
+---
+
+**Обновлено**: 2024-12-16
+**Статус**: ✅ READY TO TEST
