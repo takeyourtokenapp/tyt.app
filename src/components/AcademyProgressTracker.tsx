@@ -75,11 +75,11 @@ export default function AcademyProgressTracker() {
             .eq('is_published', true);
 
           const { data: completedLessons } = await supabase
-            .from('academy_user_progress')
+            .from('academy_progress')
             .select('lesson_id')
             .eq('user_id', user?.id)
             .in('lesson_id', lessons?.map(l => l.id) || [])
-            .eq('completed', true);
+            .not('completed_at', 'is', null);
 
           const totalLessons = lessons?.length || 0;
           const completed = completedLessons?.length || 0;

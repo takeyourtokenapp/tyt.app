@@ -95,10 +95,10 @@ export default function Academy() {
               .eq('is_published', true);
 
             const { count: completedCount } = await supabase
-              .from('academy_user_progress')
+              .from('academy_progress')
               .select('*', { count: 'exact', head: true })
               .eq('user_id', user.id)
-              .eq('completed', true);
+              .not('completed_at', 'is', null);
 
             return {
               ...track,
@@ -686,33 +686,30 @@ export default function Academy() {
 
                   try {
                     const { data: existingProgress } = await supabase
-                      .from('academy_user_progress')
+                      .from('academy_progress')
                       .select('*')
                       .eq('user_id', user.id)
                       .eq('lesson_id', selectedLesson.id)
                       .maybeSingle();
 
                     if (existingProgress) {
-                      if (existingProgress.completed) {
+                      if (existingProgress.completed_at) {
                         alert('You have already completed this lesson!');
                         return;
                       }
 
                       await supabase
-                        .from('academy_user_progress')
+                        .from('academy_progress')
                         .update({
-                          completed: true,
                           completed_at: new Date().toISOString()
                         })
                         .eq('id', existingProgress.id);
                     } else {
                       await supabase
-                        .from('academy_user_progress')
+                        .from('academy_progress')
                         .insert({
                           user_id: user.id,
                           lesson_id: selectedLesson.id,
-                          track_id: selectedLesson.track_id,
-                          completed: true,
                           completed_at: new Date().toISOString()
                         });
                     }
