@@ -431,7 +431,7 @@ export class RewardsService {
    * Estimate future rewards
    */
   estimateDailyReward(params: {
-    hashrateT H: number;
+    hashrateTH: number;
     efficiencyWTH: number;
     region: string;
     totalPlatformHashrate: number;
@@ -454,7 +454,7 @@ export class RewardsService {
     yearly_btc: number;
     yearly_usd: number;
   } {
-    const share = params.hashrateT H / params.totalPlatformHashrate;
+    const share = params.hashrateTH / params.totalPlatformHashrate;
     const gross_btc = params.dailyPoolBTC * share;
     const gross_usd = gross_btc * params.btcPriceUSD;
 
