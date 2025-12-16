@@ -67,6 +67,8 @@ export default function Academy() {
 
     setLoading(true);
     try {
+      console.log('Loading Academy data for user:', user.id);
+
       const [profileRes, tracksRes] = await Promise.all([
         supabase
           .from('profiles')
@@ -80,12 +82,17 @@ export default function Academy() {
           .order('sort_order', { ascending: true })
       ]);
 
+      console.log('Profile response:', profileRes);
+      console.log('Tracks response:', tracksRes);
+
       if (profileRes.data) {
         setUserXP(profileRes.data.rank_score || 0);
         setOwlRank((profileRes.data.rank as 'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior') || 'worker');
       }
 
-      if (tracksRes.data) {
+      if (tracksRes.data && tracksRes.data.length > 0) {
+        console.log('Found tracks:', tracksRes.data.length);
+
         const tracksWithProgress: TrackWithProgress[] = await Promise.all(
           tracksRes.data.map(async (track) => {
             const { count: lessonsCount } = await supabase
@@ -108,7 +115,10 @@ export default function Academy() {
           })
         );
 
+        console.log('Tracks with progress:', tracksWithProgress);
         setTracks(tracksWithProgress);
+      } else {
+        console.warn('No tracks found or error:', tracksRes.error);
       }
     } catch (error) {
       console.error('Error loading academy:', error);
