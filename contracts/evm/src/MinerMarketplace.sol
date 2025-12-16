@@ -60,8 +60,6 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     mapping(uint256 => uint256) public tokenIdToOrderId;
     uint256[] private _activeOrderIds;
 
-    bool public isPaused;
-
     event OrderCreated(
         uint256 indexed orderId,
         uint256 indexed tokenId,
@@ -86,8 +84,6 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     );
 
     event FeeConfigUpdated(address newFeeConfig);
-    event FeeProfileKeyUpdated(bytes32 newKey);
-    event MarketplacePaused(bool isPaused);
 
     error OrderNotFound(uint256 orderId);
     error OrderNotActive(uint256 orderId);
@@ -327,25 +323,25 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
 
     function calculateFeeForPrice(uint256 price) external view returns (
         uint256 feeTotal,
-        address[] memory recipients,
-        uint256[] memory feeAmounts
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee
     ) {
-        return feeConfig.calculateFee(feeProfileKey, price);
+        bytes32 marketplaceKey = keccak256("marketplace.default");
+        return feeConfig.calculateFees(marketplaceKey, price);
     }
 
     function setFeeConfig(address _feeConfig) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        feeConfig = FeeConfig(_feeConfig);
+        feeConfig = IFeeConfigMarketplace(_feeConfig);
         emit FeeConfigUpdated(_feeConfig);
     }
 
-    function setFeeProfileKey(bytes32 _feeProfileKey) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        feeProfileKey = _feeProfileKey;
-        emit FeeProfileKeyUpdated(_feeProfileKey);
+    function pause() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _pause();
     }
 
-    function setPaused(bool _isPaused) external onlyRole(OPERATOR_ROLE) {
-        isPaused = _isPaused;
-        emit MarketplacePaused(_isPaused);
+    function unpause() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _unpause();
     }
 
     function totalOrders() external view returns (uint256) {
