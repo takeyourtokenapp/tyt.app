@@ -146,7 +146,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
         { path: '/app/leaderboard', icon: Trophy, label: 'Leaderboard' },
         { path: '/app/clans', icon: Shield, label: 'Clans & Wars' },
         { path: '/app/referrals', icon: Users, label: 'Referrals' },
-        { path: '/community', icon: MessageCircle, label: 'Forum' },
       ]
     },
   ];

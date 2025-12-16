@@ -1,57 +1,77 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import LiveSupportWidget from './components/LiveSupportWidget';
 import EnhancedPriceTicker from './components/EnhancedPriceTicker';
 import PublicLayout from './components/PublicLayout';
+import AppLayout from './components/AppLayout';
+
+// Public pages - loaded eagerly for fast initial load
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import About from './pages/About';
-import Roadmap from './pages/Roadmap';
-import Help from './pages/Help';
-import FoundationPublic from './pages/Foundation';
-import Tokenomics from './pages/Tokenomics';
-import VIP from './pages/VIP';
-import Community from './pages/Community';
-import SupabaseTest from './pages/SupabaseTest';
-import AuthTest from './pages/AuthTest';
-import AppLayout from './components/AppLayout';
-import Dashboard from './pages/app/Dashboard';
-import Miners from './pages/app/Miners';
-import MinerDetail from './pages/app/MinerDetail';
-import Rewards from './pages/app/Rewards';
-import WalletNew from './pages/app/WalletNew';
-import Marketplace from './pages/app/Marketplace';
-import Academy from './pages/app/Academy';
-import Foundation from './pages/app/Foundation';
-import Settings from './pages/app/Settings';
-import Profile from './pages/app/Profile';
-import Transactions from './pages/app/Transactions';
-import Referrals from './pages/app/Referrals';
-import TYTTrading from './pages/app/TYTTrading';
-import AdminWithdrawals from './pages/app/AdminWithdrawals';
-import AdminUsers from './pages/app/AdminUsers';
-import Notifications from './pages/app/Notifications';
-import Governance from './pages/app/Governance';
-import MiningStatsDashboard from './components/MiningStatsDashboard';
-import Certificates from './pages/app/Certificates';
-import BurnReports from './pages/app/BurnReports';
-import Avatars from './pages/app/Avatars';
-import DataCenter from './pages/app/DataCenter';
-import Calculators from './pages/app/Calculators';
-import CharityStaking from './pages/app/CharityStaking';
-import Leaderboard from './pages/app/Leaderboard';
-import KYC from './pages/app/KYC';
-import Quests from './pages/app/Quests';
-import Grants from './pages/app/Grants';
-import Clans from './pages/app/Clans';
-import Swap from './pages/app/Swap';
-import Bridge from './pages/app/Bridge';
-import AdminContracts from './pages/app/AdminContracts';
+
+// Lazy load all other pages
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const About = lazy(() => import('./pages/About'));
+const Roadmap = lazy(() => import('./pages/Roadmap'));
+const Help = lazy(() => import('./pages/Help'));
+const FoundationPublic = lazy(() => import('./pages/Foundation'));
+const Tokenomics = lazy(() => import('./pages/Tokenomics'));
+const VIP = lazy(() => import('./pages/VIP'));
+const Community = lazy(() => import('./pages/Community'));
+const SupabaseTest = lazy(() => import('./pages/SupabaseTest'));
+const AuthTest = lazy(() => import('./pages/AuthTest'));
+
+// App pages - lazy loaded for better code splitting
+const Dashboard = lazy(() => import('./pages/app/Dashboard'));
+const Miners = lazy(() => import('./pages/app/Miners'));
+const MinerDetail = lazy(() => import('./pages/app/MinerDetail'));
+const Rewards = lazy(() => import('./pages/app/Rewards'));
+const WalletUnified = lazy(() => import('./pages/app/WalletUnified'));
+const Marketplace = lazy(() => import('./pages/app/Marketplace'));
+const Academy = lazy(() => import('./pages/app/Academy'));
+const Foundation = lazy(() => import('./pages/app/Foundation'));
+const Settings = lazy(() => import('./pages/app/Settings'));
+const Profile = lazy(() => import('./pages/app/Profile'));
+const Transactions = lazy(() => import('./pages/app/Transactions'));
+const Referrals = lazy(() => import('./pages/app/Referrals'));
+const TYTTrading = lazy(() => import('./pages/app/TYTTrading'));
+const AdminWithdrawals = lazy(() => import('./pages/app/AdminWithdrawals'));
+const AdminUsers = lazy(() => import('./pages/app/AdminUsers'));
+const Notifications = lazy(() => import('./pages/app/Notifications'));
+const Governance = lazy(() => import('./pages/app/Governance'));
+const MiningStatsDashboard = lazy(() => import('./components/MiningStatsDashboard'));
+const Certificates = lazy(() => import('./pages/app/Certificates'));
+const BurnReports = lazy(() => import('./pages/app/BurnReports'));
+const Avatars = lazy(() => import('./pages/app/Avatars'));
+const DataCenter = lazy(() => import('./pages/app/DataCenter'));
+const Calculators = lazy(() => import('./pages/app/Calculators'));
+const CharityStaking = lazy(() => import('./pages/app/CharityStaking'));
+const Leaderboard = lazy(() => import('./pages/app/Leaderboard'));
+const KYC = lazy(() => import('./pages/app/KYC'));
+const Quests = lazy(() => import('./pages/app/Quests'));
+const Grants = lazy(() => import('./pages/app/Grants'));
+const Clans = lazy(() => import('./pages/app/Clans'));
+const Swap = lazy(() => import('./pages/app/Swap'));
+const Bridge = lazy(() => import('./pages/app/Bridge'));
+const AdminContracts = lazy(() => import('./pages/app/AdminContracts'));
+
+// Loading component
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="text-gray-400">Loading...</div>
+      </div>
+    </div>
+  );
+}
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -73,12 +93,13 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <>
+    <ErrorBoundary>
       <AnnouncementBanner />
       <EnhancedPriceTicker />
       <CookieConsent />
       <LiveSupportWidget />
-      <Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
       <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
       <Route path="/login" element={<PublicLayout showFooter={false}><Login /></PublicLayout>} />
       <Route path="/signup" element={<PublicLayout showFooter={false}><Signup /></PublicLayout>} />
@@ -107,7 +128,7 @@ function App() {
                 <Route path="mining-stats" element={<MiningStatsDashboard />} />
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="marketplace" element={<Marketplace />} />
-                <Route path="wallet" element={<WalletNew />} />
+                <Route path="wallet" element={<WalletUnified />} />
                 <Route path="swap" element={<Swap />} />
                 <Route path="bridge" element={<Bridge />} />
                 <Route path="tyt-trading" element={<TYTTrading />} />
@@ -140,8 +161,9 @@ function App() {
       />
 
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-    </>
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
