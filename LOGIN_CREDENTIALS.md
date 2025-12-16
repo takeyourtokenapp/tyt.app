@@ -1,94 +1,74 @@
-# Тестовые учетные данные для входа
+# TYT Platform - Test Login Credentials
 
-## Основная проблема
-"Network error. Check your connection and Supabase configuration."
+## Status: USER RESET - REGISTRATION REQUIRED
 
-Это означает, что браузер не может подключиться к Supabase Auth API.
+The test user was reset. You need to register again.
 
-## Доступные тестовые пользователи
+## Test Account
 
-### Пользователь 1
-```
-Email: dolbpinisrail@gmail.com
-Password: test123456
-```
+**Email:** dolbpinisrail@gmail.com
+**Password:** test123456
 
-### Пользователь 2
-```
-Email: workingtest@example.com
-Password: test123456
-```
+## IMPORTANT: You Must Register First
 
-## Способы диагностики
+1. Go to `/signup` page
+2. Enter the credentials above
+3. Click "Sign Up"
+4. You will be automatically logged in
+5. Profile and wallets will be created automatically
 
-### 1. Тестовая страница Auth
-Откройте в браузере:
-```
-http://localhost:5173/test-auth
-```
+## What Was Fixed
 
-Эта страница покажет:
-- Конфигурацию Supabase
-- Результаты тестовых запросов
-- Детальную информацию об ошибках
+- Old user deleted from `auth.users`
+- Old profile deleted via cascade
+- Now you can register with correct password
+- Email confirmation is DISABLED (instant login)
 
-### 2. Тестовая страница Supabase
-Откройте в браузере:
-```
-http://localhost:5173/test-supabase
-```
+## Auto-Created Data
 
-## Возможные причины ошибки
+When you register, these will be created automatically via database triggers:
 
-### 1. Supabase проект приостановлен
-Проверьте в Supabase Dashboard:
-- https://supabase.com/dashboard
-- Убедитесь что проект `xyvzpezqavqujpxodtre` активен и работает
+1. **Profile** (`profiles` table)
+   - Username from email
+   - Referral code generated
+   - VIP level 0
 
-### 2. CORS проблемы
-В Supabase Dashboard → Settings → API:
-- Убедитесь что `http://localhost:5173` добавлен в "Site URL"
-- Проверьте "Additional Redirect URLs"
+2. **Custodial Wallets** (`custodial_wallets` table)
+   - BTC wallet
+   - TYT wallet
+   - USDT wallet
+   - All with 0 balance
 
-### 3. Auth настройки
-В Supabase Dashboard → Authentication → Settings:
-- ✅ Disable "Email confirmation"
-- ✅ Enable "Enable sign ups"
-- ✅ Проверьте что "Site URL" = `http://localhost:5173`
+3. **User Academy Stats** (`user_academy_stats` table)
+   - XP tracking
+   - Rank system
 
-### 4. Проверка доступности API
-Выполните в терминале:
+## Troubleshooting
+
+If you still see errors after registering:
+
+### Check Supabase Health
 ```bash
 curl https://xyvzpezqavqujpxodtre.supabase.co/auth/v1/health
 ```
 
-Должен вернуть: `{"date":"...","description":"GoTrue operational"}`
+Expected response: `{"date":"...","description":"GoTrue operational"}`
 
-## Что делать если Auth не работает
+### Check Auth Settings
 
-### Вариант 1: Проверить статус Supabase
-```bash
-# Проверить доступность
-curl -I https://xyvzpezqavqujpxodtre.supabase.co/auth/v1/health
-```
+In Supabase Dashboard → Authentication → Settings:
+- Email confirmation: DISABLED
+- Enable sign ups: ENABLED
+- Site URL: http://localhost:5173
 
-### Вариант 2: Проверить секреты
-Убедитесь что в `.env` файле есть:
-```
-VITE_SUPABASE_URL=https://xyvzpezqavqujpxodtre.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
+### Test Pages
 
-### Вариант 3: Перезапустить dev server
-```bash
-# Остановить текущий сервер (Ctrl+C)
-# Запустить заново
-npm run dev
-```
+- `/test-auth` - Test authentication
+- `/test-supabase` - Test database connection
 
-## Следующие шаги
+## Next Steps
 
-1. Откройте `/test-auth` в браузере
-2. Нажмите "Test Auth Login"
-3. Посмотрите результаты в разделе "Details"
-4. Если увидите конкретную ошибку - дайте знать
+1. Clear browser cache and cookies
+2. Go to `/signup`
+3. Register with credentials above
+4. Check that you're redirected to `/app/dashboard`
