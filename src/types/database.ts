@@ -7,7 +7,7 @@ export interface Profile {
   vip_level: number;
   total_hashrate: number;
   rank_score: number;
-  owl_rank: 'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior';
+  rank: 'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior';
   avatar_id?: string;
   referred_by?: string;
   referral_code: string;

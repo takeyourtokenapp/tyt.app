@@ -26,7 +26,7 @@ interface UserProfile {
   is_active: boolean;
   is_admin: boolean;
   rank_score: number;
-  owl_rank: string;
+  rank: string;
   created_at: string;
   last_seen: string | null;
 }
@@ -263,7 +263,7 @@ export default function AdminUsers() {
                     )}
                   </td>
                   <td className="py-4 px-4 text-center">
-                    <div className="text-sm capitalize">{user.owl_rank}</div>
+                    <div className="text-sm capitalize">{user.rank}</div>
                     <div className="text-xs text-gray-500">{user.rank_score} XP</div>
                   </td>
                   <td className="py-4 px-4 text-center">
@@ -342,7 +342,7 @@ export default function AdminUsers() {
                 </div>
                 <div>
                   <label className="text-sm text-gray-400">Owl Rank</label>
-                  <div className="font-semibold capitalize">{selectedUser.owl_rank} ({selectedUser.rank_score} XP)</div>
+                  <div className="font-semibold capitalize">{selectedUser.rank} ({selectedUser.rank_score} XP)</div>
                 </div>
                 <div>
                   <label className="text-sm text-gray-400">KYC Status</label>

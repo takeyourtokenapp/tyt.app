@@ -70,7 +70,7 @@ export default function Academy() {
       const [profileRes, tracksRes] = await Promise.all([
         supabase
           .from('profiles')
-          .select('rank_score, owl_rank')
+          .select('rank_score, rank')
           .eq('id', user.id)
           .maybeSingle(),
         supabase
@@ -81,8 +81,8 @@ export default function Academy() {
       ]);
 
       if (profileRes.data) {
-        setUserXP(profileRes.data.rank_score);
-        setOwlRank(profileRes.data.owl_rank);
+        setUserXP(profileRes.data.rank_score || 0);
+        setOwlRank((profileRes.data.rank as 'worker' | 'academic' | 'diplomat' | 'peacekeeper' | 'warrior') || 'worker');
       }
 
       if (tracksRes.data) {

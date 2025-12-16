@@ -5,7 +5,7 @@ export interface CommunityMessage {
   user_id: string;
   username: string;
   avatar: string;
-  owl_rank: string;
+  rank?: string;
   message: string;
   is_system: boolean;
   created_at: string;
@@ -15,7 +15,7 @@ export interface LeaderboardEntry {
   user_id: string;
   username: string;
   avatar: string;
-  owl_rank: string;
+  rank: string;
   total_hashrate: number;
   total_rewards: number;
   total_xp: number;
@@ -55,7 +55,7 @@ export const communityService = {
 
       const username = user.user_metadata?.username || user.email?.split('@')[0] || 'User';
       const avatar = user.user_metadata?.avatar || '🦉';
-      const owlRank = user.user_metadata?.owl_rank || 'Worker';
+      const rank = user.user_metadata?.rank || 'worker';
 
       const { data, error } = await supabase
         .from('community_messages')
@@ -63,7 +63,7 @@ export const communityService = {
           user_id: user.id,
           username,
           avatar,
-          owl_rank: owlRank,
+          rank: rank,
           message: message.trim(),
           is_system: false
         })

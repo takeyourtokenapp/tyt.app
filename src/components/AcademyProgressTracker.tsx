@@ -48,9 +48,9 @@ export default function AcademyProgressTracker() {
 
       const { data: userStats } = await supabase
         .from('profiles')
-        .select('rank_score, owl_rank')
+        .select('rank_score, rank')
         .eq('id', user?.id)
-        .single();
+        .maybeSingle();
 
       const { data: academyStats } = await supabase
         .from('user_academy_stats')
@@ -60,9 +60,9 @@ export default function AcademyProgressTracker() {
 
       const { data: tracks } = await supabase
         .from('academy_tracks')
-        .select('id, title, xp_reward')
+        .select('id, title, completion_xp')
         .eq('is_published', true)
-        .order('order_index');
+        .order('sort_order');
 
       const progressData: TrackProgress[] = [];
 
@@ -75,11 +75,11 @@ export default function AcademyProgressTracker() {
             .eq('is_published', true);
 
           const { data: completedLessons } = await supabase
-            .from('academy_progress')
+            .from('academy_user_progress')
             .select('lesson_id')
             .eq('user_id', user?.id)
             .in('lesson_id', lessons?.map(l => l.id) || [])
-            .not('completed_at', 'is', null);
+            .eq('completed', true);
 
           const totalLessons = lessons?.length || 0;
           const completed = completedLessons?.length || 0;
@@ -90,7 +90,7 @@ export default function AcademyProgressTracker() {
             track_title: track.title,
             total_lessons: totalLessons,
             completed_lessons: completed,
-            track_xp: track.xp_reward || 0,
+            track_xp: track.completion_xp || 0,
             completion_percentage: percentage
           });
         }
@@ -155,7 +155,7 @@ export default function AcademyProgressTracker() {
 
       setStats({
         totalXP: userStats?.rank_score || 0,
-        currentRank: userStats?.owl_rank || 'Worker',
+        currentRank: userStats?.rank || 'worker',
         lessonsCompleted: academyStats?.lessons_completed || 0,
         quizzesPassed: academyStats?.quizzes_passed || 0,
         currentStreak: academyStats?.current_streak_days || 0
