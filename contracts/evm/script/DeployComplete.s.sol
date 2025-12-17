@@ -78,10 +78,10 @@ contract DeployComplete is Script {
         // ================================================
         console.log("1. Deploying Vaults...");
 
-        charityVault = new CharityVault(admin, admin);
+        charityVault = new CharityVault(admin);
         console.log("   CharityVault:", address(charityVault));
 
-        academyVault = new AcademyVault(admin, admin);
+        academyVault = new AcademyVault(admin);
         console.log("   AcademyVault:", address(academyVault));
         console.log("");
 
@@ -129,8 +129,9 @@ contract DeployComplete is Script {
         // STEP 5: Deploy Rewards Registry
         // ================================================
         console.log("5. Deploying RewardsMerkleRegistry...");
-        rewardsRegistry = new RewardsMerkleRegistry(admin);
+        rewardsRegistry = new RewardsMerkleRegistry(admin, admin);
         console.log("   RewardsMerkleRegistry:", address(rewardsRegistry));
+        console.log("   Admin & Publisher:", admin);
         console.log("");
 
         // ================================================
