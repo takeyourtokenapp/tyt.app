@@ -104,73 +104,35 @@ export default function DataCenter() {
         live_stream_url: null,
         is_active: true,
         latitude: 37.5,
-        longitude: -77.4,
+        longitude: -77.4
+      },
+      {
         id: 'eu-north',
         name: 'EU Nordic',
         location: 'Stockholm',
-        country: 'Sweden',
-        status: 'online',
-        hashrate: 45.8,
-        temperature: 35,
-        efficiency: 24.2,
-        uptime: 99.95,
-        miners: 620
-      },
-      {
-        id: 'eu-central',
-        name: 'EU Central',
-        location: 'Frankfurt',
-        country: 'Germany',
-        status: 'maintenance',
-        hashrate: 38.2,
-        temperature: 40,
-        efficiency: 27.1,
-        uptime: 98.5,
-        miners: 520
+        country_code: 'SWE',
+        kwh_rate: 0.05,
+        total_capacity_th: 120000,
+        used_capacity_th: 45800,
+        live_stream_url: null,
+        is_active: true,
+        latitude: 59.3,
+        longitude: 18.1
       },
       {
         id: 'asia-east',
         name: 'Asia Pacific',
         location: 'Singapore',
-        country: 'Singapore',
-        status: 'online',
-        hashrate: 52.1,
-        temperature: 45,
-        efficiency: 29.3,
-        uptime: 99.92,
-        miners: 710
-      },
-      {
-        id: 'canada',
-        name: 'Canada North',
-        location: 'Quebec',
-        country: 'Canada',
-        status: 'online',
-        hashrate: 68.9,
-        temperature: 32,
-        efficiency: 23.5,
-        uptime: 99.98,
-        miners: 890
+        country_code: 'SGP',
+        kwh_rate: 0.12,
+        total_capacity_th: 100000,
+        used_capacity_th: 52100,
+        live_stream_url: null,
+        is_active: true,
+        latitude: 1.3,
+        longitude: 103.8
       }
     ];
-
-    setDataCenters(centers);
-    setSelectedCenter(centers[0].id);
-
-    const total = {
-      totalHashrate: centers.reduce((sum, c) => sum + c.hashrate, 0),
-      totalMiners: centers.reduce((sum, c) => sum + c.miners, 0),
-      avgEfficiency: centers.reduce((sum, c) => sum + c.efficiency, 0) / centers.length,
-      avgUptime: centers.reduce((sum, c) => sum + c.uptime, 0) / centers.length
-    };
-    setTotalStats(total);
-
-    const metrics: LiveMetric[] = Array.from({ length: 20 }, (_, i) => ({
-      timestamp: new Date(Date.now() - (19 - i) * 60000).toISOString(),
-      hashrate: total.totalHashrate + (Math.random() - 0.5) * 10,
-      power: total.totalHashrate * total.avgEfficiency * (0.95 + Math.random() * 0.1)
-    }));
-    setLiveMetrics(metrics);
   }
 
   function updateLiveMetrics() {
