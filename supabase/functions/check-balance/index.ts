@@ -121,6 +121,29 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    // CRITICAL: Verify address ownership
+    const { data: wallet, error: walletError } = await supabase
+      .from('custodial_wallets')
+      .select('address')
+      .eq('user_id', user.id)
+      .eq('address', address)
+      .maybeSingle();
+
+    if (walletError) {
+      console.error('Error verifying address ownership:', walletError);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Internal server error' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!wallet) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Forbidden: Address not owned by user' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     let balance = 0;
     let error = null;
 
