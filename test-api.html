@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Crypto API</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a1122;
+            color: #fff;
+            padding: 20px;
+        }
+        .result {
+            background: #1a2233;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #2a3344;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .success { background: #10b981; }
+        .error { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>Crypto Price API Test</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="results"></div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="result">Loading...</div>';
+
+            try {
+                const ids = [
+                    'bitcoin',
+                    'ethereum',
+                    'solana',
+                    'binancecoin',
+                    'tron',
+                    'ripple',
+                    'cardano'
+                ].join(',');
+
+                const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true`;
+
+                console.log('Fetching from:', url);
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <div class="status success">✓ Success</div>
+                        <h3>Response Data:</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <div class="status error">✗ Error</div>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', testAPI);
+    </script>
+</body>
+</html>

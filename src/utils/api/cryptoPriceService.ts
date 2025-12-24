@@ -38,25 +38,28 @@ export async function fetchCryptoPrices(): Promise<Record<string, PriceData>> {
 
   const cachedData = priceCache['all'];
   if (cachedData && now - cachedData.timestamp < CACHE_DURATION) {
+    console.log('[CryptoPriceService] Using cached data');
     return cachedData.data as any;
   }
 
   try {
     const ids = Object.values(COIN_IDS).join(',');
-    const response = await fetch(
-      `${COINGECKO_API}/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true`,
-      {
-        headers: {
-          'Accept': 'application/json',
-        },
-      }
-    );
+    const url = `${COINGECKO_API}/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true`;
+    console.log('[CryptoPriceService] Fetching from CoinGecko...');
+
+    const response = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch prices');
+      console.error('[CryptoPriceService] API response not OK:', response.status, response.statusText);
+      throw new Error(`Failed to fetch prices: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('[CryptoPriceService] Successfully fetched data from CoinGecko');
 
     const prices: Record<string, PriceData> = {};
 
@@ -91,23 +94,24 @@ export async function fetchCryptoPrices(): Promise<Record<string, PriceData>> {
 }
 
 function getFallbackPrices(): Record<string, PriceData> {
+  console.warn('[CryptoPriceService] Using fallback prices - API unavailable');
   return {
-    BTC: { price: 95000, change24h: 5.2, volume24h: 28.5 },
-    ETH: { price: 3500, change24h: 10.1, volume24h: 15.2 },
-    SOL: { price: 140, change24h: 0.26, volume24h: 2.1 },
-    BNB: { price: 620, change24h: 2.8, volume24h: 1.8 },
-    TRX: { price: 0.15, change24h: -1.2, volume24h: 0.89 },
-    XRP: { price: 2.5, change24h: 3.8, volume24h: 3.2 },
-    ADA: { price: 1.05, change24h: 4.5, volume24h: 1.5 },
-    AVAX: { price: 42.5, change24h: -2.1, volume24h: 0.95 },
-    DOT: { price: 8.75, change24h: 1.9, volume24h: 0.67 },
-    MATIC: { price: 1.15, change24h: 6.3, volume24h: 0.85 },
-    LINK: { price: 18.5, change24h: 3.7, volume24h: 0.72 },
-    UNI: { price: 12.8, change24h: -0.8, volume24h: 0.45 },
-    TON: { price: 5.25, change24h: 7.2, volume24h: 0.38 },
+    BTC: { price: 86853, change24h: -0.56, volume24h: 35.0 },
+    ETH: { price: 2913, change24h: -0.26, volume24h: 18.2 },
+    SOL: { price: 121.66, change24h: -1.16, volume24h: 3.0 },
+    BNB: { price: 589, change24h: 1.2, volume24h: 1.5 },
+    TRX: { price: 0.24, change24h: 0.8, volume24h: 0.85 },
+    XRP: { price: 2.24, change24h: -2.1, volume24h: 3.5 },
+    ADA: { price: 0.89, change24h: -1.8, volume24h: 1.2 },
+    AVAX: { price: 35.12, change24h: -0.9, volume24h: 0.82 },
+    DOT: { price: 6.82, change24h: -1.5, volume24h: 0.55 },
+    MATIC: { price: 0.47, change24h: -2.3, volume24h: 0.42 },
+    LINK: { price: 22.34, change24h: 1.1, volume24h: 0.68 },
+    UNI: { price: 13.52, change24h: -0.4, volume24h: 0.38 },
+    TON: { price: 5.42, change24h: 0.9, volume24h: 0.35 },
     TYT: { price: 0.05, change24h: 5.2, volume24h: 0.0012 },
     USDT: { price: 1.0, change24h: 0.0, volume24h: 45.0 },
-    USDC: { price: 1.0, change24h: 0.01, volume24h: 23.5 },
+    USDC: { price: 1.0, change24h: 0.0, volume24h: 23.5 },
   };
 }
 

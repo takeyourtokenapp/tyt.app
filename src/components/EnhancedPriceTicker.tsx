@@ -126,39 +126,28 @@ const CRYPTO_ASSETS: CryptoAsset[] = [
   },
 ];
 
-const fallbackPrices = {
-  BTC: { price: 95000, change24h: 5.2, volume24h: 28.5 },
-  ETH: { price: 3500, change24h: 10.1, volume24h: 15.2 },
-  SOL: { price: 140, change24h: 0.26, volume24h: 2.1 },
-  BNB: { price: 620, change24h: 2.8, volume24h: 1.8 },
-  TRX: { price: 0.15, change24h: -1.2, volume24h: 0.89 },
-  XRP: { price: 2.5, change24h: 3.8, volume24h: 3.2 },
-  ADA: { price: 1.05, change24h: 4.5, volume24h: 1.5 },
-  AVAX: { price: 42.5, change24h: -2.1, volume24h: 0.95 },
-  DOT: { price: 8.75, change24h: 1.9, volume24h: 0.67 },
-  MATIC: { price: 1.15, change24h: 6.3, volume24h: 0.85 },
-  LINK: { price: 18.5, change24h: 3.7, volume24h: 0.72 },
-  UNI: { price: 12.8, change24h: -0.8, volume24h: 0.45 },
-  TON: { price: 5.25, change24h: 7.2, volume24h: 0.38 },
-  TYT: { price: 0.05, change24h: 5.2, volume24h: 0.0012 },
-  USDT: { price: 1.0, change24h: 0.0, volume24h: 45.0 },
-  USDC: { price: 1.0, change24h: 0.01, volume24h: 23.5 },
-};
-
 export default function EnhancedPriceTicker() {
   const [isPaused, setIsPaused] = useState(false);
-  const [prices, setPrices] = useState<Record<string, { price: number; change24h: number; volume24h: number }>>(fallbackPrices);
+  const [prices, setPrices] = useState<Record<string, { price: number; change24h: number; volume24h: number }>>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
   useEffect(() => {
     const loadPrices = async () => {
       try {
+        console.log('[PriceTicker] Fetching prices...');
         const data = await fetchCryptoPrices();
+        console.log('[PriceTicker] Received data:', {
+          BTC: data.BTC?.price,
+          ETH: data.ETH?.price,
+          SOL: data.SOL?.price,
+          timestamp: new Date().toISOString()
+        });
         setPrices(data);
+        setLastUpdate(new Date());
         setIsLoading(false);
-        console.log('Prices loaded:', data);
       } catch (error) {
-        console.error('Failed to load prices:', error);
+        console.error('[PriceTicker] Failed to load prices:', error);
         setIsLoading(false);
       }
     };
@@ -171,11 +160,20 @@ export default function EnhancedPriceTicker() {
 
   const duplicatedAssets = [...CRYPTO_ASSETS, ...CRYPTO_ASSETS, ...CRYPTO_ASSETS];
 
+  const hasData = Object.keys(prices).length > 0;
+
   return (
     <div className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md border-b border-gray-700/50 overflow-hidden relative">
       <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-gray-900/90 px-3 py-1 rounded-full border border-green-500/30">
-        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-        <span className="text-xs font-semibold text-green-400">LIVE</span>
+        <div className={`w-2 h-2 rounded-full ${hasData ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`}></div>
+        <span className={`text-xs font-semibold ${hasData ? 'text-green-400' : 'text-gray-400'}`}>
+          {isLoading ? 'Loading...' : 'LIVE'}
+        </span>
+        {lastUpdate && (
+          <span className="text-[10px] text-gray-500">
+            {lastUpdate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        )}
       </div>
 
       <div
