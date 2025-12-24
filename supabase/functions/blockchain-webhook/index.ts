@@ -25,6 +25,26 @@ interface DepositResult {
   error?: string;
 }
 
+function isValidTronAddress(address: string): boolean {
+  return /^T[A-Za-z1-9]{33}$/.test(address);
+}
+
+function isValidEthAddress(address: string): boolean {
+  return /^0x[0-9a-fA-F]{40}$/.test(address);
+}
+
+function isValidTransactionId(txId: string): boolean {
+  return /^(0x)?[0-9a-fA-F]{64}$/.test(txId);
+}
+
+function validateAmount(amount: string): number {
+  const amountDecimal = parseFloat(amount) / 1_000_000;
+  if (isNaN(amountDecimal) || amountDecimal <= 0 || amountDecimal > 1000000) {
+    throw new Error('Invalid amount: must be between 0 and 1,000,000');
+  }
+  return amountDecimal;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, {
@@ -35,7 +55,11 @@ Deno.serve(async (req: Request) => {
 
   try {
     // CRITICAL: Verify WEBHOOK_SECRET
-    const webhookSecret = Deno.env.get('WEBHOOK_SECRET') || 'change-in-production';
+    const webhookSecret = Deno.env.get('WEBHOOK_SECRET');
+    if (!webhookSecret || webhookSecret === 'change-in-production') {
+      throw new Error('WEBHOOK_SECRET must be configured with a secure value');
+    }
+
     const providedSecret = req.headers.get('X-Webhook-Secret');
 
     if (!providedSecret || providedSecret !== webhookSecret) {
@@ -73,6 +97,18 @@ Deno.serve(async (req: Request) => {
         token_symbol: payload.token_symbol || payload.tokenSymbol || 'TRX',
         confirmations: payload.confirmations || 0,
       };
+
+      // Validate transaction data
+      if (!isValidTransactionId(txData.transaction_id)) {
+        throw new Error('Invalid transaction ID format');
+      }
+      if (!isValidTronAddress(txData.to_address)) {
+        throw new Error('Invalid destination address');
+      }
+      if (!isValidTronAddress(txData.from_address)) {
+        throw new Error('Invalid source address');
+      }
+      validateAmount(txData.amount);
     } else {
       throw new Error('Unsupported network or invalid payload');
     }

@@ -59,6 +59,7 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     mapping(uint256 => Order) public orders;
     mapping(uint256 => uint256) public tokenIdToOrderId;
     uint256[] private _activeOrderIds;
+    mapping(uint256 => uint256) private _orderIdToIndex;  // Maps orderId to its index in _activeOrderIds
 
     event OrderCreated(
         uint256 indexed orderId,
@@ -95,6 +96,8 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     error InvalidPrice();
     error CannotBuyOwnToken();
     error TransferFailed();
+    error PriceTooHigh(uint256 maxPrice, uint256 actualPrice);
+    error OrderExpired(uint256 deadline);
 
     constructor(
         address _feeConfig,
@@ -139,6 +142,7 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
         });
 
         tokenIdToOrderId[tokenId] = orderId;
+        _orderIdToIndex[orderId] = _activeOrderIds.length;
         _activeOrderIds.push(orderId);
 
         emit OrderCreated(orderId, tokenId, msg.sender, paymentToken, price);
@@ -146,12 +150,22 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
         return orderId;
     }
 
-    function fillOrder(uint256 orderId) external payable whenNotPaused nonReentrant {
+    function fillOrder(
+        uint256 orderId,
+        uint256 maxPrice,
+        uint256 deadline
+    ) external payable whenNotPaused nonReentrant {
+        // Check deadline
+        if (block.timestamp > deadline) revert OrderExpired(deadline);
+
         Order storage order = orders[orderId];
 
         if (order.createdAt == 0) revert OrderNotFound(orderId);
         if (order.status != OrderStatus.Active) revert OrderNotActive(orderId);
         if (order.seller == msg.sender) revert CannotBuyOwnToken();
+
+        // Check price protection
+        if (order.price > maxPrice) revert PriceTooHigh(maxPrice, order.price);
 
         bytes32 marketplaceKey = keccak256("marketplace.default");
 
@@ -261,13 +275,19 @@ contract MinerMarketplace is AccessControl, ReentrancyGuard, Pausable {
     }
 
     function _removeFromActiveOrders(uint256 orderId) internal {
-        for (uint256 i = 0; i < _activeOrderIds.length; i++) {
-            if (_activeOrderIds[i] == orderId) {
-                _activeOrderIds[i] = _activeOrderIds[_activeOrderIds.length - 1];
-                _activeOrderIds.pop();
-                break;
-            }
+        uint256 index = _orderIdToIndex[orderId];
+        uint256 lastIndex = _activeOrderIds.length - 1;
+
+        // If the order to remove is not the last one, swap it with the last one
+        if (index != lastIndex) {
+            uint256 lastOrderId = _activeOrderIds[lastIndex];
+            _activeOrderIds[index] = lastOrderId;
+            _orderIdToIndex[lastOrderId] = index;
         }
+
+        // Remove the last element
+        _activeOrderIds.pop();
+        delete _orderIdToIndex[orderId];
     }
 
     function getOrder(uint256 orderId) external view returns (

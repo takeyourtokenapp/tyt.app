@@ -146,14 +146,18 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
 
-        // Calculate and distribute fees (60/30/10 split)
+        // CHECKS: Calculate fees
         (
             uint256 feeTotal,
             uint256 feeProtocol,
             uint256 feeCharity,
-            uint256 feeAcademy
-        ) = _distributeFees(tokenId, msg.value);
+            uint256 feeAcademy,
+            address protocolTreasury,
+            address charityVault,
+            address academyVault
+        ) = _calculateFeesAndRecipients(msg.value);
 
+        // EFFECTS: Mint NFT and update state
         _safeMint(to, tokenId);
 
         _minerData[tokenId] = MinerData({
@@ -180,6 +184,16 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
             feeProtocol,
             feeCharity,
             feeAcademy
+        );
+
+        // INTERACTIONS: Transfer fees (must be last)
+        _distributeFees(
+            feeProtocol,
+            feeCharity,
+            feeAcademy,
+            protocolTreasury,
+            charityVault,
+            academyVault
         );
 
         return tokenId;
@@ -228,23 +242,31 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
         return tokenId;
     }
 
-    function _distributeFees(uint256 tokenId, uint256 amount) internal returns (
+    function _calculateFeesAndRecipients(uint256 amount) internal view returns (
         uint256 feeTotal,
         uint256 protocolFee,
         uint256 charityFee,
-        uint256 academyFee
+        uint256 academyFee,
+        address protocolTreasury,
+        address charityVault,
+        address academyVault
     ) {
         bytes32 mintKey = keccak256("mint.default");
 
         (feeTotal, protocolFee, charityFee, academyFee) = feeConfig.calculateFees(mintKey, amount);
 
-        (
-            address protocolTreasury,
-            address charityVault,
-            address academyVault
-        ) = feeConfig.getFeeRecipients(mintKey);
+        (protocolTreasury, charityVault, academyVault) = feeConfig.getFeeRecipients(mintKey);
+    }
 
-        // Transfer fees to recipients
+    function _distributeFees(
+        uint256 protocolFee,
+        uint256 charityFee,
+        uint256 academyFee,
+        address protocolTreasury,
+        address charityVault,
+        address academyVault
+    ) internal {
+        // Transfer fees to recipients - INTERACTIONS (must be called after all state changes)
         if (protocolFee > 0) {
             (bool success, ) = protocolTreasury.call{value: protocolFee}("");
             if (!success) revert FeeTransferFailed();
@@ -259,8 +281,6 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
             (bool success, ) = academyVault.call{value: academyFee}("");
             if (!success) revert FeeTransferFailed();
         }
-
-        return (feeTotal, protocolFee, charityFee, academyFee);
     }
 
     function upgradePower(

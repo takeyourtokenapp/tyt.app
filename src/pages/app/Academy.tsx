@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import DOMPurify from 'dompurify';
 import {
   GraduationCap,
   BookOpen,
@@ -760,7 +761,15 @@ export default function Academy() {
               </div>
               <div className="text-gray-300 leading-relaxed prose prose-invert max-w-none">
                 {selectedLesson.content_mdx ? (
-                  <div dangerouslySetInnerHTML={{ __html: selectedLesson.content_mdx.replace(/\n/g, '<br/>') }} />
+                  <div dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      selectedLesson.content_mdx.replace(/\n/g, '<br/>'),
+                      {
+                        ALLOWED_TAGS: ['p', 'br', 'b', 'i', 'u', 'strong', 'em', 'code', 'pre', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'a', 'blockquote'],
+                        ALLOWED_ATTR: ['class', 'href', 'target', 'rel']
+                      }
+                    )
+                  }} />
                 ) : 'Lesson content will be displayed here.'}
               </div>
             </div>
