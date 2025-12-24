@@ -257,7 +257,7 @@ export default function LiveFoundationTracker() {
           <div className="space-y-4">
             <div className="bg-owl-slate/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-center gap-2 mb-2">
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" className="w-5 h-5" />
+                <div className="w-5 h-5 flex items-center justify-center text-sm">Ξ</div>
                 <span className="font-semibold">Ethereum</span>
               </div>
               <div className="text-xs font-mono bg-black/50 rounded p-2 mb-2">
@@ -276,7 +276,7 @@ export default function LiveFoundationTracker() {
 
             <div className="bg-owl-slate/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-center gap-2 mb-2">
-                <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="SOL" className="w-5 h-5" />
+                <div className="w-5 h-5 flex items-center justify-center text-sm">◎</div>
                 <span className="font-semibold">Solana</span>
               </div>
               <div className="text-xs font-mono bg-black/50 rounded p-2 mb-2">
