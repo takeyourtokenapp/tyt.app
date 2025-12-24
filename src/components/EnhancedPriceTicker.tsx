@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, Bitcoin, DollarSign } from 'lucide-react';
-import { useRealtimePrice } from '../hooks/useRealtimePrice';
+import { fetchCryptoPrices } from '../utils/api/cryptoPriceService';
 
 interface CryptoAsset {
   symbol: string;
@@ -127,27 +127,20 @@ const CRYPTO_ASSETS: CryptoAsset[] = [
 ];
 
 export default function EnhancedPriceTicker() {
-  const btcPrice = useRealtimePrice('BTC');
   const [isPaused, setIsPaused] = useState(false);
+  const [prices, setPrices] = useState<Record<string, { price: number; change24h: number; volume24h: number }>>({});
 
-  const mockPrices: Record<string, { price: number; change24h: number; volume24h: number }> = {
-    BTC: { price: btcPrice || 95000, change24h: 5.2, volume24h: 28.5 },
-    ETH: { price: 3500, change24h: 10.1, volume24h: 15.2 },
-    SOL: { price: 140, change24h: 0.26, volume24h: 2.1 },
-    BNB: { price: 620, change24h: 2.8, volume24h: 1.8 },
-    TRX: { price: 0.15, change24h: -1.2, volume24h: 0.89 },
-    XRP: { price: 2.5, change24h: 3.8, volume24h: 3.2 },
-    ADA: { price: 1.05, change24h: 4.5, volume24h: 1.5 },
-    AVAX: { price: 42.5, change24h: -2.1, volume24h: 0.95 },
-    DOT: { price: 8.75, change24h: 1.9, volume24h: 0.67 },
-    MATIC: { price: 1.15, change24h: 6.3, volume24h: 0.85 },
-    LINK: { price: 18.5, change24h: 3.7, volume24h: 0.72 },
-    UNI: { price: 12.8, change24h: -0.8, volume24h: 0.45 },
-    TON: { price: 5.25, change24h: 7.2, volume24h: 0.38 },
-    TYT: { price: 0.05, change24h: 5.2, volume24h: 0.0012 },
-    USDT: { price: 1.0, change24h: 0.0, volume24h: 45.0 },
-    USDC: { price: 1.0, change24h: 0.01, volume24h: 23.5 },
-  };
+  useEffect(() => {
+    const loadPrices = async () => {
+      const data = await fetchCryptoPrices();
+      setPrices(data);
+    };
+
+    loadPrices();
+    const interval = setInterval(loadPrices, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const duplicatedAssets = [...CRYPTO_ASSETS, ...CRYPTO_ASSETS, ...CRYPTO_ASSETS];
 
@@ -159,58 +152,58 @@ export default function EnhancedPriceTicker() {
         onMouseLeave={() => setIsPaused(false)}
       >
         <div
-          className={`flex gap-4 py-3 ${isPaused ? '' : 'animate-scroll'}`}
+          className={`flex gap-3 py-2 ${isPaused ? '' : 'animate-scroll'}`}
           style={{
             animation: isPaused ? 'none' : 'scroll 60s linear infinite',
           }}
         >
           {duplicatedAssets.map((asset, idx) => {
-            const priceData = mockPrices[asset.symbol];
+            const priceData = prices[asset.symbol] || { price: 0, change24h: 0, volume24h: 0 };
             const isPositive = priceData.change24h >= 0;
 
             return (
               <div
                 key={`${asset.symbol}-${idx}`}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg bg-gradient-to-br ${asset.gradient} border backdrop-blur-sm whitespace-nowrap hover:scale-105 transition-transform duration-200`}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-br ${asset.gradient} border backdrop-blur-sm whitespace-nowrap hover:scale-105 transition-transform duration-200`}
               >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${asset.color} bg-gray-800/50 border border-current/20`}>
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${asset.color} bg-gray-800/50 border border-current/20`}>
                   {asset.IconComponent ? (
-                    <asset.IconComponent size={18} />
+                    <asset.IconComponent size={16} />
                   ) : (
-                    <span className="text-lg">{asset.emoji}</span>
+                    <span className="text-base">{asset.emoji}</span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <div>
-                    <div className="font-bold text-white text-sm">{asset.symbol}</div>
-                    <div className="text-xs text-gray-400">{asset.name}</div>
+                    <div className="font-bold text-white text-xs leading-tight">{asset.symbol}</div>
+                    <div className="text-[10px] text-gray-400 leading-tight">{asset.name}</div>
                   </div>
 
-                  <div className="h-8 w-px bg-gray-700/50" />
+                  <div className="h-7 w-px bg-gray-700/50" />
 
                   <div className="text-right">
-                    <div className="font-bold text-white text-sm">
+                    <div className="font-bold text-white text-xs leading-tight">
                       ${priceData.price.toLocaleString(undefined, {
                         minimumFractionDigits: asset.symbol === 'BTC' || asset.symbol === 'ETH' ? 0 : 2,
                         maximumFractionDigits: asset.symbol === 'USDT' || asset.symbol === 'USDC' ? 2 : asset.symbol === 'TYT' ? 4 : 2
                       })}
                     </div>
-                    <div className={`text-xs flex items-center gap-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`text-[10px] flex items-center gap-0.5 ${isPositive ? 'text-green-400' : 'text-red-400'} leading-tight`}>
                       {isPositive ? (
-                        <TrendingUp size={12} />
+                        <TrendingUp size={10} />
                       ) : (
-                        <TrendingDown size={12} />
+                        <TrendingDown size={10} />
                       )}
                       {isPositive ? '+' : ''}{priceData.change24h.toFixed(2)}%
                     </div>
                   </div>
 
-                  <div className="h-8 w-px bg-gray-700/50" />
+                  <div className="h-7 w-px bg-gray-700/50" />
 
-                  <div className="text-xs text-gray-500">
+                  <div className="text-[10px] text-gray-500 text-center">
                     <div>Vol</div>
-                    <div className="font-semibold text-gray-400">${priceData.volume24h.toFixed(2)}B</div>
+                    <div className="font-semibold text-gray-400 leading-tight">${priceData.volume24h.toFixed(2)}B</div>
                   </div>
                 </div>
               </div>
