@@ -67,8 +67,13 @@ Create original, non-derivative icon designs that:
 ### ✅ Correct Usage
 
 ```tsx
-// Using Unicode symbol
+// Using Unicode symbol directly
 <div className="coin-symbol">Ξ</div>
+
+// Using our custom BitcoinIcon (with Unicode ₿)
+import { BitcoinIcon } from '@/components/illustrations/IconLibrary';
+<BitcoinIcon size={120} />
+// This renders a gold circle with Unicode ₿ character (U+20BF)
 
 // Using lucide-react icon
 import { Bitcoin } from 'lucide-react';
@@ -77,6 +82,8 @@ import { Bitcoin } from 'lucide-react';
 // Using first letter
 <div className="asset-initial">{asset[0]}</div>
 ```
+
+**Note**: As of December 24, 2024, `BitcoinIcon` component uses the official Unicode character **₿** (U+20BF) overlaid on a styled circular background, ensuring full trademark compliance.
 
 ### ❌ Incorrect Usage
 

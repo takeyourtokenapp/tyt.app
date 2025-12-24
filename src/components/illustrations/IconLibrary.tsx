@@ -8,87 +8,88 @@ export function BitcoinIcon({ size = 40, className = '' }: { size?: number; clas
   const shadowGradientId = `bitcoin-inner-shadow-${id}`;
 
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" className={`${className} drop-shadow-[0_0_20px_rgba(230,193,90,0.4)]`}>
-      <defs>
-        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#E6C15A" />
-          <stop offset="50%" stopColor="#F4D03F" />
-          <stop offset="100%" stopColor="#CFAE4C" />
-        </linearGradient>
-        <linearGradient id={neonGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#B88CFF" />
-          <stop offset="50%" stopColor="#7AD7FF" />
-          <stop offset="100%" stopColor="#B88CFF" />
-        </linearGradient>
-        <linearGradient id={glowGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#E6C15A" />
-          <stop offset="100%" stopColor="#CFAE4C" />
-        </linearGradient>
-        <radialGradient id={shadowGradientId}>
-          <stop offset="0%" stopColor="transparent" />
-          <stop offset="70%" stopColor="transparent" />
-          <stop offset="100%" stopColor="#0A1122" />
-        </radialGradient>
-      </defs>
+    <div
+      className={`relative inline-flex items-center justify-center ${className}`}
+      style={{ width: size, height: size }}
+    >
+      <svg width={size} height={size} viewBox="0 0 40 40" fill="none" className="absolute drop-shadow-[0_0_20px_rgba(230,193,90,0.4)]">
+        <defs>
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E6C15A" />
+            <stop offset="50%" stopColor="#F4D03F" />
+            <stop offset="100%" stopColor="#CFAE4C" />
+          </linearGradient>
+          <linearGradient id={neonGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#B88CFF" />
+            <stop offset="50%" stopColor="#7AD7FF" />
+            <stop offset="100%" stopColor="#B88CFF" />
+          </linearGradient>
+          <linearGradient id={glowGradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E6C15A" />
+            <stop offset="100%" stopColor="#CFAE4C" />
+          </linearGradient>
+          <radialGradient id={shadowGradientId}>
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="70%" stopColor="transparent" />
+            <stop offset="100%" stopColor="#0A1122" />
+          </radialGradient>
+        </defs>
 
-      <circle
-        cx="20"
-        cy="20"
-        r="19"
-        fill="none"
-        stroke={`url(#${glowGradientId})`}
-        strokeWidth="0.5"
-        opacity="0.6"
-      />
-
-      <circle
-        cx="20"
-        cy="20"
-        r="18.5"
-        fill="none"
-        stroke={`url(#${neonGradientId})`}
-        strokeWidth="1"
-        opacity="0.8"
-      />
-
-      <circle
-        cx="20"
-        cy="20"
-        r="17.5"
-        fill={`url(#${gradientId})`}
-      />
-
-      <circle
-        cx="20"
-        cy="20"
-        r="17.5"
-        fill={`url(#${shadowGradientId})`}
-        opacity="0.15"
-      />
-
-      <circle
-        cx="16"
-        cy="14"
-        r="4"
-        fill="white"
-        opacity="0.15"
-      />
-
-      <g transform="translate(20, 20)">
-        <line x1="-1" y1="-10" x2="-1" y2="-7" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="1" y1="-10" x2="1" y2="-7" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="-1" y1="7" x2="-1" y2="10" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="1" y1="7" x2="1" y2="10" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
-
-        <path
-          d="M-3 -7 L-3 7 L3 7 C5.5 7 7 5.5 7 3.5 C7 2 6 1 5 0.5 C6 0 7 -1 7 -2.5 C7 -5 5.5 -7 3 -7 L-3 -7 Z M0 -5 L3 -5 C4 -5 5 -4 5 -2.5 C5 -1 4 0 3 0 L0 0 L0 -5 Z M0 2 L3 2 C4.5 2 5.5 3 5.5 4 C5.5 5 4.5 6 3 6 L0 6 L0 2 Z"
-          fill="#0A1122"
-          stroke="#0A1122"
+        <circle
+          cx="20"
+          cy="20"
+          r="19"
+          fill="none"
+          stroke={`url(#${glowGradientId})`}
           strokeWidth="0.5"
-          strokeLinejoin="round"
+          opacity="0.6"
         />
-      </g>
-    </svg>
+
+        <circle
+          cx="20"
+          cy="20"
+          r="18.5"
+          fill="none"
+          stroke={`url(#${neonGradientId})`}
+          strokeWidth="1"
+          opacity="0.8"
+        />
+
+        <circle
+          cx="20"
+          cy="20"
+          r="17.5"
+          fill={`url(#${gradientId})`}
+        />
+
+        <circle
+          cx="20"
+          cy="20"
+          r="17.5"
+          fill={`url(#${shadowGradientId})`}
+          opacity="0.15"
+        />
+
+        <circle
+          cx="16"
+          cy="14"
+          r="4"
+          fill="white"
+          opacity="0.15"
+        />
+      </svg>
+
+      <span
+        className="relative z-10 font-bold text-gray-900 select-none"
+        style={{
+          fontSize: `${size * 0.55}px`,
+          lineHeight: 1,
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }}
+      >
+        ₿
+      </span>
+    </div>
   );
 }
 
