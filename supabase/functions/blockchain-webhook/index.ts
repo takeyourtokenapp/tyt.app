@@ -1,4 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.57.4';
+import { rateLimiters } from '../_shared/rateLimiter.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -52,6 +53,10 @@ Deno.serve(async (req: Request) => {
       headers: corsHeaders,
     });
   }
+
+  // Apply rate limiting (60 requests per minute for webhooks)
+  const rateLimitResponse = await rateLimiters.standard(req);
+  if (rateLimitResponse) return rateLimitResponse;
 
   try {
     // CRITICAL: Verify WEBHOOK_SECRET

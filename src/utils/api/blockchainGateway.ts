@@ -1,5 +1,13 @@
 import { supabase } from '../../lib/supabase';
 
+async function getAccessToken(): Promise<string> {
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (error || !session) {
+    throw new Error('Authentication required: Please log in to continue');
+  }
+  return session.access_token;
+}
+
 export type SupportedNetwork = 'solana' | 'polygon' | 'tron' | 'ethereum' | 'bitcoin' | 'ton' | 'xrp';
 
 export interface NetworkConfig {
@@ -157,12 +165,14 @@ export async function requestDepositAddress(
   const existing = await getUserDepositAddress(userId, network);
   if (existing) return existing;
 
+  const accessToken = await getAccessToken();
+
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-deposit-address`,
     {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ userId, network: network.toUpperCase() })
@@ -292,12 +302,14 @@ export async function getUserDeposits(
 export async function requestWithdrawal(
   request: WithdrawalRequest
 ): Promise<WithdrawalResult> {
+  const accessToken = await getAccessToken();
+
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-withdrawal`,
     {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

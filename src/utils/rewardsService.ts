@@ -8,6 +8,14 @@
 import { supabase } from '../lib/supabase';
 import { buildMerkleTree, generateMerkleProof, type MerkleLeaf, type MerkleProof } from './merkleTree';
 
+async function getAccessToken(): Promise<string> {
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (error || !session) {
+    throw new Error('Authentication required: Please log in to continue');
+  }
+  return session.access_token;
+}
+
 export interface RewardPool {
   date: string;
   gross_btc: number;
@@ -215,13 +223,15 @@ export class RewardsService {
    */
   async generateMerkleProof(minerId: string, date: string): Promise<MerkleProof | null> {
     try {
+      const accessToken = await getAccessToken();
+
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-merkle-proof`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Authorization': `Bearer ${accessToken}`,
           },
           body: JSON.stringify({ miner_id: minerId, date }),
         }

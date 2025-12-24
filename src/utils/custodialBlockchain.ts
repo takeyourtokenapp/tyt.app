@@ -1,5 +1,13 @@
 import { supabase } from '../lib/supabase';
 
+async function getAccessToken(): Promise<string> {
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (error || !session) {
+    throw new Error('Authentication required: Please log in to continue');
+  }
+  return session.access_token;
+}
+
 export type CustodialBlockchain = 'solana' | 'ethereum' | 'bsc' | 'polygon' | 'tron' | 'internal';
 
 export interface CustodialAddress {
@@ -72,13 +80,15 @@ export async function generateCustodialAddress(
   }
 
   try {
+    const accessToken = await getAccessToken();
+
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-custodial-address`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ blockchain })
       }
@@ -117,13 +127,15 @@ export async function getOnChainBalance(
   if (blockchain === 'internal') return 0;
 
   try {
+    const accessToken = await getAccessToken();
+
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/check-balance`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ blockchain, address, asset })
       }
@@ -262,13 +274,15 @@ async function processWithdrawal(withdrawalId: string): Promise<void> {
       .update({ status: 'processing', processed_at: new Date().toISOString() })
       .eq('id', withdrawalId);
 
+    const accessToken = await getAccessToken();
+
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-withdrawal`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ withdrawal_id: withdrawalId })
       }
@@ -332,13 +346,15 @@ export async function getInternalSwapRate(
   toAsset: string
 ): Promise<number> {
   try {
+    const accessToken = await getAccessToken();
+
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-swap-rate`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ from_asset: fromAsset, to_asset: toAsset })
       }

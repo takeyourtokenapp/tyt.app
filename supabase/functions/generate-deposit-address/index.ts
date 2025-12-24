@@ -1,5 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.57.4';
 import { TronWeb } from 'npm:tronweb@6.0.0';
+import { rateLimiters } from '../_shared/rateLimiter.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -62,6 +63,10 @@ Deno.serve(async (req: Request) => {
       headers: corsHeaders,
     });
   }
+
+  // Apply rate limiting (10 requests per minute)
+  const rateLimitResponse = await rateLimiters.strict(req);
+  if (rateLimitResponse) return rateLimitResponse;
 
   try {
     const authHeader = req.headers.get('Authorization');

@@ -114,6 +114,9 @@ contract MinerNFT is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl, 
         address _feeConfig,
         uint256 _mintPrice
     ) ERC721(name, symbol) {
+        if (admin == address(0)) revert ZeroAddress();
+        if (_feeConfig == address(0)) revert InvalidFeeConfig();
+
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(MINTER_ROLE, admin);
         _grantRole(UPGRADER_ROLE, admin);
