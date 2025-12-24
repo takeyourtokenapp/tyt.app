@@ -126,14 +126,41 @@ const CRYPTO_ASSETS: CryptoAsset[] = [
   },
 ];
 
+const fallbackPrices = {
+  BTC: { price: 95000, change24h: 5.2, volume24h: 28.5 },
+  ETH: { price: 3500, change24h: 10.1, volume24h: 15.2 },
+  SOL: { price: 140, change24h: 0.26, volume24h: 2.1 },
+  BNB: { price: 620, change24h: 2.8, volume24h: 1.8 },
+  TRX: { price: 0.15, change24h: -1.2, volume24h: 0.89 },
+  XRP: { price: 2.5, change24h: 3.8, volume24h: 3.2 },
+  ADA: { price: 1.05, change24h: 4.5, volume24h: 1.5 },
+  AVAX: { price: 42.5, change24h: -2.1, volume24h: 0.95 },
+  DOT: { price: 8.75, change24h: 1.9, volume24h: 0.67 },
+  MATIC: { price: 1.15, change24h: 6.3, volume24h: 0.85 },
+  LINK: { price: 18.5, change24h: 3.7, volume24h: 0.72 },
+  UNI: { price: 12.8, change24h: -0.8, volume24h: 0.45 },
+  TON: { price: 5.25, change24h: 7.2, volume24h: 0.38 },
+  TYT: { price: 0.05, change24h: 5.2, volume24h: 0.0012 },
+  USDT: { price: 1.0, change24h: 0.0, volume24h: 45.0 },
+  USDC: { price: 1.0, change24h: 0.01, volume24h: 23.5 },
+};
+
 export default function EnhancedPriceTicker() {
   const [isPaused, setIsPaused] = useState(false);
-  const [prices, setPrices] = useState<Record<string, { price: number; change24h: number; volume24h: number }>>({});
+  const [prices, setPrices] = useState<Record<string, { price: number; change24h: number; volume24h: number }>>(fallbackPrices);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadPrices = async () => {
-      const data = await fetchCryptoPrices();
-      setPrices(data);
+      try {
+        const data = await fetchCryptoPrices();
+        setPrices(data);
+        setIsLoading(false);
+        console.log('Prices loaded:', data);
+      } catch (error) {
+        console.error('Failed to load prices:', error);
+        setIsLoading(false);
+      }
     };
 
     loadPrices();
@@ -145,17 +172,19 @@ export default function EnhancedPriceTicker() {
   const duplicatedAssets = [...CRYPTO_ASSETS, ...CRYPTO_ASSETS, ...CRYPTO_ASSETS];
 
   return (
-    <div className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md border-b border-gray-700/50 overflow-hidden">
+    <div className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md border-b border-gray-700/50 overflow-hidden relative">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-gray-900/90 px-3 py-1 rounded-full border border-green-500/30">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        <span className="text-xs font-semibold text-green-400">LIVE</span>
+      </div>
+
       <div
         className="relative"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         <div
-          className={`flex gap-3 py-2 ${isPaused ? '' : 'animate-scroll'}`}
-          style={{
-            animation: isPaused ? 'none' : 'scroll 60s linear infinite',
-          }}
+          className={`flex gap-3 py-2 pl-24 ${isPaused ? '' : 'animate-scroll'}`}
         >
           {duplicatedAssets.map((asset, idx) => {
             const priceData = prices[asset.symbol] || { price: 0, change24h: 0, volume24h: 0 };
@@ -164,46 +193,35 @@ export default function EnhancedPriceTicker() {
             return (
               <div
                 key={`${asset.symbol}-${idx}`}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-br ${asset.gradient} border backdrop-blur-sm whitespace-nowrap hover:scale-105 transition-transform duration-200`}
+                className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-gray-800/40 border border-gray-700/30 backdrop-blur-sm whitespace-nowrap hover:bg-gray-800/60 transition-colors duration-200"
               >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${asset.color} bg-gray-800/50 border border-current/20`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${asset.color} bg-gray-900/50 border border-current/10`}>
                   {asset.IconComponent ? (
-                    <asset.IconComponent size={16} />
+                    <asset.IconComponent size={14} />
                   ) : (
-                    <span className="text-base">{asset.emoji}</span>
+                    <span className="text-sm">{asset.emoji}</span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <div>
-                    <div className="font-bold text-white text-xs leading-tight">{asset.symbol}</div>
-                    <div className="text-[10px] text-gray-400 leading-tight">{asset.name}</div>
-                  </div>
+                  <span className="font-bold text-white text-xs">{asset.symbol}</span>
 
-                  <div className="h-7 w-px bg-gray-700/50" />
+                  <div className="h-4 w-px bg-gray-700/50" />
 
-                  <div className="text-right">
-                    <div className="font-bold text-white text-xs leading-tight">
-                      ${priceData.price.toLocaleString(undefined, {
-                        minimumFractionDigits: asset.symbol === 'BTC' || asset.symbol === 'ETH' ? 0 : 2,
-                        maximumFractionDigits: asset.symbol === 'USDT' || asset.symbol === 'USDC' ? 2 : asset.symbol === 'TYT' ? 4 : 2
-                      })}
-                    </div>
-                    <div className={`text-[10px] flex items-center gap-0.5 ${isPositive ? 'text-green-400' : 'text-red-400'} leading-tight`}>
-                      {isPositive ? (
-                        <TrendingUp size={10} />
-                      ) : (
-                        <TrendingDown size={10} />
-                      )}
-                      {isPositive ? '+' : ''}{priceData.change24h.toFixed(2)}%
-                    </div>
-                  </div>
+                  <span className="font-semibold text-white text-xs">
+                    ${priceData.price.toLocaleString(undefined, {
+                      minimumFractionDigits: asset.symbol === 'BTC' || asset.symbol === 'ETH' ? 0 : 2,
+                      maximumFractionDigits: asset.symbol === 'USDT' || asset.symbol === 'USDC' ? 2 : asset.symbol === 'TYT' ? 4 : 2
+                    })}
+                  </span>
 
-                  <div className="h-7 w-px bg-gray-700/50" />
-
-                  <div className="text-[10px] text-gray-500 text-center">
-                    <div>Vol</div>
-                    <div className="font-semibold text-gray-400 leading-tight">${priceData.volume24h.toFixed(2)}B</div>
+                  <div className={`text-[10px] font-medium flex items-center gap-0.5 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                    {isPositive ? (
+                      <TrendingUp size={9} />
+                    ) : (
+                      <TrendingDown size={9} />
+                    )}
+                    {isPositive ? '+' : ''}{priceData.change24h.toFixed(2)}%
                   </div>
                 </div>
               </div>
@@ -219,6 +237,9 @@ export default function EnhancedPriceTicker() {
             100% {
               transform: translateX(-33.333%);
             }
+          }
+          .animate-scroll {
+            animation: scroll 80s linear infinite;
           }
         `}</style>
       </div>
