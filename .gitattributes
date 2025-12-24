@@ -1,0 +1,82 @@
+# Git attributes for TYT Platform
+# Ensures consistent line endings and file handling
+
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Source code
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.sql text eol=lf
+
+# Shell scripts (must be LF)
+*.sh text eol=lf
+
+# Config files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.env.example text eol=lf
+*.config.js text eol=lf
+*.config.ts text eol=lf
+
+# Solidity contracts
+*.sol text eol=lf
+
+# Documentation
+*.md text eol=lf diff=markdown
+README.md text eol=lf diff=markdown
+LICENSE text eol=lf
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Fonts
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+
+# Security: Mark sensitive file patterns
+*.key binary diff=none merge=binary
+*.pem binary diff=none merge=binary
+*.p12 binary diff=none merge=binary
+
+# Linguist overrides for accurate language detection
+*.sol linguist-language=Solidity
+supabase/migrations/*.sql linguist-language=SQL
+docs/*.md linguist-documentation
+
+# Export ignore (files not included in archives)
+.git export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+node_modules export-ignore
+.env export-ignore
+.env.* export-ignore
+*.log export-ignore
+dist export-ignore
+build export-ignore
+
+# Diff settings
+*.min.js binary
+*.min.css binary
+package-lock.json -diff
