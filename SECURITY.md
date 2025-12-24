@@ -518,30 +518,193 @@ const url = publicConfig.supabase.url;
 
 ---
 
+## 🚨 INCIDENT RESPONSE PROCEDURES
+
+### Security Incident Types
+
+**Critical (Immediate Response Required):**
+- Private key exposure
+- Database breach
+- Smart contract exploit
+- Payment system compromise
+
+**High (Response within 4 hours):**
+- API key exposure
+- Unauthorized access attempts
+- DDoS attack
+- Data leak
+
+**Medium (Response within 24 hours):**
+- Suspicious activity patterns
+- Failed security audits
+- Configuration vulnerabilities
+
+### Incident Response Plan
+
+#### 1. Detection & Assessment
+```bash
+# Run immediate security check
+./security-check.sh
+
+# Check for exposed secrets in git history
+git log --all --full-history -- "*.env*" "*.key"
+
+# Monitor for unauthorized transactions
+# Check Supabase logs, blockchain explorers
+```
+
+#### 2. Containment
+```bash
+# Stop all services immediately
+pkill -f "npm run dev"
+
+# Revoke compromised keys
+# 1. Supabase: https://supabase.com/dashboard/project/_/settings/api
+# 2. Alchemy: https://dashboard.alchemy.com/
+# 3. All blockchain RPC providers
+
+# Lock affected user accounts (if needed)
+UPDATE profiles SET account_locked = true
+WHERE user_id IN (SELECT suspicious_users);
+```
+
+#### 3. Eradication
+- Remove compromised credentials from all systems
+- Clean git history if keys were committed
+- Update all affected services
+- Patch vulnerabilities that led to incident
+
+#### 4. Recovery
+- Generate new credentials securely
+- Update all services with new keys
+- Migrate wallets if necessary
+- Restore services gradually
+- Monitor for further issues
+
+#### 5. Post-Incident
+- Document timeline and root cause
+- Update security procedures
+- Implement additional safeguards
+- Notify affected users (if applicable)
+- Report to authorities (if required)
+
+### Emergency Contacts
+
+**Internal:**
+- Security Team: security@takeyourtoken.app
+- On-Call Engineer: [Phone number in secure location]
+
+**External:**
+- GitHub Security: https://github.com/security/advisories
+- Supabase Support: support@supabase.com
+- Smart Contract Auditor: [Contact in secure location]
+
+### Emergency Wallet Rotation
+
+**If wallet keys are compromised:**
+
+See detailed guide: `EMERGENCY_WALLET_ROTATION.md`
+
+Quick steps:
+1. Stop all services immediately
+2. Revoke all API keys from providers
+3. Generate new wallets securely (hardware wallet recommended)
+4. Update environment variables with new addresses
+5. Migrate smart contract ownership
+6. Update database with new addresses
+7. Transfer funds from old to new wallets
+8. Monitor old wallets for suspicious activity
+
+**Never reuse compromised keys!**
+
+### Git History Cleanup
+
+If sensitive data was committed:
+
+```bash
+# Using BFG Repo-Cleaner (recommended)
+bfg --delete-files '.env*'
+bfg --delete-files '*key*'
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+git push --force
+
+# Or start fresh repo (if heavily compromised)
+rm -rf .git
+git init
+# First commit with clean baseline
+```
+
+### Preventive Measures
+
+**Pre-commit hooks:**
+```bash
+# Install and activate
+pip install detect-secrets pre-commit
+pre-commit install
+
+# Test before every commit
+pre-commit run --all-files
+```
+
+**Monitoring:**
+- Set up Sentry for error tracking
+- Monitor blockchain addresses for unusual activity
+- Set up alerts for failed authentication attempts
+- Regular security audits (quarterly minimum)
+
+**Key Rotation Schedule:**
+- Webhook secrets: Every 30 days
+- API keys: Every 90 days
+- Service accounts: Every 180 days
+- Master wallet keys: Yearly or on compromise
+
+---
+
 ## 🚀 NEXT STEPS
 
 1. **Immediate (This Week):**
-   - Test all rate limits
-   - Review all RLS policies
-   - Verify CSP in production
+   - Review EMERGENCY_WALLET_ROTATION.md
+   - Install pre-commit hooks
+   - Test incident response procedures
+   - Verify .env.example is safe
 
 2. **Short-term (This Month):**
    - Schedule smart contract audit
    - Set up monitoring (Sentry)
    - Implement 2FA
+   - Conduct security training
 
 3. **Long-term (3 Months):**
    - Complete penetration test
-   - Launch bug bounty
-   - Get insurance coverage
+   - Launch bug bounty program
+   - Get cyber insurance coverage
+   - Implement key rotation automation
+
+---
+
+## 📚 SECURITY RESOURCES
+
+**Internal Documentation:**
+- `EMERGENCY_WALLET_ROTATION.md` - Wallet compromise response
+- `PROJECT_CLEANUP_REPORT.md` - Recent security improvements
+- `LOGO_USAGE_POLICY.md` - Asset compliance
+- `docs/SECURITY_HARDENING_GUIDE.md` - Advanced security
+- `docs/CODE_INTEGRITY_VERIFICATION.md` - Code audit procedures
+
+**External Resources:**
+- OWASP Top 10: https://owasp.org/www-project-top-ten/
+- Web3 Security: https://consensys.github.io/smart-contract-best-practices/
+- Supabase Security: https://supabase.com/docs/guides/platform/security
+- GitHub Secret Scanning: https://docs.github.com/en/code-security/secret-scanning
 
 ---
 
 **Remember: Security is not a feature, it's a requirement.**
 
-**Last Review:** December 21, 2024
-**Next Review:** January 21, 2025
+**Last Review:** December 24, 2024
+**Next Review:** January 24, 2025
 
 ---
 
-**Stay Secure!**
+**Stay Secure! 🛡️**

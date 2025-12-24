@@ -82,3 +82,28 @@ repos:
         entry: bash -c '! git diff --cached --name-only | grep -E "^\.env$|^\.env\."'
         language: system
         pass_filenames: false
+
+      - id: check-wallet-keys
+        name: Check for wallet private keys
+        entry: bash -c '! git diff --cached --diff-filter=d | grep -iE "(mnemonic|seed.phrase|private.key|wallet.json)"'
+        language: system
+        pass_filenames: false
+
+      - id: check-supabase-keys
+        name: Check for Supabase service keys
+        entry: bash -c '! git diff --cached --diff-filter=d | grep -E "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+"'
+        language: system
+        pass_filenames: false
+
+      - id: check-alchemy-keys
+        name: Check for Alchemy API keys
+        entry: bash -c '! git diff --cached --diff-filter=d | grep -E "[a-zA-Z0-9_-]{32,}"'
+        language: system
+        pass_filenames: false
+
+      - id: security-check
+        name: Run security check script
+        entry: bash -c 'if [ -f ./security-check.sh ]; then bash ./security-check.sh; fi'
+        language: system
+        pass_filenames: false
+        always_run: true
