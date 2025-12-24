@@ -1,17 +1,100 @@
 export function BitcoinIcon({ size = 40, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" className={className}>
-      <circle cx="20" cy="20" r="18" fill="url(#bitcoin-gradient)" />
-      <defs>
-        <linearGradient id="bitcoin-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#F7931A" />
-          <stop offset="100%" stopColor="#F59E0B" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M24 14h-2v-2h-2v2h-2v-2h-2v2h-3v2h1c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1h-1v2h3v2h2v-2h2v2h2v-2h2c2.21 0 4-1.79 4-4 0-1.45-.78-2.72-1.94-3.42A3.99 3.99 0 0 0 24 14zm-4 4v-2h2c1.1 0 2 .9 2 2s-.9 2-2 2h-2zm4 8h-4v-2h4c1.1 0 2 .9 2 2s-.9 2-2 2z"
-        fill="white"
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" className={`${className} drop-shadow-[0_0_20px_rgba(230,193,90,0.4)]`}>
+      {/* Outer glow ring */}
+      <circle
+        cx="20"
+        cy="20"
+        r="19"
+        fill="none"
+        stroke="url(#bitcoin-glow-gradient)"
+        strokeWidth="0.5"
+        opacity="0.6"
       />
+
+      {/* Middle ring with neon effect */}
+      <circle
+        cx="20"
+        cy="20"
+        r="18.5"
+        fill="none"
+        stroke="url(#bitcoin-neon-gradient)"
+        strokeWidth="1"
+        opacity="0.8"
+      />
+
+      {/* Main circle with gold gradient */}
+      <circle
+        cx="20"
+        cy="20"
+        r="17.5"
+        fill="url(#bitcoin-gradient)"
+      />
+
+      {/* Inner shadow for depth */}
+      <circle
+        cx="20"
+        cy="20"
+        r="17.5"
+        fill="url(#bitcoin-inner-shadow)"
+        opacity="0.15"
+      />
+
+      {/* Highlight shine */}
+      <circle
+        cx="16"
+        cy="14"
+        r="4"
+        fill="white"
+        opacity="0.15"
+      />
+
+      {/* Bitcoin symbol - enhanced */}
+      <g transform="translate(20, 20)">
+        {/* Vertical lines for currency symbol */}
+        <line x1="-1" y1="-10" x2="-1" y2="-7" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="1" y1="-10" x2="1" y2="-7" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="-1" y1="7" x2="-1" y2="10" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="1" y1="7" x2="1" y2="10" stroke="#0A1122" strokeWidth="1.5" strokeLinecap="round" />
+
+        {/* Bitcoin B symbol */}
+        <path
+          d="M-3 -7 L-3 7 L3 7 C5.5 7 7 5.5 7 3.5 C7 2 6 1 5 0.5 C6 0 7 -1 7 -2.5 C7 -5 5.5 -7 3 -7 L-3 -7 Z M0 -5 L3 -5 C4 -5 5 -4 5 -2.5 C5 -1 4 0 3 0 L0 0 L0 -5 Z M0 2 L3 2 C4.5 2 5.5 3 5.5 4 C5.5 5 4.5 6 3 6 L0 6 L0 2 Z"
+          fill="#0A1122"
+          stroke="#0A1122"
+          strokeWidth="0.5"
+          strokeLinejoin="round"
+        />
+      </g>
+
+      <defs>
+        {/* Main gold gradient */}
+        <linearGradient id="bitcoin-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#E6C15A" />
+          <stop offset="50%" stopColor="#F4D03F" />
+          <stop offset="100%" stopColor="#CFAE4C" />
+        </linearGradient>
+
+        {/* Neon glow gradient */}
+        <linearGradient id="bitcoin-neon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#B88CFF" />
+          <stop offset="50%" stopColor="#7AD7FF" />
+          <stop offset="100%" stopColor="#B88CFF" />
+        </linearGradient>
+
+        {/* Outer glow */}
+        <linearGradient id="bitcoin-glow-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#E6C15A" opacity="0.8" />
+          <stop offset="100%" stopColor="#CFAE4C" opacity="0.4" />
+        </linearGradient>
+
+        {/* Inner shadow for depth */}
+        <radialGradient id="bitcoin-inner-shadow">
+          <stop offset="0%" stopColor="transparent" />
+          <stop offset="70%" stopColor="transparent" />
+          <stop offset="100%" stopColor="#0A1122" />
+        </radialGradient>
+      </defs>
     </svg>
   );
 }
