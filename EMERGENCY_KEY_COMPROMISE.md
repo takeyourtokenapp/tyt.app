@@ -7,23 +7,13 @@
 
 ## ⚠️ ЧТО ПРОИЗОШЛО
 
-Приватный ключ тестового кошелька был обнаружен в публичных файлах:
-- `START_NOW.md`
-- `REAL_LAUNCH_INSTRUCTIONS.md`
+Приватный ключ тестового кошелька был обнаружен в публичных файлах.
 
-**Скомпрометированный ключ:**
-```
-0xd0d4582f474f6e53743838c635cf7ab596b1d6023722d08f04275495ba89494f
-```
+**Типы скомпрометированных данных:**
+- Приватный ключ кошелька
+- API ключи (Alchemy, PolygonScan и др.)
 
-**Адрес кошелька:**
-```
-0xc9182B50ccA0088c339AF488B63a55cA175e1F09
-```
-
-**Также скомпрометированы API ключи:**
-- Alchemy RPC API Key
-- PolygonScan API Key
+**ВАЖНО:** Все конкретные значения были удалены из этого документа для безопасности.
 
 ---
 
@@ -42,15 +32,12 @@ Ctrl+C
 
 ```bash
 # Ethereum/Polygon Mainnet
-cast balance 0xc9182B50ccA0088c339AF488B63a55cA175e1F09 \
+cast balance <ВАША_АДРЕС> \
   --rpc-url https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
 
 # Polygon Amoy Testnet
-cast balance 0xc9182B50ccA0088c339AF488B63a55cA175e1F09 \
+cast balance <ВАШ_АДРЕС> \
   --rpc-url https://polygon-amoy.g.alchemy.com/v2/YOUR_KEY
-
-# Bitcoin (если есть)
-# Проверить через explorer
 ```
 
 **Если баланс > 0:**
@@ -79,17 +66,17 @@ cast wallet new
 # Перевести ВСЁ со старого кошелька на новый
 
 # ETH/POL
-cast send 0xНОВЫЙ_АДРЕС \
+cast send <НОВЫЙ_АДРЕС> \
   --value <ВЕСЬ_БАЛАНС> \
-  --private-key 0xСТАРЫЙ_КЛЮЧ \
+  --private-key <СТАРЫЙ_КЛЮЧ> \
   --rpc-url https://...
 
 # ERC20 токены
-cast send 0xTOKEN_ADDRESS \
+cast send <TOKEN_ADDRESS> \
   "transfer(address,uint256)" \
-  0xНОВЫЙ_АДРЕС \
+  <НОВЫЙ_АДРЕС> \
   <AMOUNT> \
-  --private-key 0xСТАРЫЙ_КЛЮЧ \
+  --private-key <СТАРЫЙ_КЛЮЧ> \
   --rpc-url https://...
 ```
 
@@ -121,13 +108,12 @@ cd /tmp/cc-agent/61475162/project
 
 # Вариант A: Удалить файлы из истории
 git filter-branch --force --index-filter \
-  "git rm --cached --ignore-unmatch START_NOW.md REAL_LAUNCH_INSTRUCTIONS.md" \
+  "git rm --cached --ignore-unmatch <COMPROMISED_FILES>" \
   --prune-empty --tag-name-filter cat -- --all
 
 # Вариант B: Использовать BFG Repo-Cleaner (рекомендуется)
 # https://rtyley.github.io/bfg-repo-cleaner/
-bfg --delete-files START_NOW.md
-bfg --delete-files REAL_LAUNCH_INSTRUCTIONS.md
+bfg --delete-files <COMPROMISED_FILE>
 bfg --replace-text passwords.txt  # файл с ключами для замены
 
 # Force push (ОПАСНО - координируйте с командой!)
@@ -149,21 +135,12 @@ cd /tmp/cc-agent/61475162/project
 # Создать новый .env с НОВЫМИ ключами
 cat > .env << EOF
 # НОВЫЕ ключи - НИКОГДА не коммитить!
-VITE_ALCHEMY_API_KEY=ВАШ_НОВЫЙ_ALCHEMY_KEY
-VITE_POLYGONSCAN_API_KEY=ВАШ_НОВЫЙ_POLYGONSCAN_KEY
+VITE_ALCHEMY_API_KEY=<ВАШ_НОВЫЙ_ALCHEMY_KEY>
+VITE_POLYGONSCAN_API_KEY=<ВАШ_НОВЫЙ_POLYGONSCAN_KEY>
 
 # Остальные настройки...
-VITE_SUPABASE_URL=https://vqwnfqukydgquvfnmqcp.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxd25mcXVreWRncXV2Zm5tcWNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM3MjU0MTUsImV4cCI6MjA0OTMwMTQxNX0.JLikGz8kvK8BK0kNCgSARDIxAy9ZR16vv6N1-SQZk8I
-EOF
-
-# Обновить contracts/.env
-cd contracts/evm
-cat > .env << EOF
-# НОВЫЕ ключи для deployment
-PRIVATE_KEY=ВАШ_НОВЫЙ_PRIVATE_KEY
-ALCHEMY_API_KEY=ВАШ_НОВЫЙ_ALCHEMY_KEY
-POLYGONSCAN_API_KEY=ВАШ_НОВЫЙ_POLYGONSCAN_KEY
+VITE_SUPABASE_URL=<YOUR_SUPABASE_URL>
+VITE_SUPABASE_ANON_KEY=<YOUR_SUPABASE_ANON_KEY>
 EOF
 ```
 
@@ -177,7 +154,7 @@ EOF
 - [ ] Проверен баланс старого кошелька
 - [ ] Созданы новые кошельки
 - [ ] Переведены ВСЕ средства
-- [ ] Ротированы API ключи (Alchemy, PolygonScan)
+- [ ] Ротированы API ключи
 - [ ] Обновлены .env файлы
 
 ### Срочно (1-24 часа):
@@ -200,12 +177,10 @@ EOF
 
 ### 1. Проверить транзакции кошелька
 
-**Ethereum/Polygon:**
-```
-https://etherscan.io/address/0xc9182B50ccA0088c339AF488B63a55cA175e1F09
-https://polygonscan.com/address/0xc9182B50ccA0088c339AF488B63a55cA175e1F09
-https://amoy.polygonscan.com/address/0xc9182B50ccA0088c339AF488B63a55cA175e1F09
-```
+Используйте blockchain explorers для проверки активности:
+- Etherscan.io
+- Polygonscan.com
+- Amoy.polygonscan.com
 
 **Что искать:**
 - ❌ Несанкционированные транзакции
@@ -229,8 +204,7 @@ Dashboard → Analytics → View recent requests
 
 ```bash
 # Поиск в истории
-git log --all --full-history -- START_NOW.md
-git log -p --all -- START_NOW.md | grep "private-key"
+git log --all --full-history -- <COMPROMISED_FILE>
 
 # Проверить форки
 # Зайти на GitHub → Insights → Network → Forks
@@ -273,12 +247,6 @@ pre-commit install
 - **AWS Secrets Manager** (для production)
 - **HashiCorp Vault** (enterprise)
 
-```bash
-# Пример: 1Password CLI
-op signin
-op item get "TYT Platform Keys" --fields "private_key"
-```
-
 ### 3. Environment variables ТОЛЬКО локально
 
 ```bash
@@ -288,7 +256,6 @@ forge script ... --private-key $PRIVATE_KEY
 
 # ❌ НЕПРАВИЛЬНО
 forge script ... --private-key 0x...  # видно в history!
-echo "PRIVATE_KEY=0x..." > .env  # может закоммититься!
 ```
 
 ### 4. Использовать hardware wallets
@@ -329,71 +296,6 @@ forge script ... --ledger --hd-paths "m/44'/60'/0'/0"
 
 ---
 
-## 🆘 НУЖНА ПОМОЩЬ?
-
-### Если украдены большие суммы:
-
-1. **Немедленно обратиться:**
-   - Chainalysis (crypto forensics)
-   - Local law enforcement
-   - Binance/exchange (если средства там)
-
-2. **Заморозить адрес:**
-   - Многие exchanges блокируют украденные средства
-   - Подать заявку на freeze через Tether (USDT)
-
-3. **Публичное объявление:**
-   - Twitter/X
-   - Etherscan comment
-   - Blockchain explorers
-
-### Security консультанты:
-
-- **Trail of Bits** - security audits
-- **OpenZeppelin** - security consulting
-- **Halborn** - incident response
-- **CertiK** - blockchain security
-
----
-
-## 📝 INCIDENT REPORT TEMPLATE
-
-```markdown
-# Security Incident Report
-
-**Date:** 21 декабря 2024
-**Severity:** CRITICAL
-**Type:** Private Key Exposure
-
-## What Happened
-Private key exposed in public GitHub repository files:
-- START_NOW.md
-- REAL_LAUNCH_INSTRUCTIONS.md
-
-## Impact
-- Testnet wallet compromised
-- API keys exposed
-- Potential theft of funds
-
-## Actions Taken
-1. [ ] Funds transferred to new wallet
-2. [ ] API keys rotated
-3. [ ] Files removed from Git history
-4. [ ] Team notified
-
-## Lessons Learned
-- Need pre-commit hooks
-- Better documentation practices
-- Security training required
-
-## Prevention
-- Install detect-secrets
-- Use password manager
-- Regular security audits
-```
-
----
-
 ## ⚡ БЫСТРАЯ СПРАВКА
 
 **Создать новый кошелек:**
@@ -403,25 +305,18 @@ cast wallet new
 
 **Проверить баланс:**
 ```bash
-cast balance 0xADDRESS --rpc-url URL
+cast balance <ADDRESS> --rpc-url <URL>
 ```
 
 **Перевести средства:**
 ```bash
-cast send 0xTO --value ALL --private-key KEY --rpc-url URL
+cast send <TO_ADDRESS> --value <AMOUNT> --private-key <KEY> --rpc-url <URL>
 ```
 
 **Ротировать ключи:**
 ```
 Alchemy: dashboard.alchemy.com
 PolygonScan: polygonscan.com/myapikey
-```
-
-**Очистить Git:**
-```bash
-git filter-branch --force --index-filter \
-  "git rm --cached --ignore-unmatch FILE" \
-  --prune-empty --tag-name-filter cat -- --all
 ```
 
 ---
@@ -431,24 +326,9 @@ git filter-branch --force --index-filter \
 После решения немедленной угрозы:
 
 1. **Security Audit** (24 часа)
-   - Проверить ВСЕ файлы на секреты
-   - Проверить Git history
-   - Проверить CI/CD логи
-
 2. **Team Training** (эта неделя)
-   - Security best practices
-   - Password manager usage
-   - Git secrets prevention
-
 3. **Process Update** (эта неделя)
-   - Обновить документацию
-   - Настроить pre-commit hooks
-   - Внедрить code review
-
 4. **Regular Checks** (постоянно)
-   - Ежемесячная ротация ключей
-   - Ежеквартальный security audit
-   - Мониторинг кошельков
 
 ---
 
@@ -459,9 +339,5 @@ git filter-branch --force --index-filter \
 **ВСЕГДА создавайте новые ключи после утечки!**
 
 ---
-
-**Дата создания:** 21 декабря 2024
-**Последнее обновление:** 21 декабря 2024
-**Версия:** 1.0
 
 **Emergency Contact:** security@takeyourtoken.app
