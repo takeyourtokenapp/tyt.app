@@ -66,7 +66,7 @@ import DOMPurify from 'dompurify';
 ```bash
 VITE_ALCHEMY_API_KEY=<новый_ключ>
 ```
-4. Деактивировать старый ключ: `WeGn_wxfb4zS9H98q6IEt9KDMEO2pnSE`
+4. Деактивировать старый ключ (смотри Alchemy Dashboard)
 
 ---
 

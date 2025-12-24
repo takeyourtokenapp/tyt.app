@@ -447,7 +447,7 @@ import DOMPurify from 'dompurify';
 
 **Найдено:**
 ```
-VITE_ALCHEMY_API_KEY=WeGn_wxfb4zS9H98q6IEt9KDMEO2pnSE
+VITE_ALCHEMY_API_KEY=YOUR_ALCHEMY_KEY_HERE
 ```
 
 **Действия:**

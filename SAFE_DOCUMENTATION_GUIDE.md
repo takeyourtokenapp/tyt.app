@@ -12,7 +12,7 @@
 1. **Приватные ключи**
    ```
    ❌ НЕПРАВИЛЬНО:
-   --private-key 0xd0d4582f474f6e53743838c635cf7ab596b1d6023722d08f04275495ba89494f
+   --private-key 0xYOUR_PRIVATE_KEY_HERE_DO_NOT_EXPOSE
 
    ✅ ПРАВИЛЬНО:
    --private-key $PRIVATE_KEY
@@ -21,7 +21,7 @@
 2. **API ключи**
    ```
    ❌ НЕПРАВИЛЬНО:
-   ALCHEMY_API_KEY=WeGn_wxfb4zS9H98q6IEt9KDMEO2pnSE
+   ALCHEMY_API_KEY=YOUR_ALCHEMY_KEY_DO_NOT_EXPOSE
 
    ✅ ПРАВИЛЬНО:
    ALCHEMY_API_KEY=your_alchemy_key_here
@@ -63,8 +63,8 @@
 **Неправильно:**
 ```bash
 forge script Deploy.s.sol \
-  --rpc-url https://polygon-amoy.g.alchemy.com/v2/WeGn_wxfb4zS9H98q6IEt9KDMEO2pnSE \
-  --private-key 0xd0d4582f474f6e53743838c635cf7ab596b1d6023722d08f04275495ba89494f \
+  --rpc-url https://polygon-amoy.g.alchemy.com/v2/YOUR_ALCHEMY_KEY_DO_NOT_EXPOSE \
+  --private-key 0xYOUR_PRIVATE_KEY_HERE_DO_NOT_EXPOSE \
   --broadcast
 ```
 
@@ -318,14 +318,14 @@ pre-commit run --all-files
 
 1. Use this private key:
    ```
-   0xd0d4582f474f6e53743838c635cf7ab596b1d6023722d08f04275495ba89494f
+   0xYOUR_PRIVATE_KEY_HERE_DO_NOT_EXPOSE
    ```
 
 2. Deploy:
    ```bash
    forge create Contract \
-     --private-key 0xd0d4582f474f6e53743838c635cf7ab596b1d6023722d08f04275495ba89494f \
-     --rpc-url https://polygon-amoy.g.alchemy.com/v2/WeGn_wxfb4zS9H98q6IEt9KDMEO2pnSE
+     --private-key 0xYOUR_PRIVATE_KEY_HERE_DO_NOT_EXPOSE \
+     --rpc-url https://polygon-amoy.g.alchemy.com/v2/YOUR_ALCHEMY_KEY_DO_NOT_EXPOSE
    ```
 ```
 
