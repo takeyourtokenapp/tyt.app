@@ -1,6 +1,9 @@
 import { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useAoi } from '../contexts/AoiContext';
+import AoiAvatar from './AoiAvatar';
+import AoiChatWidget from './AoiChatWidget';
 import {
   LayoutDashboard,
   Cpu,
@@ -60,7 +63,9 @@ interface NavGroup {
 export default function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['mining', 'finance']);
+  const [aoiChatOpen, setAoiChatOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { progress } = useAoi();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -325,6 +330,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </button>
 
               <div className="flex items-center gap-4 ml-auto">
+                <AoiAvatar
+                  level={progress?.level || 1}
+                  size="md"
+                  interactive
+                  showLevel
+                  onInteract={() => setAoiChatOpen(true)}
+                />
                 <Link
                   to="/app/notifications"
                   className="relative p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
@@ -352,6 +364,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      <AoiChatWidget
+        isOpen={aoiChatOpen}
+        onClose={() => setAoiChatOpen(false)}
+        context={{ page: location.pathname }}
+      />
     </div>
   );
 }

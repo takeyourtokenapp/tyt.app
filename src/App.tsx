@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { AoiProvider } from './contexts/AoiContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -94,12 +95,13 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <ErrorBoundary>
-      <AnnouncementBanner />
-      <EnhancedPriceTicker />
-      <CookieConsent />
-      <LiveSupportWidget />
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
+      <AoiProvider>
+        <AnnouncementBanner />
+        <EnhancedPriceTicker />
+        <CookieConsent />
+        <LiveSupportWidget />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
       <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
       <Route path="/login" element={<PublicLayout showFooter={false}><Login /></PublicLayout>} />
       <Route path="/signup" element={<PublicLayout showFooter={false}><Signup /></PublicLayout>} />
@@ -163,6 +165,7 @@ function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      </AoiProvider>
     </ErrorBoundary>
   );
 }
