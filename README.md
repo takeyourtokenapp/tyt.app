@@ -49,12 +49,27 @@ npm run dev
 - **Interactive Quizzes:** Test knowledge and earn XP
 - **Soulbound Certificates:** On-chain proof of learning
 - **Owl Ranks:** Worker → Academic → Diplomat → Peacekeeper → Warrior
+- **aOi AI Guide:** Intelligent assistant that grows with you
 
 ### Foundation
 - **Children's Brain Cancer Research:** 30% of fees
 - **Transparent Tracking:** On-chain proof of donations
 - **Grant System:** Support research institutions
 - **Impact Reports:** Public quarterly reports
+
+### aOi - AI Character & Guide
+
+**aOi (葵)** is the intelligent core of the TYT ecosystem:
+
+- **Adaptive Levels:** Grows from Beginner → Explorer → Builder → Guardian
+- **Multi-layered AI:** Knowledge layer + Web3 tools layer + Progress tracking
+- **Safe for All Ages:** Guardian-approved access for students
+- **Not Just a Chatbot:** Full orchestrator connecting science, education, and Web3
+- **Ethical Boundaries:** Never gives medical advice or financial recommendations
+
+**Philosophy:** `soft + tech + academic`
+
+aOi bridges the gap between complex blockchain technology and the mission to support children's brain cancer research. She's a mentor, not a mascot.
 
 ---
 
@@ -126,6 +141,10 @@ tyt-v3/
 **Architecture:**
 - [ARCHITECTURE_IMPLEMENTATION.md](ARCHITECTURE_IMPLEMENTATION.md) - System design
 - [TYT_FULL_PROMPT_PACK_V6.md](TYT_FULL_PROMPT_PACK_V6.md) - Complete specification
+
+**aOi AI Character:**
+- [docs/AOI_CHARACTER_SPECIFICATION.md](docs/AOI_CHARACTER_SPECIFICATION.md) - Complete character design
+- [docs/AOI_INTEGRATION_GUIDE.md](docs/AOI_INTEGRATION_GUIDE.md) - Implementation guide
 
 **Development:**
 - [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - UI/UX guidelines
