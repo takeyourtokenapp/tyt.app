@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   ArrowRight,
   Zap,
@@ -46,6 +47,8 @@ const staggerContainer = {
 };
 
 export default function Landing() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 scroll-smooth">
 
@@ -65,7 +68,7 @@ export default function Landing() {
                 variants={fadeInUp}
               >
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-400 font-semibold text-sm">Mining with Purpose</span>
+                <span className="text-amber-400 font-semibold text-sm">{t('common:landing.hero.badge')}</span>
               </motion.div>
 
               <motion.h1
@@ -73,18 +76,17 @@ export default function Landing() {
                 variants={fadeInUp}
               >
                 <span className="bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
-                  Earn Bitcoin Daily
+                  {t('common:landing.hero.title')}
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                  Save Children's Lives
+                  {t('common:landing.hero.titleHighlight')}
                 </span>
               </motion.h1>
 
               <motion.div variants={fadeInUp}>
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically
-                  supports research and treatment for children with brain cancer.
+                  {t('common:landing.hero.description')}
                 </p>
                 <div className="flex items-center gap-2 mt-3">
                   <span className="text-sm text-gray-400">Platform Fee Structure:</span>
@@ -97,14 +99,14 @@ export default function Landing() {
                   to="/signup"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
                 >
-                  Start Mining Now
+                  {t('common:landing.hero.cta')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <a
                   href="#how-it-works"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-semibold rounded-xl transition-all"
                 >
-                  Learn More
+                  {t('common:landing.hero.ctaSecondary')}
                 </a>
               </motion.div>
 

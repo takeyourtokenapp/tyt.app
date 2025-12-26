@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import {
   Menu,
@@ -41,6 +42,7 @@ interface NavItem {
 }
 
 export default function Header() {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user } = useAuth();
@@ -176,7 +178,7 @@ export default function Header() {
                 to="/app"
                 className="px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
               >
-                Open App
+                {t('common:common.openApp')}
               </Link>
             ) : (
               <>
@@ -185,14 +187,14 @@ export default function Header() {
                   className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white font-medium transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
-                  Sign In
+                  {t('common:auth.signIn')}
                 </Link>
                 <Link
                   to="/signup"
                   className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
                 >
                   <UserPlus className="w-4 h-4" />
-                  Get Started
+                  {t('common:common.getStarted')}
                 </Link>
               </>
             )}
@@ -251,7 +253,7 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block w-full text-center px-5 py-3 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg"
                 >
-                  Open App
+                  {t('common:common.openApp')}
                 </Link>
               ) : (
                 <>
@@ -260,14 +262,14 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="block w-full text-center px-5 py-3 border border-gray-700 text-white font-medium rounded-lg hover:bg-gray-800"
                   >
-                    Sign In
+                    {t('common:auth.signIn')}
                   </Link>
                   <Link
                     to="/signup"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block w-full text-center px-5 py-3 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg"
                   >
-                    Get Started
+                    {t('common:common.getStarted')}
                   </Link>
                 </>
               )}

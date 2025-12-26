@@ -4,6 +4,90 @@
     "tagline": "Mine BTC, Support Research, Change Lives",
     "description": "Web3 Mining Platform with Purpose"
   },
+  "landing": {
+    "hero": {
+      "badge": "Mining with Purpose",
+      "title": "Earn Bitcoin Daily",
+      "titleHighlight": "Save Children's Lives",
+      "description": "Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically supports research and treatment for children with brain cancer.",
+      "cta": "Start Mining Now",
+      "ctaSecondary": "Learn More",
+      "stats": {
+        "miners": "NFT Miners",
+        "hashrate": "Total Hashrate",
+        "donated": "Donated to Research"
+      }
+    },
+    "features": {
+      "title": "Why Choose TakeYourToken",
+      "subtitle": "The world's first mining platform where profits meet purpose",
+      "realMining": {
+        "title": "Real Bitcoin Mining",
+        "description": "Own NFT miners backed by real hardware in professional data centers. Earn daily BTC rewards automatically."
+      },
+      "charity": {
+        "title": "Built-in Charity",
+        "description": "1% donation fee on all transactions. 100% goes to children's brain cancer research. Fully transparent on-chain tracking."
+      },
+      "secure": {
+        "title": "Fully Secure",
+        "description": "Enterprise-grade custody and framework. Your funds are protected by multi-signature cold storage."
+      },
+      "analytics": {
+        "title": "Real-Time Analytics",
+        "description": "Monitor your mining performance, rewards, and ROI with professional charts and detailed statistics."
+      },
+      "tokenBenefits": {
+        "title": "TYT Token Benefits",
+        "description": "Pay maintenance with TYT for up to 20% discounts. Tokens are automatically burned, creating scarcity."
+      },
+      "referral": {
+        "title": "4-Tier Referral Program",
+        "description": "Earn up to 10% commission on referrals at all tiers. Build network and create passive income streams."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Start earning Bitcoin in 4 simple steps",
+      "step1": {
+        "title": "Create Account",
+        "description": "Sign up with email or connect your wallet. It's free and takes less than 2 minutes."
+      },
+      "step2": {
+        "title": "Choose Miner",
+        "description": "Browse our marketplace and select an NFT miner that fits your budget and goals."
+      },
+      "step3": {
+        "title": "Start Mining",
+        "description": "Your miner immediately starts generating BTC rewards. Track earnings in real-time."
+      },
+      "step4": {
+        "title": "Withdraw Anytime",
+        "description": "Withdraw your earned BTC anytime. Fast processing and low fees."
+      }
+    },
+    "calculator": {
+      "title": "Calculate Your Earnings",
+      "subtitle": "Estimate your potential daily, weekly, and monthly Bitcoin rewards based on hashrate",
+      "heading": "Income Calculator",
+      "inputs": {
+        "hashrate": "Hashrate",
+        "efficiency": "Efficiency",
+        "btcPrice": "BTC Price",
+        "maintenanceCost": "Maintenance Cost"
+      },
+      "outputs": {
+        "highTariff": "High Tariff Earnings",
+        "grossRevenue": "Gross Revenue",
+        "dailyCostBreakdown": "Daily Cost Breakdown",
+        "netProfit": "Net Profit",
+        "discount": "TYT Discount",
+        "serviceFee": "Service Fee",
+        "totalCost": "Total Cost"
+      },
+      "disclaimer": "Performance varies by 15-20% based on BTC network difficulty and global hashrate. Past performance does not guarantee future results."
+    }
+  },
   "nav": {
     "home": "Home",
     "dashboard": "Dashboard",
@@ -18,7 +102,20 @@
     "settings": "Settings",
     "logout": "Logout",
     "login": "Login",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "platform": "Platform",
+    "ecosystem": "Ecosystem",
+    "company": "Company",
+    "dataCenters": "Data Centers",
+    "burnReports": "Burn Reports",
+    "tytTrading": "TYT Trading",
+    "owlAvatars": "Owl Avatars",
+    "community": "Community",
+    "about": "About Us",
+    "roadmap": "Roadmap",
+    "tokenomics": "Tokenomics",
+    "vip": "VIP Program",
+    "helpCenter": "Help Center"
   },
   "common": {
     "loading": "Loading...",
@@ -51,7 +148,10 @@
     "upload": "Upload",
     "refresh": "Refresh",
     "retry": "Retry",
-    "continue": "Continue"
+    "continue": "Continue",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "openApp": "Open App"
   },
   "wallet": {
     "balance": "Balance",
