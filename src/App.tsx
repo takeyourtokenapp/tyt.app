@@ -61,6 +61,7 @@ const Clans = lazy(() => import('./pages/app/Clans'));
 const Swap = lazy(() => import('./pages/app/Swap'));
 const Bridge = lazy(() => import('./pages/app/Bridge'));
 const AdminContracts = lazy(() => import('./pages/app/AdminContracts'));
+const AoiProfile = lazy(() => import('./pages/app/AoiProfile'));
 
 // Loading component
 function PageLoader() {
@@ -153,6 +154,7 @@ function App() {
                 <Route path="quests" element={<Quests />} />
                 <Route path="grants" element={<Grants />} />
                 <Route path="clans" element={<Clans />} />
+                <Route path="aoi" element={<AoiProfile />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
                 <Route path="admin/contracts" element={<AdminContracts />} />

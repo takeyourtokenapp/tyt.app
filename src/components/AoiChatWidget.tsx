@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Send, Sparkles, Loader2 } from 'lucide-react';
+import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
 import AoiAvatar from './AoiAvatar';
+import AoiFoundationBadge from './AoiFoundationBadge';
 
 interface Message {
   id: string;
@@ -21,7 +22,8 @@ export default function AoiChatWidget({
   onClose,
   context,
 }: AoiChatWidgetProps) {
-  const { progress, askAoi } = useAoi();
+  const { progress, askAoi, foundationOnline, getFoundationLinks } = useAoi();
+  const links = getFoundationLinks();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -90,12 +92,17 @@ export default function AoiChatWidget({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-96 h-[600px] bg-gray-900 border-2 border-blue-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-lavender-600 p-4 flex items-center justify-between">
+    <div className="fixed bottom-4 right-4 z-50 w-96 max-h-[90vh] bg-gray-900 border-2 border-blue-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 to-lavender-600 p-4 flex items-center justify-between border-b border-blue-400/30">
         <div className="flex items-center gap-3">
           <AoiAvatar level={progress?.level || 1} size="sm" />
           <div>
-            <h3 className="font-bold text-white">Aoi</h3>
+            <h3 className="font-bold text-white flex items-center gap-2">
+              aOi
+              {foundationOnline && (
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" title="Connected to TYT Foundation" />
+              )}
+            </h3>
             <p className="text-xs text-blue-100">AI Learning Assistant</p>
           </div>
         </div>
@@ -105,6 +112,19 @@ export default function AoiChatWidget({
         >
           <X className="w-5 h-5" />
         </button>
+      </div>
+
+      <div className="px-4 py-2 bg-gradient-to-r from-pink-500/10 to-blue-500/10 border-b border-gray-700">
+        <a
+          href={links.home}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-xs text-gray-300 hover:text-pink-400 transition-colors group"
+        >
+          <Heart className="w-3 h-3 text-pink-400" />
+          <span>Powered by TYT Children's Brain Cancer Foundation</span>
+          <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </a>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-800">
@@ -150,13 +170,13 @@ export default function AoiChatWidget({
       </div>
 
       <div className="p-4 bg-gray-900 border-t border-gray-700">
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask Aoi anything..."
+            placeholder="Ask aOi anything..."
             className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
             disabled={isLoading}
           />
@@ -172,9 +192,15 @@ export default function AoiChatWidget({
             )}
           </button>
         </div>
-        <p className="text-xs text-gray-500 mt-2 text-center">
-          Level {progress?.level || 1} • {progress?.experience_points || 0} XP
-        </p>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-gray-500">
+            Level {progress?.level || 1} • {progress?.experience_points || 0} XP
+          </span>
+          <span className={`flex items-center gap-1 ${foundationOnline ? 'text-green-400' : 'text-gray-500'}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-current" />
+            {foundationOnline ? 'Foundation Connected' : 'Local Mode'}
+          </span>
+        </div>
       </div>
     </div>
   );

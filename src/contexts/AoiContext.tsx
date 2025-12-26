@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
+import { aoiApiClient } from '../lib/aoiApiClient';
+import { AOI_CONFIG } from '../config/aoiConfig';
 
 interface AoiProgress {
   id: string;
@@ -24,10 +26,12 @@ interface AoiContextType {
   progress: AoiProgress | null;
   achievements: AoiAchievement[];
   loading: boolean;
+  foundationOnline: boolean;
   addExperience: (points: number, source?: string) => Promise<void>;
   askAoi: (question: string, context?: Record<string, any>) => Promise<string>;
   logInteraction: (type: string, context?: Record<string, any>) => Promise<void>;
   refreshProgress: () => Promise<void>;
+  getFoundationLinks: () => Record<string, string>;
 }
 
 const AoiContext = createContext<AoiContextType | undefined>(undefined);
@@ -37,6 +41,13 @@ export function AoiProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<AoiProgress | null>(null);
   const [achievements, setAchievements] = useState<AoiAchievement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [foundationOnline, setFoundationOnline] = useState(false);
+
+  useEffect(() => {
+    checkFoundationStatus();
+    const interval = setInterval(checkFoundationStatus, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -48,6 +59,11 @@ export function AoiProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   }, [user]);
+
+  const checkFoundationStatus = async () => {
+    const status = await aoiApiClient.checkFoundationStatus();
+    setFoundationOnline(status);
+  };
 
   const loadProgress = async () => {
     if (!user) return;
@@ -145,31 +161,31 @@ export function AoiProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const { data, error } = await supabase.functions.invoke('aoi-chat', {
-        body: {
-          question,
-          context: {
-            ...context,
-            user_level: progress?.level || 1,
-            user_xp: progress?.experience_points || 0,
-          },
+      const response = await aoiApiClient.chat({
+        question,
+        context: {
+          ...context,
+          user_level: progress?.level || 1,
+          user_xp: progress?.experience_points || 0,
         },
       });
-
-      if (error) throw error;
 
       await logInteraction('question', {
         question,
         context,
-        response_preview: data.response?.substring(0, 100),
+        response_preview: response.response?.substring(0, 100),
+        source: response.source,
+        foundation_url: response.foundationUrl,
       });
 
-      return data.response || "I'm here to help! Could you rephrase that?";
+      return response.response || "I'm here to help! Could you rephrase that?";
     } catch (error) {
       console.error('Error asking Aoi:', error);
       return "I'm having trouble connecting right now. Please try again in a moment.";
     }
   };
+
+  const getFoundationLinks = () => aoiApiClient.getFoundationLinks();
 
   const logInteraction = async (
     type: string,
@@ -201,10 +217,12 @@ export function AoiProvider({ children }: { children: ReactNode }) {
         progress,
         achievements,
         loading,
+        foundationOnline,
         addExperience,
         askAoi,
         logInteraction,
         refreshProgress,
+        getFoundationLinks,
       }}
     >
       {children}

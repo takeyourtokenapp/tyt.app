@@ -122,6 +122,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'blue',
       items: [
         { path: '/app/academy', icon: BookOpen, label: 'Lessons' },
+        { path: '/app/aoi', icon: MessageCircle, label: 'aOi Profile' },
         { path: '/app/quests', icon: Target, label: 'Quests' },
         { path: '/app/calculators', icon: Calculator, label: 'Calculators' },
         { path: '/app/certificates', icon: Award, label: 'Certificates' },
