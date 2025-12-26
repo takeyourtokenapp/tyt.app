@@ -1,0 +1,75 @@
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  SupportedLanguage,
+  SUPPORTED_LANGUAGES,
+  setStoredLanguage,
+  applyLanguageDirection,
+  detectInitialLanguage,
+} from '../utils/languageDetector';
+
+interface LanguageContextType {
+  currentLanguage: SupportedLanguage;
+  changeLanguage: (lang: SupportedLanguage) => Promise<void>;
+  isRTL: boolean;
+  supportedLanguages: typeof SUPPORTED_LANGUAGES;
+  isLoading: boolean;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>('en');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const initLanguage = async () => {
+      try {
+        const detectedLang = await detectInitialLanguage();
+        await i18n.changeLanguage(detectedLang);
+        setCurrentLanguage(detectedLang);
+        applyLanguageDirection(detectedLang);
+      } catch (error) {
+        console.error('Failed to initialize language:', error);
+        setCurrentLanguage('en');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initLanguage();
+  }, [i18n]);
+
+  const changeLanguage = async (lang: SupportedLanguage) => {
+    try {
+      await i18n.changeLanguage(lang);
+      setCurrentLanguage(lang);
+      setStoredLanguage(lang);
+      applyLanguageDirection(lang);
+    } catch (error) {
+      console.error('Failed to change language:', error);
+      throw error;
+    }
+  };
+
+  const isRTL = SUPPORTED_LANGUAGES[currentLanguage].dir === 'rtl';
+
+  const value: LanguageContextType = {
+    currentLanguage,
+    changeLanguage,
+    isRTL,
+    supportedLanguages: SUPPORTED_LANGUAGES,
+    isLoading,
+  };
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+}

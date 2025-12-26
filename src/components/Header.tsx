@@ -27,6 +27,7 @@ import {
   Server,
   Sparkles
 } from 'lucide-react';
+import LanguageSelector from './LanguageSelector';
 
 interface NavItem {
   label: string;
@@ -169,6 +170,7 @@ export default function Header() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
+            <LanguageSelector />
             {user ? (
               <Link
                 to="/app"
