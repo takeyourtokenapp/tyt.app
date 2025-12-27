@@ -66,7 +66,12 @@ i18n
   });
 
 i18n.on('languageChanged', (lng) => {
-  applyLanguageDirection(lng as any);
+  if (typeof lng === 'string') {
+    applyLanguageDirection(lng);
+  } else {
+    console.warn('Invalid language type in languageChanged event:', typeof lng);
+    applyLanguageDirection('en');
+  }
 });
 
 export default i18n;

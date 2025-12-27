@@ -116,10 +116,19 @@ export function setStoredLanguage(lang: SupportedLanguage): void {
   }
 }
 
-export function applyLanguageDirection(lang: SupportedLanguage): void {
-  const dir = SUPPORTED_LANGUAGES[lang].dir;
+export function applyLanguageDirection(lang: SupportedLanguage | string): void {
+  if (typeof lang !== 'string') {
+    console.warn('Invalid language type:', typeof lang, lang);
+    lang = DEFAULT_LANGUAGE;
+  }
+
+  const normalizedLang = lang.toLowerCase() as SupportedLanguage;
+
+  const langConfig = SUPPORTED_LANGUAGES[normalizedLang] || SUPPORTED_LANGUAGES[DEFAULT_LANGUAGE];
+  const dir = langConfig.dir;
+
   document.documentElement.dir = dir;
-  document.documentElement.lang = lang;
+  document.documentElement.lang = normalizedLang;
 
   if (dir === 'rtl') {
     document.body.classList.add('rtl');
