@@ -27,12 +27,22 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const initLanguage = async () => {
       try {
         const detectedLang = await detectInitialLanguage();
-        await i18n.changeLanguage(detectedLang);
-        setCurrentLanguage(detectedLang);
-        applyLanguageDirection(detectedLang);
+
+        if (typeof detectedLang === 'string' && (detectedLang === 'en' || detectedLang === 'ru' || detectedLang === 'he')) {
+          await i18n.changeLanguage(detectedLang);
+          setCurrentLanguage(detectedLang);
+          applyLanguageDirection(detectedLang);
+        } else {
+          console.warn('Invalid detected language, falling back to en:', detectedLang);
+          await i18n.changeLanguage('en');
+          setCurrentLanguage('en');
+          applyLanguageDirection('en');
+        }
       } catch (error) {
         console.error('Failed to initialize language:', error);
+        await i18n.changeLanguage('en');
         setCurrentLanguage('en');
+        applyLanguageDirection('en');
       } finally {
         setIsLoading(false);
       }
@@ -43,6 +53,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const changeLanguage = async (lang: SupportedLanguage) => {
     try {
+      if (typeof lang !== 'string' || !(lang === 'en' || lang === 'ru' || lang === 'he')) {
+        console.error('Invalid language:', lang);
+        throw new Error(`Invalid language: ${lang}`);
+      }
+
       await i18n.changeLanguage(lang);
       setCurrentLanguage(lang);
       setStoredLanguage(lang);

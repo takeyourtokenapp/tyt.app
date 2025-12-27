@@ -23,10 +23,17 @@ export const resources = {
 const languageDetector = new LanguageDetector();
 languageDetector.addDetector({
   name: 'tytCustomDetector',
-  lookup: async () => {
+  lookup: () => {
     try {
-      const detectedLang = await detectInitialLanguage();
-      return detectedLang;
+      const stored = localStorage.getItem('tyt_language');
+      if (stored && (stored === 'en' || stored === 'ru' || stored === 'he')) {
+        return stored;
+      }
+      const browserLang = navigator.language || (navigator as any).userLanguage;
+      const langCode = browserLang.split('-')[0].toLowerCase();
+      if (langCode === 'ru') return 'ru';
+      if (langCode === 'he' || langCode === 'iw') return 'he';
+      return 'en';
     } catch (error) {
       console.error('Language detection failed:', error);
       return 'en';
@@ -34,7 +41,9 @@ languageDetector.addDetector({
   },
   cacheUserLanguage: (lng: string) => {
     try {
-      localStorage.setItem('tyt_language', lng);
+      if (typeof lng === 'string' && (lng === 'en' || lng === 'ru' || lng === 'he')) {
+        localStorage.setItem('tyt_language', lng);
+      }
     } catch (error) {
       console.error('Failed to cache language:', error);
     }
@@ -49,6 +58,7 @@ i18n
     fallbackLng: 'en',
     defaultNS: 'common',
     ns: ['common'],
+    load: 'languageOnly',
 
     detection: {
       order: ['localStorage', 'tytCustomDetector', 'navigator'],
@@ -63,15 +73,28 @@ i18n
     react: {
       useSuspense: true,
     },
+  })
+  .catch((error) => {
+    console.error('i18n initialization failed:', error);
   });
 
-i18n.on('languageChanged', (lng) => {
-  if (typeof lng === 'string') {
+i18n.on('languageChanged', (lng: string) => {
+  try {
+    if (!lng || typeof lng !== 'string') {
+      console.warn('Invalid language in languageChanged event:', lng);
+      applyLanguageDirection('en');
+      return;
+    }
     applyLanguageDirection(lng);
-  } else {
-    console.warn('Invalid language type in languageChanged event:', typeof lng);
+  } catch (error) {
+    console.error('Error in languageChanged handler:', error);
     applyLanguageDirection('en');
   }
+});
+
+i18n.on('initialized', () => {
+  console.log('i18n initialized with language:', i18n.language);
+  applyLanguageDirection(i18n.language || 'en');
 });
 
 export default i18n;

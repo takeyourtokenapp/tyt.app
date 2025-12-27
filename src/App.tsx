@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { AoiProvider } from './contexts/AoiContext';
@@ -10,59 +10,60 @@ import LiveSupportWidget from './components/LiveSupportWidget';
 import EnhancedPriceTicker from './components/EnhancedPriceTicker';
 import PublicLayout from './components/PublicLayout';
 import AppLayout from './components/AppLayout';
+import { lazyWithRetry } from './utils/lazyWithRetry';
 
 // Public pages - loaded eagerly for fast initial load
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
-// Lazy load all other pages
-const Terms = lazy(() => import('./pages/Terms'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const About = lazy(() => import('./pages/About'));
-const Roadmap = lazy(() => import('./pages/Roadmap'));
-const Help = lazy(() => import('./pages/Help'));
-const FoundationPublic = lazy(() => import('./pages/Foundation'));
-const Tokenomics = lazy(() => import('./pages/Tokenomics'));
-const VIP = lazy(() => import('./pages/VIP'));
-const Community = lazy(() => import('./pages/Community'));
-const SupabaseTest = lazy(() => import('./pages/SupabaseTest'));
-const AuthTest = lazy(() => import('./pages/AuthTest'));
+// Lazy load all other pages with retry logic
+const Terms = lazyWithRetry(() => import('./pages/Terms'), 'Terms');
+const Privacy = lazyWithRetry(() => import('./pages/Privacy'), 'Privacy');
+const About = lazyWithRetry(() => import('./pages/About'), 'About');
+const Roadmap = lazyWithRetry(() => import('./pages/Roadmap'), 'Roadmap');
+const Help = lazyWithRetry(() => import('./pages/Help'), 'Help');
+const FoundationPublic = lazyWithRetry(() => import('./pages/Foundation'), 'Foundation');
+const Tokenomics = lazyWithRetry(() => import('./pages/Tokenomics'), 'Tokenomics');
+const VIP = lazyWithRetry(() => import('./pages/VIP'), 'VIP');
+const Community = lazyWithRetry(() => import('./pages/Community'), 'Community');
+const SupabaseTest = lazyWithRetry(() => import('./pages/SupabaseTest'), 'SupabaseTest');
+const AuthTest = lazyWithRetry(() => import('./pages/AuthTest'), 'AuthTest');
 
-// App pages - lazy loaded for better code splitting
-const Dashboard = lazy(() => import('./pages/app/Dashboard'));
-const Miners = lazy(() => import('./pages/app/Miners'));
-const MinerDetail = lazy(() => import('./pages/app/MinerDetail'));
-const Rewards = lazy(() => import('./pages/app/Rewards'));
-const WalletUnified = lazy(() => import('./pages/app/WalletUnified'));
-const Marketplace = lazy(() => import('./pages/app/Marketplace'));
-const Academy = lazy(() => import('./pages/app/Academy'));
-const Foundation = lazy(() => import('./pages/app/Foundation'));
-const Settings = lazy(() => import('./pages/app/Settings'));
-const Profile = lazy(() => import('./pages/app/Profile'));
-const Transactions = lazy(() => import('./pages/app/Transactions'));
-const Referrals = lazy(() => import('./pages/app/Referrals'));
-const TYTTrading = lazy(() => import('./pages/app/TYTTrading'));
-const AdminWithdrawals = lazy(() => import('./pages/app/AdminWithdrawals'));
-const AdminUsers = lazy(() => import('./pages/app/AdminUsers'));
-const Notifications = lazy(() => import('./pages/app/Notifications'));
-const Governance = lazy(() => import('./pages/app/Governance'));
-const MiningStatsDashboard = lazy(() => import('./components/MiningStatsDashboard'));
-const Certificates = lazy(() => import('./pages/app/Certificates'));
-const BurnReports = lazy(() => import('./pages/app/BurnReports'));
-const Avatars = lazy(() => import('./pages/app/Avatars'));
-const DataCenter = lazy(() => import('./pages/app/DataCenter'));
-const Calculators = lazy(() => import('./pages/app/Calculators'));
-const CharityStaking = lazy(() => import('./pages/app/CharityStaking'));
-const Leaderboard = lazy(() => import('./pages/app/Leaderboard'));
-const KYC = lazy(() => import('./pages/app/KYC'));
-const Quests = lazy(() => import('./pages/app/Quests'));
-const Grants = lazy(() => import('./pages/app/Grants'));
-const Clans = lazy(() => import('./pages/app/Clans'));
-const Swap = lazy(() => import('./pages/app/Swap'));
-const Bridge = lazy(() => import('./pages/app/Bridge'));
-const AdminContracts = lazy(() => import('./pages/app/AdminContracts'));
-const AoiProfile = lazy(() => import('./pages/app/AoiProfile'));
+// App pages - lazy loaded with retry logic
+const Dashboard = lazyWithRetry(() => import('./pages/app/Dashboard'), 'Dashboard');
+const Miners = lazyWithRetry(() => import('./pages/app/Miners'), 'Miners');
+const MinerDetail = lazyWithRetry(() => import('./pages/app/MinerDetail'), 'MinerDetail');
+const Rewards = lazyWithRetry(() => import('./pages/app/Rewards'), 'Rewards');
+const WalletUnified = lazyWithRetry(() => import('./pages/app/WalletUnified'), 'WalletUnified');
+const Marketplace = lazyWithRetry(() => import('./pages/app/Marketplace'), 'Marketplace');
+const Academy = lazyWithRetry(() => import('./pages/app/Academy'), 'Academy');
+const Foundation = lazyWithRetry(() => import('./pages/app/Foundation'), 'Foundation');
+const Settings = lazyWithRetry(() => import('./pages/app/Settings'), 'Settings');
+const Profile = lazyWithRetry(() => import('./pages/app/Profile'), 'Profile');
+const Transactions = lazyWithRetry(() => import('./pages/app/Transactions'), 'Transactions');
+const Referrals = lazyWithRetry(() => import('./pages/app/Referrals'), 'Referrals');
+const TYTTrading = lazyWithRetry(() => import('./pages/app/TYTTrading'), 'TYTTrading');
+const AdminWithdrawals = lazyWithRetry(() => import('./pages/app/AdminWithdrawals'), 'AdminWithdrawals');
+const AdminUsers = lazyWithRetry(() => import('./pages/app/AdminUsers'), 'AdminUsers');
+const Notifications = lazyWithRetry(() => import('./pages/app/Notifications'), 'Notifications');
+const Governance = lazyWithRetry(() => import('./pages/app/Governance'), 'Governance');
+const MiningStatsDashboard = lazyWithRetry(() => import('./components/MiningStatsDashboard'), 'MiningStatsDashboard');
+const Certificates = lazyWithRetry(() => import('./pages/app/Certificates'), 'Certificates');
+const BurnReports = lazyWithRetry(() => import('./pages/app/BurnReports'), 'BurnReports');
+const Avatars = lazyWithRetry(() => import('./pages/app/Avatars'), 'Avatars');
+const DataCenter = lazyWithRetry(() => import('./pages/app/DataCenter'), 'DataCenter');
+const Calculators = lazyWithRetry(() => import('./pages/app/Calculators'), 'Calculators');
+const CharityStaking = lazyWithRetry(() => import('./pages/app/CharityStaking'), 'CharityStaking');
+const Leaderboard = lazyWithRetry(() => import('./pages/app/Leaderboard'), 'Leaderboard');
+const KYC = lazyWithRetry(() => import('./pages/app/KYC'), 'KYC');
+const Quests = lazyWithRetry(() => import('./pages/app/Quests'), 'Quests');
+const Grants = lazyWithRetry(() => import('./pages/app/Grants'), 'Grants');
+const Clans = lazyWithRetry(() => import('./pages/app/Clans'), 'Clans');
+const Swap = lazyWithRetry(() => import('./pages/app/Swap'), 'Swap');
+const Bridge = lazyWithRetry(() => import('./pages/app/Bridge'), 'Bridge');
+const AdminContracts = lazyWithRetry(() => import('./pages/app/AdminContracts'), 'AdminContracts');
+const AoiProfile = lazyWithRetry(() => import('./pages/app/AoiProfile'), 'AoiProfile');
 
 // Loading component
 function PageLoader() {
