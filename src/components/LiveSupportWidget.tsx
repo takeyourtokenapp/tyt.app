@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send, Minimize2, Maximize2, Sparkles, User as UserIcon, Heart } from 'lucide-react';
+import { MessageCircle, X, Send, Minimize2, Maximize2, Sparkles, User as UserIcon, Heart, ExternalLink, Home } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
 import { useAoiControl } from '../contexts/AoiControlContext';
 import { useAuth } from '../contexts/AuthContext';
 import AoiAvatar from './AoiAvatar';
+import { AOI_CONFIG } from '../config/aoiConfig';
 
 interface Message {
   id: string;
@@ -193,11 +194,40 @@ export default function LiveSupportWidget() {
 
       {!isMinimized && (
         <>
-          <div className="px-4 py-2 bg-gradient-to-r from-pink-500/10 to-blue-500/10 border-b border-gray-700 text-xs text-gray-300">
-            <div className="flex items-center gap-2">
-              <Heart className="w-3 h-3 text-pink-400" />
-              <span>Connecting Technology & Medicine for Children</span>
+          <div className="border-b border-gray-700">
+            <div className="px-4 py-2 bg-gradient-to-r from-pink-500/10 to-blue-500/10 text-xs text-gray-300">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Heart className="w-3 h-3 text-pink-400" />
+                  <span>Connecting Technology & Medicine for Children</span>
+                </div>
+                <a
+                  href={AOI_CONFIG.foundation.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors"
+                  title="Visit aOi's home at tyt.foundation"
+                >
+                  <Home className="w-3 h-3" />
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
+              </div>
             </div>
+            {foundationOnline && (
+              <div className="px-4 py-1.5 bg-green-500/10 text-xs">
+                <div className="flex items-center gap-2 text-green-400">
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="font-medium">Connected to tyt.foundation</span>
+                  </div>
+                  <span className="text-gray-400">|</span>
+                  <span className="text-gray-300">Cross-domain AI active</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="h-[380px] overflow-y-auto p-4 space-y-4">

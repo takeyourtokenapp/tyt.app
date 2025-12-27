@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+const FOUNDATION_API_URL = "https://tyt.foundation/api/aoi";
+
 interface RequestBody {
   question: string;
   context?: {
@@ -13,6 +15,21 @@ interface RequestBody {
     user_xp?: number;
     current_lesson?: string;
     current_track?: string;
+    user?: {
+      id?: string;
+      email?: string;
+      profile?: any;
+    };
+    mining?: {
+      active_miners?: number;
+      miners?: any[];
+    };
+    rewards?: {
+      recent?: any[];
+    };
+    academy?: {
+      progress?: any;
+    };
     [key: string]: any;
   };
 }
@@ -38,14 +55,44 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const response = generateAoiResponse(question, context);
+    let response: string;
+    let source: "foundation" | "local" = "local";
+
+    try {
+      const foundationResponse = await fetch(FOUNDATION_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Source-Domain": "takeyourtoken.app",
+          "Authorization": req.headers.get("Authorization") || "",
+        },
+        body: JSON.stringify({ question, context }),
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (foundationResponse.ok) {
+        const data = await foundationResponse.json();
+        response = data.response || generateAoiResponse(question, context);
+        source = "foundation";
+        console.log("✅ Foundation API responded successfully");
+      } else {
+        console.warn(`⚠️ Foundation API returned ${foundationResponse.status}, using fallback`);
+        response = generateAoiResponse(question, context);
+      }
+    } catch (foundationError) {
+      console.warn("⚠️ Foundation API unavailable, using local fallback:", foundationError);
+      response = generateAoiResponse(question, context);
+    }
 
     return new Response(
       JSON.stringify({
         response,
+        source,
         context: {
           level: context?.user_level || 1,
           timestamp: new Date().toISOString(),
+          platform: "takeyourtoken.app",
+          foundation_available: source === "foundation",
         }
       }),
       {
@@ -53,7 +100,7 @@ Deno.serve(async (req: Request) => {
       }
     );
   } catch (error) {
-    console.error("Error in aoi-chat:", error);
+    console.error("❌ Error in aoi-chat:", error);
     return new Response(
       JSON.stringify({
         error: "Internal server error",
@@ -69,9 +116,16 @@ Deno.serve(async (req: Request) => {
 
 function generateAoiResponse(question: string, context?: any): string {
   const q = question.toLowerCase();
+  const userName = context?.user?.email?.split('@')[0] || "there";
+  const userLevel = context?.user_level || 1;
+  const activeMinerCount = context?.mining?.active_miners || 0;
 
   if (q.includes("hello") || q.includes("hi") || q.includes("hey")) {
-    return `Hi there! I'm Aoi, your learning companion at TYT Academy. I'm here to help you understand blockchain, cryptocurrency mining, and our ecosystem. What would you like to explore today?`;
+    const greeting = activeMinerCount > 0
+      ? `Hi ${userName}! I can see you have ${activeMinerCount} active miner${activeMinerCount > 1 ? 's' : ''} working for you. Great job! 🎉`
+      : `Hi ${userName}! Welcome to TYT. I'm Aoi (葵), your AI guide from tyt.foundation.`;
+
+    return `${greeting}\n\nI'm here to help you understand blockchain, cryptocurrency mining, and our ecosystem. What would you like to explore today?`;
   }
 
   if (q.includes("mining") || q.includes("miner") || q.includes("nft")) {
