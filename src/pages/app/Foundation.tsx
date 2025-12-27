@@ -13,10 +13,13 @@ import {
   AlertCircle,
   ArrowRight,
   Target,
-  Activity
+  Activity,
+  Sparkles,
+  Globe
 } from 'lucide-react';
 import ImpactReportsDashboard from '../../components/ImpactReportsDashboard';
 import DonationWidget from '../../components/DonationWidget';
+import { AOI_CONFIG } from '../../config/aoiConfig';
 
 interface Campaign {
   id: string;
@@ -159,6 +162,35 @@ export default function Foundation() {
 
   return (
     <div className="space-y-8">
+      <div className="bg-gradient-to-r from-blue-600/20 via-lavender-600/20 to-pink-600/20 border-2 border-blue-500/40 rounded-xl p-6 hover:border-blue-400/60 transition-all group">
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-lavender-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Globe className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                Visit TYT Foundation Website
+                <Sparkles className="w-4 h-4 text-amber-400" />
+              </h3>
+              <p className="text-sm text-gray-300">
+                Explore our research, meet aOi, and learn about our mission to fight pediatric brain cancer
+              </p>
+            </div>
+          </div>
+          <a
+            href={AOI_CONFIG.foundation.websiteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-lavender-600 hover:from-blue-500 hover:to-lavender-500 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-blue-500/50"
+          >
+            <Globe className="w-5 h-5" />
+            Go to tyt.foundation
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
       <div className="bg-gradient-to-br from-pink-900/30 to-red-900/30 border border-pink-500/50 rounded-xl p-8">
         <div className="flex items-center gap-4 mb-6">
           <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-red-500 rounded-full flex items-center justify-center">
@@ -266,37 +298,56 @@ export default function Foundation() {
                 </div>
               </div>
 
+              <div className="bg-gradient-to-br from-blue-900/20 to-lavender-900/20 border border-blue-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-lavender-500 rounded-full flex items-center justify-center">
+                      <Sparkles className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-1">Meet aOi - Your AI Learning Guide</h3>
+                      <p className="text-gray-300">
+                        Learn about our mission, explore scientific research, and discover how you can help
+                      </p>
+                    </div>
+                  </div>
+                  <a
+                    href={AOI_CONFIG.foundation.aboutUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-lavender-600 hover:from-blue-500 hover:to-lavender-500 text-white font-semibold rounded-lg transition-all whitespace-nowrap"
+                  >
+                    Chat with aOi
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
               <div className="bg-gradient-to-br from-pink-900/20 to-red-900/20 border border-pink-500/30 rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-4">Make a Direct Donation</h3>
                 <p className="text-gray-300 mb-4">
                   Your donation goes directly to funding research, supporting families, and saving lives.
+                  Visit our dedicated donation page for more options including crypto, fiat, and recurring donations.
                 </p>
-                <div className="flex gap-4 mb-4">
-                  {['50', '100', '250', '500'].map(amount => (
-                    <button
-                      key={amount}
-                      onClick={() => setDonationAmount(amount)}
-                      className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                        donationAmount === amount
-                          ? 'bg-pink-500 text-white'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
-                      ${amount}
-                    </button>
-                  ))}
-                  <input
-                    type="number"
-                    value={donationAmount}
-                    onChange={(e) => setDonationAmount(e.target.value)}
-                    className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
-                    placeholder="Custom amount"
-                  />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <button className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2 border border-gray-600">
+                    <Heart className="w-5 h-5" />
+                    Quick Donate Here
+                  </button>
+                  <a
+                    href={AOI_CONFIG.foundation.donateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-pink-500/50"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    Visit Donation Portal
+                    <ArrowRight className="w-5 h-5" />
+                  </a>
                 </div>
-                <button className="w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  Donate ${donationAmount} USDT
-                </button>
+                <p className="text-xs text-gray-400 mt-3 text-center">
+                  All donations are tracked on-chain for complete transparency
+                </p>
               </div>
             </div>
           )}
@@ -389,24 +440,56 @@ export default function Foundation() {
                         <span className="text-gray-300">Third-party audited financials</span>
                       </li>
                     </ul>
+                    <a
+                      href={AOI_CONFIG.foundation.transparencyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold rounded-lg transition-all"
+                    >
+                      <Globe className="w-4 h-4" />
+                      View Full Transparency Portal
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
                   </div>
 
                   <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
                     <h3 className="text-xl font-bold mb-4">Download Reports</h3>
                     <div className="space-y-2">
-                      <a href="#" className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                      <a
+                        href={`${AOI_CONFIG.foundation.transparencyUrl}#q3-2024`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                      >
                         <div className="flex items-center gap-3">
                           <FileText className="w-5 h-5 text-blue-400" />
                           <span>Q3 2024 Impact Report</span>
                         </div>
                         <ExternalLink className="w-4 h-4 text-gray-400" />
                       </a>
-                      <a href="#" className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                      <a
+                        href={`${AOI_CONFIG.foundation.transparencyUrl}#financial-audit`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                      >
                         <div className="flex items-center gap-3">
                           <FileText className="w-5 h-5 text-blue-400" />
                           <span>2024 Financial Audit</span>
                         </div>
                         <ExternalLink className="w-4 h-4 text-gray-400" />
+                      </a>
+                      <a
+                        href={AOI_CONFIG.foundation.knowledgeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-900/50 to-lavender-900/50 border border-blue-500/30 rounded-lg hover:border-blue-400/50 transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Sparkles className="w-5 h-5 text-blue-400" />
+                          <span className="font-semibold">Scientific Research Library</span>
+                        </div>
+                        <ExternalLink className="w-4 h-4 text-blue-400" />
                       </a>
                     </div>
                   </div>

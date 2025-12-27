@@ -26,7 +26,8 @@ import {
   UserPlus,
   Flame,
   Server,
-  Sparkles
+  Sparkles,
+  MessageCircle
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 
@@ -59,6 +60,7 @@ export default function Header() {
         { label: 'Rewards', href: '/app/rewards', icon: TrendingUp, description: 'Daily BTC rewards' },
         { label: 'Data Centers', href: '/app/data-center', icon: Server, description: 'Live facility streams' },
         { label: 'Burn Reports', href: '/app/burn-reports', icon: Flame, description: 'Token burn statistics' },
+        { label: 'Chat with aOi', href: 'https://tyt.foundation/aoi', icon: MessageCircle, description: 'AI learning assistant' },
       ]
     },
     {

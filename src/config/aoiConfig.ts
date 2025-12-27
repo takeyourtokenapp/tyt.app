@@ -1,22 +1,43 @@
+/**
+ * aOi Configuration - Cross-Domain AI Guide Bridge
+ *
+ * aOi lives at tyt.foundation but helps everywhere.
+ * This configuration enables seamless cross-domain experience.
+ *
+ * Architecture:
+ * - tyt.foundation: Knowledge, science, mission (WHY)
+ * - takeyourtoken.app: Tools, Web3, academy (HOW)
+ * - aOi: Navigator between them
+ */
 export const AOI_CONFIG = {
+  // tyt.foundation - aOi's home base
   foundation: {
     domain: 'https://tyt.foundation',
-    apiEndpoint: 'https://tyt.foundation/api/aoi',
+    apiEndpoint: 'https://tyt.foundation/api/aoi', // AI chat endpoint
     websiteUrl: 'https://tyt.foundation',
-    aboutUrl: 'https://tyt.foundation/aoi',
-    statusUrl: 'https://tyt.foundation/api/status',
+    aboutUrl: 'https://tyt.foundation/aoi', // About aOi page
+    statusUrl: 'https://tyt.foundation/api/status', // Health check
+    knowledgeUrl: 'https://tyt.foundation/knowledge', // Scientific articles
+    transparencyUrl: 'https://tyt.foundation/transparency', // Foundation reports
+    donateUrl: 'https://tyt.foundation/donate', // Direct donation
   },
 
+  // takeyourtoken.app - Current platform
   app: {
     domain: 'https://takeyourtoken.app',
-    localApiPath: '/api/aoi',
+    localApiPath: '/api/aoi', // Fallback local endpoint
+    academyPath: '/app/academy',
+    foundationPath: '/app/foundation',
   },
 
+  // Cross-domain features
   features: {
-    useFoundationApi: true,
-    fallbackToLocal: true,
-    crossDomainAuth: true,
-    sharedSessions: true,
+    useFoundationApi: true, // Try Foundation API first
+    fallbackToLocal: true, // Fall back to local if Foundation unavailable
+    crossDomainAuth: true, // Enable auth token sharing
+    sharedSessions: true, // Sync user progress across domains
+    enableVoice: false, // Voice interface (future)
+    multiLanguage: false, // Multi-language support (future)
   },
 
   personality: {
