@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { AoiProvider } from './contexts/AoiContext';
+import { AoiControlProvider } from './contexts/AoiControlContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -97,12 +98,13 @@ function App() {
   return (
     <ErrorBoundary>
       <AoiProvider>
-        <AnnouncementBanner />
-        <EnhancedPriceTicker />
-        <CookieConsent />
-        <LiveSupportWidget />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
+        <AoiControlProvider>
+          <AnnouncementBanner />
+          <EnhancedPriceTicker />
+          <CookieConsent />
+          <LiveSupportWidget />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
       <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
       <Route path="/login" element={<PublicLayout showFooter={false}><Login /></PublicLayout>} />
       <Route path="/signup" element={<PublicLayout showFooter={false}><Signup /></PublicLayout>} />
@@ -167,6 +169,7 @@ function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+        </AoiControlProvider>
       </AoiProvider>
     </ErrorBoundary>
   );
