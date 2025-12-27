@@ -44,6 +44,17 @@ export default function AoiChatWidget({
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const handleOpenAoi = () => {
+      if (onClose && isOpen) {
+        return;
+      }
+    };
+
+    window.addEventListener('openAoi', handleOpenAoi);
+    return () => window.removeEventListener('openAoi', handleOpenAoi);
+  }, [isOpen, onClose]);
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 

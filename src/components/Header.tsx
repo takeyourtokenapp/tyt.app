@@ -26,8 +26,7 @@ import {
   UserPlus,
   Flame,
   Server,
-  Sparkles,
-  MessageCircle
+  Sparkles
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 
@@ -60,7 +59,6 @@ export default function Header() {
         { label: 'Rewards', href: '/app/rewards', icon: TrendingUp, description: 'Daily BTC rewards' },
         { label: 'Data Centers', href: '/app/data-center', icon: Server, description: 'Live facility streams' },
         { label: 'Burn Reports', href: '/app/burn-reports', icon: Flame, description: 'Token burn statistics' },
-        { label: 'Chat with aOi', href: 'https://tyt.foundation/aoi', icon: MessageCircle, description: 'AI learning assistant' },
       ]
     },
     {
@@ -174,6 +172,14 @@ export default function Header() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-purple-500/30 group"
+              title="Chat with aOi - Your AI Guide"
+            >
+              <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              <span className="text-sm">aOi (葵)</span>
+            </button>
             <LanguageSelector />
             {user ? (
               <Link
@@ -212,6 +218,18 @@ export default function Header() {
 
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-800">
+            <div className="px-4 pb-3 mb-3 border-b border-gray-800">
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('openAoi'));
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all shadow-lg"
+              >
+                <Sparkles className="w-5 h-5" />
+                <span>Chat with aOi (葵)</span>
+              </button>
+            </div>
             <div className="space-y-2">
               {navItems.map((item) => (
                 <div key={item.label}>

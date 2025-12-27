@@ -53,6 +53,15 @@ export default function LiveSupportWidget() {
     }
   }, [isOpen, unreadCount]);
 
+  useEffect(() => {
+    const handleOpenAoi = () => {
+      handleOpen();
+    };
+
+    window.addEventListener('openAoi', handleOpenAoi);
+    return () => window.removeEventListener('openAoi', handleOpenAoi);
+  }, []);
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
