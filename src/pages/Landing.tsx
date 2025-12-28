@@ -160,13 +160,13 @@ export default function Landing() {
         </div>
       </motion.section>
 
-      <section id="features" className="py-20 bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="features" className="tyt-section-alt">
+        <div className="tyt-container">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="tyt-heading-2 mb-4">
               Why Choose TakeYourToken
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
               The world's first mining platform where profits meet purpose
             </p>
           </div>
@@ -206,13 +206,13 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="how-it-works" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="how-it-works" className="tyt-section">
+        <div className="tyt-container">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="tyt-heading-2 mb-4">
               How It Works
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
               Start earning Bitcoin in 4 simple steps
             </p>
           </div>
@@ -246,13 +246,13 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="calculator" className="py-20 bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="calculator" className="tyt-section-alt">
+        <div className="tyt-container">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="tyt-heading-2 mb-4">
               Calculate Your Earnings
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
               Estimate your potential daily, weekly, and monthly Bitcoin income based on hashrate
             </p>
           </div>
@@ -301,39 +301,39 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="tokenomics" className="py-20 bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="tokenomics" className="tyt-section-alt">
+        <div className="tyt-container">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full mb-6">
-              <Flame className="w-4 h-4 text-amber-400" />
-              <span className="text-amber-400 font-medium">Deflationary Token</span>
+            <div className="tyt-badge-primary mb-6">
+              <Flame className="w-4 h-4" />
+              <span className="font-medium">Deflationary Token</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">TYT Token Economy</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <h2 className="tyt-heading-2 mb-4">TYT Token Economy</h2>
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
               A utility token built on Solana with real use cases and continuous burn mechanics
             </p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
-              <Coins className="w-8 h-8 text-amber-400 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-amber-400 mb-1">1B TYT</div>
-              <div className="text-sm text-gray-400">Total Supply</div>
+            <div className="tyt-card p-6 text-center">
+              <Coins className="w-8 h-8 text-amber-600 dark:text-amber-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">1B TYT</div>
+              <div className="text-sm tyt-text-tertiary">Total Supply</div>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
-              <Flame className="w-8 h-8 text-orange-400 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-orange-400 mb-1">100%</div>
-              <div className="text-sm text-gray-400">Burn on Maintenance</div>
+            <div className="tyt-card p-6 text-center">
+              <Flame className="w-8 h-8 text-orange-600 dark:text-orange-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">100%</div>
+              <div className="text-sm tyt-text-tertiary">Burn on Maintenance</div>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
-              <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-green-400 mb-1">Up to 38%</div>
-              <div className="text-sm text-gray-400">Discount Savings</div>
+            <div className="tyt-card p-6 text-center">
+              <TrendingUp className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">Up to 38%</div>
+              <div className="text-sm tyt-text-tertiary">Discount Savings</div>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 text-center">
-              <Lock className="w-8 h-8 text-blue-400 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-blue-400 mb-1">veTYT</div>
-              <div className="text-sm text-gray-400">Governance Power</div>
+            <div className="tyt-card p-6 text-center">
+              <Lock className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">veTYT</div>
+              <div className="text-sm tyt-text-tertiary">Governance Power</div>
             </div>
           </div>
 
@@ -448,24 +448,24 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900/50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="tyt-section-alt">
+        <div className="tyt-container-narrow">
           <CompactFAQ maxItems={6} />
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section className="tyt-section">
+        <div className="tyt-container-narrow text-center">
+          <h2 className="tyt-heading-2 mb-6">
             Ready to Start Mining?
           </h2>
-          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl tyt-text-secondary mb-8 max-w-2xl mx-auto">
             Join thousands of miners earning Bitcoin daily while making a real difference
             in children's lives.
           </p>
           <Link
             to="/signup"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
+            className="tyt-btn-primary text-lg px-8 py-4"
           >
             Get Started for Free
             <ArrowRight className="w-5 h-5" />
@@ -478,17 +478,17 @@ export default function Landing() {
 
 function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
   const colors: any = {
-    green: 'bg-green-500/10 border-green-500/50 text-green-400',
-    blue: 'bg-blue-500/10 border-blue-500/50 text-blue-400',
-    purple: 'bg-purple-500/10 border-purple-500/50 text-purple-400',
-    pink: 'bg-pink-500/10 border-pink-500/50 text-pink-400'
+    green: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400',
+    blue: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400',
+    purple: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400',
+    pink: 'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800 text-pink-600 dark:text-pink-400'
   };
 
   return (
-    <div className={`${colors[color]} border rounded-xl p-4`}>
+    <div className={`${colors[color]} border-2 rounded-xl p-4 transition-all hover:scale-105`}>
       <div className="flex items-center gap-2 mb-2">
         {icon}
-        <span className="text-xs text-gray-400">{label}</span>
+        <span className="text-xs tyt-text-tertiary">{label}</span>
       </div>
       <p className="text-xl font-bold">{value}</p>
     </div>
@@ -498,15 +498,15 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
     <motion.div
-      className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-8 hover:border-amber-500/50 transition-all hover:scale-105"
+      className="tyt-card-feature"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
       <div className="mb-4">{icon}</div>
-      <h3 className="text-xl font-bold mb-3">{title}</h3>
-      <p className="text-gray-400 leading-relaxed">{description}</p>
+      <h3 className="tyt-heading-4 mb-3">{title}</h3>
+      <p className="tyt-text-secondary leading-relaxed">{description}</p>
     </motion.div>
   );
 }
@@ -520,13 +520,13 @@ function StepCard({ number, title, description, icon }: { number: string; title:
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: parseInt(number) * 0.1 }}
     >
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all hover:scale-105 transform">
+      <div className="tyt-card p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
         <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
           {number}
         </div>
-        <div className="text-blue-400 mb-4">{icon}</div>
-        <h3 className="text-xl font-bold mb-3">{title}</h3>
-        <p className="text-gray-400">{description}</p>
+        <div className="text-blue-600 dark:text-blue-400 mb-4">{icon}</div>
+        <h3 className="tyt-heading-4 mb-3">{title}</h3>
+        <p className="tyt-text-secondary">{description}</p>
       </div>
     </motion.div>
   );
@@ -534,12 +534,12 @@ function StepCard({ number, title, description, icon }: { number: string; title:
 
 function TokenUtilityCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 hover:border-amber-500/50 transition-all">
-      <div className="p-3 bg-amber-500/10 rounded-lg w-fit mb-4">
+    <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
+      <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg w-fit mb-4">
         {icon}
       </div>
-      <h3 className="text-lg font-bold mb-2">{title}</h3>
-      <p className="text-gray-400 text-sm">{description}</p>
+      <h3 className="text-lg font-bold tyt-text-primary mb-2">{title}</h3>
+      <p className="tyt-text-secondary text-sm">{description}</p>
     </div>
   );
 }
