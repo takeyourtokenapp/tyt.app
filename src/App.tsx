@@ -17,6 +17,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LoadTest from './pages/LoadTest';
+import IconTest from './pages/IconTest';
 
 // Lazy load all other pages with retry logic
 const Terms = lazyWithRetry(() => import('./pages/Terms'), 'Terms');
@@ -122,6 +123,7 @@ function App() {
       <Route path="/test-supabase" element={<SupabaseTest />} />
       <Route path="/test-auth" element={<AuthTest />} />
       <Route path="/test-load" element={<LoadTest />} />
+      <Route path="/test-icons" element={<IconTest />} />
 
       <Route
         path="/app/*"
