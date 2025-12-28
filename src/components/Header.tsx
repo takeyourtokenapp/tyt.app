@@ -26,7 +26,6 @@ import {
   UserPlus,
   Flame,
   Server,
-  Sparkles,
   Sun,
   Moon,
   Monitor,
@@ -35,9 +34,14 @@ import {
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
+import AoiBadgePill from './AoiBadgePill';
 import { useTheme, type Theme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SupportedLanguage } from '../utils/languageDetector';
+
+interface HeaderProps {
+  variant?: 'full' | 'compact';
+}
 
 interface NavItem {
   label: string;
@@ -165,11 +169,17 @@ function LanguageSelectorCompact() {
   );
 }
 
-export default function Header() {
+export default function Header({ variant = 'full' }: HeaderProps) {
   const { t } = useTranslation();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user } = useAuth();
+
+  // Auto-detect compact mode for certain pages
+  const isCompactMode = variant === 'compact' ||
+    location.pathname.startsWith('/app/foundation') ||
+    location.pathname.startsWith('/app/academy');
 
   const navItems: NavItem[] = [
     {
@@ -222,6 +232,54 @@ export default function Header() {
     setOpenDropdown(null);
   };
 
+  const handleAoiClick = () => {
+    window.dispatchEvent(new CustomEvent('openAoi'));
+  };
+
+  // Compact mode rendering
+  if (isCompactMode) {
+    return (
+      <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <img
+                src="/6d629383-acba-4396-8f01-4715f914aada.png"
+                alt="TYT"
+                className="w-9 h-9 group-hover:drop-shadow-[0_0_12px_rgba(210,164,76,0.6)] transition-all"
+              />
+              <div className="hidden sm:flex flex-col">
+                <span className="text-base font-bold bg-owl-gradient bg-clip-text text-transparent leading-tight">
+                  TakeYourToken
+                </span>
+                <span className="text-[10px] text-gray-500 leading-tight">
+                  Owl Warrior Platform
+                </span>
+              </div>
+            </Link>
+
+            <div className="flex items-center gap-2">
+              <AoiBadgePill onClick={handleAoiClick} />
+              <div className="hidden sm:flex items-center gap-2">
+                <LanguageSelector />
+                <ThemeToggle />
+              </div>
+              {user && (
+                <Link
+                  to="/app"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
+                >
+                  {t('common:common.openApp')}
+                </Link>
+              )}
+            </div>
+          </div>
+        </nav>
+      </header>
+    );
+  }
+
+  // Full mode rendering
   return (
     <header className="sticky top-0 z-50 bg-owl-dark/95 backdrop-blur-md border-b border-gold-800">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -296,28 +354,14 @@ export default function Header() {
 
           {/* Mobile compact controls */}
           <div className="lg:hidden flex items-center gap-1.5">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
-              className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all"
-              title="aOi"
-              aria-label="Chat with aOi"
-            >
-              <Sparkles className="w-4 h-4" />
-            </button>
+            <AoiBadgePill onClick={handleAoiClick} className="scale-90" />
             <ThemeToggleCompact />
             <LanguageSelectorCompact />
           </div>
 
           {/* Desktop controls */}
           <div className="hidden lg:flex items-center gap-3">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-purple-500/30 group"
-              title="Chat with aOi - Your AI Guide"
-            >
-              <Sparkles className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-              <span>aOi</span>
-            </button>
+            <AoiBadgePill onClick={handleAoiClick} />
             <ThemeToggle />
             <LanguageSelector />
             {user ? (

@@ -1,0 +1,177 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
+import { Sun, Moon, Monitor, Globe, Check } from 'lucide-react';
+import { useTheme, type Theme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { SupportedLanguage } from '../utils/languageDetector';
+import AoiBadgePill from './AoiBadgePill';
+
+export default function CompactHeader() {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+
+  const themes: Array<{ value: Theme; icon: typeof Sun; label: string }> = [
+    { value: 'light', icon: Sun, label: 'Light' },
+    { value: 'dark', icon: Moon, label: 'Dark' },
+    { value: 'auto', icon: Monitor, label: 'Auto' },
+  ];
+
+  const currentTheme = themes.find(t => t.value === theme) || themes[1];
+  const ThemeIcon = currentTheme.icon;
+
+  const handleAoiClick = () => {
+    window.dispatchEvent(new CustomEvent('openAoi'));
+  };
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <img
+              src="/6d629383-acba-4396-8f01-4715f914aada.png"
+              alt="TYT"
+              className="w-9 h-9 group-hover:drop-shadow-[0_0_12px_rgba(210,164,76,0.6)] transition-all"
+            />
+            <div className="flex flex-col">
+              <span className="text-base font-bold bg-owl-gradient bg-clip-text text-transparent leading-tight">
+                TakeYourToken
+              </span>
+              <span className="text-[10px] text-gray-500 leading-tight">
+                Owl Warrior Platform
+              </span>
+            </div>
+          </Link>
+
+          {/* Center Nav - Desktop only */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link
+              to="/app/academy"
+              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              {t('common:nav.academy')}
+            </Link>
+            <Link
+              to="/app/foundation"
+              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              {t('common:nav.foundation')}
+            </Link>
+            {user && (
+              <Link
+                to="/app"
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                {t('common:nav.dashboard')}
+              </Link>
+            )}
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-2">
+            {/* aOi Badge */}
+            <AoiBadgePill onClick={handleAoiClick} />
+
+            {/* Language Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="p-2 bg-gray-800/60 hover:bg-gray-700/60 rounded-lg transition-all flex items-center gap-1.5 backdrop-blur-sm border border-gray-700/50"
+                aria-label="Language"
+              >
+                <Globe className="w-4 h-4 text-gray-400" />
+                <span className="text-sm">{supportedLanguages[currentLanguage].flag}</span>
+              </button>
+              {langMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setLangMenuOpen(false)}
+                  />
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl overflow-hidden z-50">
+                    {(Object.keys(supportedLanguages) as SupportedLanguage[]).map((langCode) => {
+                      const lang = supportedLanguages[langCode];
+                      const isActive = langCode === currentLanguage;
+                      return (
+                        <button
+                          key={langCode}
+                          onClick={() => {
+                            changeLanguage(langCode);
+                            setLangMenuOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 text-sm transition-colors ${
+                            isActive ? 'bg-gray-700/50' : 'hover:bg-gray-700/50'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{lang.flag}</span>
+                            <span className="text-white text-sm">{lang.nativeName}</span>
+                          </div>
+                          {isActive && <Check className="w-3.5 h-3.5 text-cyan-400" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Theme Toggle */}
+            <div className="relative">
+              <button
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+                className="p-2 bg-gray-800/60 hover:bg-gray-700/60 rounded-lg transition-all backdrop-blur-sm border border-gray-700/50"
+                aria-label="Theme"
+              >
+                <ThemeIcon className="w-4 h-4 text-gray-400" />
+              </button>
+              {themeMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setThemeMenuOpen(false)}
+                  />
+                  <div className="absolute top-full right-0 mt-2 w-36 bg-gray-800/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl overflow-hidden z-50">
+                    {themes.map(({ value, icon: Icon, label }) => (
+                      <button
+                        key={value}
+                        onClick={() => {
+                          setTheme(value);
+                          setThemeMenuOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm transition-colors ${
+                          theme === value ? 'bg-gold-500/20 text-gold-400' : 'text-gray-300 hover:bg-gray-700/50'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{label}</span>
+                        {theme === value && <Check className="w-3.5 h-3.5 ml-auto" />}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Profile Icon (Mobile) */}
+            {user && (
+              <Link
+                to="/app/profile"
+                className="md:hidden p-2 bg-gray-800/60 hover:bg-gray-700/60 rounded-lg transition-all backdrop-blur-sm border border-gray-700/50"
+              >
+                <div className="w-4 h-4 rounded-full bg-gradient-to-br from-gold-400 to-amber-500" />
+              </Link>
+            )}
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+}

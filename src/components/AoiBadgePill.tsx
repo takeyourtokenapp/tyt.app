@@ -1,0 +1,92 @@
+import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
+
+interface AoiBadgePillProps {
+  level?: 1 | 2 | 3 | 4;
+  onClick?: () => void;
+  className?: string;
+  showOnlineStatus?: boolean;
+}
+
+const AOI_IMAGES = {
+  1: '/aoi/chatgpt_image_24_дек._2025_г.,_22_53_12.png',
+  2: '/aoi/39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
+  3: '/aoi/6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
+  4: '/aoi/04158264-901b-4e6d-9ab6-732b63335cbf.png',
+};
+
+export default function AoiBadgePill({
+  level = 4,
+  onClick,
+  className = '',
+  showOnlineStatus = true,
+}: AoiBadgePillProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        group relative flex items-center gap-2.5 px-3 py-1.5
+        bg-gray-800/60 backdrop-blur-sm
+        border border-gray-700/50 hover:border-cyan-500/50
+        rounded-full transition-all duration-300
+        hover:shadow-lg hover:shadow-cyan-500/20
+        hover:scale-105
+        ${className}
+      `}
+      aria-label="Chat with aOi"
+    >
+      {/* Avatar with online status */}
+      <div className="relative">
+        <img
+          src={AOI_IMAGES[level]}
+          alt="aOi"
+          className="w-7 h-7 rounded-full object-cover ring-2 ring-cyan-500/30 group-hover:ring-cyan-500/60 transition-all"
+        />
+        {showOnlineStatus && (
+          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-gray-800 animate-pulse" />
+        )}
+
+        {/* Glow effect on hover */}
+        <div
+          className={`
+            absolute inset-0 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-500/30 blur-md
+            transition-opacity duration-300
+            ${isHovered ? 'opacity-100' : 'opacity-0'}
+          `}
+        />
+      </div>
+
+      {/* Text */}
+      <div className="flex items-center gap-1.5">
+        <span className="text-sm font-medium text-gray-200 group-hover:text-cyan-400 transition-colors">
+          aOi
+        </span>
+        <span className="text-gray-600">•</span>
+        <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+          AI Guide
+        </span>
+      </div>
+
+      {/* Sparkle icon on hover */}
+      <Sparkles
+        className={`
+          w-3.5 h-3.5 text-cyan-400
+          transition-all duration-300
+          ${isHovered ? 'opacity-100 scale-110 rotate-12' : 'opacity-0 scale-50'}
+        `}
+      />
+
+      {/* Hover tooltip */}
+      {isHovered && (
+        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-xl z-50 border border-cyan-500/30">
+          Ask me anything
+          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45 border-t border-l border-cyan-500/30" />
+        </div>
+      )}
+    </button>
+  );
+}
