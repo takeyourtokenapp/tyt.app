@@ -77,16 +77,25 @@ function applyTheme(theme: ResolvedTheme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => getStoredTheme());
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    resolveTheme(getStoredTheme())
-  );
+  const [theme, setThemeState] = useState<Theme>('auto');
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('dark');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const storedTheme = getStoredTheme();
+    setThemeState(storedTheme);
+    const newResolved = resolveTheme(storedTheme);
+    setResolvedTheme(newResolved);
+    applyTheme(newResolved);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const newResolved = resolveTheme(theme);
     setResolvedTheme(newResolved);
     applyTheme(newResolved);
-  }, [theme]);
+  }, [theme, mounted]);
 
   useEffect(() => {
     if (theme !== 'auto') return;
