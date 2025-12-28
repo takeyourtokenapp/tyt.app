@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
@@ -26,10 +26,18 @@ import {
   UserPlus,
   Flame,
   Server,
-  Sparkles
+  Sparkles,
+  Sun,
+  Moon,
+  Monitor,
+  Globe,
+  Check
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
+import { useTheme, type Theme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { SupportedLanguage } from '../utils/languageDetector';
 
 interface NavItem {
   label: string;
@@ -40,6 +48,121 @@ interface NavItem {
     icon: React.ComponentType<{ className?: string }>;
     description?: string;
   }[];
+}
+
+// Compact Theme Toggle for mobile
+function ThemeToggleCompact() {
+  const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const themes: Array<{ value: Theme; icon: typeof Sun; label: string }> = [
+    { value: 'light', icon: Sun, label: 'Light' },
+    { value: 'dark', icon: Moon, label: 'Dark' },
+    { value: 'auto', icon: Monitor, label: 'Auto' },
+  ];
+
+  const currentTheme = themes.find(t => t.value === theme) || themes[1];
+  const Icon = currentTheme.icon;
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-all"
+        aria-label="Theme"
+      >
+        <Icon className="w-4 h-4" />
+      </button>
+      {isOpen && (
+        <div className="absolute top-full right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50">
+          {themes.map(({ value, icon: ThemeIcon, label }) => (
+            <button
+              key={value}
+              onClick={() => {
+                setTheme(value);
+                setIsOpen(false);
+              }}
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
+                theme === value ? 'bg-gold-500 text-white' : 'text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              <ThemeIcon className="w-4 h-4" />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Compact Language Selector for mobile
+function LanguageSelectorCompact() {
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const currentLangConfig = supportedLanguages[currentLanguage];
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all flex items-center gap-1.5"
+        aria-label="Language"
+      >
+        <Globe className="w-4 h-4 text-gray-400" />
+        <span className="text-sm">{currentLangConfig.flag}</span>
+      </button>
+      {isOpen && (
+        <div className="absolute top-full right-0 mt-1 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50">
+          {(Object.keys(supportedLanguages) as SupportedLanguage[]).map((langCode) => {
+            const lang = supportedLanguages[langCode];
+            const isActive = langCode === currentLanguage;
+            return (
+              <button
+                key={langCode}
+                onClick={() => {
+                  changeLanguage(langCode);
+                  setIsOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm transition-colors ${
+                  isActive ? 'bg-gray-700' : 'hover:bg-gray-700'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">{lang.flag}</span>
+                  <span className="text-white text-sm">{lang.nativeName}</span>
+                </div>
+                {isActive && <Check className="w-3 h-3 text-cyan-400" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function Header() {
@@ -172,6 +295,21 @@ export default function Header() {
             ))}
           </div>
 
+          {/* Mobile compact controls */}
+          <div className="lg:hidden flex items-center gap-1.5">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
+              className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all"
+              title="aOi"
+              aria-label="Chat with aOi"
+            >
+              <Sparkles className="w-4 h-4" />
+            </button>
+            <ThemeToggleCompact />
+            <LanguageSelectorCompact />
+          </div>
+
+          {/* Desktop controls */}
           <div className="hidden lg:flex items-center gap-3">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
@@ -220,27 +358,6 @@ export default function Header() {
 
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-800">
-            <div className="px-4 pb-3 mb-3 border-b border-gray-800 space-y-3">
-              <button
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('openAoi'));
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all shadow-lg"
-              >
-                <Sparkles className="w-5 h-5" />
-                <span>Chat with aOi (葵)</span>
-              </button>
-
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex-1">
-                  <ThemeToggle />
-                </div>
-                <div className="flex-1">
-                  <LanguageSelector />
-                </div>
-              </div>
-            </div>
             <div className="space-y-2">
               {navItems.map((item) => (
                 <div key={item.label}>
