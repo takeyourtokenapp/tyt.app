@@ -94,17 +94,17 @@ export default function Landing() {
                 </div>
               </motion.div>
 
-              <motion.div className="flex flex-col sm:flex-row gap-4" variants={fadeInUp}>
+              <motion.div className="flex flex-col sm:flex-row gap-3" variants={fadeInUp}>
                 <Link
                   to="/signup"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-amber-500/50"
                 >
                   {t('common:landing.hero.cta')}
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
                 <a
                   href="#how-it-works"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-semibold rounded-xl transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium rounded-lg transition-all"
                 >
                   {t('common:landing.hero.ctaSecondary')}
                 </a>
@@ -362,10 +362,10 @@ export default function Landing() {
           <div className="text-center">
             <Link
               to="/tokenomics"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all transform hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105"
             >
               View Full Tokenomics
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -415,10 +415,10 @@ export default function Landing() {
                 </ul>
                 <Link
                   to="/foundation"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg transition-colors"
                 >
                   Learn More About Our Mission
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="space-y-6">
@@ -469,10 +469,10 @@ export default function Landing() {
           </p>
           <Link
             to="/signup"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-lg font-bold rounded-xl transition-all transform hover:scale-105 shadow-2xl shadow-amber-500/50"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-xl shadow-amber-500/50"
           >
             Get Started for Free
-            <ArrowRight className="w-6 h-6" />
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>

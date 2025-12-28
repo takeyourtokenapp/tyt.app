@@ -175,18 +175,18 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('openAoi'))}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-purple-500/30 group"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-purple-500/30 group"
               title="Chat with aOi - Your AI Guide"
             >
-              <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="text-sm">aOi (葵)</span>
+              <Sparkles className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+              <span>aOi</span>
             </button>
             <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Link
                 to="/app"
-                className="px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
+                className="px-4 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
               >
                 {t('common:common.openApp')}
               </Link>
@@ -194,16 +194,16 @@ export default function Header() {
               <>
                 <Link
                   to="/login"
-                  className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white font-medium transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-300 hover:text-white font-medium transition-colors"
                 >
-                  <LogIn className="w-4 h-4" />
+                  <LogIn className="w-3.5 h-3.5" />
                   {t('common:auth.signIn')}
                 </Link>
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
+                  className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
                 >
-                  <UserPlus className="w-4 h-4" />
+                  <UserPlus className="w-3.5 h-3.5" />
                   {t('common:common.getStarted')}
                 </Link>
               </>

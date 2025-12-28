@@ -13,7 +13,7 @@ export default function ThemeToggle() {
   ];
 
   return (
-    <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+    <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
       {themes.map(({ value, icon: Icon, label }) => {
         const isActive = theme === value;
 
@@ -22,7 +22,7 @@ export default function ThemeToggle() {
             key={value}
             onClick={() => setTheme(value)}
             className={`
-              flex items-center gap-2 px-3 py-1.5 rounded-md transition-all
+              p-2 rounded-md transition-all
               ${isActive
                 ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
@@ -31,7 +31,6 @@ export default function ThemeToggle() {
             title={label}
           >
             <Icon className="w-4 h-4" />
-            <span className="text-sm font-medium hidden sm:inline">{label}</span>
           </button>
         );
       })}
