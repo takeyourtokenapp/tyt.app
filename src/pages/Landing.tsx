@@ -100,7 +100,7 @@ export default function Landing() {
                 </Link>
                 <a
                   href="#how-it-works"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium rounded-lg transition-all"
+                  className="tyt-btn-secondary"
                 >
                   {t('common:landing.hero.ctaSecondary')}
                 </a>
@@ -108,23 +108,23 @@ export default function Landing() {
 
               <motion.div className="flex items-center gap-8 pt-4" variants={fadeInUp}>
                 <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-green-400" />
-                  <span className="text-sm text-gray-400">100% Secure</span>
+                  <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <span className="text-sm tyt-text-secondary">100% Secure</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5 text-blue-400" />
-                  <span className="text-sm text-gray-400">5,000+ Users</span>
+                  <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm tyt-text-secondary">5,000+ Users</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Heart className="w-5 h-5 text-pink-400" />
-                  <span className="text-sm text-gray-400">$250K+ Donated</span>
+                  <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+                  <span className="text-sm tyt-text-secondary">$250K+ Donated</span>
                 </div>
               </motion.div>
             </motion.div>
 
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-3xl"></div>
-              <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 shadow-2xl">
+              <div className="relative tyt-card p-8 shadow-2xl">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="col-span-2 flex items-center justify-center py-8">
                     <BitcoinIcon size={120} />
@@ -367,80 +367,80 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="foundation" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-pink-900/20 to-red-900/20 border border-pink-500/30 rounded-2xl p-12">
+      <section id="foundation" className="tyt-section">
+        <div className="tyt-container">
+          <div className="bg-pink-50 dark:bg-pink-900/20 border-2 border-pink-200 dark:border-pink-800 rounded-2xl p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-6">
                   <HeartIcon size={60} />
-                  <h2 className="text-4xl font-bold">Foundation Impact</h2>
+                  <h2 className="tyt-heading-2">Foundation Impact</h2>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-pink-300">
+                <h3 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
                   TYT Children's Brain Cancer Research & Support Foundation
                 </h3>
-                <p className="text-lg text-gray-300 mb-4 leading-relaxed">
+                <p className="text-lg tyt-text-secondary mb-4 leading-relaxed">
                   Every transaction on our platform automatically contributes to support children
                   battling brain cancer. Funds go directly to medical research, family assistance,
                   and clinical trials.
                 </p>
-                <div className="bg-gray-800/50 border border-pink-500/30 rounded-lg p-4 mb-6">
+                <div className="bg-white dark:bg-gray-800 border border-pink-300 dark:border-pink-700 rounded-lg p-4 mb-6">
                   <div className="flex items-start gap-2 mb-2">
-                    <p className="text-sm font-semibold text-pink-300">Automatic Fee Split (1% Total):</p>
+                    <p className="text-sm font-semibold text-pink-600 dark:text-pink-400">Automatic Fee Split (1% Total):</p>
                     <FeeModelTooltip />
                   </div>
-                  <ul className="text-sm text-gray-300 space-y-1">
+                  <ul className="text-sm tyt-text-secondary space-y-1">
                     <li>• 60% → Protocol Operations</li>
-                    <li className="text-pink-300 font-medium">• 30% → Children's Brain Cancer Foundation (0.3% of transaction)</li>
-                    <li className="text-blue-300 font-medium">• 10% → Digital-Interactive-Technology-Blockchain Academia (0.1% of transaction)</li>
+                    <li className="text-pink-600 dark:text-pink-400 font-medium">• 30% → Children's Brain Cancer Foundation (0.3% of transaction)</li>
+                    <li className="text-blue-600 dark:text-blue-400 font-medium">• 10% → Digital-Interactive-Technology-Blockchain Academia (0.1% of transaction)</li>
                   </ul>
                 </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300">Transparent blockchain-tracked donations</span>
+                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+                    <span className="tyt-text-secondary">Transparent blockchain-tracked donations</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300">Direct partnerships with leading hospitals</span>
+                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+                    <span className="tyt-text-secondary">Direct partnerships with leading hospitals</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300">Annual public impact reports</span>
+                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+                    <span className="tyt-text-secondary">Annual public impact reports</span>
                   </li>
                 </ul>
                 <Link
                   to="/foundation"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg transition-colors shadow-md"
                 >
                   Learn More About Our Mission
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="space-y-6">
-                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                <div className="tyt-card p-6">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-gray-400">Total Donated</span>
-                    <Heart className="w-6 h-6 text-pink-400" />
+                    <span className="tyt-text-tertiary">Total Donated</span>
+                    <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
                   </div>
-                  <p className="text-3xl font-bold text-pink-400">$256,890</p>
-                  <p className="text-sm text-gray-500 mt-1">Lifetime contributions</p>
+                  <p className="text-3xl font-bold text-pink-600 dark:text-pink-400">$256,890</p>
+                  <p className="text-sm tyt-text-muted mt-1">Lifetime contributions</p>
                 </div>
-                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                <div className="tyt-card p-6">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-gray-400">Families Helped</span>
-                    <Users className="w-6 h-6 text-blue-400" />
+                    <span className="tyt-text-tertiary">Families Helped</span>
+                    <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <p className="text-3xl font-bold text-blue-400">127</p>
-                  <p className="text-sm text-gray-500 mt-1">Direct assistance provided</p>
+                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">127</p>
+                  <p className="text-sm tyt-text-muted mt-1">Direct assistance provided</p>
                 </div>
-                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                <div className="tyt-card p-6">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-gray-400">Research Grants</span>
-                    <Award className="w-6 h-6 text-amber-400" />
+                    <span className="tyt-text-tertiary">Research Grants</span>
+                    <Award className="w-6 h-6 text-amber-600 dark:text-amber-400" />
                   </div>
-                  <p className="text-3xl font-bold text-amber-400">$180,000</p>
-                  <p className="text-sm text-gray-500 mt-1">Funding for 3 clinical trials</p>
+                  <p className="text-3xl font-bold text-amber-600 dark:text-amber-400">$180,000</p>
+                  <p className="text-sm tyt-text-muted mt-1">Funding for 3 clinical trials</p>
                 </div>
               </div>
             </div>

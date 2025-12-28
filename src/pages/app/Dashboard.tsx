@@ -203,77 +203,77 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all">
+        <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-gray-400 text-sm font-medium">BTC Balance</div>
-            <div className="p-2 bg-amber-500/10 rounded-lg">
-              <Wallet className="w-5 h-5 text-amber-400" />
+            <div className="tyt-text-secondary text-sm font-medium">BTC Balance</div>
+            <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
+              <Wallet className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-amber-400 mb-1">
+          <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">
             {wallets.find(w => w.asset === 'BTC')?.balance || '0.00000000'}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs tyt-text-tertiary">
             ≈ ${(parseFloat(wallets.find(w => w.asset === 'BTC')?.balance || '0') * 95000).toFixed(2)} USD
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all">
+        <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-gray-400 text-sm font-medium">TYT Balance</div>
-            <div className="p-2 bg-amber-500/10 rounded-lg">
-              <Flame className="w-5 h-5 text-amber-400" />
+            <div className="tyt-text-secondary text-sm font-medium">TYT Balance</div>
+            <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
+              <Flame className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-amber-400 mb-1">
+          <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">
             {parseFloat(wallets.find(w => w.asset === 'TYT')?.balance || '0').toFixed(0)}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs tyt-text-tertiary">
             For maintenance discounts
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all">
+        <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-gray-400 text-sm font-medium">Total Hashrate</div>
-            <div className="p-2 bg-amber-500/10 rounded-lg">
-              <Cpu className="w-5 h-5 text-amber-400" />
+            <div className="tyt-text-secondary text-sm font-medium">Total Hashrate</div>
+            <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
+              <Cpu className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-amber-400 mb-1">
+          <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">
             {totalHashrate.toFixed(2)}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs tyt-text-tertiary">
             {miners.length} active miner{miners.length !== 1 ? 's' : ''}
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all">
+        <div className="tyt-card p-6 hover:border-green-500 dark:hover:border-green-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-gray-400 text-sm font-medium">Daily Reward</div>
-            <div className="p-2 bg-green-500/10 rounded-lg">
-              <TrendingUp className="w-5 h-5 text-green-400" />
+            <div className="tyt-text-secondary text-sm font-medium">Daily Reward</div>
+            <div className="p-2 bg-green-100 dark:bg-green-500/10 rounded-lg">
+              <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-green-400 mb-1">
+          <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
             {todayReward ? parseFloat(todayReward.net_btc).toFixed(8) : '0.00000000'}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs tyt-text-tertiary">
             Weekly: {weeklyRewards.toFixed(8)} BTC
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 hover:border-amber-500/50 transition-all">
+        <div className="tyt-card p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-gray-400 text-sm font-medium">Efficiency</div>
-            <div className="p-2 bg-blue-500/10 rounded-lg">
-              <Activity className="w-5 h-5 text-blue-400" />
+            <div className="tyt-text-secondary text-sm font-medium">Efficiency</div>
+            <div className="p-2 bg-blue-100 dark:bg-blue-500/10 rounded-lg">
+              <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-blue-400 mb-1">
+          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
             {avgEfficiency.toFixed(1)}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs tyt-text-tertiary">
             W/TH avg efficiency
           </div>
         </div>
@@ -327,24 +327,24 @@ export default function Dashboard() {
           </div>
 
           {vipLevel && nextVipLevel && (
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+            <div className="tyt-card p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-amber-500/20 rounded-xl">
-                  <Crown className="w-6 h-6 text-amber-400" />
+                <div className="p-3 bg-amber-100 dark:bg-amber-500/20 rounded-xl">
+                  <Crown className="w-6 h-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">VIP Progress</h3>
-                  <p className="text-sm text-gray-400">Level {vipLevel.level} → {nextVipLevel}</p>
+                  <h3 className="text-xl font-bold tyt-text-primary">VIP Progress</h3>
+                  <p className="text-sm tyt-text-secondary">Level {vipLevel.level} → {nextVipLevel}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between text-sm mb-2">
-                    <span className="text-gray-400">Progress</span>
-                    <span className="font-bold text-amber-400">{Math.min(100, vipProgress).toFixed(1)}%</span>
+                    <span className="tyt-text-secondary">Progress</span>
+                    <span className="font-bold text-amber-600 dark:text-amber-400">{Math.min(100, vipProgress).toFixed(1)}%</span>
                   </div>
-                  <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
                       style={{ width: `${Math.min(100, vipProgress)}%` }}
@@ -353,15 +353,15 @@ export default function Dashboard() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 bg-gray-800/50 rounded-lg">
-                    <div className="text-xs text-gray-400 mb-1">Current Benefits</div>
-                    <div className="text-sm font-semibold text-amber-400">
+                  <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-lg">
+                    <div className="text-xs tyt-text-secondary mb-1">Current Benefits</div>
+                    <div className="text-sm font-semibold text-amber-600 dark:text-amber-400">
                       {parseFloat(vipLevel.maintenance_discount).toFixed(0)}% Discount
                     </div>
                   </div>
-                  <div className="p-3 bg-gray-800/50 rounded-lg">
-                    <div className="text-xs text-gray-400 mb-1">Total Spent</div>
-                    <div className="text-sm font-semibold text-white">
+                  <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-lg">
+                    <div className="text-xs tyt-text-secondary mb-1">Total Spent</div>
+                    <div className="text-sm font-semibold tyt-text-primary">
                       ${parseFloat(profile.total_spent).toFixed(2)}
                     </div>
                   </div>
@@ -419,17 +419,17 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+        <div className="tyt-card p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <DollarSign className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-green-100 dark:bg-green-500/10 rounded-lg">
+                <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-xl font-bold">Recent Rewards</h2>
+              <h2 className="text-xl font-bold tyt-text-primary">Recent Rewards</h2>
             </div>
             <Link
               to="/app/rewards"
-              className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1"
+              className="text-sm text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300 flex items-center gap-1"
             >
               View All
               <ArrowRight size={16} />
