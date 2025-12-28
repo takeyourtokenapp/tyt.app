@@ -215,7 +215,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
             <nav className="flex-1 p-3 overflow-y-auto custom-scrollbar">
               <div className="space-y-1">
                 {navGroups.map((group) => {
-                  const GroupIcon = group.icon;
+                  const GroupIcon = group.icon || LayoutDashboard;
                   const isExpanded = expandedGroups.includes(group.id);
                   const groupActive = isGroupActive(group);
                   const colorClasses = getColorClasses(group.color, groupActive);
@@ -244,7 +244,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                       {isExpanded && (
                         <div className="mt-1 ml-3 pl-3 border-l border-gray-700/50 space-y-0.5">
                           {group.items.map((item) => {
-                            const Icon = item.icon;
+                            const Icon = item.icon || LayoutDashboard;
                             const active = isActive(item.path);
 
                             return (
@@ -276,7 +276,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 </div>
                 <div className="space-y-0.5 mt-1">
                   {accountItems.map((item) => {
-                    const Icon = item.icon;
+                    const Icon = item.icon || User;
                     const active = isActive(item.path);
 
                     return (

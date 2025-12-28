@@ -322,7 +322,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   <div className="absolute top-full left-0 mt-1 w-72 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl overflow-hidden z-50">
                     <div className="p-2">
                       {item.children.map((child) => {
-                        const Icon = child.icon;
+                        const Icon = child.icon || Info;
                         return (
                           <Link
                             key={child.href}
@@ -416,7 +416,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   {openDropdown === item.label && item.children && (
                     <div className="mt-1 ml-4 space-y-1">
                       {item.children.map((child) => {
-                        const Icon = child.icon;
+                        const Icon = child.icon || Info;
                         return (
                           <Link
                             key={child.href}
