@@ -220,7 +220,7 @@ export default function Header() {
 
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-800">
-            <div className="px-4 pb-3 mb-3 border-b border-gray-800">
+            <div className="px-4 pb-3 mb-3 border-b border-gray-800 space-y-3">
               <button
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('openAoi'));
@@ -231,6 +231,15 @@ export default function Header() {
                 <Sparkles className="w-5 h-5" />
                 <span>Chat with aOi (葵)</span>
               </button>
+
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex-1">
+                  <ThemeToggle />
+                </div>
+                <div className="flex-1">
+                  <LanguageSelector />
+                </div>
+              </div>
             </div>
             <div className="space-y-2">
               {navItems.map((item) => (

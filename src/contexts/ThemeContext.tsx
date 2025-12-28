@@ -66,14 +66,21 @@ function resolveTheme(theme: Theme): ResolvedTheme {
 
 function applyTheme(theme: ResolvedTheme) {
   const root = document.documentElement;
+  const body = document.body;
 
   if (theme === 'dark') {
     root.classList.add('dark');
+    body.classList.add('dark');
     root.style.colorScheme = 'dark';
+    root.setAttribute('data-theme', 'dark');
   } else {
     root.classList.remove('dark');
+    body.classList.remove('dark');
     root.style.colorScheme = 'light';
+    root.setAttribute('data-theme', 'light');
   }
+
+  console.log('Theme applied:', theme);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

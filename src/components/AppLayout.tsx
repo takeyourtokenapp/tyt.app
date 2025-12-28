@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { useAoi } from '../contexts/AoiContext';
 import AoiAvatar from './AoiAvatar';
 import AoiChatWidget from './AoiChatWidget';
+import ThemeToggle from './ThemeToggle';
+import LanguageSelector from './LanguageSelector';
 import {
   LayoutDashboard,
   Cpu,
@@ -297,8 +299,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </div>
             </nav>
 
-            <div className="p-3 border-t border-gold-800">
-              <div className="mb-3 p-3 bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-lg border border-gray-700">
+            <div className="p-3 border-t border-gold-800 space-y-3">
+              <div className="lg:hidden space-y-2">
+                <ThemeToggle />
+                <LanguageSelector />
+              </div>
+
+              <div className="p-3 bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-lg border border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-sm font-bold">
                     {user?.email?.[0].toUpperCase() || 'U'}
@@ -330,7 +337,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 <Menu size={24} />
               </button>
 
-              <div className="flex items-center gap-4 ml-auto">
+              <div className="flex items-center gap-3 ml-auto">
+                <div className="hidden lg:block">
+                  <ThemeToggle />
+                </div>
+                <div className="hidden lg:block">
+                  <LanguageSelector />
+                </div>
                 <AoiAvatar
                   level={progress?.level || 1}
                   size="md"
