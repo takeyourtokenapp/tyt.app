@@ -30,7 +30,8 @@ import {
   Moon,
   Monitor,
   Globe,
-  Check
+  Check,
+  Sparkles
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';

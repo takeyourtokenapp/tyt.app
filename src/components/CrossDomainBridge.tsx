@@ -1,4 +1,4 @@
-import { ExternalLink, ArrowRight, Heart, GraduationCap, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowRight, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useAoi } from '../contexts/AoiContext';
 import type { AoiBridgeType } from '../types/aoi';
