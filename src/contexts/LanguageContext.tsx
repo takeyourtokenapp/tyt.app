@@ -64,16 +64,27 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const changeLanguage = async (lang: SupportedLanguage) => {
     try {
       if (typeof lang !== 'string' || !(lang === 'en' || lang === 'ru' || lang === 'he')) {
-        console.error('Invalid language:', lang);
+        console.error('[LanguageContext] Invalid language:', lang);
         throw new Error(`Invalid language: ${lang}`);
       }
 
+      console.log('[LanguageContext] Changing language to:', lang);
       await i18n.changeLanguage(lang);
       setCurrentLanguage(lang);
       setStoredLanguage(lang);
       applyLanguageDirection(lang);
+
+      console.log('[LanguageContext] Language changed successfully:', lang, {
+        htmlLang: document.documentElement.lang,
+        htmlDir: document.documentElement.dir,
+        i18nLang: i18n.language,
+        currentState: lang
+      });
+
+      // Force re-render by dispatching event
+      window.dispatchEvent(new Event('languagechange'));
     } catch (error) {
-      console.error('Failed to change language:', error);
+      console.error('[LanguageContext] Failed to change language:', error);
       throw error;
     }
   };

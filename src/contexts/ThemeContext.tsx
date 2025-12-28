@@ -68,19 +68,34 @@ function applyTheme(theme: ResolvedTheme) {
   const root = document.documentElement;
   const body = document.body;
 
+  // Force remove/add classes
+  root.classList.remove('light', 'dark');
+  body.classList.remove('light', 'dark');
+
   if (theme === 'dark') {
     root.classList.add('dark');
     body.classList.add('dark');
     root.style.colorScheme = 'dark';
     root.setAttribute('data-theme', 'dark');
+    body.style.backgroundColor = '#0A1122';
+    body.style.color = '#F8FAFC';
   } else {
-    root.classList.remove('dark');
-    body.classList.remove('dark');
+    root.classList.add('light');
+    body.classList.add('light');
     root.style.colorScheme = 'light';
     root.setAttribute('data-theme', 'light');
+    body.style.backgroundColor = '#FFFFFF';
+    body.style.color = '#0F172A';
   }
 
-  console.log('Theme applied:', theme);
+  console.log('[ThemeContext] Theme applied:', theme, {
+    htmlClasses: root.className,
+    bodyClasses: body.className,
+    colorScheme: root.style.colorScheme
+  });
+
+  // Force repaint
+  void root.offsetHeight;
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

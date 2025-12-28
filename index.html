@@ -25,6 +25,51 @@
     <link rel="canonical" href="https://takeyourtoken.app" />
 </head>
   <body>
+    <script>
+      // Apply theme IMMEDIATELY before React loads to prevent flash
+      (function() {
+        try {
+          const stored = localStorage.getItem('tyt-theme-preference');
+          const theme = stored || 'auto';
+
+          function getSystemTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              return 'dark';
+            }
+            return 'light';
+          }
+
+          function getTimeTheme() {
+            const hour = new Date().getHours();
+            return (hour >= 6 && hour < 18) ? 'light' : 'dark';
+          }
+
+          let resolvedTheme = theme;
+          if (theme === 'auto') {
+            resolvedTheme = getTimeTheme();
+          }
+
+          const root = document.documentElement;
+          const body = document.body;
+
+          if (resolvedTheme === 'dark') {
+            root.classList.add('dark');
+            body.classList.add('dark');
+            root.style.colorScheme = 'dark';
+            root.setAttribute('data-theme', 'dark');
+          } else {
+            root.classList.remove('dark');
+            body.classList.remove('dark');
+            root.style.colorScheme = 'light';
+            root.setAttribute('data-theme', 'light');
+          }
+
+          console.log('[INIT] Theme applied:', resolvedTheme, '(preference:', theme, ')');
+        } catch (e) {
+          console.error('[INIT] Theme error:', e);
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
