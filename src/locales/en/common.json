@@ -249,5 +249,11 @@
     "deleted": "Successfully deleted",
     "sent": "Successfully sent",
     "copied": "Copied to clipboard"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto",
+    "toggle": "Toggle theme"
   }
 }

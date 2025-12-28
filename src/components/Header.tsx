@@ -29,6 +29,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
+import ThemeToggle from './ThemeToggle';
 
 interface NavItem {
   label: string;
@@ -180,6 +181,7 @@ export default function Header() {
               <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="text-sm">aOi (葵)</span>
             </button>
+            <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Link

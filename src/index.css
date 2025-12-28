@@ -5,12 +5,75 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light Theme - High Contrast Colors */
+    --color-bg-primary: 255 255 255;
+    --color-bg-secondary: 248 250 252;
+    --color-bg-tertiary: 241 245 249;
+    --color-bg-card: 255 255 255;
+
+    --color-text-primary: 15 23 42;
+    --color-text-secondary: 51 65 85;
+    --color-text-tertiary: 100 116 139;
+
+    --color-border-primary: 203 213 225;
+    --color-border-secondary: 226 232 240;
+
+    --color-accent-primary: 37 99 235;
+    --color-accent-secondary: 29 78 216;
+    --color-accent-tertiary: 59 130 246;
+
+    --color-success: 22 163 74;
+    --color-warning: 202 138 4;
+    --color-error: 220 38 38;
+
+    --color-gold: 158 127 50;
+
+    /* Shadows for light theme - more visible */
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.12);
+    --shadow-md: 0 4px 8px -2px rgb(0 0 0 / 0.15);
+    --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.18);
+  }
+
+  .dark {
+    /* Dark Theme Colors */
+    --color-bg-primary: 10 17 34;
+    --color-bg-secondary: 17 24 39;
+    --color-bg-tertiary: 31 41 55;
+    --color-bg-card: 26 35 52;
+
+    --color-text-primary: 248 250 252;
+    --color-text-secondary: 226 232 240;
+    --color-text-tertiary: 203 213 225;
+
+    --color-border-primary: 51 65 85;
+    --color-border-secondary: 71 85 105;
+
+    --color-accent-primary: 96 165 250;
+    --color-accent-secondary: 59 130 246;
+    --color-accent-tertiary: 37 99 235;
+
+    --color-success: 74 222 128;
+    --color-warning: 250 204 21;
+    --color-error: 248 113 113;
+
+    --color-gold: 210 164 76;
+
+    /* Shadows for dark theme */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.7);
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
     @apply antialiased;
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   * {
