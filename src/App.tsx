@@ -16,6 +16,7 @@ import { lazyWithRetry } from './utils/lazyWithRetry';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import LoadTest from './pages/LoadTest';
 
 // Lazy load all other pages with retry logic
 const Terms = lazyWithRetry(() => import('./pages/Terms'), 'Terms');
@@ -120,6 +121,7 @@ function App() {
       <Route path="/community" element={<PublicLayout><Community /></PublicLayout>} />
       <Route path="/test-supabase" element={<SupabaseTest />} />
       <Route path="/test-auth" element={<AuthTest />} />
+      <Route path="/test-load" element={<LoadTest />} />
 
       <Route
         path="/app/*"

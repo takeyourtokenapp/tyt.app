@@ -1,6 +1,5 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
-import { useAoi } from './AoiContext';
 import { supabase } from '../lib/supabase';
 
 /**
@@ -67,7 +66,22 @@ const AoiControlContext = createContext<AoiControlContextType | undefined>(undef
 
 export function AoiControlProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const { logInteraction } = useAoi();
+
+  const logInteraction = async (type: string, context?: Record<string, any>) => {
+    if (!user) return;
+
+    try {
+      await supabase.from('aoi_interactions').insert({
+        user_id: user.id,
+        session_id: `session_${Date.now()}`,
+        interaction_type: type,
+        context: context || {},
+        created_at: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error logging interaction:', error);
+    }
+  };
 
   // Mining Ecosystem Methods
   const getMinerData = async (minerId?: string) => {
