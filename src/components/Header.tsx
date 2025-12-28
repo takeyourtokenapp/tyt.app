@@ -240,20 +240,20 @@ export default function Header({ variant = 'full' }: HeaderProps) {
   // Compact mode rendering
   if (isCompactMode) {
     return (
-      <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
+      <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
               <img
                 src="/6d629383-acba-4396-8f01-4715f914aada.png"
                 alt="TYT"
-                className="w-9 h-9 group-hover:drop-shadow-[0_0_12px_rgba(210,164,76,0.6)] transition-all"
+                className="w-9 h-9 group-hover:scale-105 transition-transform"
               />
               <div className="hidden sm:flex flex-col">
-                <span className="text-base font-bold bg-owl-gradient bg-clip-text text-transparent leading-tight">
+                <span className="text-base font-bold text-gray-900 dark:text-white leading-tight">
                   TakeYourToken
                 </span>
-                <span className="text-[10px] text-gray-500 leading-tight">
+                <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
                   Owl Warrior Platform
                 </span>
               </div>
@@ -282,17 +282,17 @@ export default function Header({ variant = 'full' }: HeaderProps) {
 
   // Full mode rendering
   return (
-    <header className="sticky top-0 z-50 bg-owl-dark/95 backdrop-blur-md border-b border-gold-800">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 group">
             <img
               src="/6d629383-acba-4396-8f01-4715f914aada.png"
               alt="TYT"
-              className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all"
+              className="w-10 h-10 group-hover:scale-105 transition-transform"
             />
             <div className="hidden sm:block">
-              <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
                 TakeYourToken
               </span>
             </div>
@@ -309,8 +309,8 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 <button
                   className={`flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                     openDropdown === item.label
-                      ? 'text-gold-400 bg-gold-500/10'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                      ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                   onClick={() => handleDropdownToggle(item.label)}
                 >
@@ -319,7 +319,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 </button>
 
                 {openDropdown === item.label && item.children && (
-                  <div className="absolute top-full left-0 mt-1 w-72 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl overflow-hidden z-50">
+                  <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50">
                     <div className="p-2">
                       {item.children.map((child) => {
                         const Icon = child.icon || Info;
@@ -328,13 +328,13 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                             key={child.href}
                             to={child.href}
                             onClick={closeDropdown}
-                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-800 transition-all group"
+                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group"
                           >
-                            <div className="p-2 bg-gold-500/10 rounded-lg group-hover:bg-gold-500/20 transition-colors">
-                              <Icon className="w-5 h-5 text-gold-400" />
+                            <div className="p-2 bg-amber-50 dark:bg-amber-500/10 rounded-lg group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 transition-colors">
+                              <Icon className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                             </div>
                             <div>
-                              <div className="font-medium text-white group-hover:text-gold-400 transition-colors">
+                              <div className="font-medium text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                                 {child.label}
                               </div>
                               {child.description && (
@@ -368,7 +368,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
             {user ? (
               <Link
                 to="/app"
-                className="px-4 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
+                className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold rounded-lg hover:shadow-md transition-all"
               >
                 {t('common:common.openApp')}
               </Link>
@@ -376,16 +376,16 @@ export default function Header({ variant = 'full' }: HeaderProps) {
               <>
                 <Link
                   to="/login"
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-300 hover:text-white font-medium transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
                 >
-                  <LogIn className="w-3.5 h-3.5" />
+                  <LogIn className="w-4 h-4" />
                   {t('common:auth.signIn')}
                 </Link>
                 <Link
                   to="/signup"
-                  className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold rounded-lg hover:shadow-md transition-all"
                 >
-                  <UserPlus className="w-3.5 h-3.5" />
+                  <UserPlus className="w-4 h-4" />
                   {t('common:common.getStarted')}
                 </Link>
               </>
@@ -394,7 +394,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-gray-400 hover:text-white"
+            className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

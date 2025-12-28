@@ -50,46 +50,42 @@ export default function Landing() {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 scroll-smooth">
+    <div className="bg-white dark:bg-gray-900 scroll-smooth">
 
       <motion.section
-        className="relative py-20 md:py-32 overflow-hidden"
+        className="relative py-16 md:py-24 overflow-hidden"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-blue-500/5"></div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div className="space-y-8" variants={fadeInUp}>
+            <motion.div className="space-y-6" variants={fadeInUp}>
               <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full"
+                className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-full"
                 variants={fadeInUp}
               >
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-400 font-semibold text-sm">{t('common:landing.hero.badge')}</span>
+                <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <span className="text-amber-700 dark:text-amber-400 font-medium text-sm">{t('common:landing.hero.badge')}</span>
               </motion.div>
 
               <motion.h1
-                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white"
                 variants={fadeInUp}
               >
-                <span className="bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
-                  {t('common:landing.hero.title')}
-                </span>
+                {t('common:landing.hero.title')}
                 <br />
-                <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                <span className="text-amber-600 dark:text-amber-400">
                   {t('common:landing.hero.titleHighlight')}
                 </span>
               </motion.h1>
 
               <motion.div variants={fadeInUp}>
-                <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   {t('common:landing.hero.description')}
                 </p>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="text-sm text-gray-400">Platform Fee Structure:</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Platform Fee Structure:</span>
                   <FeeModelTooltip />
                 </div>
               </motion.div>
@@ -97,7 +93,7 @@ export default function Landing() {
               <motion.div className="flex flex-col sm:flex-row gap-3" variants={fadeInUp}>
                 <Link
                   to="/signup"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-amber-500/50"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
                 >
                   {t('common:landing.hero.cta')}
                   <ArrowRight className="w-4 h-4" />

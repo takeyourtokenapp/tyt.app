@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black border-t border-gray-800">
+    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* О проекте */}
@@ -11,50 +11,50 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT" className="w-10 h-10" />
               <div>
-                <h3 className="font-bold text-lg">Take Your Token</h3>
-                <p className="text-xs text-gray-400">Owl Warrior Ecosystem</p>
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white">Take Your Token</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Owl Warrior Ecosystem</p>
               </div>
             </div>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Web3 Mining Platform поддерживающий исследования детских опухолей мозга
             </p>
             <div className="flex gap-3">
               <a href="https://twitter.com/takeyourtoken" target="_blank" rel="noopener noreferrer"
-                 className="w-8 h-8 rounded-full bg-gray-800 hover:bg-amber-500 flex items-center justify-center transition-colors">
-                <Twitter size={16} />
+                 className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-amber-500 dark:hover:bg-amber-500 flex items-center justify-center transition-colors">
+                <Twitter size={16} className="text-gray-700 dark:text-gray-300" />
               </a>
               <a href="https://github.com/takeyourtoken" target="_blank" rel="noopener noreferrer"
-                 className="w-8 h-8 rounded-full bg-gray-800 hover:bg-amber-500 flex items-center justify-center transition-colors">
-                <Github size={16} />
+                 className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-amber-500 dark:hover:bg-amber-500 flex items-center justify-center transition-colors">
+                <Github size={16} className="text-gray-700 dark:text-gray-300" />
               </a>
               <a href="https://t.me/takeyourtoken" target="_blank" rel="noopener noreferrer"
-                 className="w-8 h-8 rounded-full bg-gray-800 hover:bg-amber-500 flex items-center justify-center transition-colors">
-                <MessageCircle size={16} />
+                 className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-amber-500 dark:hover:bg-amber-500 flex items-center justify-center transition-colors">
+                <MessageCircle size={16} className="text-gray-700 dark:text-gray-300" />
               </a>
             </div>
           </div>
 
           {/* Платформа */}
           <div>
-            <h4 className="font-bold mb-4 text-amber-400">Платформа</h4>
+            <h4 className="font-bold mb-4 text-amber-600 dark:text-amber-400">Платформа</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/app/dashboard" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/app/dashboard" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/app/miners" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/app/miners" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Мои Майнеры
                 </Link>
               </li>
               <li>
-                <Link to="/app/marketplace" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/app/marketplace" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Marketplace
                 </Link>
               </li>
               <li>
-                <Link to="/app/wallet" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/app/wallet" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Кошелёк
                 </Link>
               </li>

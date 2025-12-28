@@ -163,14 +163,14 @@ export default function EnhancedPriceTicker() {
   const hasData = Object.keys(prices).length > 0;
 
   return (
-    <div className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md border-b border-gray-700/50 overflow-hidden relative">
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-gray-900/90 px-3 py-1 rounded-full border border-green-500/30">
-        <div className={`w-2 h-2 rounded-full ${hasData ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`}></div>
-        <span className={`text-xs font-semibold ${hasData ? 'text-green-400' : 'text-gray-400'}`}>
+    <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 overflow-hidden relative">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-white dark:bg-gray-900 px-2.5 py-1 rounded-md border border-green-200 dark:border-green-500/30">
+        <div className={`w-1.5 h-1.5 rounded-full ${hasData ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+        <span className={`text-xs font-medium ${hasData ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
           {isLoading ? 'Loading...' : 'LIVE'}
         </span>
         {lastUpdate && (
-          <span className="text-[10px] text-gray-500">
+          <span className="text-[10px] text-gray-400 dark:text-gray-500">
             {lastUpdate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
@@ -191,9 +191,9 @@ export default function EnhancedPriceTicker() {
             return (
               <div
                 key={`${asset.symbol}-${idx}`}
-                className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-gray-800/40 border border-gray-700/30 backdrop-blur-sm whitespace-nowrap hover:bg-gray-800/60 transition-colors duration-200"
+                className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700/30 whitespace-nowrap hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-colors"
               >
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${asset.color} bg-gray-900/50 border border-current/10`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${asset.color} bg-gray-100 dark:bg-gray-900/50 border border-gray-200 dark:border-current/10`}>
                   {asset.IconComponent ? (
                     <asset.IconComponent size={14} />
                   ) : (
