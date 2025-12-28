@@ -6,7 +6,7 @@ import { Sun, Moon, Monitor, Globe, Check } from 'lucide-react';
 import { useTheme, type Theme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SupportedLanguage } from '../utils/languageDetector';
-import AoiBadgePill from './AoiBadgePill';
+import AoiCompactWidget from './AoiCompactWidget';
 
 export default function CompactHeader() {
   const { t } = useTranslation();
@@ -24,10 +24,6 @@ export default function CompactHeader() {
 
   const currentTheme = themes.find(t => t.value === theme) || themes[1];
   const ThemeIcon = currentTheme.icon;
-
-  const handleAoiClick = () => {
-    window.dispatchEvent(new CustomEvent('openAoi'));
-  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
@@ -77,7 +73,7 @@ export default function CompactHeader() {
           {/* Right Section */}
           <div className="flex items-center gap-2">
             {/* aOi Badge */}
-            <AoiBadgePill onClick={handleAoiClick} />
+            <AoiCompactWidget />
 
             {/* Language Selector */}
             <div className="relative">

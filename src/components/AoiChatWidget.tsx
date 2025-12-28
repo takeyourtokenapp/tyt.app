@@ -33,6 +33,7 @@ export default function AoiChatWidget({
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [hasProcessedInitialMessage, setHasProcessedInitialMessage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -53,6 +54,56 @@ export default function AoiChatWidget({
     window.addEventListener('openAoi', handleOpenAoi);
     return () => window.removeEventListener('openAoi', handleOpenAoi);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && context?.initialMessage && !hasProcessedInitialMessage) {
+      const initialMessage = context.initialMessage;
+      setInput(initialMessage);
+      setHasProcessedInitialMessage(true);
+
+      setTimeout(async () => {
+        if (initialMessage.trim()) {
+          const userMessage: Message = {
+            id: Date.now().toString(),
+            text: initialMessage,
+            sender: 'user',
+            timestamp: new Date(),
+          };
+
+          setMessages((prev) => [...prev, userMessage]);
+          setInput('');
+          setIsLoading(true);
+
+          try {
+            const response = await askAoi(initialMessage, context);
+
+            const aoiMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              text: response,
+              sender: 'aoi',
+              timestamp: new Date(),
+            };
+
+            setMessages((prev) => [...prev, aoiMessage]);
+          } catch (error) {
+            const errorMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              text: "I'm having trouble responding right now. Please try again.",
+              sender: 'aoi',
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, errorMessage]);
+          } finally {
+            setIsLoading(false);
+          }
+        }
+      }, 500);
+    }
+
+    if (!isOpen) {
+      setHasProcessedInitialMessage(false);
+    }
+  }, [isOpen, context, hasProcessedInitialMessage, askAoi]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;

@@ -35,7 +35,7 @@ import {
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
-import AoiBadgePill from './AoiBadgePill';
+import AoiCompactWidget from './AoiCompactWidget';
 import { useTheme, type Theme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SupportedLanguage } from '../utils/languageDetector';
@@ -233,10 +233,6 @@ export default function Header({ variant = 'full' }: HeaderProps) {
     setOpenDropdown(null);
   };
 
-  const handleAoiClick = () => {
-    window.dispatchEvent(new CustomEvent('openAoi'));
-  };
-
   // Compact mode rendering
   if (isCompactMode) {
     return (
@@ -260,7 +256,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
             </Link>
 
             <div className="flex items-center gap-2">
-              <AoiBadgePill onClick={handleAoiClick} />
+              <AoiCompactWidget />
               <div className="hidden sm:flex items-center gap-2">
                 <LanguageSelector />
                 <ThemeToggle />
@@ -355,14 +351,14 @@ export default function Header({ variant = 'full' }: HeaderProps) {
 
           {/* Mobile compact controls */}
           <div className="lg:hidden flex items-center gap-1.5">
-            <AoiBadgePill onClick={handleAoiClick} className="scale-90" />
+            <AoiCompactWidget className="scale-90" />
             <ThemeToggleCompact />
             <LanguageSelectorCompact />
           </div>
 
           {/* Desktop controls */}
           <div className="hidden lg:flex items-center gap-3">
-            <AoiBadgePill onClick={handleAoiClick} />
+            <AoiCompactWidget />
             <ThemeToggle />
             <LanguageSelector />
             {user ? (
