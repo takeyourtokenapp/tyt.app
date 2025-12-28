@@ -170,7 +170,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user } = useAuth();
-  const location = useLocation();
 
   const navItems: NavItem[] = [
     {
