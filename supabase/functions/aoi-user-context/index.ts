@@ -3,31 +3,51 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey, X-Domain",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
 interface UserContext {
   user_id: string;
+  email: string;
+  role: string;
+  permissions: string[];
   profile: {
     display_name: string | null;
     avatar_url: string | null;
     joined_at: string;
+    ui_theme: string;
+    ui_language: string;
   };
-  levels: {
-    web3_mastery: number;
-    cns_knowledge: number;
-    overall_rank: string;
+  access_level: {
+    kyc_status: string;
+    vip_tier: number;
+    access_tier: string;
   };
-  active_paths: any[];
+  active_modules: {
+    academy: boolean;
+    mining: boolean;
+    wallet: boolean;
+    marketplace: boolean;
+    governance: boolean;
+    foundation: boolean;
+  };
   stats: {
-    total_lessons_completed: number;
-    total_xp: number;
-    achievements_unlocked: number;
-    days_active: number;
+    total_miners: number;
+    active_miners: number;
+    total_hashrate: number;
+    total_btc_earned: number;
+    wallet_balance_usd: number;
+    academy_progress: number;
+    governance_votes: number;
   };
-  recommendations: any[];
-  last_activity: any;
+  aoi_progress: {
+    level: number;
+    experience_points: number;
+    current_track: string | null;
+    rank: string;
+    achievements_count: number;
+  };
 }
 
 Deno.serve(async (req: Request) => {
@@ -62,111 +82,140 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Get user profile
+    // Get user profile with UI preferences
     const { data: profile } = await supabase
       .from("profiles")
-      .select("full_name, avatar_url, created_at")
+      .select("full_name, avatar_url, created_at, ui_theme, ui_language, role")
       .eq("id", user.id)
       .maybeSingle();
 
-    // Get aOi profile (or create if doesn't exist)
-    let { data: aoiProfile } = await supabase
-      .from("aoi_user_profiles")
-      .select("*")
+    // Get KYC and access level
+    const { data: kycData } = await supabase
+      .from("kyc_verifications")
+      .select("verification_level, status")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const { data: vipData } = await supabase
+      .from("vip_levels")
+      .select("level")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (!aoiProfile) {
-      const { data: newProfile } = await supabase
-        .from("aoi_user_profiles")
-        .insert({ user_id: user.id })
-        .select()
-        .single();
-      aoiProfile = newProfile;
-    }
-
-    // Get active learning paths
-    const { data: activePaths } = await supabase
-      .from("aoi_user_path_progress")
-      .select(`
-        path_id,
-        current_step,
-        completed_steps,
-        aoi_learning_paths (
-          name,
-          steps
-        )
-      `)
-      .eq("user_id", user.id)
-      .eq("status", "in_progress");
-
-    // Get activity stats
-    const { data: activities, count: activityCount } = await supabase
-      .from("aoi_activity_log")
-      .select("*", { count: "exact", head: false })
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    const totalXP = await supabase
-      .from("aoi_activity_log")
-      .select("xp_earned")
-      .eq("user_id", user.id)
-      .then(({ data }) => data?.reduce((sum, a) => sum + a.xp_earned, 0) || 0);
-
-    // Get days active
-    const { count: daysActive } = await supabase
-      .from("aoi_activity_log")
-      .select("created_at", { count: "exact", head: true })
+    // Get mining stats
+    const { data: miners } = await supabase
+      .from("user_miners")
+      .select("status, power_th, total_btc_earned")
       .eq("user_id", user.id);
 
-    // Get recommendations
-    const { data: recommendations } = await supabase
-      .from("aoi_recommendations")
-      .select("*")
-      .eq("user_id", user.id)
-      .eq("is_active", true)
-      .order("relevance_score", { ascending: false })
-      .limit(3);
+    const activeMiners = miners?.filter((m) => m.status === "active") || [];
+    const totalHashrate = activeMiners.reduce((sum, m) => sum + (parseFloat(m.power_th) || 0), 0);
+    const totalBtcEarned = miners?.reduce(
+      (sum, m) => sum + (parseFloat(m.total_btc_earned) || 0),
+      0
+    ) || 0;
 
-    // Build response
+    // Get wallet balance
+    const { data: walletBalance } = await supabase
+      .from("custodial_wallets")
+      .select("balance")
+      .eq("user_id", user.id)
+      .eq("chain", "bitcoin")
+      .maybeSingle();
+
+    // Get academy progress
+    const { count: lessonsCompleted } = await supabase
+      .from("user_academy_progress")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("status", "completed");
+
+    // Get governance participation
+    const { count: governanceVotes } = await supabase
+      .from("governance_votes")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+
+    // Get aOi progress
+    const { data: aoiProgress } = await supabase
+      .from("aoi_user_progress")
+      .select("level, experience_points, current_track")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    const { count: achievementsCount } = await supabase
+      .from("aoi_achievements")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+
+    // Determine rank based on XP
+    const xp = aoiProgress?.experience_points || 0;
+    let rank = "Worker";
+    if (xp >= 10000) rank = "Warrior";
+    else if (xp >= 5000) rank = "Peacekeeper";
+    else if (xp >= 2000) rank = "Diplomat";
+    else if (xp >= 500) rank = "Academic";
+
+    // Determine permissions based on role and KYC
+    const role = profile?.role || "user";
+    const permissions: string[] = ["read:profile", "write:profile"];
+
+    if (kycData?.status === "verified") {
+      permissions.push("withdraw:funds", "trade:marketplace");
+    }
+
+    if (role === "admin") {
+      permissions.push("admin:all");
+    }
+
+    if (activeMiners.length > 0) {
+      permissions.push("manage:miners");
+    }
+
+    // Build context
     const context: UserContext = {
       user_id: user.id,
+      email: user.email || "",
+      role,
+      permissions,
       profile: {
         display_name: profile?.full_name || null,
         avatar_url: profile?.avatar_url || null,
         joined_at: profile?.created_at || new Date().toISOString(),
+        ui_theme: profile?.ui_theme || "auto",
+        ui_language: profile?.ui_language || "EN",
       },
-      levels: {
-        web3_mastery: aoiProfile?.web3_mastery_level || 0,
-        cns_knowledge: aoiProfile?.cns_knowledge_level || 0,
-        overall_rank: aoiProfile?.overall_rank || "Student",
+      access_level: {
+        kyc_status: kycData?.status || "none",
+        vip_tier: vipData?.level || 0,
+        access_tier: kycData?.verification_level || "basic",
       },
-      active_paths: activePaths?.map(p => ({
-        path_id: p.path_id,
-        name: p.aoi_learning_paths?.name,
-        progress: Math.round((p.completed_steps.length / (p.aoi_learning_paths?.steps?.length || 1)) * 100),
-        current_step: p.aoi_learning_paths?.steps?.[p.current_step] || null,
-      })) || [],
+      active_modules: {
+        academy: (lessonsCompleted || 0) > 0,
+        mining: activeMiners.length > 0,
+        wallet: walletBalance !== null,
+        marketplace: kycData?.status === "verified",
+        governance: (governanceVotes || 0) > 0,
+        foundation: true,
+      },
       stats: {
-        total_lessons_completed: activityCount || 0,
-        total_xp: totalXP,
-        achievements_unlocked: 0, // TODO: implement achievements
-        days_active: daysActive || 0,
+        total_miners: miners?.length || 0,
+        active_miners: activeMiners.length,
+        total_hashrate: Math.round(totalHashrate * 100) / 100,
+        total_btc_earned: Math.round(totalBtcEarned * 100000000) / 100000000,
+        wallet_balance_usd: parseFloat(walletBalance?.balance || "0"),
+        academy_progress: lessonsCompleted || 0,
+        governance_votes: governanceVotes || 0,
       },
-      recommendations: recommendations?.map(r => ({
-        type: "next_topic",
-        title: r.content_title,
-        domain: r.domain,
-        url: r.url,
-        reason: r.reason,
-      })) || [],
-      last_activity: activities && activities.length > 0 ? {
-        domain: activities[0].domain,
-        type: activities[0].activity_type,
-        title: activities[0].item_title,
-        timestamp: activities[0].created_at,
-      } : null,
+      aoi_progress: {
+        level: aoiProgress?.level || 1,
+        experience_points: aoiProgress?.experience_points || 0,
+        current_track: aoiProgress?.current_track || null,
+        rank,
+        achievements_count: achievementsCount || 0,
+      },
     };
 
     return new Response(JSON.stringify(context), {
