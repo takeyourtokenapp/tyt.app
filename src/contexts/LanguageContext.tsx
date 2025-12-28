@@ -26,6 +26,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initLanguage = async () => {
       try {
+        if (!i18n.isInitialized) {
+          await new Promise(resolve => {
+            if (i18n.isInitialized) {
+              resolve(true);
+            } else {
+              i18n.on('initialized', () => resolve(true));
+            }
+          });
+        }
+
         const detectedLang = await detectInitialLanguage();
 
         if (typeof detectedLang === 'string' && (detectedLang === 'en' || detectedLang === 'ru' || detectedLang === 'he')) {

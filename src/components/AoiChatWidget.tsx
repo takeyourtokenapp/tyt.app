@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
 import AoiAvatar from './AoiAvatar';
-import AoiFoundationBadge from './AoiFoundationBadge';
 
 interface Message {
   id: string;
@@ -46,14 +45,14 @@ export default function AoiChatWidget({
 
   useEffect(() => {
     const handleOpenAoi = () => {
-      if (onClose && isOpen) {
+      if (isOpen) {
         return;
       }
     };
 
     window.addEventListener('openAoi', handleOpenAoi);
     return () => window.removeEventListener('openAoi', handleOpenAoi);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
