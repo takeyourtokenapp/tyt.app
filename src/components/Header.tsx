@@ -270,7 +270,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   to="/app"
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-black text-sm font-semibold rounded-lg hover:shadow-lg hover:shadow-gold-500/30 transition-all"
                 >
-                  {t('common:common.openApp')}
+                  App
                 </Link>
               )}
             </div>
@@ -370,7 +370,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 to="/app"
                 className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold rounded-lg hover:shadow-md transition-all"
               >
-                {t('common:common.openApp')}
+                App
               </Link>
             ) : (
               <>

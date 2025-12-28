@@ -30,10 +30,10 @@ export default function AoiBadgePill({
       onMouseLeave={() => setIsHovered(false)}
       className={`
         group relative flex items-center gap-2.5 px-3 py-1.5
-        bg-gray-800/60 backdrop-blur-sm
-        border border-gray-700/50 hover:border-cyan-500/50
+        bg-slate-900/80 dark:bg-slate-900/90 backdrop-blur-sm
+        border border-slate-700/50 hover:border-indigo-500/60
         rounded-full transition-all duration-300
-        hover:shadow-lg hover:shadow-cyan-500/20
+        hover:shadow-lg hover:shadow-indigo-500/30
         hover:scale-105
         ${className}
       `}
@@ -44,16 +44,16 @@ export default function AoiBadgePill({
         <img
           src={AOI_IMAGES[level]}
           alt="aOi"
-          className="w-7 h-7 rounded-full object-cover ring-2 ring-cyan-500/30 group-hover:ring-cyan-500/60 transition-all"
+          className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
         />
         {showOnlineStatus && (
-          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-gray-800 animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
         )}
 
         {/* Glow effect on hover */}
         <div
           className={`
-            absolute inset-0 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-500/30 blur-md
+            absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400/40 to-purple-500/40 blur-md
             transition-opacity duration-300
             ${isHovered ? 'opacity-100' : 'opacity-0'}
           `}
@@ -62,11 +62,11 @@ export default function AoiBadgePill({
 
       {/* Text */}
       <div className="flex items-center gap-1.5">
-        <span className="text-sm font-medium text-gray-200 group-hover:text-cyan-400 transition-colors">
+        <span className="text-sm font-medium text-indigo-300 group-hover:text-indigo-200 transition-colors">
           aOi
         </span>
-        <span className="text-gray-600">•</span>
-        <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+        <span className="text-slate-600">•</span>
+        <span className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
           AI Guide
         </span>
       </div>
@@ -74,7 +74,7 @@ export default function AoiBadgePill({
       {/* Sparkle icon on hover */}
       <Sparkles
         className={`
-          w-3.5 h-3.5 text-cyan-400
+          w-3.5 h-3.5 text-indigo-400
           transition-all duration-300
           ${isHovered ? 'opacity-100 scale-110 rotate-12' : 'opacity-0 scale-50'}
         `}
@@ -82,9 +82,9 @@ export default function AoiBadgePill({
 
       {/* Hover tooltip */}
       {isHovered && (
-        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-xl z-50 border border-cyan-500/30">
+        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 text-slate-200 text-xs px-3 py-1.5 rounded-lg shadow-xl z-50 border border-indigo-500/40">
           Ask me anything
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45 border-t border-l border-cyan-500/30" />
+          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45 border-t border-l border-indigo-500/40" />
         </div>
       )}
     </button>
