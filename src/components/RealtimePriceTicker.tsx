@@ -2,7 +2,7 @@ import { useRealtimePrice } from '../hooks/useRealtimePrice';
 import { TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
 
 export default function RealtimePriceTicker() {
-  const { prices, isLoading, refresh } = useRealtimePrice(30000);
+  const { prices, isLoading, refresh } = useRealtimePrice(180000);
 
   const formatPrice = (price: number, decimals: number = 2) => {
     if (price >= 1000) {

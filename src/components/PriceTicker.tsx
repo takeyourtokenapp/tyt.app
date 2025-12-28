@@ -26,27 +26,27 @@ export default function PriceTicker() {
         price: p.price * (1 + (Math.random() - 0.5) * 0.002),
         change24h: p.change24h + (Math.random() - 0.5) * 0.5
       })));
-    }, 5000);
+    }, 180000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900/50 border-y border-gray-200 dark:border-gray-800 overflow-hidden">
+    <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-y-2 border-amber-500/20 overflow-hidden shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center gap-8 overflow-x-auto scrollbar-hide">
           {prices.map((crypto, index) => (
-            <div key={index} className="flex items-center gap-3 min-w-fit">
+            <div key={index} className="flex items-center gap-4 min-w-fit px-4 py-2 bg-gray-800/60 rounded-lg border border-gray-700/40 hover:border-amber-500/40 transition-all hover:bg-gray-800/80">
               <div className="flex items-center gap-2">
-                <span className="font-bold tyt-text-primary">{crypto.symbol}</span>
-                <span className="tyt-text-tertiary text-sm">/USD</span>
+                <span className="font-bold text-white text-sm">{crypto.symbol}</span>
+                <span className="text-gray-400 text-xs">/USD</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-semibold tyt-text-primary">
+                <span className="font-bold text-white text-sm">
                   ${crypto.price.toFixed(crypto.symbol === 'BTC' ? 0 : crypto.symbol === 'ETH' ? 2 : 4)}
                 </span>
-                <div className={`flex items-center gap-1 text-xs font-semibold ${
-                  crypto.change24h >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                <div className={`flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded ${
+                  crypto.change24h >= 0 ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'
                 }`}>
                   {crypto.change24h >= 0 ? (
                     <TrendingUp className="w-3 h-3" />
@@ -57,7 +57,7 @@ export default function PriceTicker() {
                 </div>
               </div>
               {index < prices.length - 1 && (
-                <div className="w-px h-8 bg-gray-300 dark:bg-gray-800" />
+                <div className="w-px h-8 bg-gray-600/50" />
               )}
             </div>
           ))}

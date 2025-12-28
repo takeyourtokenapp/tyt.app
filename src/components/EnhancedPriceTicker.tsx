@@ -153,7 +153,7 @@ export default function EnhancedPriceTicker() {
     };
 
     loadPrices();
-    const interval = setInterval(loadPrices, 60000);
+    const interval = setInterval(loadPrices, 180000);
 
     return () => clearInterval(interval);
   }, []);
@@ -163,14 +163,14 @@ export default function EnhancedPriceTicker() {
   const hasData = Object.keys(prices).length > 0;
 
   return (
-    <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 overflow-hidden relative">
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-white dark:bg-gray-900 px-2.5 py-1 rounded-md border border-green-200 dark:border-green-500/30">
-        <div className={`w-1.5 h-1.5 rounded-full ${hasData ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
-        <span className={`text-xs font-medium ${hasData ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+    <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-amber-500/20 overflow-hidden relative shadow-lg">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-green-400/30 shadow-lg shadow-green-500/20">
+        <div className={`w-2 h-2 rounded-full ${hasData ? 'bg-green-400 animate-pulse shadow-sm shadow-green-400' : 'bg-gray-400'}`}></div>
+        <span className={`text-xs font-bold ${hasData ? 'text-green-400' : 'text-gray-400'}`}>
           {isLoading ? 'Loading...' : 'LIVE'}
         </span>
         {lastUpdate && (
-          <span className="text-[10px] text-gray-400 dark:text-gray-500">
+          <span className="text-[10px] text-gray-400">
             {lastUpdate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
@@ -182,7 +182,7 @@ export default function EnhancedPriceTicker() {
         onMouseLeave={() => setIsPaused(false)}
       >
         <div
-          className={`flex gap-3 py-2 pl-24 ${isPaused ? '' : 'animate-scroll'}`}
+          className={`flex gap-4 py-3 pl-28 ${isPaused ? '' : 'animate-scroll'}`}
         >
           {duplicatedAssets.map((asset, idx) => {
             const priceData = prices[asset.symbol] || { price: 0, change24h: 0, volume24h: 0 };
@@ -191,33 +191,33 @@ export default function EnhancedPriceTicker() {
             return (
               <div
                 key={`${asset.symbol}-${idx}`}
-                className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700/30 whitespace-nowrap hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-colors"
+                className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 hover:border-amber-500/40 whitespace-nowrap hover:bg-gray-800 transition-all shadow-sm hover:shadow-md hover:shadow-amber-500/10"
               >
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${asset.color} bg-gray-100 dark:bg-gray-900/50 border border-gray-200 dark:border-current/10`}>
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${asset.color} bg-gray-900/80 border-2 border-current/20 shadow-inner`}>
                   {asset.IconComponent ? (
-                    <asset.IconComponent size={14} />
+                    <asset.IconComponent size={16} />
                   ) : (
-                    <span className="text-sm">{asset.emoji}</span>
+                    <span className="text-base">{asset.emoji}</span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-white text-xs">{asset.symbol}</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="font-bold text-white text-sm tracking-wide">{asset.symbol}</span>
 
-                  <div className="h-4 w-px bg-gray-700/50" />
+                  <div className="h-5 w-px bg-gray-600/50" />
 
-                  <span className="font-semibold text-white text-xs">
+                  <span className="font-bold text-white text-sm">
                     ${priceData.price.toLocaleString(undefined, {
                       minimumFractionDigits: asset.symbol === 'BTC' || asset.symbol === 'ETH' ? 0 : 2,
                       maximumFractionDigits: asset.symbol === 'USDT' || asset.symbol === 'USDC' ? 2 : asset.symbol === 'TYT' ? 4 : 2
                     })}
                   </span>
 
-                  <div className={`text-[10px] font-medium flex items-center gap-0.5 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-xs font-bold flex items-center gap-1 px-2 py-0.5 rounded ${isPositive ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'}`}>
                     {isPositive ? (
-                      <TrendingUp size={9} />
+                      <TrendingUp size={12} />
                     ) : (
-                      <TrendingDown size={9} />
+                      <TrendingDown size={12} />
                     )}
                     {isPositive ? '+' : ''}{priceData.change24h.toFixed(2)}%
                   </div>
