@@ -1,6 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   plugins: [
@@ -11,25 +15,26 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      'react/jsx-runtime': path.resolve(__dirname, 'node_modules/react/jsx-runtime.js'),
-      'react/jsx-dev-runtime': path.resolve(__dirname, 'node_modules/react/jsx-dev-runtime.js')
+      '@': resolve(__dirname, './src')
     }
   },
   optimizeDeps: {
-    exclude: ['lucide-react'],
-    include: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
-    esbuildOptions: {
-      jsx: 'automatic'
-    }
+    exclude: ['lucide-react']
   },
   define: {
     global: 'globalThis'
   },
-  server: {
-    hmr: {
-      overlay: true
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'supabase': ['@supabase/supabase-js'],
+          'web3': ['wagmi', 'viem', '@wagmi/core', '@wagmi/connectors'],
+          'i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector', 'i18next-http-backend']
+        }
+      }
     },
-    force: true
+    chunkSizeWarningLimit: 1000
   }
 });
