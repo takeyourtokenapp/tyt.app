@@ -53,12 +53,40 @@ export default function Landing() {
     <div className="bg-white dark:bg-gray-900 scroll-smooth">
 
       <motion.section
-        className="relative py-16 md:py-24 overflow-hidden"
+        className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Animated background particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-20 left-10 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, 50, 0],
+              y: [0, 30, 0]
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-10 w-80 h-80 bg-purple-400/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, -30, 0],
+              y: [0, 50, 0]
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div className="space-y-6" variants={fadeInUp}>
               <motion.div
@@ -122,40 +150,81 @@ export default function Landing() {
               </motion.div>
             </motion.div>
 
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-3xl"></div>
-              <div className="relative tyt-card p-8 shadow-2xl">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="col-span-2 flex items-center justify-center py-8">
-                    <BitcoinIcon size={120} />
-                  </div>
-                  <StatCard
-                    icon={<TrendingUp className="w-6 h-6" />}
-                    label="Daily Rewards"
-                    value="0.00045 BTC"
-                    color="green"
+            <motion.div
+              className="relative"
+              variants={fadeInUp}
+            >
+              {/* Background gradient glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
+
+              {/* Aoi Character with floating Bitcoin */}
+              <div className="relative">
+                <div className="relative z-10 flex items-center justify-center">
+                  {/* Aoi Image */}
+                  <motion.img
+                    src="/aoi/chatgpt_image_25_дек._2025_г.,_16_19_13.png"
+                    alt="Aoi - TYT AI Assistant"
+                    className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                   />
-                  <StatCard
-                    icon={<Cpu className="w-6 h-6" />}
-                    label="Total Power"
-                    value="250 TH/s"
-                    color="blue"
-                  />
-                  <StatCard
-                    icon={<Users className="w-6 h-6" />}
-                    label="Active Miners"
-                    value="5,247"
-                    color="purple"
-                  />
-                  <StatCard
-                    icon={<Heart className="w-6 h-6" />}
-                    label="Donated"
-                    value="$256K"
-                    color="pink"
-                  />
+
+                  {/* Floating Bitcoin coin */}
+                  <motion.div
+                    className="absolute top-8 right-8"
+                    animate={{
+                      y: [0, -20, 0],
+                      rotate: [0, 10, 0, -10, 0]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <BitcoinIcon size={80} />
+                  </motion.div>
                 </div>
+
+                {/* Stats card overlay */}
+                <motion.div
+                  className="relative -mt-12 mx-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <div className="tyt-card p-6 shadow-2xl backdrop-blur-sm bg-white/95 dark:bg-gray-800/95">
+                    <div className="grid grid-cols-2 gap-4">
+                      <StatCard
+                        icon={<TrendingUp className="w-5 h-5" />}
+                        label="Daily Rewards"
+                        value="0.00045 BTC"
+                        color="green"
+                      />
+                      <StatCard
+                        icon={<Cpu className="w-5 h-5" />}
+                        label="Total Power"
+                        value="250 TH/s"
+                        color="blue"
+                      />
+                      <StatCard
+                        icon={<Users className="w-5 h-5" />}
+                        label="Active Miners"
+                        value="5,247"
+                        color="purple"
+                      />
+                      <StatCard
+                        icon={<Heart className="w-5 h-5" />}
+                        label="Donated"
+                        value="$256K"
+                        color="pink"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </motion.section>
@@ -206,9 +275,19 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="how-it-works" className="tyt-section">
+      <section id="how-it-works" className="tyt-section bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="tyt-container">
           <div className="text-center mb-16">
+            <motion.div
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-full mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Zap className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-blue-700 dark:text-blue-400 font-medium text-sm">Simple Process</span>
+            </motion.div>
+
             <h2 className="tyt-heading-2 mb-4">
               How It Works
             </h2>
@@ -217,7 +296,10 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative">
+            {/* Connection lines between steps (desktop only) */}
+            <div className="hidden lg:block absolute top-16 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 dark:from-blue-800 dark:via-purple-800 dark:to-pink-800" style={{ top: '4rem' }}></div>
+
             <StepCard
               number="1"
               title="Create Account"
@@ -369,8 +451,14 @@ export default function Landing() {
 
       <section id="foundation" className="tyt-section">
         <div className="tyt-container">
-          <div className="bg-pink-50 dark:bg-pink-900/20 border-2 border-pink-200 dark:border-pink-800 rounded-2xl p-12">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-pink-900/20 dark:via-purple-900/20 dark:to-blue-900/20 border-2 border-pink-200 dark:border-pink-800 rounded-2xl p-8 md:p-12 relative overflow-hidden">
+            {/* Background particles effect */}
+            <div className="absolute inset-0 opacity-30">
+              <div className="absolute top-10 left-10 w-32 h-32 bg-pink-400/20 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-400/20 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-12 items-center relative z-10">
               <div>
                 <div className="flex items-center gap-3 mb-6">
                   <HeartIcon size={60} />
@@ -454,22 +542,102 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="tyt-section">
-        <div className="tyt-container-narrow text-center">
-          <h2 className="tyt-heading-2 mb-6">
-            Ready to Start Mining?
-          </h2>
-          <p className="text-xl tyt-text-secondary mb-8 max-w-2xl mx-auto">
-            Join thousands of miners earning Bitcoin daily while making a real difference
-            in children's lives.
-          </p>
-          <Link
-            to="/signup"
-            className="tyt-btn-primary text-lg px-8 py-4"
-          >
-            Get Started for Free
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+      <section className="tyt-section relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10"></div>
+
+        <div className="tyt-container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Aoi presenting */}
+            <motion.div
+              className="relative order-2 lg:order-1"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative">
+                <motion.img
+                  src="/aoi/image.png"
+                  alt="Aoi - Join TYT"
+                  className="w-full max-w-sm mx-auto h-auto object-contain drop-shadow-2xl"
+                  animate={{
+                    y: [0, -10, 0]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+
+                {/* Floating elements */}
+                <motion.div
+                  className="absolute top-20 -right-8"
+                  animate={{
+                    y: [0, -15, 0],
+                    rotate: [0, 5, 0]
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <BitcoinIcon size={60} />
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Right side - CTA */}
+            <motion.div
+              className="text-center lg:text-left order-1 lg:order-2"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="tyt-heading-2 mb-6">
+                Ready to Start Mining?
+              </h2>
+              <p className="text-xl tyt-text-secondary mb-8 leading-relaxed">
+                Join thousands of miners earning Bitcoin daily while making a real difference
+                in children's lives.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                <Link
+                  to="/signup"
+                  className="tyt-btn-primary text-lg px-8 py-4"
+                >
+                  Get Started for Free
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  to="/about"
+                  className="tyt-btn-secondary text-lg px-8 py-4"
+                >
+                  Learn More
+                </Link>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <span className="text-sm tyt-text-secondary font-medium">Enterprise Security</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm tyt-text-secondary font-medium">Instant Setup</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+                  <span className="text-sm tyt-text-secondary font-medium">Impact Driven</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>
@@ -519,14 +687,20 @@ function StepCard({ number, title, description, icon }: { number: string; title:
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: parseInt(number) * 0.1 }}
+      whileHover={{ y: -5 }}
     >
-      <div className="tyt-card p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
-        <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+      <div className="tyt-card p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-xl relative overflow-hidden">
+        {/* Hover gradient effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+
+        <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg z-10">
           {number}
         </div>
-        <div className="text-blue-600 dark:text-blue-400 mb-4">{icon}</div>
-        <h3 className="tyt-heading-4 mb-3">{title}</h3>
-        <p className="tyt-text-secondary">{description}</p>
+        <div className="relative z-10">
+          <div className="text-blue-600 dark:text-blue-400 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg w-fit">{icon}</div>
+          <h3 className="tyt-heading-4 mb-3">{title}</h3>
+          <p className="tyt-text-secondary">{description}</p>
+        </div>
       </div>
     </motion.div>
   );
