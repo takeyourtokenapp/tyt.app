@@ -157,20 +157,21 @@ export default function Landing() {
               {/* Background gradient glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
 
-              {/* Aoi Character with floating Bitcoin */}
+              {/* Hero Visual */}
               <div className="relative">
-                <div className="relative z-10 flex items-center justify-center">
-                  {/* Aoi Image */}
-                  <motion.img
-                    src="/aoi/chatgpt_image_25_дек._2025_г.,_16_19_13.png"
-                    alt="Aoi - TYT AI Assistant"
-                    className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                <div className="relative z-10 flex items-center justify-center py-12">
+                  {/* Central Bitcoin Icon with glow */}
+                  <motion.div
+                    className="relative"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-amber-400/30 rounded-full blur-3xl"></div>
+                    <BitcoinIcon size={200} />
+                  </motion.div>
 
-                  {/* Floating Bitcoin coin */}
+                  {/* Floating small Bitcoin coins */}
                   <motion.div
                     className="absolute top-8 right-8"
                     animate={{
@@ -183,7 +184,22 @@ export default function Landing() {
                       ease: "easeInOut"
                     }}
                   >
-                    <BitcoinIcon size={80} />
+                    <BitcoinIcon size={60} />
+                  </motion.div>
+
+                  <motion.div
+                    className="absolute bottom-8 left-8"
+                    animate={{
+                      y: [0, -15, 0],
+                      rotate: [0, -10, 0, 10, 0]
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <BitcoinIcon size={50} />
                   </motion.div>
                 </div>
 
@@ -548,7 +564,7 @@ export default function Landing() {
 
         <div className="tyt-container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left side - Aoi presenting */}
+            {/* Left side - Visual Elements */}
             <motion.div
               className="relative order-2 lg:order-1"
               initial={{ opacity: 0, x: -50 }}
@@ -556,11 +572,10 @@ export default function Landing() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative">
-                <motion.img
-                  src="/aoi/image.png"
-                  alt="Aoi - Join TYT"
-                  className="w-full max-w-sm mx-auto h-auto object-contain drop-shadow-2xl"
+              <div className="relative flex items-center justify-center">
+                {/* Central icon cluster */}
+                <motion.div
+                  className="relative"
                   animate={{
                     y: [0, -10, 0]
                   }}
@@ -569,11 +584,28 @@ export default function Landing() {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                />
+                >
+                  <div className="tyt-card p-12 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
+                    <div className="flex flex-col items-center gap-8">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-amber-400/30 rounded-full blur-2xl"></div>
+                        <BitcoinIcon size={120} />
+                      </div>
+                      <div className="flex gap-6">
+                        <MiningIcon size={60} />
+                        <HeartIcon size={60} />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold tyt-text-primary mb-2">Start Mining Today</p>
+                        <p className="tyt-text-secondary">Join the movement</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
 
-                {/* Floating elements */}
+                {/* Floating Bitcoin */}
                 <motion.div
-                  className="absolute top-20 -right-8"
+                  className="absolute top-8 -right-8"
                   animate={{
                     y: [0, -15, 0],
                     rotate: [0, 5, 0]
