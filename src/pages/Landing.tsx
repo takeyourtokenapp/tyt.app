@@ -157,88 +157,130 @@ export default function Landing() {
               {/* Background gradient glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
 
-              {/* Hero Visual */}
+              {/* Hero Visual with Aoi */}
               <div className="relative">
-                <div className="relative z-10 flex items-center justify-center py-12">
-                  {/* Central Bitcoin Icon with glow */}
+                <div className="relative z-10 flex items-center justify-center">
+                  {/* Aoi Character */}
                   <motion.div
                     className="relative"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                   >
-                    <div className="absolute inset-0 bg-amber-400/30 rounded-full blur-3xl"></div>
-                    <BitcoinIcon size={200} />
+                    <motion.img
+                      src="/aoi/16ae90c7-ef97-4f9e-ab0a-ad626b0ca37d.png"
+                      alt="Aoi AI Guide"
+                      className="w-full max-w-md h-auto object-contain"
+                      animate={{
+                        y: [0, -10, 0]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
                   </motion.div>
 
-                  {/* Floating small Bitcoin coins */}
+                  {/* Floating Bitcoin */}
                   <motion.div
-                    className="absolute top-8 right-8"
+                    className="absolute top-12 right-8"
                     animate={{
                       y: [0, -20, 0],
-                      rotate: [0, 10, 0, -10, 0]
+                      rotate: [0, 360]
                     }}
                     transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
+                      y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 8, repeat: Infinity, ease: "linear" }
                     }}
                   >
-                    <BitcoinIcon size={60} />
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-amber-400/40 rounded-full blur-xl"></div>
+                      <BitcoinIcon size={80} />
+                    </div>
+                  </motion.div>
+
+                  {/* Floating Stats Cards */}
+                  <motion.div
+                    className="absolute top-16 left-0"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                  >
+                    <motion.div
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-green-200 dark:border-green-800 rounded-xl p-4 shadow-xl">
+                        <div className="flex items-center gap-2 mb-1">
+                          <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
+                          <span className="text-xs tyt-text-tertiary">Daily Rewards</span>
+                        </div>
+                        <p className="text-lg font-bold text-green-600 dark:text-green-400">0.00045 BTC</p>
+                      </div>
+                    </motion.div>
                   </motion.div>
 
                   <motion.div
-                    className="absolute bottom-8 left-8"
-                    animate={{
-                      y: [0, -15, 0],
-                      rotate: [0, -10, 0, 10, 0]
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
+                    className="absolute top-40 -left-8"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
                   >
-                    <BitcoinIcon size={50} />
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                    >
+                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-blue-200 dark:border-blue-800 rounded-xl p-4 shadow-xl">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Cpu className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          <span className="text-xs tyt-text-tertiary">Total Power</span>
+                        </div>
+                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">250 TH/s</p>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div
+                    className="absolute bottom-32 left-8"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                  >
+                    <motion.div
+                      animate={{ y: [0, -12, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                    >
+                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-purple-200 dark:border-purple-800 rounded-xl p-4 shadow-xl">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                          <span className="text-xs tyt-text-tertiary">Active Miners</span>
+                        </div>
+                        <p className="text-lg font-bold text-purple-600 dark:text-purple-400">5,247</p>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div
+                    className="absolute bottom-12 -right-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                  >
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                    >
+                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-pink-200 dark:border-pink-800 rounded-xl p-4 shadow-xl">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Heart className="w-4 h-4 text-pink-600 dark:text-pink-400" />
+                          <span className="text-xs tyt-text-tertiary">Donated</span>
+                        </div>
+                        <p className="text-lg font-bold text-pink-600 dark:text-pink-400">$256K</p>
+                      </div>
+                    </motion.div>
                   </motion.div>
                 </div>
-
-                {/* Stats card overlay */}
-                <motion.div
-                  className="relative -mt-12 mx-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <div className="tyt-card p-6 shadow-2xl backdrop-blur-sm bg-white/95 dark:bg-gray-800/95">
-                    <div className="grid grid-cols-2 gap-4">
-                      <StatCard
-                        icon={<TrendingUp className="w-5 h-5" />}
-                        label="Daily Rewards"
-                        value="0.00045 BTC"
-                        color="green"
-                      />
-                      <StatCard
-                        icon={<Cpu className="w-5 h-5" />}
-                        label="Total Power"
-                        value="250 TH/s"
-                        color="blue"
-                      />
-                      <StatCard
-                        icon={<Users className="w-5 h-5" />}
-                        label="Active Miners"
-                        value="5,247"
-                        color="purple"
-                      />
-                      <StatCard
-                        icon={<Heart className="w-5 h-5" />}
-                        label="Donated"
-                        value="$256K"
-                        color="pink"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -672,25 +714,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
-  const colors: any = {
-    green: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400',
-    blue: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400',
-    purple: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400',
-    pink: 'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800 text-pink-600 dark:text-pink-400'
-  };
-
-  return (
-    <div className={`${colors[color]} border-2 rounded-xl p-4 transition-all hover:scale-105`}>
-      <div className="flex items-center gap-2 mb-2">
-        {icon}
-        <span className="text-xs tyt-text-tertiary">{label}</span>
-      </div>
-      <p className="text-xl font-bold">{value}</p>
     </div>
   );
 }
