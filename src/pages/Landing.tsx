@@ -157,10 +157,10 @@ export default function Landing() {
               {/* Background gradient glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
 
-              {/* Hero Visual with Aoi */}
+              {/* Hero Visual with aOi */}
               <div className="relative">
                 <div className="relative z-10 flex items-center justify-center">
-                  {/* Aoi Character */}
+                  {/* aOi Character */}
                   <motion.div
                     className="relative"
                     initial={{ opacity: 0, x: 50 }}
@@ -180,7 +180,7 @@ export default function Landing() {
                     >
                       <img
                         src="/aoi/image copy copy copy.png"
-                        alt="Aoi - Your AI Mining Guide"
+                        alt="aOi - Your AI Mining Guide"
                         className="w-full h-auto object-contain drop-shadow-2xl max-h-[600px]"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
@@ -192,7 +192,7 @@ export default function Landing() {
                             fallback.innerHTML = `
                               <div class="text-center text-white p-8">
                                 <div class="text-6xl mb-4">🦉</div>
-                                <div class="text-2xl font-bold mb-2">Aoi AI Assistant</div>
+                                <div class="text-2xl font-bold mb-2">aOi AI Assistant</div>
                                 <div class="text-sm opacity-80">Your intelligent guide to TYT Platform</div>
                               </div>
                             `;
@@ -203,7 +203,7 @@ export default function Landing() {
                     </motion.div>
                   </motion.div>
 
-                  {/* Orbital Crypto Coins - Circling Around Aoi */}
+                  {/* Orbital Crypto Coins - Circling Around aOi */}
 
                   {/* Inner Orbit - Fast (20s) */}
 
@@ -576,7 +576,7 @@ export default function Landing() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Aoi Character Display */}
+            {/* aOi Character Display */}
             <motion.div
               className="relative order-2 lg:order-1"
               initial={{ opacity: 0, x: -50 }}
@@ -585,7 +585,7 @@ export default function Landing() {
               transition={{ duration: 0.8 }}
             >
               <div className="relative">
-                {/* Glow effect behind Aoi */}
+                {/* Glow effect behind aOi */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
 
                 <motion.div
@@ -600,8 +600,8 @@ export default function Landing() {
                   }}
                 >
                   <img
-                    src="/aoi/image copy copy copy.png"
-                    alt="Aoi AI Assistant"
+                    src="/aoi/aoi-welcome.png"
+                    alt="aOi AI Assistant"
                     className="w-full h-auto object-contain drop-shadow-2xl max-h-[700px] mx-auto"
                   />
                 </motion.div>
@@ -649,7 +649,7 @@ export default function Landing() {
               </div>
             </motion.div>
 
-            {/* Aoi Info & Features */}
+            {/* aOi Info & Features */}
             <motion.div
               className="space-y-6 order-1 lg:order-2"
               initial={{ opacity: 0, x: 50 }}
