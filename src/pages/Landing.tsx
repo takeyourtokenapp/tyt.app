@@ -600,7 +600,7 @@ export default function Landing() {
                   }}
                 >
                   <img
-                    src="/aoi/aoi-welcome.png"
+                    src="/aoi/image copy copy copy copy copy copy copy.png"
                     alt="aOi AI Assistant"
                     className="w-full h-auto object-contain drop-shadow-2xl max-h-[700px] mx-auto"
                   />
