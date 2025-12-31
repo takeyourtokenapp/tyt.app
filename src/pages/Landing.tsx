@@ -179,11 +179,10 @@ export default function Landing() {
                       }}
                     >
                       <img
-                        src="/generated-image_(3).png"
-                        alt="Aoi AI Guide"
-                        className="w-full h-auto object-contain drop-shadow-2xl"
+                        src="/aoi/image copy copy copy.png"
+                        alt="Aoi - Your AI Mining Guide"
+                        className="w-full h-auto object-contain drop-shadow-2xl max-h-[600px]"
                         onError={(e) => {
-                          // Fallback: Show gradient placeholder with text if image fails
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
                           const parent = target.parentElement;
@@ -308,6 +307,251 @@ export default function Landing() {
           </div>
         </div>
       </motion.section>
+
+      <section id="meet-aoi" className="tyt-section relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        {/* Background gradient effects */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-20 right-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, -50, 0],
+              y: [0, 30, 0]
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, 50, 0],
+              y: [0, -30, 0]
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="tyt-container relative z-10">
+          <div className="text-center mb-12">
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <span className="text-blue-700 dark:text-blue-400 font-semibold">Meet Your AI Guide</span>
+            </motion.div>
+            <h2 className="tyt-heading-2 mb-4">
+              Introducing Aoi
+            </h2>
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
+              Your intelligent companion on the TYT platform - here to guide, educate, and support your journey
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Aoi Character Display */}
+            <motion.div
+              className="relative order-2 lg:order-1"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                {/* Glow effect behind Aoi */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
+
+                <motion.div
+                  className="relative z-10"
+                  animate={{
+                    y: [0, -15, 0]
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <img
+                    src="/aoi/image copy copy copy.png"
+                    alt="Aoi AI Assistant"
+                    className="w-full h-auto object-contain drop-shadow-2xl max-h-[700px] mx-auto"
+                  />
+                </motion.div>
+
+                {/* Floating info badges */}
+                <motion.div
+                  className="absolute top-12 -left-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-blue-200 dark:border-blue-700 rounded-xl p-4 shadow-xl">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <span className="text-sm font-semibold tyt-text-primary">AI-Powered</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-24 -right-4"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-purple-200 dark:border-purple-700 rounded-xl p-4 shadow-xl">
+                      <div className="flex items-center gap-2">
+                        <Heart className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                        <span className="text-sm font-semibold tyt-text-primary">24/7 Support</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Aoi Info & Features */}
+            <motion.div
+              className="space-y-6 order-1 lg:order-2"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="space-y-4">
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Your Personal AI Mining Guide
+                </h3>
+                <p className="text-lg tyt-text-secondary leading-relaxed">
+                  Aoi is your intelligent assistant, powered by advanced AI to help you navigate the world of
+                  Bitcoin mining, learn blockchain technology, and maximize your earnings on the TYT platform.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl">
+                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                    <Cpu className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Mining Optimization</h4>
+                    <p className="text-sm tyt-text-secondary">Get personalized tips to maximize your mining performance and ROI</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl">
+                  <div className="flex-shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                    <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Academy Guidance</h4>
+                    <p className="text-sm tyt-text-secondary">Learn blockchain, crypto, and Web3 with interactive lessons and quizzes</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl">
+                  <div className="flex-shrink-0 w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                    <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Mission Support</h4>
+                    <p className="text-sm tyt-text-secondary">Learn how your mining supports children's brain cancer research</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl">
+                  <div className="flex-shrink-0 w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Instant Answers</h4>
+                    <p className="text-sm tyt-text-secondary">Get help anytime with questions about mining, tokens, or platform features</p>
+                  </div>
+                </div>
+              </div>
+
+              <motion.div
+                className="pt-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6 }}
+              >
+                <Link
+                  to="/signup"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+                >
+                  Start Your Journey with Aoi
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Evolution Stages Preview */}
+          <motion.div
+            className="mt-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                Aoi Evolves With You
+              </h3>
+              <p className="tyt-text-secondary">
+                As you learn and grow on the platform, Aoi's appearance and abilities evolve too
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { level: 1, name: 'Beginner', xp: '0 XP', color: 'from-blue-500 to-cyan-500' },
+                { level: 2, name: 'Explorer', xp: '100 XP', color: 'from-purple-500 to-pink-500' },
+                { level: 3, name: 'Builder', xp: '500 XP', color: 'from-amber-500 to-orange-500' },
+                { level: 4, name: 'Master', xp: '1,500 XP', color: 'from-pink-500 to-rose-500' }
+              ].map((stage, idx) => (
+                <motion.div
+                  key={stage.level}
+                  className="tyt-card p-6 text-center hover:shadow-xl transition-all"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className={`w-12 h-12 mx-auto mb-3 bg-gradient-to-br ${stage.color} rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
+                    {stage.level}
+                  </div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{stage.name}</h4>
+                  <p className="text-sm tyt-text-tertiary">{stage.xp}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       <section id="features" className="tyt-section-alt">
         <div className="tyt-container">
