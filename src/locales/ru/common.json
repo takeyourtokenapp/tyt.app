@@ -311,7 +311,9 @@
       "dailyReward": "Дневная награда",
       "efficiency": "Эффективность",
       "efficiencyNote": "Средняя эффективность W/TH",
-      "maintenanceNote": "Для скидок на обслуживание"
+      "maintenanceNote": "Для скидок на обслуживание",
+      "miner": "активный майнер",
+      "miners": "активных майнеров"
     },
     "serviceButton": {
       "title": "Кнопка сервиса",

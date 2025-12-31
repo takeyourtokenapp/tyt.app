@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -26,6 +27,7 @@ import NetworkStatsWidget from '../../components/NetworkStatsWidget';
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [wallets, setWallets] = useState<CustodialWallet[]>([]);
   const [miners, setMiners] = useState<NFTMiner[]>([]);
   const [recentRewards, setRecentRewards] = useState<DailyReward[]>([]);
@@ -172,7 +174,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center h-64">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-3 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-gray-400 text-lg">Loading dashboard...</div>
+          <div className="text-gray-400 text-lg">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -183,10 +185,10 @@ export default function Dashboard() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
-            Dashboard
+            {t('dashboard.title')}
           </h1>
           <p className="text-gray-400">
-            Welcome back, <span className="text-white font-semibold">{user?.email?.split('@')[0]}</span>
+            {t('dashboard.welcome', { username: user?.email?.split('@')[0] || 'User' })}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -194,7 +196,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-500/30">
               <Crown className="w-5 h-5 text-amber-400" />
               <div>
-                <div className="text-xs text-gray-400">VIP Level</div>
+                <div className="text-xs text-gray-400">{t('dashboard.vipLevel')}</div>
                 <div className="font-bold text-amber-400">{vipLevel.level}</div>
               </div>
             </div>
@@ -205,7 +207,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="tyt-text-secondary text-sm font-medium">BTC Balance</div>
+            <div className="tyt-text-secondary text-sm font-medium">{t('dashboard.balances.btc')}</div>
             <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
               <Wallet className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
@@ -220,7 +222,7 @@ export default function Dashboard() {
 
         <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="tyt-text-secondary text-sm font-medium">TYT Balance</div>
+            <div className="tyt-text-secondary text-sm font-medium">{t('dashboard.balances.tyt')}</div>
             <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
               <Flame className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
@@ -229,13 +231,13 @@ export default function Dashboard() {
             {parseFloat(wallets.find(w => w.asset === 'TYT')?.balance || '0').toFixed(0)}
           </div>
           <div className="text-xs tyt-text-tertiary">
-            For maintenance discounts
+            {t('dashboard.stats.maintenanceNote')}
           </div>
         </div>
 
         <div className="tyt-card p-6 hover:border-amber-500 dark:hover:border-amber-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="tyt-text-secondary text-sm font-medium">Total Hashrate</div>
+            <div className="tyt-text-secondary text-sm font-medium">{t('dashboard.stats.totalHashrate')}</div>
             <div className="p-2 bg-amber-100 dark:bg-amber-500/10 rounded-lg">
               <Cpu className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </div>
@@ -244,13 +246,13 @@ export default function Dashboard() {
             {totalHashrate.toFixed(2)}
           </div>
           <div className="text-xs tyt-text-tertiary">
-            {miners.length} active miner{miners.length !== 1 ? 's' : ''}
+            {miners.length} {miners.length !== 1 ? t('dashboard.stats.miners') : t('dashboard.stats.miner')}
           </div>
         </div>
 
         <div className="tyt-card p-6 hover:border-green-500 dark:hover:border-green-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="tyt-text-secondary text-sm font-medium">Daily Reward</div>
+            <div className="tyt-text-secondary text-sm font-medium">{t('dashboard.stats.dailyReward')}</div>
             <div className="p-2 bg-green-100 dark:bg-green-500/10 rounded-lg">
               <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
@@ -265,7 +267,7 @@ export default function Dashboard() {
 
         <div className="tyt-card p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="tyt-text-secondary text-sm font-medium">Efficiency</div>
+            <div className="tyt-text-secondary text-sm font-medium">{t('dashboard.stats.efficiency')}</div>
             <div className="p-2 bg-blue-100 dark:bg-blue-500/10 rounded-lg">
               <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
@@ -274,7 +276,7 @@ export default function Dashboard() {
             {avgEfficiency.toFixed(1)}
           </div>
           <div className="text-xs tyt-text-tertiary">
-            W/TH avg efficiency
+            {t('dashboard.stats.efficiencyNote')}
           </div>
         </div>
       </div>
@@ -288,12 +290,12 @@ export default function Dashboard() {
                   <Zap className="w-6 h-6 text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">Service Button</h3>
-                  <p className="text-sm text-gray-400">Press daily to earn {vipLevel ? parseFloat(vipLevel.service_button_reward) : 10} TYT</p>
+                  <h3 className="text-xl font-bold">{t('dashboard.serviceButton.title')}</h3>
+                  <p className="text-sm text-gray-400">{t('dashboard.serviceButton.pressTo', { amount: vipLevel ? parseFloat(vipLevel.service_button_reward) : 10 })}</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-gray-400">Total Presses</div>
+                <div className="text-xs text-gray-400">{t('dashboard.serviceButton.totalPresses')}</div>
                 <div className="text-2xl font-bold text-amber-400">{profile.service_button_presses || 0}</div>
               </div>
             </div>
@@ -310,17 +312,17 @@ export default function Dashboard() {
               {pressingService ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing...
+                  {t('dashboard.serviceButton.processing')}
                 </span>
               ) : serviceButtonCooldown > 0 ? (
                 <span className="flex items-center justify-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  Available in {formatCooldown(serviceButtonCooldown)}
+                  {t('dashboard.serviceButton.availableIn', { time: formatCooldown(serviceButtonCooldown) })}
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-2">
                   <Zap className="w-6 h-6" />
-                  Press Now to Earn TYT
+                  {t('dashboard.serviceButton.pressNow')}
                 </span>
               )}
             </button>
@@ -425,13 +427,13 @@ export default function Dashboard() {
               <div className="p-2 bg-green-100 dark:bg-green-500/10 rounded-lg">
                 <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-xl font-bold tyt-text-primary">Recent Rewards</h2>
+              <h2 className="text-xl font-bold tyt-text-primary">{t('dashboard.recentRewards')}</h2>
             </div>
             <Link
               to="/app/rewards"
               className="text-sm text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300 flex items-center gap-1"
             >
-              View All
+              {t('common.view')} {t('common.all')}
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -479,13 +481,13 @@ export default function Dashboard() {
               <div className="p-2 bg-amber-500/10 rounded-lg">
                 <Cpu className="w-5 h-5 text-amber-400" />
               </div>
-              <h2 className="text-xl font-bold">My Miners</h2>
+              <h2 className="text-xl font-bold">{t('dashboard.myMiners')}</h2>
             </div>
             <Link
               to="/app/miners"
               className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1"
             >
-              Manage All
+              {t('dashboard.manageAll')}
               <ArrowRight size={16} />
             </Link>
           </div>

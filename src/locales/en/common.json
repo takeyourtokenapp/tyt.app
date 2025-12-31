@@ -311,7 +311,9 @@
       "dailyReward": "Daily Reward",
       "efficiency": "Efficiency",
       "efficiencyNote": "W/TH avg efficiency",
-      "maintenanceNote": "For maintenance discounts"
+      "maintenanceNote": "For maintenance discounts",
+      "miner": "active miner",
+      "miners": "active miners"
     },
     "serviceButton": {
       "title": "Service Button",
