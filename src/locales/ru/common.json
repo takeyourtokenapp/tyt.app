@@ -297,5 +297,451 @@
     "dark": "Темная",
     "auto": "Авто",
     "toggle": "Переключить тему"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "welcome": "С возвращением, {{username}}",
+    "vipLevel": "VIP Уровень",
+    "balances": {
+      "btc": "BTC Баланс",
+      "tyt": "TYT Баланс"
+    },
+    "stats": {
+      "totalHashrate": "Общий хешрейт",
+      "dailyReward": "Дневная награда",
+      "efficiency": "Эффективность",
+      "efficiencyNote": "Средняя эффективность W/TH",
+      "maintenanceNote": "Для скидок на обслуживание"
+    },
+    "serviceButton": {
+      "title": "Кнопка сервиса",
+      "pressTo": "Нажимайте ежедневно для получения {{amount}} TYT",
+      "totalPresses": "Всего нажатий",
+      "processing": "Обработка...",
+      "availableIn": "Доступно через {{time}}",
+      "pressNow": "Нажать и заработать TYT"
+    },
+    "vipProgress": {
+      "title": "Прогресс VIP",
+      "progress": "Прогресс",
+      "currentBenefits": "Текущие преимущества",
+      "totalSpent": "Всего потрачено",
+      "viewAll": "Посмотреть все преимущества"
+    },
+    "startJourney": {
+      "title": "Начните свой путь в майнинге",
+      "description": "У вас пока нет активных майнеров. Купите свой первый NFT майнер, чтобы начать зарабатывать ежедневные Bitcoin вознаграждения.",
+      "browseMarketplace": "Перейти в маркетплейс",
+      "learnMore": "Узнать больше"
+    },
+    "recentRewards": "Недавние награды",
+    "myMiners": "Мои майнеры",
+    "manageAll": "Управлять всеми",
+    "quickActions": {
+      "title": "Быстрые действия",
+      "buyMiners": "Купить майнеры",
+      "learnEarn": "Учиться и зарабатывать",
+      "manageWallet": "Управление кошельком"
+    },
+    "accountOverview": {
+      "title": "Обзор аккаунта",
+      "memberSince": "Участник с",
+      "totalSpent": "Всего потрачено",
+      "referrals": "Рефералы",
+      "kycStatus": "Статус KYC"
+    },
+    "noRewards": "Наград пока нет",
+    "noMiners": "Майнеров пока нет"
+  },
+  "profile": {
+    "title": "Мой профиль",
+    "editProfile": "Редактировать профиль",
+    "verification": {
+      "status": "Статус верификации",
+      "kycLevel": "KYC Уровень",
+      "referralCode": "Реферальный код",
+      "notVerified": "Не верифицирован",
+      "tier1": "Уровень 1 верифицирован",
+      "tier2": "Уровень 2 верифицирован",
+      "tier3": "Уровень 3 верифицирован"
+    },
+    "activityStats": {
+      "title": "Статистика активности",
+      "totalDeposits": "Всего депозитов",
+      "totalWithdrawals": "Всего выводов",
+      "miningRewards": "Награды за майнинг",
+      "foundationContributions": "Вклад в фонд",
+      "maintenancePaid": "Оплачено обслуживание",
+      "nftPurchases": "Покупки NFT",
+      "nftSales": "Продажи NFT",
+      "netProfit": "Чистая прибыль"
+    },
+    "security": {
+      "title": "Безопасность и конфиденциальность",
+      "twoFactor": "Двухфакторная аутентификация",
+      "changePassword": "Сменить пароль",
+      "downloadData": "Скачать ваши данные",
+      "deleteAccount": "Удалить аккаунт"
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "subtitle": "Управление аккаунтом и предпочтениями",
+    "tabs": {
+      "account": "Аккаунт",
+      "security": "Безопасность",
+      "kyc": "KYC Верификация",
+      "notifications": "Уведомления"
+    },
+    "profileInfo": {
+      "title": "Информация профиля",
+      "username": "Имя пользователя",
+      "email": "Электронная почта",
+      "accountId": "ID аккаунта",
+      "emailNote": "Email нельзя изменить",
+      "saveChanges": "Сохранить изменения"
+    },
+    "securitySettings": {
+      "title": "Настройки безопасности",
+      "twoFactor": "Двухфакторная аутентификация",
+      "enable": "Включить",
+      "activeSessions": "Активные сессии",
+      "signOutAll": "Выйти на всех устройствах"
+    },
+    "notificationPrefs": {
+      "title": "Настройки уведомлений",
+      "email": "Email уведомления",
+      "push": "Push уведомления"
+    }
+  },
+  "kyc": {
+    "title": "KYC Верификация",
+    "subtitle": "Завершите верификацию личности для доступа ко всем функциям",
+    "status": {
+      "pending": "На рассмотрении",
+      "verified": "Верифицирован ✓",
+      "failed": "Верификация не пройдена",
+      "notStarted": "Не начато"
+    },
+    "uploadPrompt": "Загрузите четкое фото главной страницы вашего паспорта",
+    "rejectionReason": "Причина отклонения:",
+    "reupload": "Загрузить заново",
+    "uploadDocument": "Загрузить документ",
+    "requirements": {
+      "clear": "Все документы должны быть четкими и читаемыми",
+      "formats": "Принимаемые форматы: JPG, PNG, PDF",
+      "size": "Максимальный размер файла: 10MB"
+    },
+    "tiers": {
+      "tier1": "Уровень 1",
+      "tier2": "Уровень 2",
+      "tier3": "Уровень 3"
+    }
+  },
+  "miners": {
+    "title": "Мои майнеры",
+    "subtitle": "Управление NFT майнерами и обслуживанием",
+    "stats": {
+      "total": "Всего майнеров",
+      "totalHashrate": "Общий хешрейт",
+      "avgEfficiency": "Средняя эффективность",
+      "pendingInvoices": "Ожидающих счетов",
+      "active": "{{count}} активных"
+    },
+    "maintenance": {
+      "required": "Требуется обслуживание",
+      "description": "Оплатите, чтобы ваши майнеры продолжали работать и приносить награды."
+    },
+    "empty": {
+      "title": "Майнеров пока нет",
+      "description": "Купите свой первый NFT майнер, чтобы начать зарабатывать ежедневные BTC награды",
+      "browseMarketplace": "Перейти в маркетплейс"
+    }
+  },
+  "swap": {
+    "title": "Обмен токенов",
+    "subtitle": "Мгновенный обмен токенов в вашем кошельке",
+    "from": "Из",
+    "to": "В",
+    "balance": "Баланс:",
+    "max": "МАКС",
+    "swapping": "Обмен...",
+    "swapTokens": "Обменять токены",
+    "details": {
+      "exchangeRate": "Курс обмена:",
+      "swapFee": "Комиссия обмена:",
+      "slippageTolerance": "Допуск проскальзывания:",
+      "priceImpact": "Влияние на цену:",
+      "slippage": "Проскальзывание:"
+    },
+    "recentSwaps": "Недавние обмены",
+    "noSwaps": "Обменов пока нет"
+  },
+  "bridge": {
+    "title": "Межсетевой мост",
+    "subtitle": "Переводите активы между разными блокчейнами",
+    "fromNetwork": "Из сети",
+    "toNetwork": "В сеть",
+    "token": "Токен",
+    "amount": "Сумма",
+    "destinationAddress": "Адрес получателя в {{network}}",
+    "details": {
+      "bridgeFee": "Комиссия моста:",
+      "estimatedTime": "Расчетное время:",
+      "bridgeProvider": "Провайдер моста:",
+      "wormhole": "Wormhole"
+    },
+    "willReceive": "Вы получите:",
+    "bridgeAction": "Перевести {{token}}",
+    "transferHistory": "История переводов",
+    "showHistory": "Показать историю",
+    "hideHistory": "Скрыть историю",
+    "noTransfers": "Переводов пока нет"
+  },
+  "clans": {
+    "title": "Кланы и войны",
+    "subtitle": "Объединяйтесь и соревнуйтесь за славу и награды",
+    "searchPlaceholder": "Поиск кланов...",
+    "createClan": "Создать клан",
+    "tabs": {
+      "topClans": "Топ кланы",
+      "allClans": "Все кланы"
+    },
+    "stats": {
+      "members": "Участники",
+      "hashrate": "Хешрейт",
+      "wins": "Победы",
+      "wl": "П/П",
+      "btcWon": "Выиграно BTC",
+      "tytWon": "Выиграно TYT"
+    },
+    "minHashrate": "Минимальный требуемый хешрейт:",
+    "noClans": "Кланов не найдено",
+    "join": "Присоединиться"
+  },
+  "grants": {
+    "title": "Гранты фонда",
+    "subtitle": "Прозрачное финансирование исследований рака мозга у детей",
+    "stats": {
+      "totalGrants": "Всего грантов",
+      "totalFunding": "Всего финансирования",
+      "childrenHelped": "Детям помогли",
+      "activeGrants": "Активные гранты"
+    },
+    "filters": {
+      "all": "Все гранты",
+      "active": "Активные",
+      "completed": "Завершенные"
+    },
+    "grantInfo": {
+      "type": "Тип",
+      "approved": "Одобрен",
+      "childrenHelped": "Детям помогли"
+    },
+    "impactReport": "Отчет о влиянии",
+    "noGrants": "Грантов не найдено"
+  },
+  "quests": {
+    "title": "Квесты и миссии",
+    "subtitle": "Выполняйте квесты для получения XP и TYT наград",
+    "stats": {
+      "completed": "Квестов завершено",
+      "totalXp": "Всего получено XP",
+      "tytEarned": "Заработано TYT"
+    },
+    "filters": {
+      "all": "Все квесты",
+      "platform": "Платформа",
+      "social": "Социальные",
+      "education": "Обучение",
+      "community": "Сообщество"
+    },
+    "status": {
+      "completed": "Завершено!",
+      "start": "Начать квест",
+      "claim": "Забрать награды"
+    },
+    "noQuests": "Квестов пока нет"
+  },
+  "academy": {
+    "title": "Крипто Академия",
+    "subtitle": "Изучайте блокчейн технологии и получайте XP награды",
+    "tabs": {
+      "leaderboard": "Таблица лидеров",
+      "certificates": "Сертификаты",
+      "tracks": "Учебные треки",
+      "progress": "Прогресс и достижения"
+    },
+    "currentRank": {
+      "title": "Текущий ранг Совы",
+      "progressToNext": "Прогресс до следующего ранга",
+      "maxRank": "Максимальный ранг достигнут!"
+    },
+    "yourProgress": {
+      "title": "Ваш прогресс",
+      "tracksStarted": "Начато треков",
+      "lessonsCompleted": "Завершено уроков",
+      "completionRate": "Процент завершения"
+    },
+    "allRanks": {
+      "title": "Все ранги Совы",
+      "current": "Текущий"
+    },
+    "searchPlaceholder": "Поиск треков...",
+    "filters": {
+      "allLevels": "Все уровни",
+      "clearFilters": "Очистить фильтры"
+    },
+    "earnXp": {
+      "title": "Как заработать XP",
+      "completeLessons": "Завершайте уроки",
+      "passQuizzes": "Проходите тесты",
+      "completeTracks": "Завершайте треки"
+    },
+    "noTracks": "Треков не найдено",
+    "ranks": {
+      "worker": "Работник",
+      "academic": "Академик",
+      "diplomat": "Дипломат",
+      "peacekeeper": "Миротворец",
+      "warrior": "Воин"
+    }
+  },
+  "avatars": {
+    "title": "Аватары Совы",
+    "subtitle": "Открывайте мощные бонусы, повышая уровень аватара",
+    "yourXp": "Ваш XP",
+    "progressToNext": "Прогресс до следующего уровня",
+    "avatarNames": {
+      "worker": "Сова Работник",
+      "academic": "Сова Академик",
+      "diplomat": "Сова Дипломат",
+      "peacekeeper": "Сова Миротворец",
+      "warrior": "Сова Воин"
+    },
+    "perksBoosts": "Преимущества и бонусы",
+    "equipAvatar": "Экипировать аватар",
+    "currentlyActive": "Сейчас активен",
+    "earnXp": {
+      "title": "Как заработать XP",
+      "lesson": "+50 XP",
+      "quiz": "+100 XP",
+      "lesson10": "+250 XP",
+      "track": "+500 XP"
+    }
+  },
+  "rewards": {
+    "title": "История наград",
+    "subtitle": "Отслеживайте и анализируйте награды за майнинг",
+    "tabs": {
+      "charts": "Графики",
+      "exportCsv": "Экспорт CSV"
+    },
+    "stats": {
+      "totalNet": "Общий чистый доход",
+      "avgDaily": "Средний дневной чистый",
+      "totalGross": "Общий валовой",
+      "maintenanceCosts": "Затраты на обслуживание",
+      "btc": "BTC",
+      "btcPerDay": "BTC/день",
+      "beforeMaintenance": "До обслуживания"
+    },
+    "sort": {
+      "date": "Сортировать по дате",
+      "net": "Сортировать по чистому",
+      "gross": "Сортировать по валовому"
+    },
+    "timeRange": {
+      "7days": "7 дней",
+      "30days": "30 дней",
+      "90days": "90 дней",
+      "allTime": "Все время"
+    },
+    "table": {
+      "date": "Дата",
+      "miner": "Майнер",
+      "hashrate": "Хешрейт",
+      "grossBtc": "Валовой BTC",
+      "maintenance": "Обслуживание",
+      "netBtc": "Чистый BTC",
+      "usdValue": "Стоимость USD"
+    },
+    "merkleProof": "Проверка Merkle Proof",
+    "noRewards": "Наград не найдено"
+  },
+  "referrals": {
+    "title": "Реферальная программа",
+    "subtitle": "Зарабатывайте комиссию, приглашая друзей в TakeYourToken",
+    "tiers": {
+      "bronze": "Бронза",
+      "silver": "Серебро",
+      "gold": "Золото",
+      "platinum": "Платина"
+    },
+    "tierInfo": "Уровень {{tier}}",
+    "commission": "комиссия с рефералов",
+    "yourCode": "Ваш реферальный код",
+    "yourLink": "Ваша реферальная ссылка",
+    "share": {
+      "email": "Email",
+      "telegram": "Telegram",
+      "twitter": "Twitter"
+    },
+    "stats": {
+      "totalReferrals": "Всего рефералов",
+      "activeReferrals": "Активных рефералов",
+      "totalEarnings": "Общий заработок",
+      "thisMonth": "За этот месяц"
+    },
+    "tierProgress": "Прогресс уровня",
+    "yourReferrals": "Ваши рефералы",
+    "table": {
+      "user": "Пользователь",
+      "status": "Статус",
+      "commission": "Ваша комиссия",
+      "joined": "Присоединился"
+    },
+    "noReferrals": "Рефералов пока нет"
+  },
+  "adminUsers": {
+    "title": "Управление пользователями",
+    "subtitle": "Управление учетными записями, KYC верификацией и контролем доступа",
+    "refresh": "Обновить",
+    "stats": {
+      "totalUsers": "Всего пользователей",
+      "activeUsers": "Активных пользователей",
+      "verified": "Верифицировано (KYC 2-3)",
+      "pending": "На рассмотрении (KYC 0-1)"
+    },
+    "searchPlaceholder": "Поиск по email или имени...",
+    "filters": {
+      "allKyc": "Все уровни KYC",
+      "allStatus": "Все статусы",
+      "activeOnly": "Только активные",
+      "inactiveOnly": "Только неактивные"
+    },
+    "export": "Экспорт",
+    "table": {
+      "user": "Пользователь",
+      "email": "Email",
+      "kycLevel": "Уровень KYC",
+      "status": "Статус",
+      "rank": "Ранг",
+      "joined": "Присоединился",
+      "actions": "Действия"
+    },
+    "kycLevels": {
+      "level0": "Уровень 0",
+      "level1": "Уровень 1",
+      "level2": "Уровень 2",
+      "level3": "Уровень 3"
+    },
+    "modal": {
+      "title": "Детали пользователя",
+      "updateKyc": "Обновить уровень KYC",
+      "deactivate": "Деактивировать пользователя",
+      "activate": "Активировать пользователя"
+    },
+    "noUsers": "Пользователей, соответствующих вашим фильтрам, не найдено."
   }
 }

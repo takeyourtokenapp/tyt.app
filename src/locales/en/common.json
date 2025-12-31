@@ -297,5 +297,451 @@
     "dark": "Dark",
     "auto": "Auto",
     "toggle": "Toggle theme"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {{username}}",
+    "vipLevel": "VIP Level",
+    "balances": {
+      "btc": "BTC Balance",
+      "tyt": "TYT Balance"
+    },
+    "stats": {
+      "totalHashrate": "Total Hashrate",
+      "dailyReward": "Daily Reward",
+      "efficiency": "Efficiency",
+      "efficiencyNote": "W/TH avg efficiency",
+      "maintenanceNote": "For maintenance discounts"
+    },
+    "serviceButton": {
+      "title": "Service Button",
+      "pressTo": "Press daily to earn {{amount}} TYT",
+      "totalPresses": "Total Presses",
+      "processing": "Processing...",
+      "availableIn": "Available in {{time}}",
+      "pressNow": "Press Now to Earn TYT"
+    },
+    "vipProgress": {
+      "title": "VIP Progress",
+      "progress": "Progress",
+      "currentBenefits": "Current Benefits",
+      "totalSpent": "Total Spent",
+      "viewAll": "View All Benefits"
+    },
+    "startJourney": {
+      "title": "Start Your Mining Journey",
+      "description": "You don't have any active miners yet. Purchase your first NFT miner to start earning daily Bitcoin rewards.",
+      "browseMarketplace": "Browse Marketplace",
+      "learnMore": "Learn More"
+    },
+    "recentRewards": "Recent Rewards",
+    "myMiners": "My Miners",
+    "manageAll": "Manage All",
+    "quickActions": {
+      "title": "Quick Actions",
+      "buyMiners": "Buy Miners",
+      "learnEarn": "Learn & Earn",
+      "manageWallet": "Manage Wallet"
+    },
+    "accountOverview": {
+      "title": "Account Overview",
+      "memberSince": "Member Since",
+      "totalSpent": "Total Spent",
+      "referrals": "Referrals",
+      "kycStatus": "KYC Status"
+    },
+    "noRewards": "No rewards yet",
+    "noMiners": "No miners yet"
+  },
+  "profile": {
+    "title": "My Profile",
+    "editProfile": "Edit Profile",
+    "verification": {
+      "status": "Verification Status",
+      "kycLevel": "KYC Level",
+      "referralCode": "Referral Code",
+      "notVerified": "Not Verified",
+      "tier1": "Tier 1 Verified",
+      "tier2": "Tier 2 Verified",
+      "tier3": "Tier 3 Verified"
+    },
+    "activityStats": {
+      "title": "Activity Statistics",
+      "totalDeposits": "Total Deposits",
+      "totalWithdrawals": "Total Withdrawals",
+      "miningRewards": "Mining Rewards",
+      "foundationContributions": "Foundation Contributions",
+      "maintenancePaid": "Maintenance Paid",
+      "nftPurchases": "NFT Purchases",
+      "nftSales": "NFT Sales",
+      "netProfit": "Net Profit"
+    },
+    "security": {
+      "title": "Security & Privacy",
+      "twoFactor": "Two-Factor Authentication",
+      "changePassword": "Change Password",
+      "downloadData": "Download Your Data",
+      "deleteAccount": "Delete Account"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and preferences",
+    "tabs": {
+      "account": "Account",
+      "security": "Security",
+      "kyc": "KYC Verification",
+      "notifications": "Notifications"
+    },
+    "profileInfo": {
+      "title": "Profile Information",
+      "username": "Username",
+      "email": "Email",
+      "accountId": "Account ID",
+      "emailNote": "Email cannot be changed",
+      "saveChanges": "Save Changes"
+    },
+    "securitySettings": {
+      "title": "Security Settings",
+      "twoFactor": "Two-Factor Authentication",
+      "enable": "Enable",
+      "activeSessions": "Active Sessions",
+      "signOutAll": "Sign Out All Devices"
+    },
+    "notificationPrefs": {
+      "title": "Notification Preferences",
+      "email": "Email Notifications",
+      "push": "Push Notifications"
+    }
+  },
+  "kyc": {
+    "title": "KYC Verification",
+    "subtitle": "Complete your identity verification to unlock all features",
+    "status": {
+      "pending": "Pending Review",
+      "verified": "Verified ✓",
+      "failed": "Verification Failed",
+      "notStarted": "Not Started"
+    },
+    "uploadPrompt": "Upload a clear photo of your passport main page",
+    "rejectionReason": "Rejection Reason:",
+    "reupload": "Re-upload",
+    "uploadDocument": "Upload Document",
+    "requirements": {
+      "clear": "All documents must be clear and readable",
+      "formats": "Accepted formats: JPG, PNG, PDF",
+      "size": "Maximum file size: 10MB"
+    },
+    "tiers": {
+      "tier1": "Tier 1",
+      "tier2": "Tier 2",
+      "tier3": "Tier 3"
+    }
+  },
+  "miners": {
+    "title": "My Miners",
+    "subtitle": "Manage your NFT miners and maintenance",
+    "stats": {
+      "total": "Total Miners",
+      "totalHashrate": "Total Hashrate",
+      "avgEfficiency": "Avg Efficiency",
+      "pendingInvoices": "Pending Invoices",
+      "active": "{{count}} active"
+    },
+    "maintenance": {
+      "required": "Maintenance Required",
+      "description": "Pay to keep your miners active and earning rewards."
+    },
+    "empty": {
+      "title": "No Miners Yet",
+      "description": "Purchase your first NFT miner to start earning daily BTC rewards",
+      "browseMarketplace": "Browse Marketplace"
+    }
+  },
+  "swap": {
+    "title": "Token Swap",
+    "subtitle": "Exchange tokens instantly within your wallet",
+    "from": "From",
+    "to": "To",
+    "balance": "Balance:",
+    "max": "MAX",
+    "swapping": "Swapping...",
+    "swapTokens": "Swap Tokens",
+    "details": {
+      "exchangeRate": "Exchange Rate:",
+      "swapFee": "Swap Fee:",
+      "slippageTolerance": "Slippage Tolerance:",
+      "priceImpact": "Price Impact:",
+      "slippage": "Slippage:"
+    },
+    "recentSwaps": "Recent Swaps",
+    "noSwaps": "No swaps yet"
+  },
+  "bridge": {
+    "title": "Cross-Chain Bridge",
+    "subtitle": "Transfer assets between different blockchains seamlessly",
+    "fromNetwork": "From Network",
+    "toNetwork": "To Network",
+    "token": "Token",
+    "amount": "Amount",
+    "destinationAddress": "Destination Address on {{network}}",
+    "details": {
+      "bridgeFee": "Bridge Fee:",
+      "estimatedTime": "Estimated Time:",
+      "bridgeProvider": "Bridge Provider:",
+      "wormhole": "Wormhole"
+    },
+    "willReceive": "You will receive:",
+    "bridgeAction": "Bridge {{token}}",
+    "transferHistory": "Transfer History",
+    "showHistory": "Show History",
+    "hideHistory": "Hide History",
+    "noTransfers": "No bridge transfers yet"
+  },
+  "clans": {
+    "title": "Clans & Wars",
+    "subtitle": "Join forces and compete for glory and rewards",
+    "searchPlaceholder": "Search clans...",
+    "createClan": "Create Clan",
+    "tabs": {
+      "topClans": "Top Clans",
+      "allClans": "All Clans"
+    },
+    "stats": {
+      "members": "Members",
+      "hashrate": "Hashrate",
+      "wins": "Wins",
+      "wl": "W/L",
+      "btcWon": "BTC Won",
+      "tytWon": "TYT Won"
+    },
+    "minHashrate": "Minimum hashrate requirement:",
+    "noClans": "No Clans Found",
+    "join": "Join"
+  },
+  "grants": {
+    "title": "Foundation Grants",
+    "subtitle": "Transparent funding for children's brain cancer research",
+    "stats": {
+      "totalGrants": "Total Grants",
+      "totalFunding": "Total Funding",
+      "childrenHelped": "Children Helped",
+      "activeGrants": "Active Grants"
+    },
+    "filters": {
+      "all": "All Grants",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "grantInfo": {
+      "type": "Type",
+      "approved": "Approved",
+      "childrenHelped": "Children Helped"
+    },
+    "impactReport": "Impact Report",
+    "noGrants": "No Grants Found"
+  },
+  "quests": {
+    "title": "Quests & Missions",
+    "subtitle": "Complete quests to earn XP and TYT rewards",
+    "stats": {
+      "completed": "Quests Completed",
+      "totalXp": "Total XP Earned",
+      "tytEarned": "TYT Earned"
+    },
+    "filters": {
+      "all": "All Quests",
+      "platform": "Platform",
+      "social": "Social",
+      "education": "Education",
+      "community": "Community"
+    },
+    "status": {
+      "completed": "Completed!",
+      "start": "Start Quest",
+      "claim": "Claim Rewards"
+    },
+    "noQuests": "No Quests Available"
+  },
+  "academy": {
+    "title": "Crypto Academia",
+    "subtitle": "Learn blockchain technology and earn XP rewards",
+    "tabs": {
+      "leaderboard": "Leaderboard",
+      "certificates": "Certificates",
+      "tracks": "Learning Tracks",
+      "progress": "Progress & Achievements"
+    },
+    "currentRank": {
+      "title": "Current Owl Rank",
+      "progressToNext": "Progress to next rank",
+      "maxRank": "Max Rank Achieved!"
+    },
+    "yourProgress": {
+      "title": "Your Progress",
+      "tracksStarted": "Tracks Started",
+      "lessonsCompleted": "Lessons Completed",
+      "completionRate": "Completion Rate"
+    },
+    "allRanks": {
+      "title": "All Owl Ranks",
+      "current": "Current"
+    },
+    "searchPlaceholder": "Search tracks...",
+    "filters": {
+      "allLevels": "All Levels",
+      "clearFilters": "Clear Filters"
+    },
+    "earnXp": {
+      "title": "How to Earn XP",
+      "completeLessons": "Complete Lessons",
+      "passQuizzes": "Pass Quizzes",
+      "completeTracks": "Complete Tracks"
+    },
+    "noTracks": "No Tracks Found",
+    "ranks": {
+      "worker": "Worker",
+      "academic": "Academic",
+      "diplomat": "Diplomat",
+      "peacekeeper": "Peacekeeper",
+      "warrior": "Warrior"
+    }
+  },
+  "avatars": {
+    "title": "Owl Avatars",
+    "subtitle": "Unlock powerful boosts by leveling up your avatar",
+    "yourXp": "Your XP",
+    "progressToNext": "Progress to Next Tier",
+    "avatarNames": {
+      "worker": "Worker Owl",
+      "academic": "Academic Owl",
+      "diplomat": "Diplomat Owl",
+      "peacekeeper": "Peacekeeper Owl",
+      "warrior": "Warrior Owl"
+    },
+    "perksBoosts": "Perks & Boosts",
+    "equipAvatar": "Equip Avatar",
+    "currentlyActive": "Currently Active",
+    "earnXp": {
+      "title": "How to Earn XP",
+      "lesson": "+50 XP",
+      "quiz": "+100 XP",
+      "lesson10": "+250 XP",
+      "track": "+500 XP"
+    }
+  },
+  "rewards": {
+    "title": "Rewards History",
+    "subtitle": "Track and analyze your mining rewards",
+    "tabs": {
+      "charts": "Charts",
+      "exportCsv": "Export CSV"
+    },
+    "stats": {
+      "totalNet": "Total Net Earnings",
+      "avgDaily": "Avg Daily Net",
+      "totalGross": "Total Gross",
+      "maintenanceCosts": "Maintenance Costs",
+      "btc": "BTC",
+      "btcPerDay": "BTC/day",
+      "beforeMaintenance": "Before maintenance"
+    },
+    "sort": {
+      "date": "Sort by Date",
+      "net": "Sort by Net",
+      "gross": "Sort by Gross"
+    },
+    "timeRange": {
+      "7days": "7 Days",
+      "30days": "30 Days",
+      "90days": "90 Days",
+      "allTime": "All Time"
+    },
+    "table": {
+      "date": "Date",
+      "miner": "Miner",
+      "hashrate": "Hashrate",
+      "grossBtc": "Gross BTC",
+      "maintenance": "Maintenance",
+      "netBtc": "Net BTC",
+      "usdValue": "USD Value"
+    },
+    "merkleProof": "Merkle Proof Verification",
+    "noRewards": "No Rewards Found"
+  },
+  "referrals": {
+    "title": "Referral Program",
+    "subtitle": "Earn commission by inviting friends to TakeYourToken",
+    "tiers": {
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    },
+    "tierInfo": "{{tier}} Tier",
+    "commission": "commission on referrals",
+    "yourCode": "Your Referral Code",
+    "yourLink": "Your Referral Link",
+    "share": {
+      "email": "Email",
+      "telegram": "Telegram",
+      "twitter": "Twitter"
+    },
+    "stats": {
+      "totalReferrals": "Total Referrals",
+      "activeReferrals": "Active Referrals",
+      "totalEarnings": "Total Earnings",
+      "thisMonth": "This Month"
+    },
+    "tierProgress": "Tier Progress",
+    "yourReferrals": "Your Referrals",
+    "table": {
+      "user": "User",
+      "status": "Status",
+      "commission": "Your Commission",
+      "joined": "Joined"
+    },
+    "noReferrals": "No referrals yet"
+  },
+  "adminUsers": {
+    "title": "User Management",
+    "subtitle": "Manage user accounts, KYC verification, and access control",
+    "refresh": "Refresh",
+    "stats": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "verified": "Verified (KYC 2-3)",
+      "pending": "Pending (KYC 0-1)"
+    },
+    "searchPlaceholder": "Search by email or name...",
+    "filters": {
+      "allKyc": "All KYC Levels",
+      "allStatus": "All Status",
+      "activeOnly": "Active Only",
+      "inactiveOnly": "Inactive Only"
+    },
+    "export": "Export",
+    "table": {
+      "user": "User",
+      "email": "Email",
+      "kycLevel": "KYC Level",
+      "status": "Status",
+      "rank": "Rank",
+      "joined": "Joined",
+      "actions": "Actions"
+    },
+    "kycLevels": {
+      "level0": "Level 0",
+      "level1": "Level 1",
+      "level2": "Level 2",
+      "level3": "Level 3"
+    },
+    "modal": {
+      "title": "User Details",
+      "updateKyc": "Update KYC Level",
+      "deactivate": "Deactivate User",
+      "activate": "Activate User"
+    },
+    "noUsers": "No users found matching your filters."
   }
 }

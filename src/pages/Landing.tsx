@@ -232,9 +232,10 @@ export default function Landing() {
                   {/* Ethereum - Inner Orbit (90° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "90deg" }}
+                    initial={{ rotate: 90 }}
+                    animate={{ rotate: 450 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -254,9 +255,10 @@ export default function Landing() {
                   {/* Solana - Inner Orbit (180° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "180deg" }}
+                    initial={{ rotate: 180 }}
+                    animate={{ rotate: 540 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -276,9 +278,10 @@ export default function Landing() {
                   {/* BNB - Inner Orbit (270° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "270deg" }}
+                    initial={{ rotate: 270 }}
+                    animate={{ rotate: 630 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -300,9 +303,10 @@ export default function Landing() {
                   {/* TRON - Middle Orbit */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "45deg" }}
+                    initial={{ rotate: 45 }}
+                    animate={{ rotate: -315 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -322,9 +326,10 @@ export default function Landing() {
                   {/* XRP - Middle Orbit (120° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "165deg" }}
+                    initial={{ rotate: 165 }}
+                    animate={{ rotate: -195 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -344,9 +349,10 @@ export default function Landing() {
                   {/* TON - Middle Orbit (240° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "285deg" }}
+                    initial={{ rotate: 285 }}
+                    animate={{ rotate: -75 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -368,9 +374,10 @@ export default function Landing() {
                   {/* Polygon MATIC - Outer Orbit */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "20deg" }}
+                    initial={{ rotate: 20 }}
+                    animate={{ rotate: 380 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -390,9 +397,10 @@ export default function Landing() {
                   {/* Avalanche - Outer Orbit (120° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "140deg" }}
+                    initial={{ rotate: 140 }}
+                    animate={{ rotate: 500 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
@@ -412,9 +420,10 @@ export default function Landing() {
                   {/* Polkadot - Outer Orbit (240° offset) */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center", rotate: "260deg" }}
+                    initial={{ rotate: 260 }}
+                    animate={{ rotate: 620 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                    style={{ transformOrigin: "center center" }}
                   >
                     <motion.div
                       className="absolute"
