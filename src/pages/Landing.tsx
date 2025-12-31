@@ -220,12 +220,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-amber-400/40 rounded-full blur-xl"></div>
                         <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl border-4 border-white/20">
                           ₿
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -243,12 +248,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 3.8, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-blue-500/40 rounded-full blur-xl"></div>
                         <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl border-4 border-white/20">
                           Ξ
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -266,12 +276,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4.2, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-purple-500/40 rounded-full blur-xl"></div>
                         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-2xl border-4 border-white/20">
                           SOL
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -289,12 +304,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-yellow-400/40 rounded-full blur-lg"></div>
                         <div className="w-11 h-11 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
                           BNB
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -314,12 +334,17 @@ export default function Landing() {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-red-500/40 rounded-full blur-lg"></div>
                         <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
                           TRX
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -337,12 +362,17 @@ export default function Landing() {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-gray-400/40 rounded-full blur-lg"></div>
                         <div className="w-11 h-11 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
                           XRP
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -360,12 +390,17 @@ export default function Landing() {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4.7, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-blue-400/40 rounded-full blur-lg"></div>
                         <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
                           TON
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -385,12 +420,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 5.5, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-purple-600/40 rounded-full blur-lg"></div>
                         <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
                           MATIC
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -408,12 +448,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 5.2, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-red-600/40 rounded-full blur-lg"></div>
                         <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-rose-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
                           AVAX
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
@@ -431,12 +476,17 @@ export default function Landing() {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                     >
-                      <div className="relative">
+                      <motion.div
+                        className="relative"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 5.8, repeat: Infinity, ease: "linear" }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                         <div className="absolute inset-0 bg-pink-500/40 rounded-full blur-lg"></div>
                         <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
                           DOT
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   </motion.div>
 
