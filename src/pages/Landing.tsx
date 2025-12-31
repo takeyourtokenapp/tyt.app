@@ -203,7 +203,9 @@ export default function Landing() {
                     </motion.div>
                   </motion.div>
 
-                  {/* Floating Bitcoin */}
+                  {/* Floating Crypto Coins */}
+
+                  {/* Bitcoin - Top Right */}
                   <motion.div
                     className="absolute top-12 right-8"
                     animate={{
@@ -217,7 +219,195 @@ export default function Landing() {
                   >
                     <div className="relative">
                       <div className="absolute inset-0 bg-amber-400/40 rounded-full blur-xl"></div>
-                      <BitcoinIcon size={80} />
+                      <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl border-4 border-white/20">
+                        ₿
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Ethereum - Top Left */}
+                  <motion.div
+                    className="absolute top-8 left-12"
+                    animate={{
+                      y: [0, -15, 0],
+                      rotate: [0, -360]
+                    }}
+                    transition={{
+                      y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 10, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-blue-500/40 rounded-full blur-xl"></div>
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl border-4 border-white/20">
+                        Ξ
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Solana - Right Middle */}
+                  <motion.div
+                    className="absolute top-32 -right-6"
+                    animate={{
+                      y: [0, -18, 0],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      y: { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
+                      rotate: { duration: 9, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-purple-500/40 rounded-full blur-xl"></div>
+                      <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-2xl border-4 border-white/20">
+                        SOL
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* BNB - Top Right Far */}
+                  <motion.div
+                    className="absolute top-24 right-0"
+                    animate={{
+                      y: [0, -12, 0],
+                      x: [0, 5, 0],
+                      rotate: [0, -360]
+                    }}
+                    transition={{
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.3 },
+                      x: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 11, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-yellow-400/40 rounded-full blur-lg"></div>
+                      <div className="w-11 h-11 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
+                        BNB
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* TRON - Bottom Right */}
+                  <motion.div
+                    className="absolute bottom-40 right-4"
+                    animate={{
+                      y: [0, -16, 0],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      y: { duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.7 },
+                      rotate: { duration: 12, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-red-500/40 rounded-full blur-lg"></div>
+                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
+                        TRX
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* XRP - Left Bottom */}
+                  <motion.div
+                    className="absolute bottom-48 left-0"
+                    animate={{
+                      y: [0, -14, 0],
+                      x: [0, -5, 0],
+                      rotate: [0, -360]
+                    }}
+                    transition={{
+                      y: { duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.4 },
+                      x: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 10, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gray-400/40 rounded-full blur-lg"></div>
+                      <div className="w-11 h-11 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
+                        XRP
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* TON - Top Far Right */}
+                  <motion.div
+                    className="absolute top-4 right-20"
+                    animate={{
+                      y: [0, -10, 0],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      y: { duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.2 },
+                      rotate: { duration: 13, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-blue-400/40 rounded-full blur-lg"></div>
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
+                        TON
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Polygon MATIC - Bottom Left */}
+                  <motion.div
+                    className="absolute bottom-56 left-16"
+                    animate={{
+                      y: [0, -13, 0],
+                      rotate: [0, -360]
+                    }}
+                    transition={{
+                      y: { duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0.6 },
+                      rotate: { duration: 11, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-purple-600/40 rounded-full blur-lg"></div>
+                      <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
+                        MATIC
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Avalanche - Left Top */}
+                  <motion.div
+                    className="absolute top-20 left-4"
+                    animate={{
+                      y: [0, -11, 0],
+                      x: [0, 4, 0],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 },
+                      x: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 14, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-red-600/40 rounded-full blur-lg"></div>
+                      <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-rose-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
+                        AVAX
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Polkadot - Bottom Right Far */}
+                  <motion.div
+                    className="absolute bottom-28 right-16"
+                    animate={{
+                      y: [0, -17, 0],
+                      rotate: [0, -360]
+                    }}
+                    transition={{
+                      y: { duration: 3.3, repeat: Infinity, ease: "easeInOut", delay: 1 },
+                      rotate: { duration: 9.5, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-pink-500/40 rounded-full blur-lg"></div>
+                      <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
+                        DOT
+                      </div>
                     </div>
                   </motion.div>
 
