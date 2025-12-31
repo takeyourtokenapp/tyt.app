@@ -69,8 +69,31 @@ export interface ImpactMetric {
 }
 
 class FoundationDataService {
+  /**
+   * Get overall stats using optimized database view
+   * This method uses the foundation_statistics view for better performance
+   */
   async getOverallStats(): Promise<FoundationStats> {
     try {
+      // Use the optimized view instead of multiple queries
+      const { data, error } = await supabase
+        .from('foundation_statistics')
+        .select('*')
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        return {
+          totalDonated: data.total_donations_usd || 0,
+          familiesSupported: data.families_supported || 0,
+          researchGrants: data.research_grants_awarded || 0,
+          activeClinicalTrials: data.clinical_trials || 0,
+          transparencyScore: data.transparency_score || 100,
+        };
+      }
+
+      // Fallback to legacy method if view doesn't exist yet
       const [
         { data: donations },
         { data: families },
@@ -79,12 +102,11 @@ class FoundationDataService {
       ] = await Promise.all([
         supabase
           .from('foundation_donations')
-          .select('amount_usd')
-          .eq('status', 'completed'),
+          .select('amount_usd'),
         supabase
           .from('foundation_family_support')
           .select('id')
-          .eq('status', 'disbursed'),
+          .in('status', ['approved', 'disbursed']),
         supabase
           .from('foundation_grants')
           .select('id')
@@ -121,18 +143,47 @@ class FoundationDataService {
     }
   }
 
+  /**
+   * Get active campaigns using optimized view with calculated metrics
+   */
   async getActiveCampaigns(limit = 10): Promise<Campaign[]> {
     try {
+      // Try to use the optimized view first
       const { data, error } = await supabase
+        .from('foundation_active_campaigns_view')
+        .select('*')
+        .limit(limit);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        return data.map(c => ({
+          id: c.id,
+          slug: c.slug,
+          title: c.title,
+          description: c.description,
+          fundingGoal: c.funding_goal_usd,
+          currentRaised: c.current_raised_usd,
+          donorCount: c.donor_count || 0,
+          status: 'active' as const,
+          category: c.campaign_type || 'General',
+          endDate: c.end_date,
+          startDate: c.start_date,
+          imageUrl: c.image_url,
+        }));
+      }
+
+      // Fallback to direct table query
+      const { data: fallbackData, error: fallbackError } = await supabase
         .from('foundation_campaigns')
         .select('*')
         .eq('status', 'active')
         .order('start_date', { ascending: false })
         .limit(limit);
 
-      if (error) throw error;
+      if (fallbackError) throw fallbackError;
 
-      return (data || []).map(c => ({
+      return (fallbackData || []).map(c => ({
         id: c.id,
         slug: c.slug,
         title: c.title,
@@ -141,8 +192,7 @@ class FoundationDataService {
         currentRaised: c.current_raised_usd,
         donorCount: c.donor_count || 0,
         status: c.status,
-        category: c.category || 'General',
-        hospital: c.hospital_partner,
+        category: c.campaign_type || 'General',
         endDate: c.end_date,
         startDate: c.start_date,
         imageUrl: c.image_url,
@@ -226,17 +276,41 @@ class FoundationDataService {
     }
   }
 
+  /**
+   * Get hospital partners using optimized view with completed grants count
+   */
   async getHospitalPartners(): Promise<HospitalPartner[]> {
     try {
+      // Try to use the optimized view first
       const { data, error } = await supabase
+        .from('foundation_partners_view')
+        .select('*');
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        return data.map(p => ({
+          id: p.id,
+          name: p.name,
+          partnerType: p.partner_type,
+          country: p.country,
+          city: p.city,
+          isVerified: true, // view only returns verified partners
+          activeGrantsCount: p.active_grants_count || 0,
+          totalGrantsReceived: p.total_grants_received || 0,
+        }));
+      }
+
+      // Fallback to direct table query
+      const { data: fallbackData, error: fallbackError } = await supabase
         .from('foundation_research_partners')
         .select('*')
         .eq('is_verified', true)
         .order('total_grants_received', { ascending: false });
 
-      if (error) throw error;
+      if (fallbackError) throw fallbackError;
 
-      return (data || []).map(p => ({
+      return (fallbackData || []).map(p => ({
         id: p.id,
         name: p.name,
         partnerType: p.partner_type,
@@ -245,7 +319,6 @@ class FoundationDataService {
         isVerified: p.is_verified,
         activeGrantsCount: p.active_grants_count || 0,
         totalGrantsReceived: p.total_grants_received || 0,
-        patientsSupported: p.patients_supported,
       }));
     } catch (error) {
       console.error('Error fetching partners:', error);
@@ -283,6 +356,141 @@ class FoundationDataService {
       console.error('Error fetching impact metrics:', error);
       return null;
     }
+  }
+
+  /**
+   * Subscribe to real-time foundation statistics updates
+   * This enables cross-domain sync between main app and tyt.foundation
+   */
+  subscribeToFoundationUpdates(
+    onStatsUpdate: (stats: FoundationStats) => void
+  ): () => void {
+    // Subscribe to all relevant tables
+    const channel = supabase
+      .channel('foundation_realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'foundation_donations'
+        },
+        async () => {
+          const stats = await this.getOverallStats();
+          onStatsUpdate(stats);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'foundation_grants'
+        },
+        async () => {
+          const stats = await this.getOverallStats();
+          onStatsUpdate(stats);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'foundation_campaigns'
+        },
+        async () => {
+          const stats = await this.getOverallStats();
+          onStatsUpdate(stats);
+        }
+      )
+      .subscribe();
+
+    // Return unsubscribe function
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }
+
+  /**
+   * Get detailed foundation impact summary
+   * Includes efficiency metrics and averages
+   */
+  async getFoundationImpactSummary() {
+    try {
+      const { data, error } = await supabase
+        .from('foundation_impact_summary')
+        .select('*')
+        .maybeSingle();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching foundation impact summary:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get recent donations for transparency feed
+   */
+  async getRecentDonations(limit: number = 20) {
+    try {
+      const { data, error } = await supabase
+        .from('foundation_recent_donations')
+        .select('*')
+        .limit(limit);
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching recent donations:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Format currency for display
+   */
+  formatCurrency(amount: number, currency: string = 'USD'): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  }
+
+  /**
+   * Format large numbers with K/M/B suffixes
+   */
+  formatLargeNumber(num: number): string {
+    if (num >= 1000000000) {
+      return `$${(num / 1000000000).toFixed(1)}B`;
+    } else if (num >= 1000000) {
+      return `$${(num / 1000000).toFixed(1)}M`;
+    } else if (num >= 1000) {
+      return `$${(num / 1000).toFixed(0)}K`;
+    }
+    return this.formatCurrency(num);
+  }
+
+  /**
+   * Calculate progress percentage
+   */
+  calculateProgress(current: number, goal: number): number {
+    if (goal === 0) return 0;
+    return Math.min(100, Math.round((current / goal) * 100));
+  }
+
+  /**
+   * Get days remaining until date
+   */
+  getDaysRemaining(endDate: string): number {
+    const end = new Date(endDate);
+    const now = new Date();
+    const diff = end.getTime() - now.getTime();
+    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
   }
 
   private getMockCampaigns(): Campaign[] {
