@@ -167,10 +167,8 @@ export default function Landing() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                   >
-                    <motion.img
-                      src="/generated-image_(3).png"
-                      alt="Aoi AI Guide"
-                      className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                    <motion.div
+                      className="relative w-full max-w-md mx-auto"
                       animate={{
                         y: [0, -10, 0]
                       }}
@@ -179,7 +177,31 @@ export default function Landing() {
                         repeat: Infinity,
                         ease: "easeInOut"
                       }}
-                    />
+                    >
+                      <img
+                        src="/generated-image_(3).png"
+                        alt="Aoi AI Guide"
+                        className="w-full h-auto object-contain drop-shadow-2xl"
+                        onError={(e) => {
+                          // Fallback: Show gradient placeholder with text if image fails
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent && !parent.querySelector('.aoi-fallback')) {
+                            const fallback = document.createElement('div');
+                            fallback.className = 'aoi-fallback w-full h-[500px] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center';
+                            fallback.innerHTML = `
+                              <div class="text-center text-white p-8">
+                                <div class="text-6xl mb-4">🦉</div>
+                                <div class="text-2xl font-bold mb-2">Aoi AI Assistant</div>
+                                <div class="text-sm opacity-80">Your intelligent guide to TYT Platform</div>
+                              </div>
+                            `;
+                            parent.appendChild(fallback);
+                          }
+                        }}
+                      />
+                    </motion.div>
                   </motion.div>
 
                   {/* Floating Bitcoin */}
