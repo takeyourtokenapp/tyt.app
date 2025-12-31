@@ -32,7 +32,7 @@ export default function CompactHeader() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src="/6d629383-acba-4396-8f01-4715f914aada.png"
+              src="/logo.png"
               alt="TYT"
               className="w-9 h-9 group-hover:drop-shadow-[0_0_12px_rgba(210,164,76,0.6)] transition-all"
             />

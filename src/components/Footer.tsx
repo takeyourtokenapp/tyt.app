@@ -9,7 +9,7 @@ export default function Footer() {
           {/* О проекте */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT" className="w-10 h-10" />
+              <img src="/logo.png" alt="TYT" className="w-10 h-10" />
               <div>
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white">Take Your Token</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Owl Warrior Ecosystem</p>

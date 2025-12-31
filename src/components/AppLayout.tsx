@@ -198,7 +198,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between p-5 border-b border-gold-800">
               <Link to="/app" className="flex items-center gap-3 group">
-                <img src="/6d629383-acba-4396-8f01-4715f914aada.png" alt="TYT" className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all" />
+                <img src="/logo.png" alt="TYT" className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all" />
                 <div>
                   <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">TakeYourToken</span>
                   <div className="text-xs text-gray-400">Owl Warrior Platform</div>
