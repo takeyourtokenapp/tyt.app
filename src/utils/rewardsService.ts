@@ -6,7 +6,7 @@
  */
 
 import { supabase } from '../lib/supabase';
-import { buildMerkleTree, generateMerkleProof, type MerkleLeaf, type MerkleProof } from './merkleTree';
+import type { MerkleProof } from './merkleTree';
 
 async function getAccessToken(): Promise<string> {
   const { data: { session }, error } = await supabase.auth.getSession();
@@ -148,7 +148,7 @@ export class RewardsService {
   /**
    * Get rewards for a specific date
    */
-  async getUserRewardsByDate(userId: string, date: string): Promise<jsonb> {
+  async getUserRewardsByDate(userId: string, date: string): Promise<Record<string, any>> {
     const { data, error } = await supabase.rpc('get_user_daily_rewards', {
       p_user_id: userId,
       p_date: date,

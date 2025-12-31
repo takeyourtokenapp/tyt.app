@@ -221,7 +221,7 @@ export async function transferSOLToExternal(
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('User not authenticated');
 
-    const { data: transfer, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from('sol_transfers')
       .insert({
         user_id: user.id,

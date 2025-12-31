@@ -1,5 +1,4 @@
 import { supabase } from '../lib/supabase';
-import type { VIPTier } from '../types/database';
 
 export type VIPLevel = 'none' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
 
