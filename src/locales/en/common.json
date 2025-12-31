@@ -86,6 +86,48 @@
         "totalCost": "Total Cost"
       },
       "disclaimer": "Performance varies by 15-20% based on BTC network difficulty and global hashrate. Past performance does not guarantee future results."
+    },
+    "aoi": {
+      "badge": "Meet Your AI Guide",
+      "title": "Introducing Aoi",
+      "subtitle": "Your intelligent companion on the TYT platform - here to guide, educate, and support your journey",
+      "heading": "Your Personal AI Mining Guide",
+      "description": "Aoi is your intelligent assistant, powered by advanced AI to help you navigate the world of Bitcoin mining, learn blockchain technology, and maximize your earnings on the TYT platform.",
+      "aiPowered": "AI-Powered",
+      "support247": "24/7 Support",
+      "miningOptimization": {
+        "title": "Mining Optimization",
+        "description": "Get personalized tips to maximize your mining performance and ROI"
+      },
+      "academyGuidance": {
+        "title": "Academy Guidance",
+        "description": "Learn blockchain, crypto, and Web3 with interactive lessons and quizzes"
+      },
+      "missionSupport": {
+        "title": "Mission Support",
+        "description": "Learn how your mining supports children's brain cancer research"
+      },
+      "instantAnswers": {
+        "title": "Instant Answers",
+        "description": "Get help anytime with questions about mining, tokens, or platform features"
+      },
+      "startJourney": "Start Your Journey with Aoi",
+      "evolves": {
+        "title": "Aoi Evolves With You",
+        "subtitle": "As you learn and grow on the platform, Aoi's appearance and abilities evolve too",
+        "levels": {
+          "beginner": "Beginner",
+          "explorer": "Explorer",
+          "builder": "Builder",
+          "master": "Master"
+        }
+      }
+    },
+    "stats": {
+      "dailyRewards": "Daily Rewards",
+      "totalPower": "Total Power",
+      "activeMiners": "Active Miners",
+      "donated": "Donated"
     }
   },
   "nav": {

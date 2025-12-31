@@ -556,13 +556,13 @@ export default function Landing() {
               viewport={{ once: true }}
             >
               <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-              <span className="text-blue-700 dark:text-blue-400 font-semibold">Meet Your AI Guide</span>
+              <span className="text-blue-700 dark:text-blue-400 font-semibold">{t('landing.aoi.badge')}</span>
             </motion.div>
             <h2 className="tyt-heading-2 mb-4">
-              Introducing Aoi
+              {t('landing.aoi.title')}
             </h2>
             <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
-              Your intelligent companion on the TYT platform - here to guide, educate, and support your journey
+              {t('landing.aoi.subtitle')}
             </p>
           </div>
 
@@ -650,11 +650,10 @@ export default function Landing() {
             >
               <div className="space-y-4">
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  Your Personal AI Mining Guide
+                  {t('landing.aoi.heading')}
                 </h3>
                 <p className="text-lg tyt-text-secondary leading-relaxed">
-                  Aoi is your intelligent assistant, powered by advanced AI to help you navigate the world of
-                  Bitcoin mining, learn blockchain technology, and maximize your earnings on the TYT platform.
+                  {t('landing.aoi.description')}
                 </p>
               </div>
 
@@ -664,8 +663,8 @@ export default function Landing() {
                     <Cpu className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Mining Optimization</h4>
-                    <p className="text-sm tyt-text-secondary">Get personalized tips to maximize your mining performance and ROI</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{t('landing.aoi.miningOptimization.title')}</h4>
+                    <p className="text-sm tyt-text-secondary">{t('landing.aoi.miningOptimization.description')}</p>
                   </div>
                 </div>
 
@@ -674,8 +673,8 @@ export default function Landing() {
                     <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Academy Guidance</h4>
-                    <p className="text-sm tyt-text-secondary">Learn blockchain, crypto, and Web3 with interactive lessons and quizzes</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{t('landing.aoi.academyGuidance.title')}</h4>
+                    <p className="text-sm tyt-text-secondary">{t('landing.aoi.academyGuidance.description')}</p>
                   </div>
                 </div>
 
@@ -684,8 +683,8 @@ export default function Landing() {
                     <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Mission Support</h4>
-                    <p className="text-sm tyt-text-secondary">Learn how your mining supports children's brain cancer research</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{t('landing.aoi.missionSupport.title')}</h4>
+                    <p className="text-sm tyt-text-secondary">{t('landing.aoi.missionSupport.description')}</p>
                   </div>
                 </div>
 
@@ -694,8 +693,8 @@ export default function Landing() {
                     <Zap className="w-6 h-6 text-amber-600 dark:text-amber-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Instant Answers</h4>
-                    <p className="text-sm tyt-text-secondary">Get help anytime with questions about mining, tokens, or platform features</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{t('landing.aoi.instantAnswers.title')}</h4>
+                    <p className="text-sm tyt-text-secondary">{t('landing.aoi.instantAnswers.description')}</p>
                   </div>
                 </div>
               </div>
@@ -711,7 +710,7 @@ export default function Landing() {
                   to="/signup"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
                 >
-                  Start Your Journey with Aoi
+                  {t('landing.aoi.startJourney')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>
@@ -728,19 +727,19 @@ export default function Landing() {
           >
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                Aoi Evolves With You
+                {t('landing.aoi.evolves.title')}
               </h3>
               <p className="tyt-text-secondary">
-                As you learn and grow on the platform, Aoi's appearance and abilities evolve too
+                {t('landing.aoi.evolves.subtitle')}
               </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { level: 1, name: 'Beginner', xp: '0 XP', color: 'from-blue-500 to-cyan-500' },
-                { level: 2, name: 'Explorer', xp: '100 XP', color: 'from-purple-500 to-pink-500' },
-                { level: 3, name: 'Builder', xp: '500 XP', color: 'from-amber-500 to-orange-500' },
-                { level: 4, name: 'Master', xp: '1,500 XP', color: 'from-pink-500 to-rose-500' }
+                { level: 1, name: t('landing.aoi.evolves.levels.beginner'), xp: '0 XP', color: 'from-blue-500 to-cyan-500' },
+                { level: 2, name: t('landing.aoi.evolves.levels.explorer'), xp: '100 XP', color: 'from-purple-500 to-pink-500' },
+                { level: 3, name: t('landing.aoi.evolves.levels.builder'), xp: '500 XP', color: 'from-amber-500 to-orange-500' },
+                { level: 4, name: t('landing.aoi.evolves.levels.master'), xp: '1,500 XP', color: 'from-pink-500 to-rose-500' }
               ].map((stage, idx) => (
                 <motion.div
                   key={stage.level}
@@ -767,33 +766,33 @@ export default function Landing() {
         <div className="tyt-container">
           <div className="text-center mb-16">
             <h2 className="tyt-heading-2 mb-4">
-              Why Choose TakeYourToken
+              {t('landing.features.title')}
             </h2>
             <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
-              The world's first mining platform where profits meet purpose
+              {t('landing.features.subtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
               icon={<MiningIcon size={60} />}
-              title="Real Bitcoin Mining"
-              description="Own NFT miners backed by real hardware in professional data centers. Earn daily BTC rewards automatically."
+              title={t('landing.features.realMining.title')}
+              description={t('landing.features.realMining.description')}
             />
             <FeatureCard
               icon={<HeartIcon size={60} />}
-              title="Built-in Charity"
-              description="1% platform fee on all transactions: 30% goes to children's brain cancer research, 10% to academy education. Fully transparent on-chain tracking."
+              title={t('landing.features.charity.title')}
+              description={t('landing.features.charity.description')}
             />
             <FeatureCard
               icon={<ShieldCheckIcon size={60} />}
-              title="Fully Secure"
-              description="Enterprise-grade custody with Fireblocks. Your funds are protected by multi-signature cold storage."
+              title={t('landing.features.secure.title')}
+              description={t('landing.features.secure.description')}
             />
             <FeatureCard
               icon={<ChartIcon size={60} />}
-              title="Real-Time Analytics"
-              description="Monitor your mining performance, revenue, and ROI with professional charts and detailed statistics."
+              title={t('landing.features.analytics.title')}
+              description={t('landing.features.analytics.description')}
             />
             <FeatureCard
               icon={<RocketIcon size={60} />}
