@@ -168,9 +168,9 @@ export default function Landing() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                   >
                     <motion.img
-                      src="/aoi/16ae90c7-ef97-4f9e-ab0a-ad626b0ca37d.png"
+                      src="/generated-image_(3).png"
                       alt="Aoi AI Guide"
-                      className="w-full max-w-md h-auto object-contain"
+                      className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
                       animate={{
                         y: [0, -10, 0]
                       }}
