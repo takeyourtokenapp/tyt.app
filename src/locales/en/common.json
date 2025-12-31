@@ -12,6 +12,10 @@
       "description": "Own NFT miners that generate real Bitcoin rewards 24/7. Every transaction automatically supports research and treatment for children with brain cancer.",
       "cta": "Start Mining Now",
       "ctaSecondary": "Learn More",
+      "feeLabel": "Platform Fee Structure:",
+      "secure": "100% Secure",
+      "users": "5,000+ Users",
+      "donated": "$250K+ Donated",
       "stats": {
         "miners": "NFT Miners",
         "hashrate": "Total Hashrate",

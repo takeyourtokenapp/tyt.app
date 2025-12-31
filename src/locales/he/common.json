@@ -12,6 +12,10 @@
       "description": "החזק כורי NFT שמייצרים תגמולי Bitcoin אמיתיים 24/7. כל עסקה תומכת אוטומטית במחקר וטיפול בילדים עם סרטן מוח.",
       "cta": "התחל לכרות עכשיו",
       "ctaSecondary": "למד עוד",
+      "feeLabel": "מבנה עמלות הפלטפורמה:",
+      "secure": "100% מאובטח",
+      "users": "5,000+ משתמשים",
+      "donated": "$250K+ נתרם",
       "stats": {
         "miners": "כורי NFT",
         "hashrate": "כוח כרייה כולל",
@@ -255,5 +259,62 @@
     "dark": "כהה",
     "auto": "אוטומטי",
     "toggle": "החלף ערכת נושא"
+  },
+  "dashboard": {
+    "title": "לוח בקרה",
+    "welcome": "ברוך שובך, {{username}}",
+    "vipLevel": "רמת VIP",
+    "balances": {
+      "btc": "יתרת BTC",
+      "tyt": "יתרת TYT"
+    },
+    "stats": {
+      "totalHashrate": "כוח חישוב כולל",
+      "dailyReward": "תגמול יומי",
+      "efficiency": "יעילות",
+      "efficiencyNote": "יעילות ממוצעת W/TH",
+      "maintenanceNote": "להנחות תחזוקה",
+      "miner": "כורה פעיל",
+      "miners": "כורים פעילים"
+    },
+    "serviceButton": {
+      "title": "כפתור שירות",
+      "pressTo": "לחץ מדי יום כדי להרוויח {{amount}} TYT",
+      "totalPresses": "סך הלחיצות",
+      "processing": "מעבד...",
+      "availableIn": "זמין בעוד {{time}}",
+      "pressNow": "לחץ עכשיו להרוויח TYT"
+    },
+    "vipProgress": {
+      "title": "התקדמות VIP",
+      "progress": "התקדמות",
+      "currentBenefits": "הטבות נוכחיות",
+      "totalSpent": "סך הוצאות",
+      "viewAll": "צפה בכל ההטבות"
+    },
+    "startJourney": {
+      "title": "התחל את מסע הכרייה שלך",
+      "description": "אין לך כורים פעילים עדיין. רכוש את כורה ה-NFT הראשון שלך כדי להתחיל להרוויח תגמולי ביטקוין יומיים.",
+      "browseMarketplace": "עבור לשוק",
+      "learnMore": "למד עוד"
+    },
+    "recentRewards": "תגמולים אחרונים",
+    "myMiners": "הכורים שלי",
+    "manageAll": "נהל הכל",
+    "quickActions": {
+      "title": "פעולות מהירות",
+      "buyMiners": "קנה כורים",
+      "learnEarn": "למד והרווח",
+      "manageWallet": "נהל ארנק"
+    },
+    "accountOverview": {
+      "title": "סקירת חשבון",
+      "memberSince": "חבר מאז",
+      "totalSpent": "סך הוצאות",
+      "referrals": "הפניות",
+      "kycStatus": "סטטוס KYC"
+    },
+    "noRewards": "אין תגמולים עדיין",
+    "noMiners": "אין כורים עדיין"
   }
 }

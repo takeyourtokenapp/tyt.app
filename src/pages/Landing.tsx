@@ -113,7 +113,7 @@ export default function Landing() {
                   {t('common:landing.hero.description')}
                 </p>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">Platform Fee Structure:</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{t('common:landing.hero.feeLabel')}</span>
                   <FeeModelTooltip />
                 </div>
               </motion.div>
@@ -137,15 +137,15 @@ export default function Landing() {
               <motion.div className="flex items-center gap-8 pt-4" variants={fadeInUp}>
                 <div className="flex items-center gap-2">
                   <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />
-                  <span className="text-sm tyt-text-secondary">100% Secure</span>
+                  <span className="text-sm tyt-text-secondary">{t('common:landing.hero.secure')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm tyt-text-secondary">5,000+ Users</span>
+                  <span className="text-sm tyt-text-secondary">{t('common:landing.hero.users')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
-                  <span className="text-sm tyt-text-secondary">$250K+ Donated</span>
+                  <span className="text-sm tyt-text-secondary">{t('common:landing.hero.donated')}</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -805,13 +805,13 @@ export default function Landing() {
             />
             <FeatureCard
               icon={<RocketIcon size={60} />}
-              title="TYT Token Benefits"
-              description="Pay maintenance with TYT token for up to 20% discount. Tokens are automatically burned, creating scarcity."
+              title={t('landing.features.tokenBenefits.title')}
+              description={t('landing.features.tokenBenefits.description')}
             />
             <FeatureCard
               icon={<Award className="w-12 h-12 text-amber-400" />}
-              title="4-Tier Referral Program"
-              description="Earn 5-15% commission on referrals. Build your network and create passive income streams."
+              title={t('landing.features.referral.title')}
+              description={t('landing.features.referral.description')}
             />
           </div>
         </div>
