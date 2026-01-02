@@ -6,6 +6,25 @@ Every transaction supports children's brain cancer research.
 
 ---
 
+## 🗺️ Deployment Roadmaps
+
+**Choose your path from current state to production:**
+
+### 🎯 Navigation Guide
+- **`README_DEPLOYMENT_ROADMAP.md`** - Choose your deployment path ⭐
+
+### 🚀 Quick Deployment (2 hours)
+- **`APP_DEPLOYMENT_QUICK_START.md`** - Deploy app today
+- **`APP_SECURITY_COMPLETE_REPORT.md`** - Current status (94% security ✅)
+
+### 🛠️ Full Implementation (19 weeks)
+- **`TYT_V3_TESTNET_MASTER_ROADMAP.md`** - Complete testnet-to-mainnet plan
+- **`SPRINT_1_QUICK_START.md`** - Start Week 1-2 (Architecture & Security)
+
+**Current Status**: ✅ Secure foundation complete → ⚠️ Ready for blockchain implementation
+
+---
+
 ## Quick Start
 
 **Get started in 2-4 hours:**
