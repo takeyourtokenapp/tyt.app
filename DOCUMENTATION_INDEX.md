@@ -78,6 +78,19 @@ Complete guide to all project documentation.
 - `docs/CROSS_DOMAIN_API_GATEWAY.md` - Cross-domain gateway
 - `docs/COPY_TO_TYT_FOUNDATION.md` - Foundation copy guide
 
+### 🔒 App Security & Deployment
+
+**Location**: Root + `/docs`
+
+- **`APP_DEPLOYMENT_QUICK_START.md`** - Deploy in 1-2 hours ⚡
+- **`APP_SECURITY_COMPLETE_REPORT.md`** - Complete security audit
+- **`docs/APP_SECURITY_DEPLOYMENT_GUIDE.md`** - Full security guide
+
+**Related Docs**:
+- All 33 app pages: `/src/pages/app/`
+- Access control: `/src/components/AccessGuard.tsx`
+- Auth context: `/src/contexts/AuthContext.tsx`
+
 ### 📦 Smart Contracts & Blockchain
 
 **Location**: `/contracts/evm` and `/contracts/solana`
