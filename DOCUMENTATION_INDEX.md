@@ -91,6 +91,23 @@ Complete guide to all project documentation.
 - Access control: `/src/components/AccessGuard.tsx`
 - Auth context: `/src/contexts/AuthContext.tsx`
 
+### 📧 Contact & Support System
+
+**Location**: Root
+
+- **`CONTACT_SYSTEM_GUIDE.md`** - Complete contact system implementation (44KB)
+  - User contact form
+  - Email + Telegram notifications
+  - Admin message management
+  - Database triggers
+  - Edge Function setup
+
+**Components**:
+- Contact form: `/src/pages/Contact.tsx` (to be created)
+- Admin panel: `/src/pages/app/AdminMessages.tsx` (to be created)
+- Edge Function: `/supabase/functions/contact-notification/` (to be created)
+- Database: `contact_submissions` table
+
 ### 📦 Smart Contracts & Blockchain
 
 **Location**: `/contracts/evm` and `/contracts/solana`

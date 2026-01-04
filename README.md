@@ -429,3 +429,21 @@ Every transaction on our platform contributes to research fighting children's br
 **Made with ❤️ by the TYT Team**
 
 **Powered by:** Supabase, Polygon, Solana, React, TypeScript
+
+---
+
+## 📧 Contact System
+
+**User contact form with Email + Telegram notifications**
+
+- **Quick Start**: `CONTACT_SYSTEM_QUICK_START.md` (1 hour setup)
+- **Complete Guide**: `CONTACT_SYSTEM_GUIDE.md` (44KB, comprehensive)
+
+**Features**:
+- User contact form on takeyourtoken.app/contact
+- Automatic Email notification to olekfribel@hotmail.com
+- Automatic Telegram notification to chat -5175884242
+- Admin panel to manage messages
+- Database storage with RLS security
+
+**Status**: ✅ Ready for implementation
