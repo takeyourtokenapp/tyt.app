@@ -447,3 +447,21 @@ Every transaction on our platform contributes to research fighting children's br
 - Database storage with RLS security
 
 **Status**: ✅ Ready for implementation
+
+---
+
+## 🚧 Coming Soon Pages
+
+**Professional placeholders for features in development**
+
+16 pages now show beautiful Coming Soon placeholders:
+- NFT Miners system (4 pages)
+- DeFi & Trading (4 pages)
+- Governance & DAO (2 pages)
+- Social & Community (2 pages)
+- Advanced features (4 pages)
+
+**Component**: `src/components/ComingSoon.tsx`
+**Documentation**: `PAGES_COMING_SOON_LIST.md` | `COMING_SOON_IMPLEMENTATION_COMPLETE.md`
+
+**Status**: ✅ Production Ready
