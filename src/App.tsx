@@ -48,6 +48,8 @@ const Referrals = lazyWithRetry(() => import('./pages/app/Referrals'), 'Referral
 const TYTTrading = lazyWithRetry(() => import('./pages/app/TYTTrading'), 'TYTTrading');
 const AdminWithdrawals = lazyWithRetry(() => import('./pages/app/AdminWithdrawals'), 'AdminWithdrawals');
 const AdminUsers = lazyWithRetry(() => import('./pages/app/AdminUsers'), 'AdminUsers');
+const AdminDashboard = lazyWithRetry(() => import('./pages/app/AdminDashboard'), 'AdminDashboard');
+const AdminMessages = lazyWithRetry(() => import('./pages/app/AdminMessages'), 'AdminMessages');
 const Notifications = lazyWithRetry(() => import('./pages/app/Notifications'), 'Notifications');
 const Governance = lazyWithRetry(() => import('./pages/app/Governance'), 'Governance');
 const MiningStatsDashboard = lazyWithRetry(() => import('./components/MiningStatsDashboard'), 'MiningStatsDashboard');
@@ -162,6 +164,9 @@ function App() {
                 <Route path="grants" element={<Grants />} />
                 <Route path="clans" element={<Clans />} />
                 <Route path="aoi" element={<AoiProfile />} />
+                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="admin/dashboard" element={<AdminDashboard />} />
+                <Route path="admin/messages" element={<AdminMessages />} />
                 <Route path="admin/withdrawals" element={<AdminWithdrawals />} />
                 <Route path="admin/users" element={<AdminUsers />} />
                 <Route path="admin/contracts" element={<AdminContracts />} />

@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useAoi } from '../contexts/AoiContext';
+import { useAdminCheck } from '../hooks/useAdminCheck';
 import AoiAvatar from './AoiAvatar';
 import AoiChatWidget from './AoiChatWidget';
 import ThemeToggle from './ThemeToggle';
@@ -68,6 +69,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [aoiChatOpen, setAoiChatOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { progress } = useAoi();
+  const { isAdmin } = useAdminCheck();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -91,7 +93,22 @@ export default function AppLayout({ children }: AppLayoutProps) {
     );
   };
 
+  const adminGroup: NavGroup = {
+    id: 'admin',
+    label: 'Administration',
+    icon: Shield,
+    color: 'red',
+    items: [
+      { path: '/app/admin/dashboard', icon: LayoutDashboard, label: 'Admin Dashboard' },
+      { path: '/app/admin/messages', icon: MessageCircle, label: 'Messages' },
+      { path: '/app/admin/users', icon: Users, label: 'User Management' },
+      { path: '/app/admin/withdrawals', icon: DollarSign, label: 'Withdrawals' },
+      { path: '/app/admin/contracts', icon: FileCheck, label: 'Smart Contracts' },
+    ]
+  };
+
   const navGroups: NavGroup[] = [
+    ...(isAdmin ? [adminGroup] : []),
     {
       id: 'mining',
       label: 'Mining Ecosystem',
@@ -183,6 +200,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       blue: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/50' },
       pink: { bg: 'bg-pink-500/20', text: 'text-pink-400', border: 'border-pink-500/50' },
       cyan: { bg: 'bg-cyan-500/20', text: 'text-cyan-400', border: 'border-cyan-500/50' },
+      red: { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/50' },
     };
     return colors[color] || colors.amber;
   };
