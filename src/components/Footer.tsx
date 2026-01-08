@@ -1,5 +1,6 @@
 import { Heart, Mail, Twitter, Github, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CONTACT_CONFIG } from '../config/contact';
 
 export default function Footer() {
   return (
@@ -78,93 +79,106 @@ export default function Footer() {
 
           {/* Компания */}
           <div>
-            <h4 className="font-bold mb-4 text-amber-400">Компания</h4>
+            <h4 className="font-bold mb-4 text-amber-600 dark:text-amber-400">Компания</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/about" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   О нас
                 </Link>
               </li>
               <li>
-                <Link to="/roadmap" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/roadmap" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Roadmap
                 </Link>
               </li>
               <li>
-                <Link to="/app/foundation" className="text-gray-400 hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/app/foundation" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1">
                   Фонд <Heart size={12} className="text-pink-400" />
                 </Link>
               </li>
               <li>
-                <a href="mailto:hello@takeyourtoken.app" className="text-gray-400 hover:text-white transition-colors flex items-center gap-1">
+                <button
+                  onClick={CONTACT_CONFIG.openContactForm}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1"
+                >
                   Контакты <Mail size={12} />
-                </a>
+                </button>
               </li>
               <li>
-                <a href="mailto:press@takeyourtoken.app" className="text-gray-400 hover:text-white transition-colors">
+                <button
+                  onClick={CONTACT_CONFIG.openContactForm}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
                   Для СМИ
-                </a>
+                </button>
               </li>
             </ul>
           </div>
 
           {/* Юридическое */}
           <div>
-            <h4 className="font-bold mb-4 text-amber-400">Юридическое</h4>
+            <h4 className="font-bold mb-4 text-amber-600 dark:text-amber-400">Юридическое</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/terms" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <a href="#cookies" className="text-gray-400 hover:text-white transition-colors">
+                <a href="#cookies" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                   Cookie Policy
                 </a>
               </li>
               <li>
-                <a href="mailto:legal@takeyourtoken.app" className="text-gray-400 hover:text-white transition-colors">
+                <button
+                  onClick={CONTACT_CONFIG.openContactForm}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
                   Legal Inquiries
-                </a>
+                </button>
               </li>
               <li>
-                <a href="mailto:compliance@takeyourtoken.app" className="text-gray-400 hover:text-white transition-colors">
+                <button
+                  onClick={CONTACT_CONFIG.openContactForm}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
                   Compliance
-                </a>
+                </button>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Foundation Notice */}
-        <div className="border-t border-gray-800 pt-8 mb-8">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mb-8">
           <div className="bg-gradient-to-r from-pink-500/10 to-red-500/10 border border-pink-500/30 rounded-lg p-6">
             <div className="flex items-start gap-3">
               <Heart className="w-6 h-6 text-pink-400 flex-shrink-0 mt-1" />
               <div>
-                <h4 className="font-bold text-pink-400 mb-2">TYT Children's Brain Cancer Research & Support Foundation</h4>
-                <p className="text-sm text-gray-300 mb-3">
-                  Каждая транзакция на платформе автоматически поддерживает исследования и лечение опухолей мозга у детей.
-                  Вместе мы финансируем прорывные научные исследования и помогаем семьям по всему миру.
+                <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
+                  Supporting Children's Brain Cancer Research
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  Every transaction on the TYT platform automatically contributes to the TYT Children's Brain Cancer Research & Support Foundation. Together, we're funding critical research and supporting families affected by pediatric brain tumors.
                 </p>
-                <div className="flex flex-wrap gap-4 text-xs text-gray-400">
-                  <span>🏥 Партнёрство с ведущими клиниками</span>
-                  <span>🔬 Финансирование исследований</span>
-                  <span>💝 Поддержка семей</span>
-                  <span>📊 Полная прозрачность</span>
-                </div>
+                <Link
+                  to="/app/foundation"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  Learn About Our Impact
+                </Link>
               </div>
             </div>
           </div>
         </div>
 
         {/* Disclaimers */}
-        <div className="border-t border-gray-800 pt-8 mb-8">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mb-8">
           <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-4">
             <p className="text-xs text-gray-400 leading-relaxed">
               <strong className="text-amber-400">⚠️ Risk Disclosure:</strong> Cryptocurrency mining involves financial risk.
@@ -184,14 +198,12 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-800 pt-6 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Take Your Token. All rights reserved.
-            <span className="mx-2">•</span>
-            Built with <Heart size={12} className="inline text-pink-400" /> for a better future
           </p>
-          <p className="text-xs text-gray-600 mt-2">
-            Platform Version 2.0 • Last Updated: December 12, 2024
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+            Web3 Mining · NFT Technology · Blockchain Innovation · Medical Research
           </p>
         </div>
       </div>
