@@ -117,16 +117,31 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <div className="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full"></div>
+        <p className="text-secondary-text">Loading your profile...</p>
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-400">Profile not found</p>
+      <div className="text-center py-12 space-y-4">
+        <div className="w-16 h-16 mx-auto rounded-full bg-red-500/20 border-2 border-red-500/50 flex items-center justify-center">
+          <User className="w-8 h-8 text-red-400" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Profile Not Found</h2>
+          <p className="text-secondary-text mb-4">
+            We couldn't load your profile. This might be a temporary issue.
+          </p>
+          <button
+            onClick={loadProfile}
+            className="px-6 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
