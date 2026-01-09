@@ -265,7 +265,7 @@ export function formatTokenAmount(amount: number, decimals: number = 2): string 
 }
 
 export function getPriceChangeColor(change: number): string {
-  if (change > 0) return 'text-green-400';
-  if (change < 0) return 'text-red-400';
-  return 'text-gray-400';
+  if (change > 0) return 'text-green-500 dark:text-green-400';
+  if (change < 0) return 'text-red-500 dark:text-red-400';
+  return 'text-tertiary-text';
 }
