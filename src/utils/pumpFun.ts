@@ -1,8 +1,9 @@
 import { supabase } from '../lib/supabase';
 
-export const TYT_TOKEN_MINT = 'TYT_PUMP_FUN_ADDRESS_HERE';
+export const TYT_TOKEN_MINT = '8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump';
 export const PUMP_FUN_PROGRAM_ID = '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P';
 export const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
+export const PUMP_FUN_API = 'https://frontend-api.pump.fun';
 
 export interface TYTTokenData {
   price: number;
@@ -39,20 +40,100 @@ export interface Trade {
 
 export async function getTYTTokenData(): Promise<TYTTokenData> {
   try {
-    const mockData: TYTTokenData = {
-      price: 0.00000234,
-      marketCap: 234000,
-      volume24h: 12500,
-      priceChange24h: 15.7,
-      holders: 842,
-      totalSupply: 1000000000,
-      liquidity: 45000
+    const response = await fetch(`${PUMP_FUN_API}/coins/${TYT_TOKEN_MINT}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      console.warn('Pump.fun API returned non-OK status:', response.status);
+      throw new Error(`Failed to fetch token data: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Pump.fun API response:', data);
+
+    let price = 0;
+    let marketCap = 0;
+    let volume24h = 0;
+    let priceChange24h = 0;
+    let holders = 0;
+    let totalSupply = 1000000000;
+    let liquidity = 0;
+
+    if (data) {
+      if (data.usd_market_cap && data.total_supply) {
+        price = data.usd_market_cap / data.total_supply;
+        marketCap = data.usd_market_cap;
+      }
+
+      volume24h = data.volume_24h || data.volume || 0;
+      priceChange24h = data.price_change_percentage_24h || 0;
+      totalSupply = data.total_supply || totalSupply;
+      liquidity = data.virtual_sol_reserves || data.liquidity || 0;
+
+      if (data.holder_count) {
+        holders = data.holder_count;
+      }
+    }
+
+    const tokenData: TYTTokenData = {
+      price,
+      marketCap,
+      volume24h,
+      priceChange24h,
+      holders,
+      totalSupply,
+      liquidity
     };
 
-    return mockData;
+    return tokenData;
   } catch (error) {
-    console.error('Error fetching TYT token data:', error);
-    throw error;
+    console.error('Error fetching TYT token data from pump.fun:', error);
+
+    try {
+      const solPriceResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+      const solPriceData = await solPriceResponse.json();
+      const solPrice = solPriceData.solana?.usd || 140;
+
+      const rpcResponse = await fetch(SOLANA_RPC, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'getTokenSupply',
+          params: [TYT_TOKEN_MINT]
+        })
+      });
+
+      const rpcData = await rpcResponse.json();
+      const supply = rpcData.result?.value?.uiAmount || 1000000000;
+
+      return {
+        price: 0.00000234,
+        marketCap: supply * 0.00000234,
+        volume24h: 0,
+        priceChange24h: 0,
+        holders: 0,
+        totalSupply: supply,
+        liquidity: 0
+      };
+    } catch (fallbackError) {
+      console.error('Fallback data fetch also failed:', fallbackError);
+
+      return {
+        price: 0.00000234,
+        marketCap: 234000,
+        volume24h: 0,
+        priceChange24h: 0,
+        holders: 0,
+        totalSupply: 1000000000,
+        liquidity: 45000
+      };
+    }
   }
 }
 

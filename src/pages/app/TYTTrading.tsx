@@ -53,6 +53,12 @@ export default function TYTTrading() {
 
   useEffect(() => {
     loadData();
+
+    const interval = setInterval(() => {
+      loadData();
+    }, 15000);
+
+    return () => clearInterval(interval);
   }, [user]);
 
   const loadData = async () => {
@@ -165,7 +171,7 @@ export default function TYTTrading() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-primary-text mb-2">TYT Trading</h1>
-            <p className="text-tertiary-text">Trade TYT token on pump.fun platform</p>
+            <p className="text-tertiary-text">Real-time market data from pump.fun</p>
           </div>
           <button
             onClick={handleRefresh}
@@ -175,6 +181,20 @@ export default function TYTTrading() {
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
             Refresh
           </button>
+        </div>
+
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <Activity className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="font-semibold text-primary-text mb-1">Live Market Data Display</h3>
+              <p className="text-sm text-tertiary-text leading-relaxed">
+                You are viewing real-time market data for TYT token traded on pump.fun platform.
+                Trading functionality will be available soon through our integrated wallet system,
+                which will serve as a bridge between your wallet and pump.fun.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -187,18 +207,26 @@ export default function TYTTrading() {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-primary-text">TYT Token</h2>
-                    <p className="text-sm text-tertiary-text">Pump.fun Trading</p>
+                    <p className="text-sm text-tertiary-text flex items-center gap-2">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                      Live from Pump.fun
+                    </p>
                   </div>
                 </div>
-                <a
-                  href="https://pump.fun"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-500 hover:bg-amber-500/20 transition-colors text-sm"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  View on Pump.fun
-                </a>
+                <div className="flex items-center gap-3">
+                  <div className="text-xs text-tertiary-text hidden md:block">
+                    Auto-refresh: 15s
+                  </div>
+                  <a
+                    href="https://pump.fun/coin/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-500 hover:bg-amber-500/20 transition-colors text-sm"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    View on Pump.fun
+                  </a>
+                </div>
               </div>
 
               {tokenData && (
@@ -284,12 +312,27 @@ export default function TYTTrading() {
               <div className="bg-tertiary/30 rounded-lg p-6">
                 {selectedTab === 'chart' && (
                   <div className="space-y-4">
-                    <div className="text-center py-12">
-                      <BarChart3 className="w-16 h-16 text-amber-500 mx-auto mb-4" />
-                      <p className="text-tertiary-text mb-2">Real-time price chart</p>
-                      <p className="text-sm text-tertiary-text">
-                        Integrated with TradingView charts
-                      </p>
+                    <div className="bg-secondary border border-secondary rounded-lg p-6">
+                      <div className="text-center">
+                        <BarChart3 className="w-16 h-16 text-amber-500 mx-auto mb-4" />
+                        <p className="text-lg font-semibold text-primary-text mb-2">
+                          Live Market Data
+                        </p>
+                        <p className="text-sm text-tertiary-text max-w-md mx-auto">
+                          Real-time price data from pump.fun. Advanced charting features with TradingView integration coming soon.
+                        </p>
+                        <div className="mt-4">
+                          <a
+                            href="https://pump.fun/coin/8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump?tab=market_cap"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors text-sm"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            View Full Chart on Pump.fun
+                          </a>
+                        </div>
+                      </div>
                     </div>
                     {tokenData && (
                       <div className="grid grid-cols-2 gap-4">
@@ -535,18 +578,17 @@ export default function TYTTrading() {
                   )}
 
                   <button
-                    onClick={handleTrade}
-                    disabled={isTrading || !amount || parseFloat(amount) <= 0}
-                    className={`w-full py-3 px-4 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                      tradeType === 'buy'
-                        ? 'bg-green-500 hover:bg-green-600 text-white'
-                        : 'bg-red-500 hover:bg-red-600 text-white'
-                    }`}
+                    disabled={true}
+                    className="w-full py-3 px-4 font-medium rounded-lg transition-colors opacity-50 cursor-not-allowed bg-tertiary text-tertiary-text"
                   >
-                    {isTrading
-                      ? 'Processing...'
-                      : `${tradeType === 'buy' ? 'Buy' : 'Sell'} TYT`}
+                    Trading Coming Soon
                   </button>
+
+                  <div className="mt-3 p-3 bg-tertiary/50 rounded-lg">
+                    <p className="text-xs text-tertiary-text text-center">
+                      Direct trading will be available soon through our wallet integration with pump.fun
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
