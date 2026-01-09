@@ -19,7 +19,7 @@ Allows users on **takeyourtoken.app** to:
 - Submit feedback
 
 **Response channels**:
-- 📧 Email: olekfribel@hotmail.com
+- 📧 Email: support@takeyourtoken.com
 - 💬 Telegram: Chat ID -5175884242
 
 ---
@@ -57,7 +57,7 @@ Allows users on **takeyourtoken.app** to:
             ▼                     ▼
 ┌─────────────────────┐  ┌─────────────────────┐
 │   Email (Resend)    │  │   Telegram Bot      │
-│ olekfribel@hotmail  │  │   Chat -5175884242  │
+│ support@tyt.com     │  │   Chat -5175884242  │
 └─────────────────────┘  └─────────────────────┘
 ```
 
@@ -94,7 +94,7 @@ Location: `supabase/functions/contact-notification/`
 
 ```sql
 -- In foundation table
-email: olekfribel@hotmail.com
+email: support@takeyourtoken.com
 telegram_chat_id: -5175884242
 ```
 
@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS foundation_contacts (
 
 -- Insert default contact
 INSERT INTO foundation_contacts (contact_type, email, telegram_chat_id)
-VALUES ('primary', 'olekfribel@hotmail.com', '-5175884242')
+VALUES ('primary', 'support@takeyourtoken.com', '-5175884242')
 ON CONFLICT DO NOTHING;
 ```
 
@@ -754,10 +754,10 @@ export default function Contact() {
               For direct inquiries
             </p>
             <a
-              href="mailto:olekfribel@hotmail.com"
+              href="mailto:support@takeyourtoken.com"
               className="text-gold-400 hover:text-gold-300 text-sm"
             >
-              olekfribel@hotmail.com
+              support@takeyourtoken.com
             </a>
           </div>
 
@@ -1214,7 +1214,7 @@ LIMIT 1;
 ### Test 3: Check Email
 
 ```
-Check olekfribel@hotmail.com inbox
+Check support@takeyourtoken.com inbox
 Expected: Email with subject "[Contact Form] Test Message"
 ```
 
@@ -1272,7 +1272,7 @@ curl -X POST 'https://api.resend.com/emails' \
   -H 'Content-Type: application/json' \
   -d '{
     "from": "noreply@takeyourtoken.com",
-    "to": "olekfribel@hotmail.com",
+    "to": "support@takeyourtoken.com",
     "subject": "Test",
     "html": "<p>Test</p>"
   }'

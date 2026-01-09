@@ -42,7 +42,7 @@ export default function Profile() {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user.id)
+        .eq('email', user.email)
         .maybeSingle();
 
       if (error) throw error;
@@ -80,7 +80,7 @@ export default function Profile() {
           full_name: editForm.full_name,
           updated_at: new Date().toISOString()
         })
-        .eq('id', user.id);
+        .eq('email', user.email);
 
       if (error) throw error;
 

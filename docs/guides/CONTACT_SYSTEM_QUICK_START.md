@@ -79,7 +79,7 @@ supabase functions deploy contact-notification
 ### Step 5: Test (5 minutes)
 
 1. Submit form at `/contact`
-2. Check email: olekfribel@hotmail.com
+2. Check email: support@takeyourtoken.com
 3. Check Telegram: -5175884242
 4. View in admin: `/app/admin-messages`
 

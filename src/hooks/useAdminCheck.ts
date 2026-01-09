@@ -20,12 +20,12 @@ export function useAdminCheck() {
       try {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('is_admin, role')
-          .eq('id', user.id)
-          .single();
+          .select('is_admin')
+          .eq('email', user.email)
+          .maybeSingle();
 
         if (mounted) {
-          setIsAdmin(profile?.is_admin === true || profile?.role === 'admin');
+          setIsAdmin(profile?.is_admin === true);
         }
       } catch (error) {
         console.error('Error checking admin status:', error);
