@@ -183,20 +183,37 @@ export default function TYTTrading() {
           </button>
         </div>
 
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+        <div className={`${tokenData?.source?.includes('Demo') ? 'bg-blue-500/10 border-blue-500/30' : 'bg-amber-500/10 border-amber-500/30'} border rounded-xl p-4`}>
           <div className="flex items-start gap-3">
-            <Activity className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+            <Activity className={`w-5 h-5 ${tokenData?.source?.includes('Demo') ? 'text-blue-500' : 'text-amber-500'} mt-0.5 flex-shrink-0`} />
             <div className="flex-1">
-              <h3 className="font-semibold text-primary-text mb-1">Live Market Data Display</h3>
+              <h3 className="font-semibold text-primary-text mb-1">
+                {tokenData?.source?.includes('Demo') ? 'Demo Market Data Display' : 'Live Market Data Display'}
+              </h3>
               <p className="text-sm text-tertiary-text leading-relaxed">
-                Real-time market data from multiple sources: Pump.fun API (primary), DexScreener (backup).
-                Data automatically updates every 15 seconds. Trading functionality will be available soon through our
-                integrated wallet system, which will serve as a bridge between your wallet and pump.fun.
+                {tokenData?.source?.includes('Demo') ? (
+                  <>
+                    Demo mode is active with simulated market data. Real-time data sources (Pump.fun, DexScreener, Jupiter) are currently unavailable.
+                    Demo data updates with realistic variations to show platform functionality. Trading will connect to real markets.
+                  </>
+                ) : (
+                  <>
+                    Real-time market data from multiple sources: Pump.fun API (primary), DexScreener, Jupiter (backups).
+                    Data automatically updates every 15 seconds. Trading functionality will be available soon through our
+                    integrated wallet system, which will serve as a bridge between your wallet and pump.fun.
+                  </>
+                )}
               </p>
               {tokenData?.source && (
                 <div className="mt-2 flex items-center gap-2 text-xs">
                   <span className="text-tertiary-text">Current data source:</span>
-                  <span className={`font-medium ${tokenData.source !== 'No data available' ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                  <span className={`font-medium ${
+                    tokenData.source.includes('Demo')
+                      ? 'text-blue-500 dark:text-blue-400'
+                      : tokenData.source === 'No data available'
+                        ? 'text-red-500 dark:text-red-400'
+                        : 'text-green-500 dark:text-green-400'
+                  }`}>
                     {tokenData.source}
                   </span>
                 </div>
@@ -217,7 +234,13 @@ export default function TYTTrading() {
                     <h2 className="text-2xl font-bold text-primary-text">TYT Token</h2>
                     <div className="flex items-center gap-2">
                       <p className="text-sm text-tertiary-text flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${tokenData?.source && tokenData.source !== 'No data available' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+                        <span className={`w-2 h-2 rounded-full ${
+                          tokenData?.source?.includes('Demo')
+                            ? 'bg-blue-500 animate-pulse'
+                            : tokenData?.source && tokenData.source !== 'No data available'
+                              ? 'bg-green-500 animate-pulse'
+                              : 'bg-red-500'
+                        }`}></span>
                         {tokenData?.source || 'Loading...'}
                       </p>
                       {tokenData?.lastUpdate && (

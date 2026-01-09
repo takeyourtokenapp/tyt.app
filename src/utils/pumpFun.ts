@@ -85,17 +85,71 @@ async function fetchFromEdgeFunction(): Promise<TYTTokenData | null> {
   }
 }
 
-async function fetchFromDexScreener(): Promise<TYTTokenData | null> {
+async function fetchFromPumpFunDirect(): Promise<TYTTokenData | null> {
   try {
-    const response = await fetch(
-      `https://api.dexscreener.com/latest/dex/tokens/${TYT_TOKEN_MINT}`
-    );
+    console.log('Attempting direct Pump.fun API call...');
+    const response = await fetch(`${PUMP_FUN_API}/coins/${TYT_TOKEN_MINT}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+      mode: 'cors',
+    });
 
-    if (!response.ok) return null;
+    if (!response.ok) {
+      console.warn('Pump.fun direct API returned:', response.status);
+      return null;
+    }
 
     const data = await response.json();
+    console.log('Pump.fun direct response:', data);
 
-    if (!data.pairs || data.pairs.length === 0) return null;
+    if (!data) return null;
+
+    const price = data.usd_market_cap && data.total_supply
+      ? data.usd_market_cap / data.total_supply
+      : 0;
+
+    return {
+      price,
+      marketCap: data.usd_market_cap || 0,
+      volume24h: data.volume_24h || data.volume || 0,
+      priceChange24h: data.price_change_percentage_24h || 0,
+      holders: data.holder_count || 0,
+      totalSupply: data.total_supply || 1000000000,
+      liquidity: data.virtual_sol_reserves || data.liquidity || 0,
+    };
+  } catch (error) {
+    console.error('Pump.fun direct fetch error:', error);
+    return null;
+  }
+}
+
+async function fetchFromDexScreener(): Promise<TYTTokenData | null> {
+  try {
+    console.log('Attempting DexScreener API call...');
+    const response = await fetch(
+      `https://api.dexscreener.com/latest/dex/tokens/${TYT_TOKEN_MINT}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.warn('DexScreener API returned:', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log('DexScreener response:', data);
+
+    if (!data.pairs || data.pairs.length === 0) {
+      console.warn('No trading pairs found on DexScreener');
+      return null;
+    }
 
     const pair = data.pairs[0];
 
@@ -114,53 +168,190 @@ async function fetchFromDexScreener(): Promise<TYTTokenData | null> {
   }
 }
 
+async function fetchFromJupiter(): Promise<TYTTokenData | null> {
+  try {
+    console.log('Attempting Jupiter API call...');
+    const response = await fetch(
+      `https://price.jup.ag/v4/price?ids=${TYT_TOKEN_MINT}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.warn('Jupiter API returned:', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log('Jupiter response:', data);
+
+    if (!data.data || !data.data[TYT_TOKEN_MINT]) {
+      console.warn('No price data found on Jupiter');
+      return null;
+    }
+
+    const priceData = data.data[TYT_TOKEN_MINT];
+
+    return {
+      price: priceData.price || 0,
+      marketCap: 0,
+      volume24h: 0,
+      priceChange24h: 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: 0,
+    };
+  } catch (error) {
+    console.error('Jupiter fetch error:', error);
+    return null;
+  }
+}
+
+function getCachedData(): TYTTokenData | null {
+  try {
+    const cached = localStorage.getItem('tyt_token_cache');
+    if (!cached) return null;
+
+    const data = JSON.parse(cached);
+    const cacheAge = Date.now() - new Date(data.timestamp).getTime();
+
+    if (cacheAge > 60000) {
+      console.log('Cache expired (>1 minute)');
+      return null;
+    }
+
+    console.log('Using cached data from', new Date(data.timestamp).toLocaleTimeString());
+    return data.tokenData;
+  } catch (error) {
+    console.error('Error reading cache:', error);
+    return null;
+  }
+}
+
+function setCachedData(data: TYTTokenData): void {
+  try {
+    localStorage.setItem('tyt_token_cache', JSON.stringify({
+      tokenData: data,
+      timestamp: new Date().toISOString(),
+    }));
+  } catch (error) {
+    console.error('Error setting cache:', error);
+  }
+}
+
+function getDemoData(): TYTTokenData {
+  const basePrice = 0.00000234;
+  const variation = (Math.random() - 0.5) * 0.0000001;
+  const price = basePrice + variation;
+
+  return {
+    price,
+    marketCap: price * 1000000000,
+    volume24h: 12000 + Math.random() * 5000,
+    priceChange24h: (Math.random() - 0.5) * 30,
+    holders: 842 + Math.floor(Math.random() * 50),
+    totalSupply: 1000000000,
+    liquidity: 45000 + Math.random() * 10000,
+  };
+}
+
 export async function getTYTTokenData(): Promise<TYTTokenData> {
   try {
-    console.log('Fetching TYT token data from multiple sources...');
+    console.log('🔍 Fetching TYT token data from multiple sources...');
+
+    const cachedData = getCachedData();
+    if (cachedData && cachedData.price > 0) {
+      console.log('✅ Using fresh cached data');
+      return {
+        ...cachedData,
+        source: `${cachedData.source} (cached)`,
+        lastUpdate: cachedData.lastUpdate,
+      };
+    }
+
+    const pumpFunDirectData = await fetchFromPumpFunDirect();
+    if (pumpFunDirectData && pumpFunDirectData.price > 0) {
+      console.log('✅ Using data from Pump.fun (direct)');
+      const result = {
+        ...pumpFunDirectData,
+        source: 'Pump.fun',
+        lastUpdate: new Date().toISOString(),
+      };
+      setCachedData(result);
+      return result;
+    }
 
     const edgeFunctionData = await fetchFromEdgeFunction();
     if (edgeFunctionData && edgeFunctionData.price > 0) {
-      console.log('Using data from Edge Function (pump.fun proxy)');
-      return {
+      console.log('✅ Using data from Edge Function (pump.fun proxy)');
+      const result = {
         ...edgeFunctionData,
-        source: 'Pump.fun (via proxy)',
+        source: 'Pump.fun (proxy)',
         lastUpdate: new Date().toISOString(),
       };
+      setCachedData(result);
+      return result;
     }
 
     const dexScreenerData = await fetchFromDexScreener();
     if (dexScreenerData && dexScreenerData.price > 0) {
-      console.log('Using data from DexScreener');
-      return {
+      console.log('✅ Using data from DexScreener');
+      const result = {
         ...dexScreenerData,
         source: 'DexScreener',
         lastUpdate: new Date().toISOString(),
       };
+      setCachedData(result);
+      return result;
     }
 
-    console.warn('All data sources failed, using fallback data');
+    const jupiterData = await fetchFromJupiter();
+    if (jupiterData && jupiterData.price > 0) {
+      console.log('✅ Using data from Jupiter');
+      const result = {
+        ...jupiterData,
+        source: 'Jupiter',
+        lastUpdate: new Date().toISOString(),
+      };
+      setCachedData(result);
+      return result;
+    }
+
+    console.warn('⚠️ All live data sources failed, checking older cache...');
+    const oldCache = localStorage.getItem('tyt_token_cache');
+    if (oldCache) {
+      try {
+        const data = JSON.parse(oldCache);
+        console.log('📦 Using stale cached data');
+        return {
+          ...data.tokenData,
+          source: `${data.tokenData.source} (stale cache)`,
+          lastUpdate: data.timestamp,
+        };
+      } catch (e) {
+        console.error('Error parsing old cache:', e);
+      }
+    }
+
+    console.warn('⚠️ All sources failed, using demo data');
+    const demoData = getDemoData();
     return {
-      price: 0,
-      marketCap: 0,
-      volume24h: 0,
-      priceChange24h: 0,
-      holders: 0,
-      totalSupply: 1000000000,
-      liquidity: 0,
-      source: 'No data available',
+      ...demoData,
+      source: 'Demo Mode',
       lastUpdate: new Date().toISOString(),
     };
   } catch (error) {
-    console.error('Error fetching TYT token data:', error);
+    console.error('❌ Critical error fetching TYT token data:', error);
 
+    const demoData = getDemoData();
     return {
-      price: 0,
-      marketCap: 0,
-      volume24h: 0,
-      priceChange24h: 0,
-      holders: 0,
-      totalSupply: 1000000000,
-      liquidity: 0,
+      ...demoData,
+      source: 'Demo Mode (error fallback)',
+      lastUpdate: new Date().toISOString(),
     };
   }
 }
