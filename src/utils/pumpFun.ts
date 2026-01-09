@@ -243,93 +243,246 @@ function setCachedData(data: TYTTokenData): void {
   }
 }
 
-function getDemoData(): TYTTokenData {
-  const basePrice = 0.00000234;
-  const variation = (Math.random() - 0.5) * 0.0000001;
-  const price = basePrice + variation;
+async function fetchFromSolanaRPC(): Promise<TYTTokenData | null> {
+  try {
+    console.log('Attempting Solana RPC call for token supply...');
 
-  return {
-    price,
-    marketCap: price * 1000000000,
-    volume24h: 12000 + Math.random() * 5000,
-    priceChange24h: (Math.random() - 0.5) * 30,
-    holders: 842 + Math.floor(Math.random() * 50),
-    totalSupply: 1000000000,
-    liquidity: 45000 + Math.random() * 10000,
-  };
+    const response = await fetch(SOLANA_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'getTokenSupply',
+        params: [TYT_TOKEN_MINT],
+      }),
+    });
+
+    if (!response.ok) {
+      console.warn('Solana RPC returned:', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log('Solana RPC response:', data);
+
+    if (data.result?.value?.uiAmount) {
+      const supply = data.result.value.uiAmount;
+
+      return {
+        price: 0,
+        marketCap: 0,
+        volume24h: 0,
+        priceChange24h: 0,
+        holders: 0,
+        totalSupply: supply,
+        liquidity: 0,
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Solana RPC fetch error:', error);
+    return null;
+  }
+}
+
+async function fetchFromSupabaseCache(): Promise<TYTTokenData | null> {
+  try {
+    console.log('Checking Supabase cache for recent data...');
+    const { data, error } = await supabase
+      .from('token_price_cache')
+      .select('*')
+      .eq('token_mint', TYT_TOKEN_MINT)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.warn('Supabase cache error:', error);
+      return null;
+    }
+
+    if (!data) {
+      console.log('No cached data found in Supabase');
+      return null;
+    }
+
+    const cacheAge = Date.now() - new Date(data.created_at).getTime();
+
+    if (cacheAge > 300000) {
+      console.log('Supabase cache expired (>5 minutes)');
+      return null;
+    }
+
+    console.log('Using Supabase cached data from', new Date(data.created_at).toLocaleTimeString());
+    return {
+      price: data.price || 0,
+      marketCap: data.market_cap || 0,
+      volume24h: data.volume_24h || 0,
+      priceChange24h: data.price_change_24h || 0,
+      holders: data.holders || 0,
+      totalSupply: data.total_supply || 1000000000,
+      liquidity: data.liquidity || 0,
+    };
+  } catch (error) {
+    console.error('Supabase cache fetch error:', error);
+    return null;
+  }
+}
+
+async function saveToSupabaseCache(data: TYTTokenData, source: string): Promise<void> {
+  try {
+    if (data.price === 0 && data.marketCap === 0) {
+      console.log('Skipping cache save - insufficient data');
+      return;
+    }
+
+    await supabase
+      .from('token_price_cache')
+      .insert({
+        token_mint: TYT_TOKEN_MINT,
+        price: data.price,
+        market_cap: data.marketCap,
+        volume_24h: data.volume24h,
+        price_change_24h: data.priceChange24h,
+        holders: data.holders,
+        total_supply: data.totalSupply,
+        liquidity: data.liquidity,
+        source: source,
+      });
+
+    console.log('✅ Saved to Supabase cache');
+  } catch (error) {
+    console.error('Failed to save to Supabase cache:', error);
+  }
 }
 
 export async function getTYTTokenData(): Promise<TYTTokenData> {
   try {
-    console.log('🔍 Fetching TYT token data from multiple sources...');
+    console.log('🔍 Fetching REAL TYT token data from multiple sources...');
+
+    const supabaseCacheData = await fetchFromSupabaseCache();
+    if (supabaseCacheData && supabaseCacheData.price > 0) {
+      console.log('✅ Using recent Supabase cached data');
+      return {
+        ...supabaseCacheData,
+        source: 'Recent Data (cached)',
+        lastUpdate: new Date().toISOString(),
+      };
+    }
 
     const cachedData = getCachedData();
     if (cachedData && cachedData.price > 0) {
-      console.log('✅ Using fresh cached data');
+      console.log('✅ Using fresh localStorage data');
       return {
         ...cachedData,
-        source: `${cachedData.source} (cached)`,
+        source: 'Recent Data (local)',
         lastUpdate: cachedData.lastUpdate,
       };
     }
 
+    console.log('📡 No recent cache, fetching from live sources...');
+
     const pumpFunDirectData = await fetchFromPumpFunDirect();
     if (pumpFunDirectData && pumpFunDirectData.price > 0) {
-      console.log('✅ Using data from Pump.fun (direct)');
+      console.log('✅ Got REAL data from Pump.fun (direct)');
       const result = {
         ...pumpFunDirectData,
-        source: 'Pump.fun',
+        source: 'Pump.fun API',
         lastUpdate: new Date().toISOString(),
       };
       setCachedData(result);
+      await saveToSupabaseCache(result, 'pump.fun');
       return result;
     }
 
     const edgeFunctionData = await fetchFromEdgeFunction();
     if (edgeFunctionData && edgeFunctionData.price > 0) {
-      console.log('✅ Using data from Edge Function (pump.fun proxy)');
+      console.log('✅ Got REAL data from Edge Function');
       const result = {
         ...edgeFunctionData,
         source: 'Pump.fun (proxy)',
         lastUpdate: new Date().toISOString(),
       };
       setCachedData(result);
+      await saveToSupabaseCache(result, 'pump.fun-proxy');
       return result;
     }
 
     const dexScreenerData = await fetchFromDexScreener();
     if (dexScreenerData && dexScreenerData.price > 0) {
-      console.log('✅ Using data from DexScreener');
+      console.log('✅ Got REAL data from DexScreener');
       const result = {
         ...dexScreenerData,
         source: 'DexScreener',
         lastUpdate: new Date().toISOString(),
       };
       setCachedData(result);
+      await saveToSupabaseCache(result, 'dexscreener');
       return result;
     }
 
     const jupiterData = await fetchFromJupiter();
     if (jupiterData && jupiterData.price > 0) {
-      console.log('✅ Using data from Jupiter');
+      console.log('✅ Got REAL data from Jupiter');
       const result = {
         ...jupiterData,
         source: 'Jupiter',
         lastUpdate: new Date().toISOString(),
       };
       setCachedData(result);
+      await saveToSupabaseCache(result, 'jupiter');
       return result;
     }
 
-    console.warn('⚠️ All live data sources failed, checking older cache...');
+    console.warn('⚠️ No price data available from exchanges');
+    console.log('📊 Attempting to get token supply from Solana RPC...');
+
+    const solanaData = await fetchFromSolanaRPC();
+    if (solanaData) {
+      console.log('✅ Got token supply from Solana blockchain');
+      return {
+        ...solanaData,
+        source: 'Solana Blockchain',
+        lastUpdate: new Date().toISOString(),
+      };
+    }
+
+    console.warn('⚠️ All live sources failed, checking older cache...');
+    const oldSupabaseCache = await supabase
+      .from('token_price_cache')
+      .select('*')
+      .eq('token_mint', TYT_TOKEN_MINT)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (oldSupabaseCache.data) {
+      console.log('📦 Using older Supabase cache');
+      const age = Math.floor((Date.now() - new Date(oldSupabaseCache.data.created_at).getTime()) / 60000);
+      return {
+        price: oldSupabaseCache.data.price || 0,
+        marketCap: oldSupabaseCache.data.market_cap || 0,
+        volume24h: oldSupabaseCache.data.volume_24h || 0,
+        priceChange24h: oldSupabaseCache.data.price_change_24h || 0,
+        holders: oldSupabaseCache.data.holders || 0,
+        totalSupply: oldSupabaseCache.data.total_supply || 1000000000,
+        liquidity: oldSupabaseCache.data.liquidity || 0,
+        source: `Cached Data (${age}m old)`,
+        lastUpdate: oldSupabaseCache.data.created_at,
+      };
+    }
+
     const oldCache = localStorage.getItem('tyt_token_cache');
     if (oldCache) {
       try {
         const data = JSON.parse(oldCache);
-        console.log('📦 Using stale cached data');
+        const age = Math.floor((Date.now() - new Date(data.timestamp).getTime()) / 60000);
+        console.log(`📦 Using stale localStorage cache (${age}m old)`);
         return {
           ...data.tokenData,
-          source: `${data.tokenData.source} (stale cache)`,
+          source: `Cached Data (${age}m old)`,
           lastUpdate: data.timestamp,
         };
       } catch (e) {
@@ -337,20 +490,30 @@ export async function getTYTTokenData(): Promise<TYTTokenData> {
       }
     }
 
-    console.warn('⚠️ All sources failed, using demo data');
-    const demoData = getDemoData();
+    console.error('❌ No data available from any source');
     return {
-      ...demoData,
-      source: 'Demo Mode',
+      price: 0,
+      marketCap: 0,
+      volume24h: 0,
+      priceChange24h: 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: 0,
+      source: 'Loading... (retry in 15s)',
       lastUpdate: new Date().toISOString(),
     };
   } catch (error) {
     console.error('❌ Critical error fetching TYT token data:', error);
 
-    const demoData = getDemoData();
     return {
-      ...demoData,
-      source: 'Demo Mode (error fallback)',
+      price: 0,
+      marketCap: 0,
+      volume24h: 0,
+      priceChange24h: 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: 0,
+      source: 'Error - Retrying...',
       lastUpdate: new Date().toISOString(),
     };
   }

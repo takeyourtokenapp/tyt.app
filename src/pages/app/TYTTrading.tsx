@@ -183,35 +183,57 @@ export default function TYTTrading() {
           </button>
         </div>
 
-        <div className={`${tokenData?.source?.includes('Demo') ? 'bg-blue-500/10 border-blue-500/30' : 'bg-amber-500/10 border-amber-500/30'} border rounded-xl p-4`}>
+        <div className={`border rounded-xl p-4 ${
+          tokenData?.source?.includes('Loading') || tokenData?.source?.includes('Error')
+            ? 'bg-yellow-500/10 border-yellow-500/30'
+            : tokenData?.source?.includes('Cached') || tokenData?.source?.includes('old')
+              ? 'bg-blue-500/10 border-blue-500/30'
+              : 'bg-green-500/10 border-green-500/30'
+        }`}>
           <div className="flex items-start gap-3">
-            <Activity className={`w-5 h-5 ${tokenData?.source?.includes('Demo') ? 'text-blue-500' : 'text-amber-500'} mt-0.5 flex-shrink-0`} />
+            <Activity className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+              tokenData?.source?.includes('Loading') || tokenData?.source?.includes('Error')
+                ? 'text-yellow-500'
+                : tokenData?.source?.includes('Cached') || tokenData?.source?.includes('old')
+                  ? 'text-blue-500'
+                  : 'text-green-500'
+            }`} />
             <div className="flex-1">
               <h3 className="font-semibold text-primary-text mb-1">
-                {tokenData?.source?.includes('Demo') ? 'Demo Market Data Display' : 'Live Market Data Display'}
+                {tokenData?.source?.includes('Loading') || tokenData?.source?.includes('Error')
+                  ? 'Connecting to Data Sources...'
+                  : tokenData?.source?.includes('Cached') || tokenData?.source?.includes('old')
+                    ? 'Recent Market Data (Cached)'
+                    : 'Live Market Data'}
               </h3>
               <p className="text-sm text-tertiary-text leading-relaxed">
-                {tokenData?.source?.includes('Demo') ? (
+                {tokenData?.source?.includes('Loading') || tokenData?.source?.includes('Error') ? (
                   <>
-                    Demo mode is active with simulated market data. Real-time data sources (Pump.fun, DexScreener, Jupiter) are currently unavailable.
-                    Demo data updates with realistic variations to show platform functionality. Trading will connect to real markets.
+                    Connecting to real-time data sources (Pump.fun, DexScreener, Jupiter).
+                    The system is attempting to fetch live market data for TYT token.
+                    Auto-retry every 15 seconds. Please wait...
+                  </>
+                ) : tokenData?.source?.includes('Cached') || tokenData?.source?.includes('old') ? (
+                  <>
+                    Displaying recent cached market data. Live sources are being checked in the background.
+                    Data automatically updates every 15 seconds when new information becomes available.
                   </>
                 ) : (
                   <>
-                    Real-time market data from multiple sources: Pump.fun API (primary), DexScreener, Jupiter (backups).
-                    Data automatically updates every 15 seconds. Trading functionality will be available soon through our
-                    integrated wallet system, which will serve as a bridge between your wallet and pump.fun.
+                    Real-time market data from Solana blockchain and DEX aggregators.
+                    Token: <span className="font-mono text-xs">8YuADot...v7rpump</span>
+                    {' '}• Auto-updates every 15 seconds • Trading functionality coming soon
                   </>
                 )}
               </p>
               {tokenData?.source && (
                 <div className="mt-2 flex items-center gap-2 text-xs">
-                  <span className="text-tertiary-text">Current data source:</span>
+                  <span className="text-tertiary-text">Data source:</span>
                   <span className={`font-medium ${
-                    tokenData.source.includes('Demo')
-                      ? 'text-blue-500 dark:text-blue-400'
-                      : tokenData.source === 'No data available'
-                        ? 'text-red-500 dark:text-red-400'
+                    tokenData.source.includes('Loading') || tokenData.source.includes('Error')
+                      ? 'text-yellow-500 dark:text-yellow-400'
+                      : tokenData.source.includes('Cached') || tokenData.source.includes('old')
+                        ? 'text-blue-500 dark:text-blue-400'
                         : 'text-green-500 dark:text-green-400'
                   }`}>
                     {tokenData.source}
@@ -235,13 +257,15 @@ export default function TYTTrading() {
                     <div className="flex items-center gap-2">
                       <p className="text-sm text-tertiary-text flex items-center gap-2">
                         <span className={`w-2 h-2 rounded-full ${
-                          tokenData?.source?.includes('Demo')
-                            ? 'bg-blue-500 animate-pulse'
-                            : tokenData?.source && tokenData.source !== 'No data available'
-                              ? 'bg-green-500 animate-pulse'
-                              : 'bg-red-500'
+                          tokenData?.source?.includes('Loading') || tokenData?.source?.includes('Error')
+                            ? 'bg-yellow-500 animate-pulse'
+                            : tokenData?.source?.includes('Cached') || tokenData?.source?.includes('old')
+                              ? 'bg-blue-500 animate-pulse'
+                              : tokenData?.source && tokenData.price > 0
+                                ? 'bg-green-500 animate-pulse'
+                                : 'bg-red-500'
                         }`}></span>
-                        {tokenData?.source || 'Loading...'}
+                        {tokenData?.source || 'Connecting...'}
                       </p>
                       {tokenData?.lastUpdate && (
                         <span className="text-xs text-tertiary-text">
