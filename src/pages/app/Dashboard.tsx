@@ -290,12 +290,12 @@ export default function Dashboard() {
                   <Zap className="w-6 h-6 text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">{t('dashboard.serviceButton.title')}</h3>
-                  <p className="text-sm text-gray-400">{t('dashboard.serviceButton.pressTo', { amount: vipLevel ? parseFloat(vipLevel.service_button_reward) : 10 })}</p>
+                  <h3 className="text-xl font-bold tyt-text-primary">{t('dashboard.serviceButton.title')}</h3>
+                  <p className="text-sm tyt-text-tertiary">{t('dashboard.serviceButton.pressTo', { amount: vipLevel ? parseFloat(vipLevel.service_button_reward) : 10 })}</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-gray-400">{t('dashboard.serviceButton.totalPresses')}</div>
+                <div className="text-xs tyt-text-tertiary">{t('dashboard.serviceButton.totalPresses')}</div>
                 <div className="text-2xl font-bold text-amber-400">{profile.service_button_presses || 0}</div>
               </div>
             </div>
@@ -305,7 +305,7 @@ export default function Dashboard() {
               disabled={serviceButtonCooldown > 0 || pressingService}
               className={`w-full py-6 rounded-xl font-bold text-lg transition-all ${
                 serviceButtonCooldown > 0
-                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  ? 'bg-tertiary tyt-text-tertiary cursor-not-allowed'
                   : 'bg-gradient-to-r from-amber-500 to-orange-500 hover:shadow-xl hover:shadow-amber-500/50 hover:scale-[1.02] active:scale-[0.98] text-white'
               }`}
             >
@@ -389,13 +389,13 @@ export default function Dashboard() {
             </div>
             <div className="flex-1">
               <h3 className="text-2xl font-bold text-amber-400 mb-2">Start Your Mining Journey</h3>
-              <p className="text-gray-300 mb-4 max-w-2xl">
+              <p className="tyt-text-secondary mb-4 max-w-2xl">
                 You don't have any active miners yet. Purchase your first NFT miner from the marketplace to start earning daily BTC rewards. Each miner provides stable, passive income with transparent ROI calculations.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   to="/app/marketplace"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold hover:shadow-xl hover:shadow-amber-500/50 transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg font-semibold text-white hover:shadow-xl hover:shadow-amber-500/50 transition-all"
                 >
                   <ShoppingCart size={20} />
                   Browse Marketplace
@@ -403,7 +403,7 @@ export default function Dashboard() {
                 </Link>
                 <Link
                   to="/app/academy"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-tertiary rounded-lg font-semibold tyt-text-primary hover:bg-secondary transition-all"
                 >
                   Learn More
                 </Link>
@@ -443,12 +443,12 @@ export default function Dashboard() {
               {recentRewards.map((reward) => (
                 <div
                   key={reward.id}
-                  className="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-all border border-gray-700/50"
+                  className="p-4 bg-tertiary/50 rounded-lg hover:bg-secondary transition-all border border-secondary"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-400" />
-                      <div className="text-sm font-semibold">
+                      <Calendar className="w-4 h-4 tyt-text-tertiary" />
+                      <div className="text-sm font-semibold tyt-text-primary">
                         {new Date(reward.reward_date).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -456,11 +456,11 @@ export default function Dashboard() {
                         })}
                       </div>
                     </div>
-                    <div className="text-sm font-bold text-green-400">
+                    <div className="text-sm font-bold text-green-500 dark:text-green-400">
                       +{parseFloat(reward.net_btc).toFixed(8)} BTC
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-gray-400">
+                  <div className="flex items-center justify-between text-xs tyt-text-tertiary">
                     <span>Gross: {parseFloat(reward.gross_btc).toFixed(8)} BTC</span>
                     <span>Maint: {parseFloat(reward.maintenance_cost_btc).toFixed(8)} BTC</span>
                   </div>
@@ -468,20 +468,20 @@ export default function Dashboard() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+            <div className="flex flex-col items-center justify-center py-12 tyt-text-tertiary">
               <TrendingUp className="w-12 h-12 mb-3 opacity-50" />
               <p className="text-center">No rewards yet.<br />Start mining to earn BTC!</p>
             </div>
           )}
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+        <div className="bg-secondary rounded-xl p-6 border border-secondary">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-amber-500/10 rounded-lg">
                 <Cpu className="w-5 h-5 text-amber-400" />
               </div>
-              <h2 className="text-xl font-bold">{t('dashboard.myMiners')}</h2>
+              <h2 className="text-xl font-bold tyt-text-primary">{t('dashboard.myMiners')}</h2>
             </div>
             <Link
               to="/app/miners"
@@ -497,41 +497,41 @@ export default function Dashboard() {
               {miners.slice(0, 3).map((miner) => (
                 <div
                   key={miner.id}
-                  className="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-all border border-gray-700/50"
+                  className="p-4 bg-tertiary/50 rounded-lg hover:bg-secondary transition-all border border-secondary"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <div className="font-semibold">Miner #{miner.id.slice(0, 8)}</div>
+                      <div className="font-semibold tyt-text-primary">Miner #{miner.id.slice(0, 8)}</div>
                     </div>
-                    <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full font-semibold uppercase">
+                    <div className="px-3 py-1 bg-green-500/20 text-green-500 dark:text-green-400 text-xs rounded-full font-semibold uppercase">
                       {miner.status}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="text-center p-2 bg-gray-900/50 rounded">
-                      <div className="text-xs text-gray-400 mb-1">Hashrate</div>
+                    <div className="text-center p-2 bg-primary/50 rounded">
+                      <div className="text-xs tyt-text-tertiary mb-1">Hashrate</div>
                       <div className="font-bold text-amber-400">{parseFloat(miner.hashrate as any).toFixed(2)} TH/s</div>
                     </div>
-                    <div className="text-center p-2 bg-gray-900/50 rounded">
-                      <div className="text-xs text-gray-400 mb-1">Efficiency</div>
-                      <div className="font-bold text-blue-400">{parseFloat(miner.efficiency as any).toFixed(2)} W/TH</div>
+                    <div className="text-center p-2 bg-primary/50 rounded">
+                      <div className="text-xs tyt-text-tertiary mb-1">Efficiency</div>
+                      <div className="font-bold text-blue-500 dark:text-blue-400">{parseFloat(miner.efficiency as any).toFixed(2)} W/TH</div>
                     </div>
-                    <div className="text-center p-2 bg-gray-900/50 rounded">
-                      <div className="text-xs text-gray-400 mb-1">Power</div>
-                      <div className="font-bold text-white">Lv.{miner.power_level}</div>
+                    <div className="text-center p-2 bg-primary/50 rounded">
+                      <div className="text-xs tyt-text-tertiary mb-1">Power</div>
+                      <div className="font-bold tyt-text-primary">Lv.{miner.power_level}</div>
                     </div>
                   </div>
                 </div>
               ))}
               {miners.length > 3 && (
-                <div className="text-center text-sm text-gray-400 py-2">
+                <div className="text-center text-sm tyt-text-tertiary py-2">
                   +{miners.length - 3} more miner{miners.length - 3 !== 1 ? 's' : ''}
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+            <div className="flex flex-col items-center justify-center py-12 tyt-text-tertiary">
               <Cpu className="w-12 h-12 mb-3 opacity-50" />
               <p className="text-center">No miners yet.<br />Purchase your first miner!</p>
             </div>
@@ -539,53 +539,53 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+      <div className="bg-secondary rounded-xl p-6 border border-secondary">
+        <h2 className="text-xl font-bold tyt-text-primary mb-6 flex items-center gap-2">
           <Activity className="w-6 h-6 text-amber-400" />
           Quick Actions
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             to="/app/marketplace"
-            className="group p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl hover:from-amber-500/10 hover:to-orange-500/10 border border-gray-700 hover:border-amber-500/50 transition-all"
+            className="group p-6 bg-tertiary/50 rounded-xl hover:from-amber-500/10 hover:to-orange-500/10 border border-secondary hover:border-amber-500/50 transition-all"
           >
             <div className="flex items-start gap-4">
               <div className="p-3 bg-amber-500/10 rounded-xl group-hover:bg-amber-500/20 transition-all">
                 <ShoppingCart className="w-6 h-6 text-amber-400" />
               </div>
               <div>
-                <div className="font-bold text-lg mb-1">Buy Miners</div>
-                <div className="text-sm text-gray-400">Browse marketplace for NFT miners</div>
+                <div className="font-bold text-lg mb-1 tyt-text-primary">Buy Miners</div>
+                <div className="text-sm tyt-text-tertiary">Browse marketplace for NFT miners</div>
               </div>
             </div>
           </Link>
 
           <Link
             to="/app/academy"
-            className="group p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl hover:from-blue-500/10 hover:to-cyan-500/10 border border-gray-700 hover:border-blue-500/50 transition-all"
+            className="group p-6 bg-tertiary/50 rounded-xl hover:from-blue-500/10 hover:to-cyan-500/10 border border-secondary hover:border-blue-500/50 transition-all"
           >
             <div className="flex items-start gap-4">
               <div className="p-3 bg-blue-500/10 rounded-xl group-hover:bg-blue-500/20 transition-all">
-                <Award className="w-6 h-6 text-blue-400" />
+                <Award className="w-6 h-6 text-blue-500 dark:text-blue-400" />
               </div>
               <div>
-                <div className="font-bold text-lg mb-1">Learn & Earn</div>
-                <div className="text-sm text-gray-400">Complete courses for TYT rewards</div>
+                <div className="font-bold text-lg mb-1 tyt-text-primary">Learn & Earn</div>
+                <div className="text-sm tyt-text-tertiary">Complete courses for TYT rewards</div>
               </div>
             </div>
           </Link>
 
           <Link
             to="/app/wallet"
-            className="group p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl hover:from-green-500/10 hover:to-emerald-500/10 border border-gray-700 hover:border-green-500/50 transition-all"
+            className="group p-6 bg-tertiary/50 rounded-xl hover:from-green-500/10 hover:to-emerald-500/10 border border-secondary hover:border-green-500/50 transition-all"
           >
             <div className="flex items-start gap-4">
               <div className="p-3 bg-green-500/10 rounded-xl group-hover:bg-green-500/20 transition-all">
-                <Wallet className="w-6 h-6 text-green-400" />
+                <Wallet className="w-6 h-6 text-green-500 dark:text-green-400" />
               </div>
               <div>
-                <div className="font-bold text-lg mb-1">Manage Wallet</div>
-                <div className="text-sm text-gray-400">Deposits, withdrawals & swaps</div>
+                <div className="font-bold text-lg mb-1 tyt-text-primary">Manage Wallet</div>
+                <div className="text-sm tyt-text-tertiary">Deposits, withdrawals & swaps</div>
               </div>
             </div>
           </Link>
@@ -593,32 +593,32 @@ export default function Dashboard() {
       </div>
 
       {profile && (
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+        <div className="bg-secondary rounded-xl p-6 border border-secondary">
+          <h2 className="text-xl font-bold tyt-text-primary mb-6 flex items-center gap-2">
             <Users className="w-6 h-6 text-amber-400" />
             Account Overview
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="p-4 bg-gray-800/50 rounded-lg">
-              <div className="text-sm text-gray-400 mb-1">Member Since</div>
-              <div className="font-bold text-white">
+            <div className="p-4 bg-tertiary/50 rounded-lg">
+              <div className="text-sm tyt-text-tertiary mb-1">Member Since</div>
+              <div className="font-bold tyt-text-primary">
                 {new Date(profile.created_at).toLocaleDateString('en-US', {
                   month: 'short',
                   year: 'numeric'
                 })}
               </div>
             </div>
-            <div className="p-4 bg-gray-800/50 rounded-lg">
-              <div className="text-sm text-gray-400 mb-1">Total Spent</div>
+            <div className="p-4 bg-tertiary/50 rounded-lg">
+              <div className="text-sm tyt-text-tertiary mb-1">Total Spent</div>
               <div className="font-bold text-amber-400">${parseFloat(profile.total_spent).toFixed(2)}</div>
             </div>
-            <div className="p-4 bg-gray-800/50 rounded-lg">
-              <div className="text-sm text-gray-400 mb-1">Referrals</div>
-              <div className="font-bold text-green-400">{profile.referral_count || 0}</div>
+            <div className="p-4 bg-tertiary/50 rounded-lg">
+              <div className="text-sm tyt-text-tertiary mb-1">Referrals</div>
+              <div className="font-bold text-green-500 dark:text-green-400">{profile.referral_count || 0}</div>
             </div>
-            <div className="p-4 bg-gray-800/50 rounded-lg">
-              <div className="text-sm text-gray-400 mb-1">KYC Status</div>
-              <div className={`font-bold ${profile.kyc_status === 'verified' ? 'text-green-400' : 'text-yellow-400'}`}>
+            <div className="p-4 bg-tertiary/50 rounded-lg">
+              <div className="text-sm tyt-text-tertiary mb-1">KYC Status</div>
+              <div className={`font-bold ${profile.kyc_status === 'verified' ? 'text-green-500 dark:text-green-400' : 'text-yellow-500 dark:text-yellow-400'}`}>
                 {profile.kyc_status || 'Pending'}
               </div>
             </div>

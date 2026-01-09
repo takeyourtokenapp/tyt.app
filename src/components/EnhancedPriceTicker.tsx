@@ -163,14 +163,14 @@ export default function EnhancedPriceTicker() {
   const hasData = Object.keys(prices).length > 0;
 
   return (
-    <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-amber-500/20 overflow-hidden relative shadow-lg">
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-green-400/30 shadow-lg shadow-green-500/20">
-        <div className={`w-2 h-2 rounded-full ${hasData ? 'bg-green-400 animate-pulse shadow-sm shadow-green-400' : 'bg-gray-400'}`}></div>
-        <span className={`text-xs font-bold ${hasData ? 'text-green-400' : 'text-gray-400'}`}>
+    <div className="bg-tertiary border-b-2 border-amber-500/20 overflow-hidden relative shadow-lg">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-primary/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-green-400/30 shadow-lg shadow-green-500/20">
+        <div className={`w-2 h-2 rounded-full ${hasData ? 'bg-green-400 animate-pulse shadow-sm shadow-green-400' : 'bg-tertiary-text'}`}></div>
+        <span className={`text-xs font-bold ${hasData ? 'text-green-400' : 'text-tertiary-text'}`}>
           {isLoading ? 'Loading...' : 'LIVE'}
         </span>
         {lastUpdate && (
-          <span className="text-[10px] text-gray-400">
+          <span className="text-[10px] text-tertiary-text">
             {lastUpdate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
@@ -191,9 +191,9 @@ export default function EnhancedPriceTicker() {
             return (
               <div
                 key={`${asset.symbol}-${idx}`}
-                className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 hover:border-amber-500/40 whitespace-nowrap hover:bg-gray-800 transition-all shadow-sm hover:shadow-md hover:shadow-amber-500/10"
+                className="flex items-center gap-3 px-4 py-2 rounded-lg bg-secondary backdrop-blur-sm border border-secondary hover:border-amber-500/40 whitespace-nowrap hover:bg-tertiary transition-all shadow-sm hover:shadow-md hover:shadow-amber-500/10"
               >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${asset.color} bg-gray-900/80 border-2 border-current/20 shadow-inner`}>
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center ${asset.color} bg-primary/80 border-2 border-current/20 shadow-inner`}>
                   {asset.IconComponent ? (
                     <asset.IconComponent size={16} />
                   ) : (
@@ -202,18 +202,18 @@ export default function EnhancedPriceTicker() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
-                  <span className="font-bold text-white text-sm tracking-wide">{asset.symbol}</span>
+                  <span className="font-bold text-primary-text text-sm tracking-wide">{asset.symbol}</span>
 
-                  <div className="h-5 w-px bg-gray-600/50" />
+                  <div className="h-5 w-px bg-secondary" />
 
-                  <span className="font-bold text-white text-sm">
+                  <span className="font-bold text-primary-text text-sm">
                     ${priceData.price.toLocaleString(undefined, {
                       minimumFractionDigits: asset.symbol === 'BTC' || asset.symbol === 'ETH' ? 0 : 2,
                       maximumFractionDigits: asset.symbol === 'USDT' || asset.symbol === 'USDC' ? 2 : asset.symbol === 'TYT' ? 4 : 2
                     })}
                   </span>
 
-                  <div className={`text-xs font-bold flex items-center gap-1 px-2 py-0.5 rounded ${isPositive ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'}`}>
+                  <div className={`text-xs font-bold flex items-center gap-1 px-2 py-0.5 rounded ${isPositive ? 'text-green-500 dark:text-green-400 bg-green-500/10 dark:bg-green-400/10' : 'text-red-500 dark:text-red-400 bg-red-500/10 dark:bg-red-400/10'}`}>
                     {isPositive ? (
                       <TrendingUp size={12} />
                     ) : (
