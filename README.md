@@ -1,467 +1,227 @@
 # TYT V3 - Web3 Mining Platform
 
-**Take Your Token (TYT)** is a next-generation Web3 platform combining NFT mining, tokenomics, blockchain education, and charitable giving.
+**Take Your Token (TYT)** is a next-generation Web3 platform combining NFT mining, token economy, blockchain education, and charitable giving to support children's brain cancer research.
 
-Every transaction supports children's brain cancer research.
-
----
-
-## 🗺️ Deployment Roadmaps
-
-**Choose your path from current state to production:**
-
-### 🎯 Navigation Guide
-- **`README_DEPLOYMENT_ROADMAP.md`** - Choose your deployment path ⭐
-
-### 🚀 Quick Deployment (2 hours)
-- **`APP_DEPLOYMENT_QUICK_START.md`** - Deploy app today
-- **`APP_SECURITY_COMPLETE_REPORT.md`** - Current status (94% security ✅)
-
-### 🛠️ Full Implementation (19 weeks)
-- **`TYT_V3_TESTNET_MASTER_ROADMAP.md`** - Complete testnet-to-mainnet plan
-- **`SPRINT_1_QUICK_START.md`** - Start Week 1-2 (Architecture & Security)
-
-**Current Status**: ✅ Secure foundation complete → ⚠️ Ready for blockchain implementation
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Built with React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Powered-green)](https://supabase.com/)
 
 ---
 
-## Quick Start
+## 🌟 Core Features
 
-**Get started in 2-4 hours:**
+### 🔨 NFT Mining Platform
+- Purchase and manage NFT miners
+- Daily BTC rewards distribution
+- Real-time hashrate monitoring
+- Maintenance fee system with TYT token discounts
+
+### 💰 Token Economy (TYT)
+- Utility token on Solana
+- Burn mechanism for deflationary model
+- Governance through veTYT
+- VIP tier system with exclusive benefits
+
+### 🎓 Digital Academy
+- Interactive blockchain education
+- Owl rank progression system
+- Soulbound NFT certificates
+- Gamified learning experience
+
+### ❤️ Children's Foundation
+- Automatic donations from all transactions
+- Transparent blockchain tracking
+- Research grants and family support
+- Clinical partnerships worldwide
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+- Supabase account (free tier available)
+- Git
+
+### Installation
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/yourusername/tyt-v3
+# Clone the repository
+git clone https://github.com/yourusername/tyt-v3.git
 cd tyt-v3
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Setup environment
+# Configure environment
 cp .env.example .env
-# Fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+# Edit .env and add your Supabase credentials
 
-# 4. Start development server
+# Run database migrations
+# See docs/deployment/DEPLOYMENT_INSTRUCTIONS.md
+
+# Start development server
 npm run dev
 ```
 
-**Full deployment guide:** See [START_NOW.md](START_NOW.md)
+The app will be available at `http://localhost:5173`
 
 ---
 
-## Features
+## 📚 Documentation
 
-### NFT Mining Platform
-- **Digital Miners:** ERC-721 NFTs with real hashrate (TH/s)
-- **Daily BTC Rewards:** Automated distribution with Merkle proofs
-- **Upgradeable:** Improve efficiency and hashrate
-- **Marketplace:** P2P trading with 60/30/10 fee distribution
+### Essential Guides
+- **[Deployment Guide](docs/deployment/DEPLOYMENT_INSTRUCTIONS.md)** - Complete deployment instructions
+- **[Security Guide](SECURITY.md)** - Security best practices and policies
+- **[Design System](docs/guides/DESIGN_SYSTEM_GUIDE.md)** - UI/UX guidelines
+- **[Multilingual Guide](docs/guides/MULTILINGUAL_QUICKSTART.md)** - i18n implementation
 
-### Tokenomics
-- **TYT Token:** Governance & utility (Solana SPL)
-- **Burn Mechanism:** Every transaction burns TYT
-- **veTYT Governance:** Time-locked voting power
-- **Discount Curve:** Up to 18% off maintenance fees
+### Development
+- **[Admin Panel](docs/guides/ADMIN_PANEL_GUIDE.md)** - Admin features and controls
+- **[Contact System](docs/guides/CONTACT_SYSTEM_GUIDE.md)** - Contact form implementation
+- **[Header System](docs/guides/HEADER_SYSTEM_VISUAL_GUIDE.md)** - Navigation components
 
-### Digital Academy
-- **40+ Lessons:** Blockchain basics to advanced topics
-- **Interactive Quizzes:** Test knowledge and earn XP
-- **Soulbound Certificates:** On-chain proof of learning
-- **Owl Ranks:** Worker → Academic → Diplomat → Peacekeeper → Warrior
-- **aOi AI Guide:** Intelligent assistant that grows with you
+### Deployment
+- **[Production Checklist](docs/deployment/PRODUCTION_DEPLOYMENT_CHECKLIST.md)** - Pre-launch verification
+- **[Quick Start](docs/deployment/APP_DEPLOYMENT_QUICK_START.md)** - Deploy in 2 hours
 
-### Foundation
-- **Children's Brain Cancer Research:** 30% of fees
-- **Transparent Tracking:** On-chain proof of donations
-- **Grant System:** Support research institutions
-- **Impact Reports:** Public quarterly reports
-
-### aOi - AI Character & Guide
-
-**aOi (葵)** is the intelligent core of the TYT ecosystem:
-
-- **Adaptive Levels:** Grows from Beginner → Explorer → Builder → Guardian
-- **Multi-layered AI:** Knowledge layer + Web3 tools layer + Progress tracking
-- **Safe for All Ages:** Guardian-approved access for students
-- **Not Just a Chatbot:** Full orchestrator connecting science, education, and Web3
-- **Ethical Boundaries:** Never gives medical advice or financial recommendations
-
-**Philosophy:** `soft + tech + academic`
-
-aOi bridges the gap between complex blockchain technology and the mission to support children's brain cancer research. She's a mentor, not a mascot.
+### Roadmaps
+- **[Testnet Roadmap](docs/roadmaps/TYT_V3_TESTNET_MASTER_ROADMAP.md)** - 19-week implementation plan
+- **[Mainnet Launch](docs/roadmaps/TYT_MAINNET_LAUNCH_ROADMAP.md)** - Production launch strategy
 
 ---
 
-## Tech Stack
+## 🏗️ Tech Stack
 
-**Frontend:**
-- React 18 + TypeScript
-- Vite 5 + Tailwind CSS
-- React Query + Context API
-- wagmi + viem (Web3)
+### Frontend
+- **React 18.3** with TypeScript
+- **Vite** for fast development
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **i18next** for internationalization
 
-**Backend:**
-- Supabase (PostgreSQL + Edge Functions)
-- 132 database tables with RLS
-- 25 serverless functions
-- Real-time subscriptions
+### Backend
+- **Supabase** (PostgreSQL + Authentication + Realtime)
+- **Edge Functions** for serverless operations
+- **Row Level Security** for data protection
 
-**Smart Contracts:**
-- Solidity 0.8.20
-- Foundry development
-- OpenZeppelin libraries
-- 9 audited contracts
+### Blockchain
+- **Solana** for TYT token
+- **EVM** (Polygon/TRON) for NFT miners
+- **Web3.js/ethers.js** for blockchain interaction
 
-**Blockchain:**
-- Polygon (main chain)
-- Solana (TYT token)
-- Multi-chain support (BTC, ETH, TRX, XRP, TON)
+### Development
+- **TypeScript** for type safety
+- **ESLint** for code quality
+- **Git** for version control
 
 ---
 
-## Project Structure
+## 🔒 Security
+
+This project follows industry security best practices:
+- Environment variables for sensitive data
+- Row Level Security (RLS) in database
+- Input validation and sanitization
+- HTTPS-only in production
+- Regular security audits
+
+See [SECURITY.md](SECURITY.md) for details and reporting vulnerabilities.
+
+---
+
+## 📁 Project Structure
 
 ```
 tyt-v3/
 ├── src/
-│   ├── components/      # 74 React components
-│   ├── pages/          # 40+ pages
-│   ├── hooks/          # Custom hooks
-│   ├── utils/          # Services & utilities
-│   ├── contexts/       # Global state
-│   └── lib/            # Core libraries
-│
-├── contracts/
-│   ├── evm/            # Solidity contracts
-│   │   ├── src/        # Contract source
-│   │   ├── script/     # Deployment scripts
-│   │   └── test/       # Contract tests
-│   └── solana/         # Rust programs
-│
+│   ├── components/     # React components
+│   ├── contexts/       # React contexts (Auth, Theme, etc.)
+│   ├── hooks/          # Custom React hooks
+│   ├── lib/            # Utilities and services
+│   ├── pages/          # Page components
+│   ├── types/          # TypeScript types
+│   └── utils/          # Helper functions
 ├── supabase/
-│   ├── migrations/     # 82 database migrations
-│   └── functions/      # 25 Edge Functions
-│
-└── docs/               # Technical documentation
+│   ├── functions/      # Edge functions
+│   └── migrations/     # Database migrations
+├── docs/               # Documentation
+│   ├── deployment/     # Deployment guides
+│   ├── guides/         # Feature guides
+│   ├── roadmaps/       # Implementation roadmaps
+│   ├── security/       # Security documentation
+│   └── archive/        # Historical documents
+├── public/             # Static assets
+└── contracts/          # Smart contracts
+    ├── evm/            # EVM contracts (Solidity)
+    └── solana/         # Solana programs (Rust)
 ```
 
 ---
 
-## Documentation
+## 🤝 Contributing
 
-**Quick Start:**
-- [START_NOW.md](START_NOW.md) - Deploy testnet in 2-4 hours
-- [SUMMARY.txt](SUMMARY.txt) - Project overview
+We welcome contributions! Please follow these steps:
 
-**Deployment:**
-- [REAL_LAUNCH_INSTRUCTIONS.md](REAL_LAUNCH_INSTRUCTIONS.md) - Full launch plan
-- [contracts/evm/DEPLOYMENT_GUIDE_V3.md](contracts/evm/DEPLOYMENT_GUIDE_V3.md) - Contract deployment
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-**Architecture:**
-- [ARCHITECTURE_IMPLEMENTATION.md](ARCHITECTURE_IMPLEMENTATION.md) - System design
-- [TYT_FULL_PROMPT_PACK_V6.md](TYT_FULL_PROMPT_PACK_V6.md) - Complete specification
-
-**aOi AI Character:**
-- [docs/AOI_CHARACTER_SPECIFICATION.md](docs/AOI_CHARACTER_SPECIFICATION.md) - Complete character design
-- [docs/AOI_INTEGRATION_GUIDE.md](docs/AOI_INTEGRATION_GUIDE.md) - Implementation guide
-
-**Development:**
-- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - UI/UX guidelines
-- [ROADMAP_UPDATED.md](ROADMAP_UPDATED.md) - Development roadmap
-- [AUDIT_REPORT.md](AUDIT_REPORT.md) - Code audit results
+Please read our security guidelines before contributing.
 
 ---
 
-## Environment Setup
+## 📄 License
 
-### Required Variables
-
-```bash
-# Supabase
-VITE_SUPABASE_URL=your_project_url
-VITE_SUPABASE_ANON_KEY=your_anon_key
-
-# Blockchain
-VITE_POLYGON_RPC_URL=your_rpc_url
-VITE_ALCHEMY_API_KEY=your_api_key
-
-# Smart Contracts (after deployment)
-VITE_CONTRACT_FEE_CONFIG=0x...
-VITE_CONTRACT_MINER_NFT=0x...
-VITE_CONTRACT_MARKETPLACE=0x...
-# ... see .env.example for full list
-```
-
-**See [.env.example](.env.example) for complete configuration**
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
-## Development
+## 🌐 Links
 
-### Install Dependencies
-```bash
-npm install
-```
-
-### Start Dev Server
-```bash
-npm run dev
-# Opens: http://localhost:5173
-```
-
-### Build for Production
-```bash
-npm run build
-# Output: dist/
-```
-
-### Type Check
-```bash
-npm run typecheck
-```
-
-### Lint Code
-```bash
-npm run lint
-```
+- **Website**: [Coming Soon]
+- **Documentation**: [docs/](docs/)
+- **Twitter**: [Coming Soon]
+- **Discord**: [Coming Soon]
+- **Telegram**: [Coming Soon]
 
 ---
 
-## Smart Contracts
+## 💬 Support
 
-### Compile Contracts
-```bash
-cd contracts/evm
-forge build
-```
-
-### Run Tests
-```bash
-forge test -vvv
-```
-
-### Deploy to Testnet
-```bash
-# 1. Setup environment
-cp .env.example .env
-# Fill in PRIVATE_KEY, RPC_URL, etc.
-
-# 2. Deploy MockTYT token
-forge create src/MockTYT.sol:MockTYT \
-  --rpc-url $RPC_URL_AMOY \
-  --private-key $PRIVATE_KEY
-
-# 3. Update TYT_TOKEN_ADDRESS in .env
-
-# 4. Deploy all contracts
-forge script script/DeployComplete.s.sol:DeployComplete \
-  --rpc-url $RPC_URL_AMOY \
-  --broadcast \
-  --verify
-```
-
-**Full guide:** [contracts/evm/DEPLOYMENT_GUIDE_V3.md](contracts/evm/DEPLOYMENT_GUIDE_V3.md)
+For support and questions:
+- Check the [documentation](docs/)
+- Open an issue on GitHub
+- Contact: [Your Contact Info]
 
 ---
 
-## Database
+## 🎯 Current Status
 
-### View Tables
-```bash
-# Using Supabase MCP
-supabase db list
+✅ **Foundation Complete**
+- Authentication system
+- Database with RLS
+- Multi-language support (EN/RU/HE)
+- Theme system (Light/Dark)
+- Admin panel
+- Contact system
 
-# View migrations
-ls supabase/migrations/
-```
+⚙️ **In Development**
+- Blockchain integration
+- NFT miner contracts
+- Token integration
+- Academy system
+- Foundation tracking
 
-### Run Migrations
-```bash
-# All migrations run automatically on Supabase
-# For local development:
-supabase db reset
-```
-
-### Access Database
-- Dashboard: https://supabase.com/dashboard
-- Direct SQL: Supabase SQL Editor
-
-**Schema:** 132 tables with full RLS security
-
----
-
-## Deployment
-
-### Testnet (2-4 hours)
-1. Deploy MockTYT token
-2. Deploy all contracts
-3. Update .env with addresses
-4. Deploy Edge Functions
-5. Test end-to-end
-
-### Production (8 weeks)
-1. **Week 1-2:** Integrations (KYC, Payments, Monitoring)
-2. **Week 3-6:** Security audit + fixes
-3. **Week 7:** Mainnet deployment
-4. **Week 8:** Public launch
-
-**Budget:** ~$52,600 total
-
-**See:** [REAL_LAUNCH_INSTRUCTIONS.md](REAL_LAUNCH_INSTRUCTIONS.md)
+📋 **Planned**
+- Mobile apps (iOS/Android)
+- Advanced analytics
+- AI assistant (Aoi)
+- Real mining data center integration
 
 ---
 
-## Testing
-
-### Frontend
-```bash
-npm run dev
-# Manual testing in browser
-```
-
-### Smart Contracts
-```bash
-cd contracts/evm
-forge test -vvv
-```
-
-### E2E Testing
-1. Sign up new user
-2. Connect Web3 wallet
-3. Mint NFT miner
-4. List on marketplace
-5. Complete Academy lesson
-6. Check Foundation stats
-
----
-
-## Security
-
-### Current Status
-- ✅ RLS enabled on all tables
-- ✅ Input validation everywhere
-- ✅ No hardcoded secrets
-- ✅ HTTPS enforced
-- ✅ Logo compliance (Unicode symbols only)
-- ⚠️ Smart contract audit pending
-- ⚠️ Penetration test pending
-
-**Latest Update (Dec 24, 2024):** All cryptocurrency icons now use Unicode symbols (₿, Ξ, ◎) instead of external logos. See [LOGO_USAGE_POLICY.md](LOGO_USAGE_POLICY.md) and [LOGO_COMPLIANCE_UPDATE.md](LOGO_COMPLIANCE_UPDATE.md).
-
-### Before Production
-1. Smart contract audit ($25k)
-2. Penetration testing ($10k)
-3. Bug bounty program
-4. Insurance coverage
-
----
-
-## Contributing
-
-### Code Style
-- TypeScript strict mode
-- ESLint + Prettier
-- No any types
-- Comprehensive comments
-
-### Pull Requests
-1. Fork repository
-2. Create feature branch
-3. Make changes
-4. Run tests + build
-5. Submit PR
-
-### Issues
-- Bug reports welcome
-- Feature requests welcome
-- Security issues: security@takeyourtoken.app
-
----
-
-## License
-
-MIT License - see [LICENSE](LICENSE)
-
----
-
-## Support
-
-### Documentation
-- Technical: [docs/](docs/)
-- API Reference: [Supabase Dashboard](https://supabase.com/dashboard)
-- Contract Docs: [contracts/evm/README.md](contracts/evm/README.md)
-
-### Community
-- Discord: [discord.gg/tyt](https://discord.gg/tyt)
-- Twitter: [@TakeYourToken](https://twitter.com/TakeYourToken)
-- Telegram: [t.me/tyt_official](https://t.me/tyt_official)
-
-### Contact
-- Email: support@takeyourtoken.app
-- Website: https://takeyourtoken.app
-- Foundation: foundation@takeyourtoken.app
-
----
-
-## Mission
-
-**TYT combines Web3 innovation with real-world impact.**
-
-Every transaction on our platform contributes to research fighting children's brain cancer. We're building the future of decentralized mining while making a meaningful difference in young lives.
-
-**Web3 → Medicine → Children's Lives**
-
----
-
-## Status
-
-**Current Version:** 3.0.0
-**Build Status:** ✅ Passing
-**Database:** ✅ 132 tables
-**Contracts:** ⚠️ Testnet ready
-**Frontend:** ✅ Production ready
-**Backend:** ✅ 25 functions deployed
-
-**Ready for testnet deployment!**
-
----
-
-**Made with ❤️ by the TYT Team**
-
-**Powered by:** Supabase, Polygon, Solana, React, TypeScript
-
----
-
-## 📧 Contact System
-
-**User contact form with Email + Telegram notifications**
-
-- **Quick Start**: `CONTACT_SYSTEM_QUICK_START.md` (1 hour setup)
-- **Complete Guide**: `CONTACT_SYSTEM_GUIDE.md` (44KB, comprehensive)
-
-**Features**:
-- User contact form on takeyourtoken.app/contact
-- Automatic Email notification to olekfribel@hotmail.com
-- Automatic Telegram notification to chat -5175884242
-- Admin panel to manage messages
-- Database storage with RLS security
-
-**Status**: ✅ Ready for implementation
-
----
-
-## 🚧 Coming Soon Pages
-
-**Professional placeholders for features in development**
-
-16 pages now show beautiful Coming Soon placeholders:
-- NFT Miners system (4 pages)
-- DeFi & Trading (4 pages)
-- Governance & DAO (2 pages)
-- Social & Community (2 pages)
-- Advanced features (4 pages)
-
-**Component**: `src/components/ComingSoon.tsx`
-**Documentation**: `PAGES_COMING_SOON_LIST.md` | `COMING_SOON_IMPLEMENTATION_COMPLETE.md`
-
-**Status**: ✅ Production Ready
+**Made with ❤️ for a better future**
