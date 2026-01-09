@@ -161,7 +161,7 @@
 
   .backdrop-blur-glass {
     backdrop-filter: blur(12px);
-    background: rgba(10, 17, 34, 0.7);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .border-gradient-gold {

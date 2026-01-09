@@ -20,19 +20,19 @@ export default function ComingSoon({
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-b from-gray-900 via-gray-800 to-black">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-primary">
       <div className="max-w-4xl w-full">
         {/* Back Button */}
         <Link
           to="/app/dashboard"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-gold-400 transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-tertiary-text hover:text-gold-400 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Dashboard</span>
         </Link>
 
         {/* Main Content */}
-        <div className="bg-gradient-to-br from-gray-800/80 via-gray-800/50 to-gray-900/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-gray-700/50 shadow-2xl">
+        <div className="bg-secondary backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-secondary shadow-2xl">
           {/* Icon & Badge */}
           <div className="flex flex-col items-center text-center mb-8">
             {/* Animated Icon */}
@@ -44,7 +44,7 @@ export default function ComingSoon({
             </div>
 
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded-full text-amber-300 text-sm font-semibold mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded-full text-amber-400 text-sm font-semibold mb-4">
               <Clock className="w-4 h-4" />
               <span>Coming Soon</span>
             </div>
@@ -55,7 +55,7 @@ export default function ComingSoon({
             </h1>
 
             {/* Description */}
-            <p className="text-xl text-gray-300 max-w-2xl">
+            <p className="text-xl text-secondary-text max-w-2xl">
               {description}
             </p>
           </div>
@@ -65,7 +65,7 @@ export default function ComingSoon({
             <div className="mb-8">
               <div className="flex items-center justify-center gap-2 mb-6">
                 <Sparkles className="w-5 h-5 text-gold-400" />
-                <h2 className="text-2xl font-bold text-white">Upcoming Features</h2>
+                <h2 className="text-2xl font-bold text-primary-text">Upcoming Features</h2>
                 <Sparkles className="w-5 h-5 text-gold-400" />
               </div>
 
@@ -73,12 +73,12 @@ export default function ComingSoon({
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-4 bg-gray-900/50 rounded-xl border border-gray-700/50 hover:border-gold-500/50 transition-all hover:shadow-lg hover:shadow-gold-500/10"
+                    className="flex items-start gap-3 p-4 bg-tertiary rounded-xl border border-secondary hover:border-gold-500/50 transition-all hover:shadow-lg hover:shadow-gold-500/10"
                   >
                     <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-gold-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                       {index + 1}
                     </div>
-                    <p className="text-gray-300 pt-1">{feature}</p>
+                    <p className="text-secondary-text pt-1">{feature}</p>
                   </div>
                 ))}
               </div>
@@ -89,7 +89,7 @@ export default function ComingSoon({
           {expectedDate && (
             <div className="flex items-center justify-center gap-3 p-4 bg-blue-500/10 border border-blue-500/50 rounded-xl mb-8">
               <Clock className="w-5 h-5 text-blue-400" />
-              <p className="text-blue-300 font-semibold">
+              <p className="text-blue-400 dark:text-blue-300 font-semibold">
                 Expected Launch: {expectedDate}
               </p>
             </div>
@@ -102,8 +102,8 @@ export default function ComingSoon({
                 <Code className="w-6 h-6 text-purple-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white mb-2">Currently in Development</h3>
-                <p className="text-gray-300 leading-relaxed">
+                <h3 className="text-lg font-bold text-primary-text mb-2">Currently in Development</h3>
+                <p className="text-secondary-text leading-relaxed">
                   Our team is working hard to bring you this feature. We're focused on creating the best possible
                   experience with robust functionality, beautiful design, and bulletproof security.
                 </p>
@@ -121,7 +121,7 @@ export default function ComingSoon({
             </Link>
             <Link
               to="/roadmap"
-              className="px-8 py-4 bg-gray-700/50 hover:bg-gray-600/50 text-white font-bold rounded-xl transition-all border border-gray-600 hover:border-gray-500 text-center"
+              className="px-8 py-4 bg-tertiary hover:bg-secondary text-primary-text font-bold rounded-xl transition-all border border-secondary hover:border-gold-500/50 text-center"
             >
               View Roadmap
             </Link>
@@ -129,7 +129,7 @@ export default function ComingSoon({
 
           {/* Subscribe for Updates (Optional) */}
           <div className="mt-8 text-center">
-            <p className="text-gray-400 text-sm">
+            <p className="text-tertiary-text text-sm">
               Want to be notified when this feature launches?{' '}
               <Link to="/app/settings" className="text-gold-400 hover:text-gold-300 font-semibold underline">
                 Enable notifications in Settings
