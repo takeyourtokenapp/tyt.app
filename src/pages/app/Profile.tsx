@@ -150,7 +150,7 @@ export default function Profile() {
       </div>
 
       {/* Profile Card */}
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl overflow-hidden">
+      <div className="bg-secondary border border-secondary rounded-xl overflow-hidden">
         {/* Banner */}
         <div className={`h-32 bg-gradient-to-r ${getVIPColor(profile.vip_tier)}`}></div>
 
@@ -159,7 +159,7 @@ export default function Profile() {
           <div className="flex flex-col md:flex-row gap-6 -mt-20 mb-6">
             {/* Avatar */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-4 border-gray-900 flex items-center justify-center shadow-xl">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-4 border-secondary flex items-center justify-center shadow-xl">
                 {profile.avatar_url ? (
                   <img src={profile.avatar_url} alt="Avatar" className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -178,7 +178,7 @@ export default function Profile() {
                       type="text"
                       value={editForm.username}
                       onChange={(e) => setEditForm(prev => ({ ...prev, username: e.target.value }))}
-                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="w-full px-4 py-2 bg-tertiary border border-secondary rounded-lg focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
@@ -187,7 +187,7 @@ export default function Profile() {
                       type="text"
                       value={editForm.full_name}
                       onChange={(e) => setEditForm(prev => ({ ...prev, full_name: e.target.value }))}
-                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="w-full px-4 py-2 bg-tertiary border border-secondary rounded-lg focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div className="flex gap-3">
@@ -207,7 +207,7 @@ export default function Profile() {
                           full_name: profile.full_name || ''
                         });
                       }}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg hover:bg-tertiary transition-colors"
                     >
                       <X className="w-4 h-4" />
                       Cancel
@@ -223,9 +223,9 @@ export default function Profile() {
                     </span>
                   </div>
                   {profile.full_name && (
-                    <p className="text-gray-400 mb-4">{profile.full_name}</p>
+                    <p className="text-tertiary-text mb-4">{profile.full_name}</p>
                   )}
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-4 text-sm text-tertiary-text">
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
                       {profile.email}
@@ -253,11 +253,11 @@ export default function Profile() {
 
             <div className="bg-blue-500/10 border border-blue-500/50 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
-                <Shield className="w-6 h-6 text-blue-400" />
+                <Shield className="w-6 h-6 text-blue-500 dark:text-blue-400" />
                 <span className="font-bold">KYC Level</span>
               </div>
-              <p className="text-2xl font-bold text-blue-400">Tier {profile.kyc_level}</p>
-              <p className="text-xs text-gray-400 mt-1">Verification status</p>
+              <p className="text-2xl font-bold text-blue-500 dark:text-blue-400">Tier {profile.kyc_level}</p>
+              <p className="text-xs text-tertiary-text mt-1">Verification status</p>
             </div>
 
             <div className="bg-purple-500/10 border border-purple-500/50 rounded-xl p-4">
@@ -266,7 +266,7 @@ export default function Profile() {
                 <span className="font-bold">Referral Code</span>
               </div>
               <p className="text-2xl font-bold text-purple-400">{profile.referral_code}</p>
-              <p className="text-xs text-gray-400 mt-1">Share to earn rewards</p>
+              <p className="text-xs text-tertiary-text mt-1">Share to earn rewards</p>
             </div>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function Profile() {
 
       {/* Statistics */}
       {stats && (
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
+        <div className="bg-secondary border border-secondary rounded-xl p-6">
           <h2 className="text-2xl font-bold mb-6">Activity Statistics</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
@@ -322,35 +322,35 @@ export default function Profile() {
       )}
 
       {/* Security Section */}
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6">
+      <div className="bg-secondary border border-secondary rounded-xl p-6">
         <h2 className="text-2xl font-bold mb-6">Security & Privacy</h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between p-4 bg-tertiary rounded-lg border border-secondary">
             <div>
               <h3 className="font-semibold mb-1">Two-Factor Authentication (2FA)</h3>
-              <p className="text-sm text-gray-400">Add an extra layer of security to your account</p>
+              <p className="text-sm text-tertiary-text">Add an extra layer of security to your account</p>
             </div>
-            <button className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors border border-blue-500/50">
+            <button className="px-4 py-2 bg-blue-500/20 text-blue-500 dark:text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors border border-blue-500/50">
               Enable
             </button>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between p-4 bg-tertiary rounded-lg border border-secondary">
             <div>
               <h3 className="font-semibold mb-1">Change Password</h3>
-              <p className="text-sm text-gray-400">Update your password regularly for security</p>
+              <p className="text-sm text-tertiary-text">Update your password regularly for security</p>
             </div>
-            <button className="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+            <button className="px-4 py-2 bg-secondary rounded-lg hover:bg-tertiary transition-colors">
               Change
             </button>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between p-4 bg-tertiary rounded-lg border border-secondary">
             <div>
               <h3 className="font-semibold mb-1">Download Your Data</h3>
-              <p className="text-sm text-gray-400">Export all your personal data (GDPR compliance)</p>
+              <p className="text-sm text-tertiary-text">Export all your personal data (GDPR compliance)</p>
             </div>
-            <button className="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+            <button className="px-4 py-2 bg-secondary rounded-lg hover:bg-tertiary transition-colors">
               Download
             </button>
           </div>
@@ -358,7 +358,7 @@ export default function Profile() {
           <div className="flex items-center justify-between p-4 bg-red-500/10 rounded-lg border border-red-500/50">
             <div>
               <h3 className="font-semibold mb-1 text-red-400">Delete Account</h3>
-              <p className="text-sm text-gray-400">Permanently delete your account and data</p>
+              <p className="text-sm text-tertiary-text">Permanently delete your account and data</p>
             </div>
             <button className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors border border-red-500/50">
               Delete

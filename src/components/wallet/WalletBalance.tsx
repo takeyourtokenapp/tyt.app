@@ -202,18 +202,18 @@ export default function WalletBalance({ onSelectAsset, compact = false }: Wallet
       {balancesLoading || walletsLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-gray-800 rounded-xl p-6 border border-gray-700 animate-pulse">
-              <div className="h-10 w-10 bg-gray-700 rounded-full mb-4"></div>
-              <div className="h-6 bg-gray-700 rounded mb-2 w-24"></div>
-              <div className="h-4 bg-gray-700 rounded w-32"></div>
+            <div key={i} className="bg-secondary rounded-xl p-6 border border-secondary animate-pulse">
+              <div className="h-10 w-10 bg-tertiary rounded-full mb-4"></div>
+              <div className="h-6 bg-tertiary rounded mb-2 w-24"></div>
+              <div className="h-4 bg-tertiary rounded w-32"></div>
             </div>
           ))}
         </div>
       ) : sortedBalances.length === 0 ? (
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-12 border border-gray-700 text-center">
-          <Wallet className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">No Assets Yet</h3>
-          <p className="text-gray-400 mb-6">Start by depositing funds to your wallet</p>
+        <div className="bg-secondary rounded-xl p-12 border border-secondary text-center">
+          <Wallet className="w-16 h-16 text-tertiary-text mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-primary-text mb-2">No Assets Yet</h3>
+          <p className="text-tertiary-text mb-6">Start by depositing funds to your wallet</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

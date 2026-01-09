@@ -169,11 +169,11 @@ export default function Foundation() {
               <Globe className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <h3 className="text-lg font-bold text-primary-text flex items-center gap-2">
                 Visit TYT Foundation Website
                 <Sparkles className="w-4 h-4 text-amber-400" />
               </h3>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-secondary-text">
                 Explore our research, meet aOi, and learn about our mission to fight pediatric brain cancer
               </p>
             </div>
@@ -198,42 +198,42 @@ export default function Foundation() {
           </div>
           <div>
             <h1 className="text-3xl font-bold">TYT Children's Brain Cancer Foundation</h1>
-            <p className="text-gray-300">Research. Support. Hope. Making a difference in children's lives.</p>
+            <p className="text-secondary-text">Research. Support. Hope. Making a difference in children's lives.</p>
           </div>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6">
-          <div className="bg-gray-900/50 border border-pink-500/30 rounded-lg p-6">
+          <div className="bg-secondary border border-pink-500/30 rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
               <DollarSign className="w-6 h-6 text-pink-400" />
-              <TrendingUp className="w-5 h-5 text-green-400" />
+              <TrendingUp className="w-5 h-5 text-green-500 dark:text-green-400" />
             </div>
             <p className="text-3xl font-bold text-pink-400">${totalRaised.toLocaleString()}</p>
-            <p className="text-sm text-gray-400 mt-1">Total Donated (Lifetime)</p>
+            <p className="text-sm text-tertiary-text mt-1">Total Donated (Lifetime)</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-blue-500/30 rounded-lg p-6">
-            <Users className="w-6 h-6 text-blue-400 mb-2" />
-            <p className="text-3xl font-bold text-blue-400">{familiesHelped}</p>
-            <p className="text-sm text-gray-400 mt-1">Families Assisted</p>
+          <div className="bg-secondary border border-blue-500/30 rounded-lg p-6">
+            <Users className="w-6 h-6 text-blue-500 dark:text-blue-400 mb-2" />
+            <p className="text-3xl font-bold text-blue-500 dark:text-blue-400">{familiesHelped}</p>
+            <p className="text-sm text-tertiary-text mt-1">Families Assisted</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-amber-500/30 rounded-lg p-6">
+          <div className="bg-secondary border border-amber-500/30 rounded-lg p-6">
             <Award className="w-6 h-6 text-amber-400 mb-2" />
             <p className="text-3xl font-bold text-amber-400">{grantsAwarded}</p>
-            <p className="text-sm text-gray-400 mt-1">Research Grants</p>
+            <p className="text-sm text-tertiary-text mt-1">Research Grants</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-green-500/30 rounded-lg p-6">
-            <Activity className="w-6 h-6 text-green-400 mb-2" />
-            <p className="text-3xl font-bold text-green-400">{activeResearch}</p>
-            <p className="text-sm text-gray-400 mt-1">Active Clinical Trials</p>
+          <div className="bg-secondary border border-green-500/30 rounded-lg p-6">
+            <Activity className="w-6 h-6 text-green-500 dark:text-green-400 mb-2" />
+            <p className="text-3xl font-bold text-green-500 dark:text-green-400">{activeResearch}</p>
+            <p className="text-sm text-tertiary-text mt-1">Active Clinical Trials</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl overflow-hidden">
-        <div className="flex border-b border-gray-700">
+      <div className="bg-secondary border border-secondary rounded-xl overflow-hidden">
+        <div className="flex border-b border-secondary">
           {[
             { id: 'overview', label: 'Overview', icon: Heart },
             { id: 'campaigns', label: 'Campaigns', icon: Target },
@@ -245,8 +245,8 @@ export default function Foundation() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-1 px-6 py-4 font-semibold transition-colors flex items-center justify-center gap-2 ${
                 activeTab === tab.id
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-400 hover:bg-gray-800'
+                  ? 'bg-blue-500 text-primary-text'
+                  : 'text-tertiary-text hover:bg-tertiary'
               }`}
             >
               <tab.icon className="w-5 h-5" />
@@ -267,31 +267,31 @@ export default function Foundation() {
 
               <div>
                 <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-                <p className="text-gray-300 leading-relaxed mb-6">
+                <p className="text-secondary-text leading-relaxed mb-6">
                   The TYT Children's Brain Cancer Research & Support Foundation is dedicated to funding groundbreaking research,
                   supporting families, and advancing treatment options for children battling brain tumors. Every transaction on
                   the TakeYourToken platform automatically contributes 1% to our foundation, creating a sustainable funding model
                   for pediatric brain cancer research.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6">
-                  <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-                    <Target className="w-8 h-8 text-blue-400 mb-3" />
+                  <div className="bg-secondary border border-secondary rounded-lg p-6">
+                    <Target className="w-8 h-8 text-blue-500 dark:text-blue-400 mb-3" />
                     <h3 className="font-bold mb-2">Research Funding</h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-tertiary-text">
                       Support cutting-edge clinical trials and innovative treatment development
                     </p>
                   </div>
-                  <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-                    <Users className="w-8 h-8 text-green-400 mb-3" />
+                  <div className="bg-secondary border border-secondary rounded-lg p-6">
+                    <Users className="w-8 h-8 text-green-500 dark:text-green-400 mb-3" />
                     <h3 className="font-bold mb-2">Family Support</h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-tertiary-text">
                       Provide housing, meals, and emotional assistance during treatment
                     </p>
                   </div>
-                  <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                  <div className="bg-secondary border border-secondary rounded-lg p-6">
                     <Building2 className="w-8 h-8 text-purple-400 mb-3" />
                     <h3 className="font-bold mb-2">Hospital Partnerships</h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-tertiary-text">
                       Collaborate with leading medical centers worldwide
                     </p>
                   </div>
@@ -306,7 +306,7 @@ export default function Foundation() {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold mb-1">Meet aOi - Your AI Learning Guide</h3>
-                      <p className="text-gray-300">
+                      <p className="text-secondary-text">
                         Learn about our mission, explore scientific research, and discover how you can help
                       </p>
                     </div>
@@ -325,12 +325,12 @@ export default function Foundation() {
 
               <div className="bg-gradient-to-br from-pink-900/20 to-red-900/20 border border-pink-500/30 rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-4">Make a Direct Donation</h3>
-                <p className="text-gray-300 mb-4">
+                <p className="text-secondary-text mb-4">
                   Your donation goes directly to funding research, supporting families, and saving lives.
                   Visit our dedicated donation page for more options including crypto, fiat, and recurring donations.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <button className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2 border border-gray-600">
+                  <button className="px-6 py-3 bg-secondary hover:bg-tertiary text-primary-text font-semibold rounded-lg transition-all flex items-center justify-center gap-2 border border-secondary">
                     <Heart className="w-5 h-5" />
                     Quick Donate Here
                   </button>
@@ -345,7 +345,7 @@ export default function Foundation() {
                     <ArrowRight className="w-5 h-5" />
                   </a>
                 </div>
-                <p className="text-xs text-gray-400 mt-3 text-center">
+                <p className="text-xs text-tertiary-text mt-3 text-center">
                   All donations are tracked on-chain for complete transparency
                 </p>
               </div>
@@ -357,16 +357,16 @@ export default function Foundation() {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Active Campaigns</h2>
                 <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg">
+                  <button className="px-4 py-2 bg-blue-500 text-primary-text font-semibold rounded-lg">
                     All
                   </button>
-                  <button className="px-4 py-2 bg-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-600">
+                  <button className="px-4 py-2 bg-secondary text-secondary-text font-semibold rounded-lg hover:bg-tertiary">
                     Equipment
                   </button>
-                  <button className="px-4 py-2 bg-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-600">
+                  <button className="px-4 py-2 bg-secondary text-secondary-text font-semibold rounded-lg hover:bg-tertiary">
                     Research
                   </button>
-                  <button className="px-4 py-2 bg-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-600">
+                  <button className="px-4 py-2 bg-secondary text-secondary-text font-semibold rounded-lg hover:bg-tertiary">
                     Support
                   </button>
                 </div>
@@ -391,28 +391,28 @@ export default function Foundation() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-2xl font-bold mb-4">2024 Impact Report</h2>
-                <p className="text-gray-300 mb-6">
+                <p className="text-secondary-text mb-6">
                   Since launch, the TYT Foundation has made significant strides in supporting pediatric brain cancer
                   research and families in need.
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                <div className="bg-secondary border border-secondary rounded-lg p-6">
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <Building2 className="w-6 h-6 text-blue-400" />
+                    <Building2 className="w-6 h-6 text-blue-500 dark:text-blue-400" />
                     Hospital Partners
                   </h3>
                   <div className="space-y-3">
                     {PARTNERS.map(partner => (
-                      <div key={partner.name} className="flex items-center justify-between py-2 border-b border-gray-700">
+                      <div key={partner.name} className="flex items-center justify-between py-2 border-b border-secondary">
                         <div>
                           <p className="font-semibold">{partner.name}</p>
-                          <p className="text-sm text-gray-400">{partner.country}</p>
+                          <p className="text-sm text-tertiary-text">{partner.country}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-bold text-green-400">{partner.patients}</p>
-                          <p className="text-xs text-gray-400">patients</p>
+                          <p className="font-bold text-green-500 dark:text-green-400">{partner.patients}</p>
+                          <p className="text-xs text-tertiary-text">patients</p>
                         </div>
                       </div>
                     ))}
@@ -420,24 +420,24 @@ export default function Foundation() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                  <div className="bg-secondary border border-secondary rounded-lg p-6">
                     <h3 className="text-xl font-bold mb-4">Transparency</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                        <span className="text-gray-300">All donations tracked on blockchain</span>
+                        <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-1" />
+                        <span className="text-secondary-text">All donations tracked on blockchain</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                        <span className="text-gray-300">Quarterly public reports published</span>
+                        <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-1" />
+                        <span className="text-secondary-text">Quarterly public reports published</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                        <span className="text-gray-300">Direct hospital partnerships</span>
+                        <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-1" />
+                        <span className="text-secondary-text">Direct hospital partnerships</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                        <span className="text-gray-300">Third-party audited financials</span>
+                        <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-1" />
+                        <span className="text-secondary-text">Third-party audited financials</span>
                       </li>
                     </ul>
                     <a
@@ -452,32 +452,32 @@ export default function Foundation() {
                     </a>
                   </div>
 
-                  <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+                  <div className="bg-secondary border border-secondary rounded-lg p-6">
                     <h3 className="text-xl font-bold mb-4">Download Reports</h3>
                     <div className="space-y-2">
                       <a
                         href={`${AOI_CONFIG.foundation.transparencyUrl}#q3-2024`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                        className="flex items-center justify-between p-3 bg-tertiary rounded-lg hover:bg-secondary transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <FileText className="w-5 h-5 text-blue-400" />
+                          <FileText className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                           <span>Q3 2024 Impact Report</span>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-gray-400" />
+                        <ExternalLink className="w-4 h-4 text-tertiary-text" />
                       </a>
                       <a
                         href={`${AOI_CONFIG.foundation.transparencyUrl}#financial-audit`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                        className="flex items-center justify-between p-3 bg-tertiary rounded-lg hover:bg-secondary transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <FileText className="w-5 h-5 text-blue-400" />
+                          <FileText className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                           <span>2024 Financial Audit</span>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-gray-400" />
+                        <ExternalLink className="w-4 h-4 text-tertiary-text" />
                       </a>
                       <a
                         href={AOI_CONFIG.foundation.knowledgeUrl}
@@ -486,10 +486,10 @@ export default function Foundation() {
                         className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-900/50 to-lavender-900/50 border border-blue-500/30 rounded-lg hover:border-blue-400/50 transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <Sparkles className="w-5 h-5 text-blue-400" />
+                          <Sparkles className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                           <span className="font-semibold">Scientific Research Library</span>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-blue-400" />
+                        <ExternalLink className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                       </a>
                     </div>
                   </div>
@@ -508,22 +508,22 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
   const daysLeft = Math.ceil((new Date(campaign.endDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 hover:border-blue-500/50 transition-all">
+    <div className="bg-secondary border border-secondary rounded-lg p-6 hover:border-blue-500/50 transition-all">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-3 py-1 bg-blue-500/20 border border-blue-500/50 rounded-full text-xs font-semibold text-blue-400">
+            <span className="px-3 py-1 bg-blue-500/20 border border-blue-500/50 rounded-full text-xs font-semibold text-blue-500 dark:text-blue-400">
               {campaign.category}
             </span>
             {campaign.status === 'completed' && (
-              <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full text-xs font-semibold text-green-400">
+              <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full text-xs font-semibold text-green-500 dark:text-green-400">
                 Completed
               </span>
             )}
           </div>
           <h3 className="text-xl font-bold mb-2">{campaign.title}</h3>
-          <p className="text-gray-400 text-sm mb-3">{campaign.description}</p>
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <p className="text-tertiary-text text-sm mb-3">{campaign.description}</p>
+          <div className="flex items-center gap-2 text-sm text-tertiary-text">
             <Building2 className="w-4 h-4" />
             <span>{campaign.hospital}</span>
           </div>
@@ -532,10 +532,10 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
 
       <div className="space-y-3">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-400">Progress</span>
+          <span className="text-tertiary-text">Progress</span>
           <span className="font-bold">{progress.toFixed(1)}%</span>
         </div>
-        <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
+        <div className="h-3 bg-secondary rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-pink-500 to-red-500"
             style={{ width: `${Math.min(progress, 100)}%` }}
@@ -544,16 +544,16 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-2xl font-bold text-pink-400">${campaign.raised.toLocaleString()}</p>
-            <p className="text-sm text-gray-400">raised of ${campaign.goal.toLocaleString()}</p>
+            <p className="text-sm text-tertiary-text">raised of ${campaign.goal.toLocaleString()}</p>
           </div>
           <div className="text-right">
             <p className="text-xl font-bold">{campaign.donors}</p>
-            <p className="text-sm text-gray-400">donors</p>
+            <p className="text-sm text-tertiary-text">donors</p>
           </div>
           {campaign.status === 'active' && (
             <div className="text-right">
               <p className="text-xl font-bold text-amber-400">{daysLeft}</p>
-              <p className="text-sm text-gray-400">days left</p>
+              <p className="text-sm text-tertiary-text">days left</p>
             </div>
           )}
         </div>
@@ -584,7 +584,7 @@ function GrantCard({ grant }: { grant: Grant }) {
   const StatusIcon = statusIcons[grant.status];
 
   return (
-    <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+    <div className="bg-secondary border border-secondary rounded-lg p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-3">
@@ -592,22 +592,22 @@ function GrantCard({ grant }: { grant: Grant }) {
               <StatusIcon className="w-3 h-3" />
               {grant.status.replace('-', ' ').toUpperCase()}
             </span>
-            <span className="text-sm text-gray-400">{grant.date}</span>
+            <span className="text-sm text-tertiary-text">{grant.date}</span>
           </div>
           <h3 className="text-xl font-bold mb-2">{grant.title}</h3>
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+          <div className="flex items-center gap-2 text-sm text-tertiary-text mb-3">
             <Building2 className="w-4 h-4" />
             <span>{grant.institution}</span>
           </div>
-          <p className="text-gray-400 mb-3">{grant.description}</p>
+          <p className="text-tertiary-text mb-3">{grant.description}</p>
           <div className="flex items-start gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-green-300">{grant.impact}</p>
+            <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-green-500 dark:text-green-400">{grant.impact}</p>
           </div>
         </div>
         <div className="ml-6 text-right">
           <p className="text-3xl font-bold text-amber-400">${(grant.amount / 1000)}K</p>
-          <p className="text-sm text-gray-400">Grant Amount</p>
+          <p className="text-sm text-tertiary-text">Grant Amount</p>
         </div>
       </div>
     </div>

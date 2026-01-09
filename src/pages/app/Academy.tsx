@@ -413,24 +413,24 @@ export default function Academy() {
           <div className="flex items-center gap-4 mb-6">
             <div className="text-6xl">{currentRank.emoji}</div>
             <div className="flex-1">
-              <div className="text-sm text-gray-300 mb-1">Current Owl Rank</div>
+              <div className="text-sm text-secondary-text mb-1">Current Owl Rank</div>
               <div className={`text-3xl font-bold ${currentRank.color}`}>
                 {currentRank.name}
               </div>
-              <div className="text-sm text-gray-400">{currentRank.xp} XP Range</div>
+              <div className="text-sm text-tertiary-text">{currentRank.xp} XP Range</div>
             </div>
             <div className="text-right">
               <div className="text-4xl font-bold text-amber-400">{userXP}</div>
-              <div className="text-sm text-gray-300">Total XP</div>
+              <div className="text-sm text-secondary-text">Total XP</div>
             </div>
           </div>
 
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-gray-300">Progress to next rank</span>
+              <span className="text-secondary-text">Progress to next rank</span>
               <span className="font-semibold text-amber-400">{owlRank === 'warrior' ? 'Max Rank Achieved!' : `${userXP} / ${nextRankXP} XP`}</span>
             </div>
-            <div className="h-4 bg-gray-800/50 rounded-full overflow-hidden border border-amber-500/30">
+            <div className="h-4 bg-tertiary/50 rounded-full overflow-hidden border border-amber-500/30">
               <div
                 className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
                 style={{ width: `${Math.min(xpProgress, 100)}%` }}
@@ -439,27 +439,27 @@ export default function Academy() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+        <div className="bg-secondary rounded-xl p-6 border border-secondary">
           <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
             <Target className="w-5 h-5 text-amber-400" />
             Your Progress
           </h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Tracks Started</span>
+              <span className="text-tertiary-text">Tracks Started</span>
               <span className="text-xl font-bold text-amber-400">{tracksStarted}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Lessons Completed</span>
-              <span className="text-xl font-bold text-green-400">{totalLessonsCompleted}</span>
+              <span className="text-tertiary-text">Lessons Completed</span>
+              <span className="text-xl font-bold text-green-500 dark:text-green-400">{totalLessonsCompleted}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Total XP Earned</span>
-              <span className="text-xl font-bold text-blue-400">{userXP}</span>
+              <span className="text-tertiary-text">Total XP Earned</span>
+              <span className="text-xl font-bold text-blue-500 dark:text-blue-400">{userXP}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Completion Rate</span>
-              <span className="text-xl font-bold text-purple-400">
+              <span className="text-tertiary-text">Completion Rate</span>
+              <span className="text-xl font-bold text-purple-500 dark:text-purple-400">
                 {totalLessons > 0 ? Math.round((totalLessonsCompleted / totalLessons) * 100) : 0}%
               </span>
             </div>
@@ -467,7 +467,7 @@ export default function Academy() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+      <div className="bg-secondary rounded-xl p-6 border border-secondary">
         <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
           <Star className="w-6 h-6 text-amber-400" />
           All Owl Ranks
@@ -486,8 +486,8 @@ export default function Academy() {
                   isCurrent
                     ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border-amber-500 ring-2 ring-amber-500/50'
                     : isCurrentOrPast
-                    ? 'bg-gray-800/50 border-gray-600'
-                    : 'bg-gray-900 border-gray-700 opacity-50'
+                    ? 'bg-tertiary/50 border-secondary'
+                    : 'bg-secondary border-secondary opacity-50'
                 }`}
               >
                 <div className="text-4xl mb-2">{info.emoji}</div>
@@ -507,24 +507,24 @@ export default function Academy() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+      <div className="bg-secondary rounded-xl p-6 border border-secondary">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col lg:flex-row gap-3">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-tertiary-text" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search tracks..."
-                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full pl-12 pr-4 py-3 bg-tertiary border border-secondary rounded-lg text-primary-text focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
 
             <select
               value={filterLevel}
               onChange={(e) => setFilterLevel(e.target.value as any)}
-              className="px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
+              className="px-4 py-3 bg-tertiary border border-secondary rounded-lg text-primary-text focus:outline-none focus:border-amber-500 transition-colors"
             >
               <option value="all">All Levels</option>
               <option value="1">Level 1 - Beginner</option>
