@@ -84,13 +84,13 @@ function ThemeToggleCompact() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-all"
+        className="p-2 bg-tertiary hover:bg-secondary text-primary-text rounded-lg transition-all"
         aria-label="Theme"
       >
         <Icon className="w-4 h-4" />
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-1 w-32 bg-secondary border border-secondary rounded-lg shadow-xl overflow-hidden z-50">
           {themes.map(({ value, icon: ThemeIcon, label }) => (
             <button
               key={value}
@@ -99,7 +99,7 @@ function ThemeToggleCompact() {
                 setIsOpen(false);
               }}
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                theme === value ? 'bg-gold-500 text-white' : 'text-gray-300 hover:bg-gray-700'
+                theme === value ? 'bg-gold-500 text-white' : 'text-secondary-text hover:bg-tertiary'
               }`}
             >
               <ThemeIcon className="w-4 h-4" />
@@ -134,14 +134,14 @@ function LanguageSelectorCompact() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all flex items-center gap-1.5"
+        className="p-2 bg-tertiary hover:bg-secondary rounded-lg transition-all flex items-center gap-1.5"
         aria-label="Language"
       >
-        <Globe className="w-4 h-4 text-gray-400" />
+        <Globe className="w-4 h-4 text-tertiary-text" />
         <span className="text-sm">{currentLangConfig.flag}</span>
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-1 w-48 bg-secondary border border-secondary rounded-lg shadow-xl overflow-hidden z-50">
           {(Object.keys(supportedLanguages) as SupportedLanguage[]).map((langCode) => {
             const lang = supportedLanguages[langCode];
             const isActive = langCode === currentLanguage;
@@ -153,12 +153,12 @@ function LanguageSelectorCompact() {
                   setIsOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-3 py-2 text-sm transition-colors ${
-                  isActive ? 'bg-gray-700' : 'hover:bg-gray-700'
+                  isActive ? 'bg-tertiary' : 'hover:bg-tertiary'
                 }`}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{lang.flag}</span>
-                  <span className="text-white text-sm">{lang.nativeName}</span>
+                  <span className="text-primary-text text-sm">{lang.nativeName}</span>
                 </div>
                 {isActive && <Check className="w-3 h-3 text-cyan-400" />}
               </button>

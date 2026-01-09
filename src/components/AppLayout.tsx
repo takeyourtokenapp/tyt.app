@@ -206,25 +206,25 @@ export default function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-owl-dark via-owl-navy to-black text-white">
+    <div className="min-h-screen bg-primary text-primary-text">
       <div className="flex">
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-72 backdrop-blur-glass border-r border-gold-800 transform transition-transform duration-300 lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-50 w-72 bg-secondary backdrop-blur-sm border-r border-secondary transform transition-transform duration-300 lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-5 border-b border-gold-800">
+            <div className="flex items-center justify-between p-5 border-b border-secondary">
               <Link to="/app" className="flex items-center gap-3 group">
                 <img src="/logo.png" alt="TYT" className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all" />
                 <div>
                   <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">TakeYourToken</span>
-                  <div className="text-xs text-gray-400">Owl Warrior Platform</div>
+                  <div className="text-xs text-secondary-text">Owl Warrior Platform</div>
                 </div>
               </Link>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="lg:hidden p-1 rounded hover:bg-gray-800"
+                className="lg:hidden p-1 rounded hover:bg-tertiary"
               >
                 <X size={20} />
               </button>
@@ -245,7 +245,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all ${
                           groupActive
                             ? `${colorClasses.bg} ${colorClasses.text} border ${colorClasses.border}`
-                            : 'hover:bg-gray-800/50 text-gray-300 border border-transparent'
+                            : 'hover:bg-tertiary text-secondary-text border border-transparent'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -253,14 +253,14 @@ export default function AppLayout({ children }: AppLayoutProps) {
                           <span className="text-sm font-semibold">{group.label}</span>
                         </div>
                         {isExpanded ? (
-                          <ChevronDown size={16} className="text-gray-500" />
+                          <ChevronDown size={16} className="text-tertiary-text" />
                         ) : (
-                          <ChevronRight size={16} className="text-gray-500" />
+                          <ChevronRight size={16} className="text-tertiary-text" />
                         )}
                       </button>
 
                       {isExpanded && (
-                        <div className="mt-1 ml-3 pl-3 border-l border-gray-700/50 space-y-0.5">
+                        <div className="mt-1 ml-3 pl-3 border-l border-secondary space-y-0.5">
                           {group.items.map((item) => {
                             const Icon = item.icon || LayoutDashboard;
                             const active = isActive(item.path);
@@ -273,7 +273,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm ${
                                   active
                                     ? `${colorClasses.bg} ${colorClasses.text}`
-                                    : 'hover:bg-gray-800/30 text-gray-400 hover:text-gray-200'
+                                    : 'hover:bg-tertiary text-tertiary-text hover:text-secondary-text'
                                 }`}
                               >
                                 <Icon size={16} />
@@ -288,8 +288,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 })}
               </div>
 
-              <div className="border-t border-gray-700/50 mt-4 pt-4">
-                <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <div className="border-t border-secondary mt-4 pt-4">
+                <div className="px-3 py-2 text-xs font-semibold text-tertiary-text uppercase tracking-wider">
                   Account
                 </div>
                 <div className="space-y-0.5 mt-1">
@@ -305,7 +305,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm ${
                           active
                             ? 'bg-gold-500/20 text-gold-400 border border-gold-500/50'
-                            : 'hover:bg-gray-800/30 text-gray-400 hover:text-gray-200 border border-transparent'
+                            : 'hover:bg-tertiary text-tertiary-text hover:text-secondary-text border border-transparent'
                         }`}
                       >
                         <Icon size={16} />
@@ -317,20 +317,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </div>
             </nav>
 
-            <div className="p-3 border-t border-gold-800 space-y-3">
+            <div className="p-3 border-t border-secondary space-y-3">
               <div className="lg:hidden space-y-2">
                 <ThemeToggle />
                 <LanguageSelector />
               </div>
 
-              <div className="p-3 bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-lg border border-gray-700">
+              <div className="p-3 bg-tertiary rounded-lg border border-secondary">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-sm font-bold">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-sm font-bold text-white">
                     {user?.email?.[0].toUpperCase() || 'U'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold truncate">{user?.email?.split('@')[0]}</div>
-                    <div className="text-xs text-gray-500 truncate">{user?.email}</div>
+                    <div className="text-sm font-semibold text-primary-text truncate">{user?.email?.split('@')[0]}</div>
+                    <div className="text-xs text-tertiary-text truncate">{user?.email}</div>
                   </div>
                 </div>
               </div>
@@ -346,7 +346,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         </aside>
 
         <div className="flex-1 lg:ml-72">
-          <header className="sticky top-0 z-40 backdrop-blur-glass border-b border-gold-800 px-6 py-4">
+          <header className="sticky top-0 z-40 bg-secondary/80 backdrop-blur-sm border-b border-secondary px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setSidebarOpen(true)}
@@ -371,9 +371,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 />
                 <Link
                   to="/app/notifications"
-                  className="relative p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                  className="relative p-2 rounded-lg hover:bg-tertiary transition-colors"
                 >
-                  <Bell size={20} className="text-gray-400" />
+                  <Bell size={20} className="text-tertiary-text" />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full"></span>
                 </Link>
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg border border-amber-500/30">
@@ -384,7 +384,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
             </div>
           </header>
 
-          <main className="p-6">
+          <main className="p-6 bg-primary">
             {children}
           </main>
         </div>
@@ -392,7 +392,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 dark:bg-black/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

@@ -174,7 +174,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center h-64">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-3 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-gray-400 text-lg">{t('common.loading')}</div>
+          <div className="tyt-text-tertiary text-lg">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -187,7 +187,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
             {t('dashboard.title')}
           </h1>
-          <p className="text-gray-400">
+          <p className="tyt-text-tertiary">
             {t('dashboard.welcome', { username: user?.email?.split('@')[0] || 'User' })}
           </p>
         </div>
@@ -196,7 +196,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-500/30">
               <Crown className="w-5 h-5 text-amber-400" />
               <div>
-                <div className="text-xs text-gray-400">{t('dashboard.vipLevel')}</div>
+                <div className="text-xs tyt-text-tertiary">{t('dashboard.vipLevel')}</div>
                 <div className="font-bold text-amber-400">{vipLevel.level}</div>
               </div>
             </div>
