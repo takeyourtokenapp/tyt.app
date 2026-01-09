@@ -189,10 +189,18 @@ export default function TYTTrading() {
             <div className="flex-1">
               <h3 className="font-semibold text-primary-text mb-1">Live Market Data Display</h3>
               <p className="text-sm text-tertiary-text leading-relaxed">
-                You are viewing real-time market data for TYT token traded on pump.fun platform.
-                Trading functionality will be available soon through our integrated wallet system,
-                which will serve as a bridge between your wallet and pump.fun.
+                Real-time market data from multiple sources: Pump.fun API (primary), DexScreener (backup).
+                Data automatically updates every 15 seconds. Trading functionality will be available soon through our
+                integrated wallet system, which will serve as a bridge between your wallet and pump.fun.
               </p>
+              {tokenData?.source && (
+                <div className="mt-2 flex items-center gap-2 text-xs">
+                  <span className="text-tertiary-text">Current data source:</span>
+                  <span className={`font-medium ${tokenData.source !== 'No data available' ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                    {tokenData.source}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -207,10 +215,17 @@ export default function TYTTrading() {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-primary-text">TYT Token</h2>
-                    <p className="text-sm text-tertiary-text flex items-center gap-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                      Live from Pump.fun
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-tertiary-text flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${tokenData?.source && tokenData.source !== 'No data available' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+                        {tokenData?.source || 'Loading...'}
+                      </p>
+                      {tokenData?.lastUpdate && (
+                        <span className="text-xs text-tertiary-text">
+                          • Updated {new Date(tokenData.lastUpdate).toLocaleTimeString()}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

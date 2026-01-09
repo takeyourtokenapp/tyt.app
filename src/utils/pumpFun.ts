@@ -13,6 +13,8 @@ export interface TYTTokenData {
   holders: number;
   totalSupply: number;
   liquidity: number;
+  source?: string;
+  lastUpdate?: string;
 }
 
 export interface TradeSummary {
@@ -38,102 +40,128 @@ export interface Trade {
   confirmed_at?: string;
 }
 
-export async function getTYTTokenData(): Promise<TYTTokenData> {
+async function fetchFromEdgeFunction(): Promise<TYTTokenData | null> {
   try {
-    const response = await fetch(`${PUMP_FUN_API}/coins/${TYT_TOKEN_MINT}`, {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.warn('Supabase credentials not configured');
+      return null;
+    }
+
+    const response = await fetch(`${supabaseUrl}/functions/v1/fetch-tyt-price`, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
       },
     });
 
     if (!response.ok) {
-      console.warn('Pump.fun API returned non-OK status:', response.status);
-      throw new Error(`Failed to fetch token data: ${response.status}`);
+      console.warn('Edge function returned non-OK status:', response.status);
+      return null;
     }
+
+    const result = await response.json();
+    console.log('Edge function response:', result);
+
+    if (result.success && result.data) {
+      return {
+        price: result.data.price || 0,
+        marketCap: result.data.marketCap || 0,
+        volume24h: result.data.volume24h || 0,
+        priceChange24h: result.data.priceChange24h || 0,
+        holders: result.data.holders || 0,
+        totalSupply: result.data.totalSupply || 1000000000,
+        liquidity: result.data.liquidity || 0,
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Edge function fetch error:', error);
+    return null;
+  }
+}
+
+async function fetchFromDexScreener(): Promise<TYTTokenData | null> {
+  try {
+    const response = await fetch(
+      `https://api.dexscreener.com/latest/dex/tokens/${TYT_TOKEN_MINT}`
+    );
+
+    if (!response.ok) return null;
 
     const data = await response.json();
-    console.log('Pump.fun API response:', data);
 
-    let price = 0;
-    let marketCap = 0;
-    let volume24h = 0;
-    let priceChange24h = 0;
-    let holders = 0;
-    let totalSupply = 1000000000;
-    let liquidity = 0;
+    if (!data.pairs || data.pairs.length === 0) return null;
 
-    if (data) {
-      if (data.usd_market_cap && data.total_supply) {
-        price = data.usd_market_cap / data.total_supply;
-        marketCap = data.usd_market_cap;
-      }
+    const pair = data.pairs[0];
 
-      volume24h = data.volume_24h || data.volume || 0;
-      priceChange24h = data.price_change_percentage_24h || 0;
-      totalSupply = data.total_supply || totalSupply;
-      liquidity = data.virtual_sol_reserves || data.liquidity || 0;
-
-      if (data.holder_count) {
-        holders = data.holder_count;
-      }
-    }
-
-    const tokenData: TYTTokenData = {
-      price,
-      marketCap,
-      volume24h,
-      priceChange24h,
-      holders,
-      totalSupply,
-      liquidity
+    return {
+      price: parseFloat(pair.priceUsd) || 0,
+      marketCap: parseFloat(pair.fdv) || 0,
+      volume24h: parseFloat(pair.volume?.h24) || 0,
+      priceChange24h: parseFloat(pair.priceChange?.h24) || 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: parseFloat(pair.liquidity?.usd) || 0,
     };
-
-    return tokenData;
   } catch (error) {
-    console.error('Error fetching TYT token data from pump.fun:', error);
+    console.error('DexScreener fetch error:', error);
+    return null;
+  }
+}
 
-    try {
-      const solPriceResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
-      const solPriceData = await solPriceResponse.json();
-      const solPrice = solPriceData.solana?.usd || 140;
+export async function getTYTTokenData(): Promise<TYTTokenData> {
+  try {
+    console.log('Fetching TYT token data from multiple sources...');
 
-      const rpcResponse = await fetch(SOLANA_RPC, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 1,
-          method: 'getTokenSupply',
-          params: [TYT_TOKEN_MINT]
-        })
-      });
-
-      const rpcData = await rpcResponse.json();
-      const supply = rpcData.result?.value?.uiAmount || 1000000000;
-
+    const edgeFunctionData = await fetchFromEdgeFunction();
+    if (edgeFunctionData && edgeFunctionData.price > 0) {
+      console.log('Using data from Edge Function (pump.fun proxy)');
       return {
-        price: 0.00000234,
-        marketCap: supply * 0.00000234,
-        volume24h: 0,
-        priceChange24h: 0,
-        holders: 0,
-        totalSupply: supply,
-        liquidity: 0
-      };
-    } catch (fallbackError) {
-      console.error('Fallback data fetch also failed:', fallbackError);
-
-      return {
-        price: 0.00000234,
-        marketCap: 234000,
-        volume24h: 0,
-        priceChange24h: 0,
-        holders: 0,
-        totalSupply: 1000000000,
-        liquidity: 45000
+        ...edgeFunctionData,
+        source: 'Pump.fun (via proxy)',
+        lastUpdate: new Date().toISOString(),
       };
     }
+
+    const dexScreenerData = await fetchFromDexScreener();
+    if (dexScreenerData && dexScreenerData.price > 0) {
+      console.log('Using data from DexScreener');
+      return {
+        ...dexScreenerData,
+        source: 'DexScreener',
+        lastUpdate: new Date().toISOString(),
+      };
+    }
+
+    console.warn('All data sources failed, using fallback data');
+    return {
+      price: 0,
+      marketCap: 0,
+      volume24h: 0,
+      priceChange24h: 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: 0,
+      source: 'No data available',
+      lastUpdate: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error('Error fetching TYT token data:', error);
+
+    return {
+      price: 0,
+      marketCap: 0,
+      volume24h: 0,
+      priceChange24h: 0,
+      holders: 0,
+      totalSupply: 1000000000,
+      liquidity: 0,
+    };
   }
 }
 
