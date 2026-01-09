@@ -153,18 +153,18 @@ export default function AoiChatWidget({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-96 max-h-[90vh] bg-gray-900 border-2 border-blue-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-lavender-600 p-4 flex items-center justify-between border-b border-blue-400/30">
+    <div className="fixed bottom-4 right-4 z-50 w-96 max-h-[90vh] bg-secondary border-2 border-accent/50 rounded-2xl shadow-2xl aoi-widget flex flex-col overflow-hidden">
+      <div className="bg-gradient-to-r from-accent to-amber-500 p-4 flex items-center justify-between border-b border-accent/30">
         <div className="flex items-center gap-3">
           <AoiAvatar level={progress?.level || 1} size="sm" />
           <div>
             <h3 className="font-bold text-white flex items-center gap-2">
               aOi
               {foundationOnline && (
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" title="Connected to TYT Foundation" />
+                <span className="w-2 h-2 bg-success rounded-full animate-pulse aoi-glow" title="Connected to TYT Foundation" />
               )}
             </h3>
-            <p className="text-xs text-blue-100">AI Learning Assistant</p>
+            <p className="text-xs text-white/90">AI Learning Assistant</p>
           </div>
         </div>
         <button
@@ -175,28 +175,28 @@ export default function AoiChatWidget({
         </button>
       </div>
 
-      <div className="px-4 py-2 bg-gradient-to-r from-pink-500/10 to-blue-500/10 border-b border-gray-700">
+      <div className="px-4 py-2 bg-gradient-to-r from-pink-500/10 to-accent/10 border-b border-secondary">
         <div className="space-y-2">
           <a
             href={links.home}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs text-gray-300 hover:text-pink-400 transition-colors group"
+            className="flex items-center gap-2 text-xs text-secondary-text hover:text-pink-400 transition-colors group"
           >
             <Heart className="w-3 h-3 text-pink-400" />
             <span>Powered by TYT Children's Brain Cancer Foundation</span>
             <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
           {foundationOnline && (
-            <div className="flex items-center gap-2 text-xs text-green-300">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <div className="flex items-center gap-2 text-xs text-success">
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
               <span>Connected to Foundation AI at tyt.foundation</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-800">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-primary">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -207,18 +207,18 @@ export default function AoiChatWidget({
             <div
               className={`max-w-[80%] rounded-2xl p-3 ${
                 message.sender === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-700 text-gray-100'
+                  ? 'bg-accent text-white font-medium'
+                  : 'aoi-chat-bubble text-primary-text'
               }`}
             >
               {message.sender === 'aoi' && (
                 <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span className="text-xs text-gray-400">Aoi</span>
+                  <Sparkles className="w-3 h-3 text-accent" />
+                  <span className="text-xs font-semibold text-accent">Aoi</span>
                 </div>
               )}
               <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-              <span className="text-xs opacity-50 mt-1 block">
+              <span className="text-xs opacity-60 mt-1 block">
                 {message.timestamp.toLocaleTimeString([], {
                   hour: '2-digit',
                   minute: '2-digit',
@@ -229,16 +229,16 @@ export default function AoiChatWidget({
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-700 rounded-2xl p-3 flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
-              <span className="text-sm text-gray-300">Aoi is thinking...</span>
+            <div className="aoi-chat-bubble rounded-2xl p-3 flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-accent" />
+              <span className="text-sm text-primary-text font-medium">Aoi is thinking...</span>
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4 bg-gray-900 border-t border-gray-700">
+      <div className="p-4 bg-secondary border-t border-primary">
         <div className="flex gap-2 mb-2">
           <input
             type="text"
@@ -246,13 +246,13 @@ export default function AoiChatWidget({
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask aOi anything..."
-            className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
+            className="flex-1 bg-tertiary text-primary-text rounded-lg px-4 py-2 border-2 border-accent/30 focus:outline-none focus:border-accent placeholder-tertiary-text"
             disabled={isLoading}
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="bg-gradient-to-r from-blue-600 to-lavender-600 text-white rounded-lg px-4 py-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+            className="bg-gradient-to-r from-accent to-amber-500 text-white font-bold rounded-lg px-4 py-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
