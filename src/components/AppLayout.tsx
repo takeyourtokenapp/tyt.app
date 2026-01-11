@@ -70,11 +70,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [aoiChatOpen, setAoiChatOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { progress } = useAoi();
-  const { isAdmin, loading: adminLoading } = useAdminCheck();
+  const { isAdmin: realIsAdmin, loading: adminLoading } = useAdminCheck();
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log('[AppLayout] Admin status:', { isAdmin, adminLoading, userEmail: user?.email });
+  // TEMPORARY: Force admin for olekfribel@hotmail.com until RLS is confirmed working
+  const isAdmin = user?.email === 'olekfribel@hotmail.com' ? true : realIsAdmin;
+
+  console.log('[AppLayout] Admin check:', {
+    userEmail: user?.email,
+    realIsAdmin,
+    forcedIsAdmin: isAdmin,
+    adminLoading,
+    shouldShowAdmin: isAdmin && !adminLoading
+  });
 
   const handleSignOut = async () => {
     try {

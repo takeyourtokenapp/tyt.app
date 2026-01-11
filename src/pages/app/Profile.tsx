@@ -39,23 +39,33 @@ export default function Profile() {
     if (!user) return;
 
     try {
+      console.log('[Profile] Loading profile for user:', user.email);
+
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('email', user.email)
         .maybeSingle();
 
-      if (error) throw error;
+      console.log('[Profile] Query result:', { data, error });
+
+      if (error) {
+        console.error('[Profile] Error loading profile:', error);
+        throw error;
+      }
 
       if (data) {
+        console.log('[Profile] Profile loaded successfully:', data.username);
         setProfile(data);
         setEditForm({
           username: data.username || '',
           full_name: data.full_name || ''
         });
+      } else {
+        console.warn('[Profile] No profile found for user:', user.email);
       }
     } catch (error) {
-      console.error('Error loading profile:', error);
+      console.error('[Profile] Exception:', error);
     } finally {
       setLoading(false);
     }
