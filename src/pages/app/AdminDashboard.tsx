@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import AccessGuard from '../../components/AccessGuard';
 
 interface DashboardStats {
   totalUsers: number;
@@ -30,7 +31,7 @@ interface DashboardStats {
   monthlyRevenue: number;
 }
 
-export default function AdminDashboard() {
+function AdminDashboardContent() {
   const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 0,
@@ -395,5 +396,13 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <AccessGuard requiredLevel="admin" redirectTo="/app">
+      <AdminDashboardContent />
+    </AccessGuard>
   );
 }

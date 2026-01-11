@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import AccessGuard from '../../components/AccessGuard';
 import {
   Users,
   Search,
@@ -31,7 +32,7 @@ interface UserProfile {
   last_seen: string | null;
 }
 
-export default function AdminUsers() {
+function AdminUsersContent() {
   const { user } = useAuth();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -406,5 +407,13 @@ export default function AdminUsers() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminUsers() {
+  return (
+    <AccessGuard requiredLevel="admin" redirectTo="/app">
+      <AdminUsersContent />
+    </AccessGuard>
   );
 }

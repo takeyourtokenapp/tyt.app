@@ -69,9 +69,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [aoiChatOpen, setAoiChatOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { progress } = useAoi();
-  const { isAdmin } = useAdminCheck();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const location = useLocation();
   const navigate = useNavigate();
+
+  console.log('[AppLayout] Admin status:', { isAdmin, adminLoading, userEmail: user?.email });
 
   const handleSignOut = async () => {
     try {

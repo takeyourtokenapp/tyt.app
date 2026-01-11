@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import AccessGuard from '../../components/AccessGuard';
 import {
   MessageSquare,
   Search,
@@ -30,7 +31,7 @@ interface ContactMessage {
   user_email?: string;
 }
 
-export default function AdminMessages() {
+function AdminMessagesContent() {
   const { user } = useAuth();
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -448,5 +449,13 @@ export default function AdminMessages() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AdminMessages() {
+  return (
+    <AccessGuard requiredLevel="admin" redirectTo="/app">
+      <AdminMessagesContent />
+    </AccessGuard>
   );
 }

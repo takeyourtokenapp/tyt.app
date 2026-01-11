@@ -18,7 +18,7 @@ interface FeeConfig {
   academyFee: number;
 }
 
-export default function AdminContracts() {
+function AdminContractsContent() {
   const { address, isConnected } = useAccount();
   const { showToast } = useToast();
 
@@ -495,5 +495,13 @@ export default function AdminContracts() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminContracts() {
+  return (
+    <AccessGuard requiredLevel="admin" redirectTo="/app">
+      <AdminContractsContent />
+    </AccessGuard>
   );
 }
