@@ -18,12 +18,12 @@ export function useAdminCheck() {
       }
 
       try {
-        console.log('[useAdminCheck] Checking admin status for:', user.email);
+        console.log('[useAdminCheck] Checking admin status for:', user.email, 'user.id:', user.id);
 
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('is_admin, email, username')
-          .eq('email', user.email)
+          .eq('id', user.id)
           .maybeSingle();
 
         console.log('[useAdminCheck] Profile result:', { profile, error });
@@ -34,7 +34,7 @@ export function useAdminCheck() {
 
         if (mounted) {
           const adminStatus = profile?.is_admin === true;
-          console.log('[useAdminCheck] Setting isAdmin to:', adminStatus);
+          console.log('[useAdminCheck] Setting isAdmin to:', adminStatus, 'for user:', profile?.email);
           setIsAdmin(adminStatus);
         }
       } catch (error) {
