@@ -44,6 +44,7 @@ import {
   Shield,
   FileCheck,
   DollarSign,
+  GitBranch,
   type LucideIcon
 } from 'lucide-react';
 
@@ -109,6 +110,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
     ]
   };
 
+  // Debug logging
+  console.log('[AppLayout] Creating navGroups with isAdmin:', isAdmin);
+  console.log('[AppLayout] adminLoading:', adminLoading);
+  console.log('[AppLayout] Will add adminGroup:', isAdmin ? 'YES' : 'NO');
+
   const navGroups: NavGroup[] = [
     ...(isAdmin ? [adminGroup] : []),
     {
@@ -131,7 +137,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
       color: 'green',
       items: [
         { path: '/app/wallet', icon: Wallet, label: 'Wallet' },
+        { path: '/app/swap', icon: ArrowLeftRight, label: 'Swap' },
+        { path: '/app/bridge', icon: GitBranch, label: 'Bridge' },
         { path: '/app/tyt-trading', icon: Zap, label: 'TYT Trading' },
+        { path: '/app/transactions', icon: Receipt, label: 'Transactions' },
         { path: '/app/burn-reports', icon: Flame, label: 'Burn Reports' },
         { path: '/app/governance', icon: Vote, label: 'Governance' },
       ]
