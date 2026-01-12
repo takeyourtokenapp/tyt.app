@@ -1,41 +1,33 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ArrowLeft } from 'lucide-react';
 
-export default function Login() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
+  const { resetPassword } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    console.log('Login form submitted:', { email });
-
     try {
-      await signIn(email, password);
-      console.log('Sign in successful, navigating to /app');
-      navigate('/app');
+      await resetPassword(email);
+      setSuccess(true);
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Password reset error:', err);
 
-      let errorMessage = 'Failed to sign in';
+      let errorMessage = 'Failed to send reset email';
 
       if (err instanceof Error) {
         errorMessage = err.message;
 
         if (err.message.includes('fetch')) {
-          errorMessage = 'Network error. Check your connection and Supabase configuration.';
-        } else if (err.message.includes('Invalid login credentials')) {
-          errorMessage = 'Invalid email or password';
-        } else if (err.message.includes('Email not confirmed')) {
-          errorMessage = 'Please confirm your email address';
+          errorMessage = 'Network error. Please check your connection.';
         }
       }
 
@@ -54,8 +46,8 @@ export default function Login() {
               TYT
             </div>
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-gray-400">Sign in to your TYT account</p>
+          <h1 className="text-3xl font-bold mb-2">Reset Password</h1>
+          <p className="text-gray-400">Enter your email to receive a reset link</p>
         </div>
 
         <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700">
@@ -66,10 +58,20 @@ export default function Login() {
             </div>
           )}
 
+          {success && (
+            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-lg flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-green-400">
+                <p className="font-semibold mb-1">Email sent!</p>
+                <p>Check your inbox for password reset instructions.</p>
+              </div>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
+                Email Address
               </label>
               <input
                 id="email"
@@ -77,50 +79,29 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
+                disabled={success}
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-50"
                 placeholder="you@example.com"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label htmlFor="password" className="block text-sm font-medium">
-                  Password
-                </label>
-                <Link
-                  to="/forgot-password"
-                  className="text-xs text-amber-400 hover:text-amber-300"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
-                placeholder="Enter your password"
               />
             </div>
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || success}
               className="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg font-semibold hover:shadow-lg hover:shadow-amber-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Sending...' : success ? 'Email Sent' : 'Send Reset Link'}
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-400">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-amber-400 hover:text-amber-300 font-semibold">
-                Sign Up
-              </Link>
-            </p>
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <Link
+              to="/login"
+              className="text-sm text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Sign In
+            </Link>
           </div>
         </div>
 

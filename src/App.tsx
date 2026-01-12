@@ -16,6 +16,8 @@ import { lazyWithRetry } from './utils/lazyWithRetry';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import LoadTest from './pages/LoadTest';
 import IconTest from './pages/IconTest';
 
@@ -113,6 +115,8 @@ function App() {
       <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
       <Route path="/login" element={<PublicLayout showFooter={false}><Login /></PublicLayout>} />
       <Route path="/signup" element={<PublicLayout showFooter={false}><Signup /></PublicLayout>} />
+      <Route path="/forgot-password" element={<PublicLayout showFooter={false}><ForgotPassword /></PublicLayout>} />
+      <Route path="/reset-password" element={<PublicLayout showFooter={false}><ResetPassword /></PublicLayout>} />
       <Route path="/terms" element={<PublicLayout><Terms /></PublicLayout>} />
       <Route path="/privacy" element={<PublicLayout><Privacy /></PublicLayout>} />
       <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
