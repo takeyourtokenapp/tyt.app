@@ -1,10 +1,6 @@
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Client-Info, Apikey',
-};
+import { handleCorsPreflightRequest, createCorsHeaders } from '../_shared/auth.ts';
+import { rateLimiters } from '../_shared/rateLimiter.ts';
 
 const TYT_TOKEN_MINT = '8YuADotEATc86nEgPUZVs8fBRxdMMgEP4JL4xv7rpump';
 const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
@@ -144,12 +140,14 @@ async function fetchTokenSupply(): Promise<number> {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
-  }
+  const corsPreflightResponse = handleCorsPreflightRequest(req);
+  if (corsPreflightResponse) return corsPreflightResponse;
+
+  const rateLimitResponse = await rateLimiters.standard(req);
+  if (rateLimitResponse) return rateLimitResponse;
+
+  const origin = req.headers.get('origin');
+  const corsHeaders = createCorsHeaders(origin);
 
   try {
     console.log('Fetching TYT token data from multiple sources...');

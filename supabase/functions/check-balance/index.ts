@@ -1,11 +1,5 @@
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
-import { createClient } from 'npm:@supabase/supabase-js@2.57.4';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Client-Info, Apikey',
-};
+import { requireAuth, createAuthErrorResponse, handleCorsPreflightRequest, createCorsHeaders, supabaseAdmin } from '../_shared/auth.ts';
 
 // Blockchain RPC endpoints
 const RPC_URLS = {
@@ -81,36 +75,15 @@ async function checkXRPBalance(address: string): Promise<number> {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
-  }
+  const corsPreflightResponse = handleCorsPreflightRequest(req);
+  if (corsPreflightResponse) return corsPreflightResponse;
+
+  const origin = req.headers.get('origin');
+  const corsHeaders = createCorsHeaders(origin);
 
   try {
-    // Require JWT authorization
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized: Missing authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized: Invalid token' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    const authContext = await requireAuth(req);
+    const user = authContext.user;
 
     const { blockchain, address, asset = 'native' } = await req.json();
 
@@ -122,7 +95,7 @@ Deno.serve(async (req: Request) => {
     }
 
     // CRITICAL: Verify address ownership
-    const { data: wallet, error: walletError } = await supabase
+    const { data: wallet, error: walletError } = await supabaseAdmin
       .from('custodial_wallets')
       .select('address')
       .eq('user_id', user.id)
@@ -191,6 +164,10 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error: any) {
+    if (error instanceof Error && error.name === 'AuthError') {
+      return createAuthErrorResponse(error);
+    }
+
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

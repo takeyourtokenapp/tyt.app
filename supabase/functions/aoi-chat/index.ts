@@ -1,10 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { requireAuth, createAuthErrorResponse, handleCorsPreflightRequest, createCorsHeaders } from '../_shared/auth.ts';
 
 const FOUNDATION_API_URL = "https://tyt.foundation/api/aoi";
 
@@ -35,14 +30,15 @@ interface RequestBody {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
-  }
+  const corsPreflightResponse = handleCorsPreflightRequest(req);
+  if (corsPreflightResponse) return corsPreflightResponse;
+
+  const origin = req.headers.get('origin');
+  const corsHeaders = createCorsHeaders(origin);
 
   try {
+    const authContext = await requireAuth(req);
+
     const { question, context }: RequestBody = await req.json();
 
     if (!question || typeof question !== "string") {
@@ -101,6 +97,11 @@ Deno.serve(async (req: Request) => {
     );
   } catch (error) {
     console.error("❌ Error in aoi-chat:", error);
+
+    if (error instanceof Error && error.name === 'AuthError') {
+      return createAuthErrorResponse(error);
+    }
+
     return new Response(
       JSON.stringify({
         error: "Internal server error",

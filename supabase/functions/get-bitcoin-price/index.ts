@@ -1,10 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { handleCorsPreflightRequest, createCorsHeaders } from '../_shared/auth.ts';
+import { rateLimiters } from '../_shared/rateLimiter.ts';
 
 interface BitcoinData {
   price: {
@@ -21,9 +17,14 @@ interface BitcoinData {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { status: 200, headers: corsHeaders });
-  }
+  const corsPreflightResponse = handleCorsPreflightRequest(req);
+  if (corsPreflightResponse) return corsPreflightResponse;
+
+  const rateLimitResponse = await rateLimiters.standard(req);
+  if (rateLimitResponse) return rateLimitResponse;
+
+  const origin = req.headers.get('origin');
+  const corsHeaders = createCorsHeaders(origin);
 
   try {
     const url = new URL(req.url);
