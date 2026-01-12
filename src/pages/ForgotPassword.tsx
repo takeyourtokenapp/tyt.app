@@ -64,6 +64,9 @@ export default function ForgotPassword() {
               <div className="text-sm text-green-400">
                 <p className="font-semibold mb-1">Email sent!</p>
                 <p>Check your inbox for password reset instructions.</p>
+                <p className="text-xs mt-2 text-gray-400">
+                  The link will expire in 1 hour. Check spam folder if you don't see it.
+                </p>
               </div>
             </div>
           )}

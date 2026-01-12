@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -10,8 +11,11 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(true);
+  const [hasValidSession, setHasValidSession] = useState(false);
   const { updatePassword } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const validatePassword = (pwd: string) => {
     const checks = {
@@ -25,6 +29,54 @@ export default function ResetPassword() {
 
   const checks = validatePassword(password);
   const isPasswordValid = Object.values(checks).every(Boolean);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const params = new URLSearchParams(location.search);
+        const hashParams = new URLSearchParams(location.hash.substring(1));
+
+        const errorParam = params.get('error') || hashParams.get('error');
+        const errorDescription = params.get('error_description') || hashParams.get('error_description');
+        const errorCode = params.get('error_code') || hashParams.get('error_code');
+
+        if (errorParam) {
+          setVerifying(false);
+          if (errorCode === 'otp_expired') {
+            setError('Password reset link has expired. Please request a new one.');
+          } else if (errorParam === 'access_denied') {
+            setError('Invalid or expired reset link. Please request a new one.');
+          } else {
+            setError(errorDescription || 'Invalid reset link. Please request a new one.');
+          }
+          return;
+        }
+
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          setError('Unable to verify reset link. Please try again.');
+          setVerifying(false);
+          return;
+        }
+
+        if (session) {
+          setHasValidSession(true);
+          setVerifying(false);
+        } else {
+          setError('Invalid or expired reset link. Please request a new one.');
+          setVerifying(false);
+        }
+      } catch (err) {
+        console.error('Session check error:', err);
+        setError('Unable to verify reset link. Please try again.');
+        setVerifying(false);
+      }
+    };
+
+    checkSession();
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +115,17 @@ export default function ResetPassword() {
     }
   };
 
+  if (verifying) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white flex items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="text-gray-400">Verifying reset link...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -80,7 +143,15 @@ export default function ResetPassword() {
           {error && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-400">{error}</p>
+              <div className="flex-1">
+                <p className="text-sm text-red-400">{error}</p>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs text-amber-400 hover:text-amber-300 mt-2 inline-block"
+                >
+                  Request new reset link
+                </Link>
+              </div>
             </div>
           )}
 
@@ -91,7 +162,8 @@ export default function ResetPassword() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {hasValidSession && (
+            <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="password" className="block text-sm font-medium mb-2">
                 New Password
@@ -160,6 +232,19 @@ export default function ResetPassword() {
               {loading ? 'Updating...' : 'Update Password'}
             </button>
           </form>
+          )}
+
+          {!hasValidSession && !error && (
+            <div className="text-center">
+              <p className="text-gray-400 mb-4">Unable to reset password</p>
+              <Link
+                to="/forgot-password"
+                className="text-amber-400 hover:text-amber-300 font-semibold"
+              >
+                Request new reset link
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 text-center">
