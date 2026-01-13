@@ -55,7 +55,7 @@ export default function Miners() {
     if (search) {
       filtered = filtered.filter(m =>
         m.token_id?.toString().includes(search) ||
-        m.region?.toLowerCase().includes(search.toLowerCase())
+        m.name?.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -76,13 +76,13 @@ export default function Miners() {
         case 'oldest':
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         case 'hashrate-high':
-          return (b.power_th || 0) - (a.power_th || 0);
+          return (b.hashrate || 0) - (a.hashrate || 0);
         case 'hashrate-low':
-          return (a.power_th || 0) - (b.power_th || 0);
+          return (a.hashrate || 0) - (b.hashrate || 0);
         case 'efficiency-best':
-          return (a.efficiency_w_th || 999) - (b.efficiency_w_th || 999);
+          return (a.efficiency || 999) - (b.efficiency || 999);
         case 'efficiency-worst':
-          return (b.efficiency_w_th || 0) - (a.efficiency_w_th || 0);
+          return (b.efficiency || 0) - (a.efficiency || 0);
         default:
           return 0;
       }

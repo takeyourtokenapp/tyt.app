@@ -213,10 +213,10 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">
-            {wallets.find(w => w.asset === 'BTC')?.balance || '0.00000000'}
+            {wallets.find(w => w.currency === 'BTC')?.balance || '0.00000000'}
           </div>
           <div className="text-xs tyt-text-tertiary">
-            ≈ ${(parseFloat(wallets.find(w => w.asset === 'BTC')?.balance || '0') * 95000).toFixed(2)} USD
+            ≈ ${(parseFloat(wallets.find(w => w.currency === 'BTC')?.balance || '0') * 95000).toFixed(2)} USD
           </div>
         </div>
 
@@ -228,7 +228,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-1">
-            {parseFloat(wallets.find(w => w.asset === 'TYT')?.balance || '0').toFixed(0)}
+            {parseFloat(wallets.find(w => w.currency === 'TYT')?.balance || '0').toFixed(0)}
           </div>
           <div className="text-xs tyt-text-tertiary">
             {t('dashboard.stats.maintenanceNote')}
@@ -258,7 +258,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
-            {todayReward ? parseFloat(todayReward.net_btc).toFixed(8) : '0.00000000'}
+            {todayReward ? parseFloat(todayReward.btc_amount).toFixed(8) : '0.00000000'}
           </div>
           <div className="text-xs tyt-text-tertiary">
             Weekly: {weeklyRewards.toFixed(8)} BTC

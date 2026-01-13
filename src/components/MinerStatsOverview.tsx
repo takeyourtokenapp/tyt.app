@@ -7,8 +7,8 @@ interface MinerStatsOverviewProps {
 
 export default function MinerStatsOverview({ miners }: MinerStatsOverviewProps) {
   const activeMiners = miners.filter(m => m.status === 'active').length;
-  const totalHashrate = miners.reduce((sum, m) => sum + (m.power_th || 0), 0);
-  const totalPower = miners.reduce((sum, m) => sum + (m.power_th || 0) * (m.efficiency_w_th || 25), 0);
+  const totalHashrate = miners.reduce((sum, m) => sum + (m.hashrate || 0), 0);
+  const totalPower = miners.reduce((sum, m) => sum + (m.hashrate || 0) * (m.efficiency || 25), 0);
   const dailyBTC = (totalHashrate * 0.00000015).toFixed(8);
 
   const stats = [

@@ -116,15 +116,15 @@ export function AoiControlProvider({ children }: { children: ReactNode }) {
 
     try {
       const { data, error } = await supabase
-        .from('user_miners')
-        .select('region, status, power_th')
-        .eq('user_id', user.id);
+        .from('nft_miners')
+        .select('name, status, hashrate')
+        .eq('owner_id', user.id);
 
       if (error) throw error;
 
       const summary = data?.reduce((acc: any, miner: any) => {
-        acc[miner.region] = (acc[miner.region] || 0) + 1;
-        acc.total_power = (acc.total_power || 0) + miner.power_th;
+        acc[miner.name] = (acc[miner.name] || 0) + 1;
+        acc.total_power = (acc.total_power || 0) + miner.hashrate;
         return acc;
       }, {});
 

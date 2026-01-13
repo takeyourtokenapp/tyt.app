@@ -6,9 +6,9 @@ interface MarketplaceListing {
   price_usd: number;
   miner: {
     token_id: number;
-    power_th: number;
-    efficiency_w_th: number;
-    region: string;
+    hashrate: number;
+    efficiency: number;
+    name: string;
     status: string;
   };
   seller: {
@@ -22,8 +22,8 @@ interface MarketplaceMinerCardProps {
 }
 
 export default function MarketplaceMinerCard({ listing, onBuy }: MarketplaceMinerCardProps) {
-  const dailyBTC = (listing.miner.power_th * 0.00000015).toFixed(8);
-  const efficiency = listing.miner.efficiency_w_th || 25;
+  const dailyBTC = (listing.miner.hashrate * 0.00000015).toFixed(8);
+  const efficiency = listing.miner.efficiency || 25;
 
   const estimatedROI = listing.price_usd > 0
     ? (parseFloat(dailyBTC) * 45000 * 365 / listing.price_usd * 100).toFixed(1)
@@ -62,7 +62,7 @@ export default function MarketplaceMinerCard({ listing, onBuy }: MarketplaceMine
             <span>Hashrate</span>
           </div>
           <p className="text-lg font-bold text-white">
-            {listing.miner.power_th} <span className="text-xs text-gray-400">TH/s</span>
+            {listing.miner.hashrate} <span className="text-xs text-gray-400">TH/s</span>
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export default function MarketplaceMinerCard({ listing, onBuy }: MarketplaceMine
         </div>
         <div className="flex items-center gap-1 text-xs text-gray-400">
           <MapPin className="w-3 h-3" />
-          <span>{listing.miner.region || 'Global'}</span>
+          <span>{listing.miner.name || 'Global'}</span>
         </div>
       </div>
 

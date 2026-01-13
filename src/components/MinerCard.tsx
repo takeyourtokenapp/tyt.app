@@ -15,8 +15,8 @@ export default function MinerCard({ miner }: MinerCardProps) {
 
   const statusColor = statusColors[miner.status] || statusColors.inactive;
 
-  const dailyBTC = (miner.power_th * 0.00000015).toFixed(8);
-  const efficiency = miner.efficiency_w_th || 25;
+  const dailyBTC = (miner.hashrate * 0.00000015).toFixed(8);
+  const efficiency = miner.efficiency || 25;
 
   return (
     <Link
@@ -30,10 +30,10 @@ export default function MinerCard({ miner }: MinerCardProps) {
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">
-              Miner #{miner.token_id}
+              {miner.name || `Miner #${miner.token_id}`}
             </h3>
             <p className="text-sm text-gray-400">
-              {miner.region || 'Global'}
+              Token #{miner.token_id}
             </p>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function MinerCard({ miner }: MinerCardProps) {
             <span>Hashrate</span>
           </div>
           <p className="text-xl font-bold text-white">
-            {miner.power_th} <span className="text-sm text-gray-400">TH/s</span>
+            {miner.hashrate} <span className="text-sm text-gray-400">TH/s</span>
           </p>
         </div>
 

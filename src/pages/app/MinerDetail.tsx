@@ -128,7 +128,7 @@ export default function MinerDetail() {
   };
 
   const statusColor = statusColors[miner.status] || statusColors.inactive;
-  const dailyBTC = (miner.power_th * 0.00000015).toFixed(8);
+  const dailyBTC = (miner.hashrate * 0.00000015).toFixed(8);
   const monthlyBTC = (parseFloat(dailyBTC) * 30).toFixed(8);
   const yearlyBTC = (parseFloat(dailyBTC) * 365).toFixed(8);
 
@@ -174,7 +174,7 @@ export default function MinerDetail() {
                 </span>
                 <div className="flex items-center gap-2 text-gray-400">
                   <MapPin className="w-4 h-4" />
-                  <span>{miner.region || 'Global'}</span>
+                  <span>{miner.name || 'Global'}</span>
                 </div>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function MinerDetail() {
               <span>Hashrate</span>
             </div>
             <p className="text-2xl font-bold text-white">
-              {miner.power_th} <span className="text-sm text-gray-400">TH/s</span>
+              {miner.hashrate} <span className="text-sm text-gray-400">TH/s</span>
             </p>
           </div>
 
@@ -202,7 +202,7 @@ export default function MinerDetail() {
               <span>Efficiency</span>
             </div>
             <p className="text-2xl font-bold text-white">
-              {miner.efficiency_w_th || 25} <span className="text-sm text-gray-400">W/TH</span>
+              {miner.efficiency || 25} <span className="text-sm text-gray-400">W/TH</span>
             </p>
           </div>
 
@@ -212,7 +212,7 @@ export default function MinerDetail() {
               <span>Power Draw</span>
             </div>
             <p className="text-2xl font-bold text-white">
-              {((miner.power_th * (miner.efficiency_w_th || 25)) / 1000).toFixed(2)}
+              {((miner.hashrate * (miner.efficiency || 25)) / 1000).toFixed(2)}
               <span className="text-sm text-gray-400"> kW</span>
             </p>
           </div>
@@ -287,8 +287,8 @@ export default function MinerDetail() {
       </div>
 
       <MinerUpgradePanel
-        currentPower={miner.power_th}
-        currentEfficiency={miner.efficiency_w_th || 25}
+        currentPower={miner.hashrate}
+        currentEfficiency={miner.efficiency || 25}
         availableUpgrades={availableUpgrades}
         onUpgrade={handleUpgrade}
       />

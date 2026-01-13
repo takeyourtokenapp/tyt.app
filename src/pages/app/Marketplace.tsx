@@ -43,9 +43,9 @@ export default function Marketplace() {
           *,
           miner:nft_miners!marketplace_listings_miner_id_fkey(
             token_id,
-            power_th,
-            efficiency_w_th,
-            region,
+            hashrate,
+            efficiency,
+            name,
             status
           ),
           seller:profiles!marketplace_listings_seller_id_fkey(username)
@@ -91,7 +91,7 @@ export default function Marketplace() {
       const searchLower = search.toLowerCase();
       filtered = filtered.filter(l =>
         l.miner?.token_id?.toString().includes(searchLower) ||
-        l.miner?.region?.toLowerCase().includes(searchLower) ||
+        l.miner?.name?.toLowerCase().includes(searchLower) ||
         l.seller?.username?.toLowerCase().includes(searchLower)
       );
     }
@@ -99,8 +99,8 @@ export default function Marketplace() {
     filtered = filtered.filter(l =>
       l.price_tyt >= priceRange[0] &&
       l.price_tyt <= priceRange[1] &&
-      (l.miner?.power_th || 0) >= hashrateRange[0] &&
-      (l.miner?.power_th || 0) <= hashrateRange[1]
+      (l.miner?.hashrate || 0) >= hashrateRange[0] &&
+      (l.miner?.hashrate || 0) <= hashrateRange[1]
     );
 
     filtered.sort((a, b) => {
@@ -114,12 +114,12 @@ export default function Marketplace() {
         case 'price-high':
           return b.price_tyt - a.price_tyt;
         case 'hashrate-high':
-          return (b.miner?.power_th || 0) - (a.miner?.power_th || 0);
+          return (b.miner?.hashrate || 0) - (a.miner?.hashrate || 0);
         case 'hashrate-low':
-          return (a.miner?.power_th || 0) - (b.miner?.power_th || 0);
+          return (a.miner?.hashrate || 0) - (b.miner?.hashrate || 0);
         case 'roi-high':
-          const roiA = (a.miner?.power_th || 0) * 0.00000015 * 45000 * 365 / (a.price_tyt * 0.5);
-          const roiB = (b.miner?.power_th || 0) * 0.00000015 * 45000 * 365 / (b.price_tyt * 0.5);
+          const roiA = (a.miner?.hashrate || 0) * 0.00000015 * 45000 * 365 / (a.price_tyt * 0.5);
+          const roiB = (b.miner?.hashrate || 0) * 0.00000015 * 45000 * 365 / (b.price_tyt * 0.5);
           return roiB - roiA;
         default:
           return 0;

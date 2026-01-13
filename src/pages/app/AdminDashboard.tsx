@@ -69,14 +69,14 @@ function AdminDashboardContent() {
         supabase.from('profiles').select('id', { count: 'exact', head: true }),
         supabase.from('profiles').select('id', { count: 'exact', head: true }).gte('last_seen', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
         supabase.from('kyc_verifications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-        supabase.from('miners').select('power_th', { count: 'exact' }),
+        supabase.from('nft_miners').select('hashrate', { count: 'exact' }),
         supabase.from('contact_messages').select('id', { count: 'exact', head: true }),
         supabase.from('contact_messages').select('id', { count: 'exact', head: true }).eq('is_read', false),
         supabase.from('foundation_donations').select('amount_usd'),
         supabase.from('transactions').select('id', { count: 'exact', head: true }).gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()),
       ]);
 
-      const totalHashrate = minersResult.data?.reduce((sum, miner) => sum + (miner.power_th || 0), 0) || 0;
+      const totalHashrate = minersResult.data?.reduce((sum, miner) => sum + (miner.hashrate || 0), 0) || 0;
       const foundationTotal = foundationResult.data?.reduce((sum, donation) => sum + (donation.amount_usd || 0), 0) || 0;
 
       setStats({
