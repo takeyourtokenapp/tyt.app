@@ -156,6 +156,16 @@ export default function Signup() {
                     <div className={`w-1.5 h-1.5 rounded-full ${checks.number ? 'bg-green-400' : 'bg-gray-600'}`} />
                     One number (0-9)
                   </div>
+
+                  <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                    <p className="text-xs font-semibold text-amber-400 mb-2">Create a Unique Password</p>
+                    <p className="text-xs text-gray-400 mb-2">Your password must be unique and not found in data breach databases.</p>
+                    <div className="space-y-1">
+                      <p className="text-xs text-green-400">Good: MyTYT!Secure#2026@Mining</p>
+                      <p className="text-xs text-red-400">Avoid: Password123! or Bitcoin2024!</p>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">Tip: Add personal info or random symbols to make it unique</p>
+                  </div>
                 </div>
               )}
             </div>

@@ -178,28 +178,13 @@ export default function Landing() {
                         ease: "easeInOut"
                       }}
                     >
-                      <img
-                        src="/aoi/image copy copy copy.png"
-                        alt="aOi - Your AI Mining Guide"
-                        className="w-full h-auto object-contain drop-shadow-2xl max-h-[600px]"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent && !parent.querySelector('.aoi-fallback')) {
-                            const fallback = document.createElement('div');
-                            fallback.className = 'aoi-fallback w-full h-[500px] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center';
-                            fallback.innerHTML = `
-                              <div class="text-center text-white p-8">
-                                <div class="text-6xl mb-4">🦉</div>
-                                <div class="text-2xl font-bold mb-2">aOi AI Assistant</div>
-                                <div class="text-sm opacity-80">Your intelligent guide to TYT Platform</div>
-                              </div>
-                            `;
-                            parent.appendChild(fallback);
-                          }
-                        }}
-                      />
+                      <div className="aoi-hero-container w-full h-[500px] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                        <div className="text-center text-white p-8">
+                          <div className="text-8xl mb-6 animate-bounce">🦉</div>
+                          <div className="text-3xl font-bold mb-3 drop-shadow-lg">aOi AI Assistant</div>
+                          <div className="text-lg opacity-90">Your intelligent guide to TYT Platform</div>
+                        </div>
+                      </div>
                     </motion.div>
                   </motion.div>
 
@@ -649,11 +634,14 @@ export default function Landing() {
                     ease: "easeInOut"
                   }}
                 >
-                  <img
-                    src="/aoi/image copy copy copy copy copy copy copy.png"
-                    alt="aOi AI Assistant"
-                    className="w-full h-auto object-contain drop-shadow-2xl max-h-[700px] mx-auto"
-                  />
+                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                    <div className="text-center text-white p-10">
+                      <div className="text-9xl mb-6 animate-pulse">🦉</div>
+                      <div className="text-4xl font-bold mb-4 drop-shadow-lg">aOi</div>
+                      <div className="text-xl opacity-90 mb-2">AI-Powered Mining Guide</div>
+                      <div className="text-sm opacity-75">Available 24/7 to assist you</div>
+                    </div>
+                  </div>
                 </motion.div>
 
                 {/* Floating info badges */}
