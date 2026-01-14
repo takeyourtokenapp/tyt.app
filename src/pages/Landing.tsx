@@ -185,20 +185,6 @@ export default function Landing() {
                           src={getAoiImage('heroWelcome')}
                           alt="aOi - Your AI Guide"
                           className="w-full h-full object-contain p-8"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            const parent = target.parentElement;
-                            if (parent) {
-                              parent.innerHTML = `
-                                <div class="text-center text-gray-700 dark:text-white p-8">
-                                  <div class="text-8xl mb-6">✨</div>
-                                  <div class="text-3xl font-bold mb-3 drop-shadow-lg">aOi AI Assistant</div>
-                                  <div class="text-lg opacity-90">Your intelligent guide to TYT Platform</div>
-                                </div>
-                              `;
-                            }
-                          }}
                         />
 
                         {/* Floating badge */}
@@ -663,21 +649,6 @@ export default function Landing() {
                       src={getAoiImage('presenting')}
                       alt="aOi - Your AI Assistant"
                       className="w-full h-full object-contain p-8"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          parent.innerHTML = `
-                            <div class="text-center text-white p-10">
-                              <div class="text-9xl mb-6">✨</div>
-                              <div class="text-4xl font-bold mb-4 drop-shadow-lg">aOi</div>
-                              <div class="text-xl opacity-90 mb-2">AI-Powered Mining Guide</div>
-                              <div class="text-sm opacity-75">Available 24/7 to assist you</div>
-                            </div>
-                          `;
-                        }
-                      }}
                     />
                   </div>
                 </motion.div>

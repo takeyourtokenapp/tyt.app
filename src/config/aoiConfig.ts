@@ -56,22 +56,23 @@ export const AOI_CONFIG = {
 
   // CDN configuration for aOi assets
   cdn: {
-    baseUrl: 'https://tyt.foundation',
+    baseUrl: '', // Use local assets
     assetsPath: '/aoi',
     imagesPath: '/aoi',
-    fallbackToLocal: true, // Use local images if CDN unavailable
+    fallbackToLocal: true, // Use local images
   },
 
-  // aOi visual assets from tyt.foundation
+  // aOi visual assets - using local image
   images: {
-    fullbodyWelcome: 'aoi-fullbody-welcome.png',
-    guidingLeft: 'guiding-left.png',
-    pointingRight: 'pointing-right.png',
-    portraitClose: 'portrait-close.png',
-    presentingOpen: 'presenting-open.png',
-    standingNeutral: 'standing-neutral.png',
-    heroWelcome: 'hero-welcome.png',
-    placeholder: 'aoi-placeholder.svg',
+    fullbodyWelcome: 'image.png',
+    guidingLeft: 'image.png',
+    pointingRight: 'image.png',
+    portraitClose: 'image.png',
+    presentingOpen: 'image.png',
+    presenting: 'image.png',
+    standingNeutral: 'image.png',
+    heroWelcome: 'image.png',
+    placeholder: 'image.png',
   },
 
   evolution: {
@@ -81,28 +82,28 @@ export const AOI_CONFIG = {
         name: 'Beginner Guide',
         xpRequired: 0,
         description: 'Just starting your journey with Aoi',
-        image: 'portrait-close.png',
+        image: 'image.png',
       },
       {
         level: 2,
         name: 'Explorer Mentor',
         xpRequired: 100,
         description: 'Exploring the crypto world together',
-        image: 'guiding-left.png',
+        image: 'image.png',
       },
       {
         level: 3,
         name: 'Builder Advisor',
         xpRequired: 500,
         description: 'Building knowledge and skills',
-        image: 'presenting-open.png',
+        image: 'image.png',
       },
       {
         level: 4,
         name: 'Guardian Master',
         xpRequired: 1500,
         description: 'Guardian of knowledge and compassion',
-        image: 'standing-neutral.png',
+        image: 'image.png',
       },
     ],
   },
@@ -150,30 +151,22 @@ export function getXpForNextLevel(currentXp: number): { current: number; next: n
 }
 
 /**
- * Get aOi image URL from CDN or local fallback
- * Images are hosted on tyt.foundation but can fall back to local
+ * Get aOi image URL from local assets
+ * All aOi visuals use the same local image
  */
 export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string {
   const levelInfo = getAoiLevelInfo(level);
   const imageName = levelInfo.image;
-
-  // Primary: Load from tyt.foundation CDN
-  const cdnUrl = `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${imageName}`;
-
-  // Fallback: Local images (if CDN is unavailable)
-  const localUrl = `/aoi/${imageName}`;
-
-  // For now, return CDN URL (browser will handle fallback via onerror)
-  // In production, you might want to implement health check logic
-  return cdnUrl;
+  return `/aoi/${imageName}`;
 }
 
 /**
  * Get specific aOi image by name
+ * Returns local image path
  */
 export function getAoiImage(imageName: keyof typeof AOI_CONFIG.images): string {
   const fileName = AOI_CONFIG.images[imageName];
-  return `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${fileName}`;
+  return `/aoi/${fileName}`;
 }
 
 /**

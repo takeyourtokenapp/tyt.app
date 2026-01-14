@@ -42,10 +42,6 @@ export default function AoiBadgePill({
           src={AOI_BADGE_AVATAR}
           alt="aOi"
           className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = '/aoi/portrait-close.png';
-          }}
         />
         {showOnlineStatus && (
           <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
