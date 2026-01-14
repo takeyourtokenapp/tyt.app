@@ -23,6 +23,7 @@ import {
 import type { AcademyTrack, AcademyLesson } from '../../types/database';
 import AcademyQuiz from '../../components/AcademyQuiz';
 import AcademyProgressTracker from '../../components/AcademyProgressTracker';
+import { getAoiImage } from '../../config/aoiConfig';
 
 interface TrackWithProgress extends AcademyTrack {
   lessons_count: number;
@@ -352,27 +353,51 @@ export default function Academy() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Crypto Academia</h1>
-          <p className="text-gray-400">Learn blockchain technology and earn XP rewards</p>
+      {/* Academy Hero with aOi Guide */}
+      <div className="relative bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-indigo-600/10 dark:from-blue-600/20 dark:via-purple-600/20 dark:to-indigo-600/20 border-2 border-blue-500/30 rounded-xl p-6 overflow-hidden">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex items-start gap-4">
+            {/* aOi Guide Image */}
+            <div className="hidden md:block flex-shrink-0">
+              <img
+                src={getAoiImage('guidingLeft')}
+                alt="aOi - Your Learning Guide"
+                className="w-24 h-24 object-contain drop-shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+            </div>
+
+            <div>
+              <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Crypto Academia
+              </h1>
+              <p className="text-gray-400">Learn blockchain technology and earn XP rewards with aOi</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setActiveModal('leaderboard')}
+              className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2"
+            >
+              <Trophy size={18} />
+              Leaderboard
+            </button>
+            <button
+              onClick={() => setActiveModal('certificates')}
+              className="px-4 py-2 bg-green-500/20 text-green-400 rounded-lg font-semibold hover:bg-green-500/30 transition-all flex items-center gap-2"
+            >
+              <Award size={18} />
+              Certificates
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setActiveModal('leaderboard')}
-            className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg font-semibold hover:bg-blue-500/30 transition-all flex items-center gap-2"
-          >
-            <Trophy size={18} />
-            Leaderboard
-          </button>
-          <button
-            onClick={() => setActiveModal('certificates')}
-            className="px-4 py-2 bg-green-500/20 text-green-400 rounded-lg font-semibold hover:bg-green-500/30 transition-all flex items-center gap-2"
-          >
-            <Award size={18} />
-            Certificates
-          </button>
-        </div>
+
+        {/* Decorative glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-1"></div>
       </div>
 
       <div className="flex gap-2 border-b border-gray-700">

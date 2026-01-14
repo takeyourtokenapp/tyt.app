@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import ImpactReportsDashboard from '../../components/ImpactReportsDashboard';
 import DonationWidget from '../../components/DonationWidget';
-import { AOI_CONFIG } from '../../config/aoiConfig';
+import { AOI_CONFIG, getAoiImage } from '../../config/aoiConfig';
 
 interface Campaign {
   id: string;
@@ -191,8 +191,21 @@ export default function Foundation() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-pink-900/30 to-red-900/30 border border-pink-500/50 rounded-xl p-8">
-        <div className="flex items-center gap-4 mb-6">
+      <div className="bg-gradient-to-br from-pink-900/30 to-red-900/30 border border-pink-500/50 rounded-xl p-8 relative overflow-hidden">
+        {/* aOi Standing with Hope */}
+        <div className="absolute top-4 right-4 hidden lg:block opacity-70 hover:opacity-100 transition-opacity">
+          <img
+            src={getAoiImage('standingNeutral')}
+            alt="aOi - Guardian of Hope"
+            className="w-32 h-32 object-contain drop-shadow-2xl"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
+          />
+        </div>
+
+        <div className="flex items-center gap-4 mb-6 relative z-10">
           <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-red-500 rounded-full flex items-center justify-center">
             <Heart className="w-8 h-8 text-white" />
           </div>

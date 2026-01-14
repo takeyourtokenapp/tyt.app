@@ -31,6 +31,7 @@ import {
   ShieldCheckIcon,
   ChartIcon
 } from '../components/illustrations/IconLibrary';
+import { getAoiImage } from '../config/aoiConfig';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -178,11 +179,34 @@ export default function Landing() {
                         ease: "easeInOut"
                       }}
                     >
-                      <div className="aoi-hero-container w-full h-[500px] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white/20">
-                        <div className="text-center text-white p-8">
-                          <div className="text-8xl mb-6 animate-bounce">🦉</div>
-                          <div className="text-3xl font-bold mb-3 drop-shadow-lg">aOi AI Assistant</div>
-                          <div className="text-lg opacity-90">Your intelligent guide to TYT Platform</div>
+                      <div className="aoi-hero-container relative w-full h-[500px] bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 rounded-3xl flex items-center justify-center shadow-2xl border-2 border-indigo-500/30 dark:border-indigo-400/30 backdrop-blur-sm overflow-hidden">
+                        {/* aOi Hero Image */}
+                        <img
+                          src={getAoiImage('heroWelcome')}
+                          alt="aOi - Your AI Guide"
+                          className="w-full h-full object-contain p-8"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = `
+                                <div class="text-center text-gray-700 dark:text-white p-8">
+                                  <div class="text-8xl mb-6 animate-bounce">🦉</div>
+                                  <div class="text-3xl font-bold mb-3 drop-shadow-lg">aOi AI Assistant</div>
+                                  <div class="text-lg opacity-90">Your intelligent guide to TYT Platform</div>
+                                </div>
+                              `;
+                            }
+                          }}
+                        />
+
+                        {/* Floating badge */}
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full border border-indigo-500/30 shadow-lg">
+                          <div className="flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-indigo-500" />
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">aOi AI Assistant</span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

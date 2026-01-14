@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
-import AoiAvatar from './AoiAvatar';
 import { getAoiImage } from '../config/aoiConfig';
 
-// Use portrait-close for chat messages
+// Use portrait-close for chat messages (small circular avatars)
 const AOI_CHAT_AVATAR = getAoiImage('portraitClose');
 
 interface Message {
@@ -160,7 +159,16 @@ export default function AoiChatWidget({
     <div className="fixed bottom-4 right-4 z-50 w-96 max-h-[90vh] bg-secondary border-2 border-accent/50 rounded-2xl shadow-2xl aoi-widget flex flex-col overflow-hidden">
       <div className="bg-gradient-to-r from-accent to-amber-500 p-4 flex items-center justify-between border-b border-accent/30">
         <div className="flex items-center gap-3">
-          <AoiAvatar level={progress?.level || 1} size="sm" />
+          {/* Use presenting-open for chat header - welcoming and open gesture */}
+          <img
+            src={getAoiImage('presentingOpen')}
+            alt="aOi"
+            className="w-10 h-10 rounded-full object-cover ring-2 ring-white/40 shadow-lg"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/aoi/presenting-open.png';
+            }}
+          />
           <div>
             <h3 className="font-bold text-white flex items-center gap-2">
               aOi
