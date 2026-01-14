@@ -55,24 +55,44 @@ export const AOI_CONFIG = {
   },
 
   // CDN configuration for aOi assets
+  // All aOi visuals are served from a centralized CDN
   cdn: {
-    baseUrl: 'https://tyt.foundation', // Future CDN for aOi assets
-    assetsPath: '/aoi',
-    imagesPath: '/aoi',
-    fallbackToLocal: true,
+    primary: 'https://cdn.takeyourtoken.app/aoi',
+    fallback: 'https://tyt.foundation/assets/aoi',
+    timeout: 5000, // 5 seconds
+    retries: 2,
+    enableLocalCache: true,
+    enableFallbackIcon: true, // Use Sparkles icon if CDN unavailable
   },
 
-  // aOi visual assets - will be loaded from tyt.foundation when available
+  // aOi visual assets - centralized CDN paths
+  // Images are organized by context and size for optimal usage
   images: {
-    fullbodyWelcome: 'aoi-fullbody-welcome.png',
-    guidingLeft: 'guiding-left.png',
-    pointingRight: 'pointing-right.png',
-    portraitClose: 'portrait-close.png',
-    presentingOpen: 'presenting-open.png',
-    presenting: 'presenting.png',
-    standingNeutral: 'standing-neutral.png',
-    heroWelcome: 'hero-welcome.png',
-    placeholder: 'aoi-placeholder.svg',
+    // Avatars - for header, badges, small UI elements
+    avatarSm: 'avatars/aoi-avatar-sm.png',      // 32x32
+    avatarMd: 'avatars/aoi-avatar-md.png',      // 64x64
+    avatarLg: 'avatars/aoi-avatar-lg.png',      // 128x128
+    avatarXl: 'avatars/aoi-avatar-xl.png',      // 256x256
+
+    // Heroes - for landing pages, large sections
+    heroMain: 'heroes/aoi-hero-main.png',       // 600x600
+    heroWelcome: 'heroes/aoi-hero-welcome.png', // 800x800
+    heroPresenting: 'heroes/aoi-hero-presenting.png', // 800x1000
+
+    // Levels - for Academy evolution system
+    level1Beginner: 'levels/aoi-level-1-beginner.png',
+    level2Explorer: 'levels/aoi-level-2-explorer.png',
+    level3Builder: 'levels/aoi-level-3-builder.png',
+    level4Guardian: 'levels/aoi-level-4-guardian.png',
+
+    // Contexts - for specific interactions
+    teaching: 'contexts/aoi-teaching.png',      // Academy
+    helping: 'contexts/aoi-helping.png',        // Support
+    celebrating: 'contexts/aoi-celebrating.png', // Achievements
+    thinking: 'contexts/aoi-thinking.png',      // Analysis
+
+    // Fallback
+    placeholder: 'fallback/aoi-placeholder.svg',
   },
 
   evolution: {
@@ -82,28 +102,28 @@ export const AOI_CONFIG = {
         name: 'Beginner Guide',
         xpRequired: 0,
         description: 'Just starting your journey with Aoi',
-        image: 'portrait-close.png',
+        image: 'level1Beginner',
       },
       {
         level: 2,
         name: 'Explorer Mentor',
         xpRequired: 100,
         description: 'Exploring the crypto world together',
-        image: 'guiding-left.png',
+        image: 'level2Explorer',
       },
       {
         level: 3,
         name: 'Builder Advisor',
         xpRequired: 500,
         description: 'Building knowledge and skills',
-        image: 'presenting-open.png',
+        image: 'level3Builder',
       },
       {
         level: 4,
         name: 'Guardian Master',
         xpRequired: 1500,
         description: 'Guardian of knowledge and compassion',
-        image: 'standing-neutral.png',
+        image: 'level4Guardian',
       },
     ],
   },
@@ -151,19 +171,92 @@ export function getXpForNextLevel(currentXp: number): { current: number; next: n
 }
 
 /**
- * Get aOi image URL - returns null for now (no images available)
- * Images will be loaded from tyt.foundation CDN when available
+ * Get aOi image URL from centralized CDN
+ * Returns CDN URL or null if not available (fallback to Sparkles icon)
  */
 export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string | null {
-  return null; // No images available yet
+  const levelInfo = getAoiLevelInfo(level);
+  const imageKey = levelInfo.image as keyof typeof AOI_CONFIG.images;
+  const imagePath = AOI_CONFIG.images[imageKey];
+
+  if (!imagePath) return null;
+
+  // Try primary CDN first
+  return `${AOI_CONFIG.cdn.primary}/${imagePath}`;
 }
 
 /**
- * Get specific aOi image by name - returns null for now
- * Use Sparkles icon as visual representation
+ * Get specific aOi image by name from centralized CDN
+ * @param imageName - Key from AOI_CONFIG.images
+ * @returns CDN URL or null (use Sparkles icon as fallback)
  */
 export function getAoiImage(imageName: keyof typeof AOI_CONFIG.images): string | null {
-  return null; // No images available yet
+  const imagePath = AOI_CONFIG.images[imageName];
+  if (!imagePath) return null;
+
+  // Try primary CDN first
+  return `${AOI_CONFIG.cdn.primary}/${imagePath}`;
+}
+
+/**
+ * Get aOi image with automatic fallback
+ * @param imageName - Key from AOI_CONFIG.images
+ * @returns Object with primary and fallback URLs
+ */
+export function getAoiImageWithFallback(imageName: keyof typeof AOI_CONFIG.images) {
+  const imagePath = AOI_CONFIG.images[imageName];
+  if (!imagePath) return { primary: null, fallback: null };
+
+  return {
+    primary: `${AOI_CONFIG.cdn.primary}/${imagePath}`,
+    fallback: `${AOI_CONFIG.cdn.fallback}/${imagePath}`,
+  };
+}
+
+/**
+ * Get aOi image by context and size
+ * Smart selector for the right image based on usage
+ */
+export function getAoiImageByContext(
+  context: 'avatar' | 'hero' | 'level' | 'teaching' | 'helping' | 'celebrating' | 'thinking',
+  size: 'sm' | 'md' | 'lg' | 'xl' = 'md',
+  level?: 1 | 2 | 3 | 4
+): string | null {
+  let imageKey: keyof typeof AOI_CONFIG.images;
+
+  switch (context) {
+    case 'avatar':
+      imageKey = size === 'sm' ? 'avatarSm' :
+                 size === 'md' ? 'avatarMd' :
+                 size === 'lg' ? 'avatarLg' : 'avatarXl';
+      break;
+    case 'hero':
+      imageKey = size === 'sm' || size === 'md' ? 'heroMain' :
+                 size === 'lg' ? 'heroWelcome' : 'heroPresenting';
+      break;
+    case 'level':
+      if (!level) return null;
+      imageKey = level === 1 ? 'level1Beginner' :
+                 level === 2 ? 'level2Explorer' :
+                 level === 3 ? 'level3Builder' : 'level4Guardian';
+      break;
+    case 'teaching':
+      imageKey = 'teaching';
+      break;
+    case 'helping':
+      imageKey = 'helping';
+      break;
+    case 'celebrating':
+      imageKey = 'celebrating';
+      break;
+    case 'thinking':
+      imageKey = 'thinking';
+      break;
+    default:
+      return null;
+  }
+
+  return getAoiImage(imageKey);
 }
 
 /**
