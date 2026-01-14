@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Sparkles, MessageCircle } from 'lucide-react';
+import { getAoiImages, getAoiLevelInfo } from '../config/aoiConfig';
 
 interface AoiAvatarProps {
   level?: 1 | 2 | 3 | 4;
@@ -11,19 +12,7 @@ interface AoiAvatarProps {
   className?: string;
 }
 
-const AOI_IMAGES = {
-  1: '/aoi/chatgpt_image_24_дек._2025_г.,_22_53_12.png',
-  2: '/aoi/39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
-  3: '/aoi/6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
-  4: '/aoi/04158264-901b-4e6d-9ab6-732b63335cbf.png',
-};
-
-const LEVEL_NAMES = {
-  1: 'Beginner Guide',
-  2: 'Explorer Mentor',
-  3: 'Builder Advisor',
-  4: 'Guardian Master',
-};
+const AOI_IMAGES = getAoiImages();
 
 const SIZE_CLASSES = {
   sm: 'w-10 h-10',
@@ -82,8 +71,15 @@ export default function AoiAvatar({
 
         <img
           src={AOI_IMAGES[level]}
-          alt={`Aoi - ${LEVEL_NAMES[level]}`}
+          alt={`Aoi - ${getAoiLevelInfo(level).name}`}
           className="relative z-10 w-full h-full rounded-full object-cover border-2 border-blue-400/50 shadow-lg"
+          onError={(e) => {
+            // Fallback to local image if CDN fails
+            const target = e.target as HTMLImageElement;
+            if (!target.src.startsWith('/aoi/')) {
+              target.src = `/aoi/${getAoiLevelInfo(level).image}`;
+            }
+          }}
         />
 
         {interactive && (
@@ -113,7 +109,7 @@ export default function AoiAvatar({
         <div className="flex flex-col items-center">
           <span className="text-sm font-semibold text-white">Aoi</span>
           {showLevel && (
-            <span className="text-xs text-gray-400">{LEVEL_NAMES[level]}</span>
+            <span className="text-xs text-gray-400">{getAoiLevelInfo(level).name}</span>
           )}
         </div>
       )}

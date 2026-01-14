@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send } from 'lucide-react';
 import AoiChatWidget from './AoiChatWidget';
+import { getAoiImages, getAoiLevelInfo } from '../config/aoiConfig';
 
 interface AoiCompactWidgetProps {
   level?: 1 | 2 | 3 | 4;
@@ -8,12 +9,7 @@ interface AoiCompactWidgetProps {
   showOnlineStatus?: boolean;
 }
 
-const AOI_IMAGES = {
-  1: '/aoi/chatgpt_image_24_дек._2025_г.,_22_53_12.png',
-  2: '/aoi/39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
-  3: '/aoi/6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
-  4: '/aoi/04158264-901b-4e6d-9ab6-732b63335cbf.png',
-};
+const AOI_IMAGES = getAoiImages();
 
 export default function AoiCompactWidget({
   level = 4,
@@ -98,6 +94,12 @@ export default function AoiCompactWidget({
               src={AOI_IMAGES[level]}
               alt="aOi"
               className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (!target.src.startsWith('/aoi/')) {
+                  target.src = `/aoi/${getAoiLevelInfo(level).image}`;
+                }
+              }}
             />
             {showOnlineStatus && (
               <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />

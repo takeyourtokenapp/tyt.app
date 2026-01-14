@@ -54,6 +54,14 @@ export const AOI_CONFIG = {
     ],
   },
 
+  // CDN configuration for aOi assets
+  cdn: {
+    baseUrl: 'https://tyt.foundation',
+    assetsPath: '/assets/aoi',
+    imagesPath: '/assets/aoi/images',
+    fallbackToLocal: true, // Use local images if CDN unavailable
+  },
+
   evolution: {
     levels: [
       {
@@ -61,28 +69,28 @@ export const AOI_CONFIG = {
         name: 'Beginner Guide',
         xpRequired: 0,
         description: 'Just starting your journey with Aoi',
-        image: '/aoi/chatgpt_image_24_дек._2025_г.,_22_53_12.png',
+        image: 'chatgpt_image_24_дек._2025_г.,_22_53_12.png',
       },
       {
         level: 2,
         name: 'Explorer Mentor',
         xpRequired: 100,
         description: 'Exploring the crypto world together',
-        image: '/aoi/39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
+        image: '39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
       },
       {
         level: 3,
         name: 'Builder Advisor',
         xpRequired: 500,
         description: 'Building knowledge and skills',
-        image: '/aoi/6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
+        image: '6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
       },
       {
         level: 4,
         name: 'Guardian Master',
         xpRequired: 1500,
         description: 'Guardian of knowledge and compassion',
-        image: '/aoi/04158264-901b-4e6d-9ab6-732b63335cbf.png',
+        image: '04158264-901b-4e6d-9ab6-732b63335cbf.png',
       },
     ],
   },
@@ -125,5 +133,36 @@ export function getXpForNextLevel(currentXp: number): { current: number; next: n
     current: currentXp,
     next: nextLevelInfo.xpRequired,
     progress: Math.min(100, Math.max(0, progress)),
+  };
+}
+
+/**
+ * Get aOi image URL from CDN or local fallback
+ * Images are hosted on tyt.foundation but can fall back to local
+ */
+export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string {
+  const levelInfo = getAoiLevelInfo(level);
+  const imageName = levelInfo.image;
+
+  // Primary: Load from tyt.foundation CDN
+  const cdnUrl = `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${imageName}`;
+
+  // Fallback: Local images (if CDN is unavailable)
+  const localUrl = `/aoi/${imageName}`;
+
+  // For now, return CDN URL (browser will handle fallback via onerror)
+  // In production, you might want to implement health check logic
+  return cdnUrl;
+}
+
+/**
+ * Get all aOi images mapping
+ */
+export function getAoiImages(): Record<1 | 2 | 3 | 4, string> {
+  return {
+    1: getAoiImageUrl(1),
+    2: getAoiImageUrl(2),
+    3: getAoiImageUrl(3),
+    4: getAoiImageUrl(4),
   };
 }
