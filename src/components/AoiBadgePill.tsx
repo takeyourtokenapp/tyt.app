@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
+import AoiImage from './AoiImage';
 
 interface AoiBadgePillProps {
   level?: 1 | 2 | 3 | 4;
@@ -32,11 +33,15 @@ export default function AoiBadgePill({
       `}
       aria-label="Chat with aOi"
     >
-      {/* aOi Avatar - Sparkles icon */}
+      {/* aOi Avatar from centralized CDN */}
       <div className="relative">
-        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all">
-          <Sparkles className="w-4 h-4 text-white" />
-        </div>
+        <AoiImage
+          context="avatar"
+          size="sm"
+          level={level}
+          className="ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
+          showFallback={true}
+        />
         {showOnlineStatus && (
           <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
         )}

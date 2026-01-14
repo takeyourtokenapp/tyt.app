@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Sparkles, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { getAoiLevelInfo } from '../config/aoiConfig';
+import AoiImage from './AoiImage';
 
 interface AoiAvatarProps {
   level?: 1 | 2 | 3 | 4;
@@ -74,9 +75,15 @@ export default function AoiAvatar({
           }`}
         />
 
-        {/* aOi Icon - Sparkles as visual representation */}
-        <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center border-2 border-blue-400/50 shadow-lg">
-          <Sparkles className={`${ICON_SIZE_CLASSES[size]} text-white`} />
+        {/* aOi Image from centralized CDN */}
+        <div className="relative z-10 w-full h-full">
+          <AoiImage
+            context="level"
+            size={size}
+            level={level}
+            className="border-2 border-blue-400/50 shadow-lg"
+            showFallback={true}
+          />
         </div>
 
         {interactive && (
@@ -96,8 +103,8 @@ export default function AoiAvatar({
         )}
 
         {pulseActive && interactive && (
-          <div className="absolute -top-2 -right-2 z-20">
-            <Sparkles className="w-4 h-4 text-amber-400 animate-bounce" />
+          <div className="absolute -top-2 -right-2 z-20 animate-bounce">
+            <div className="w-3 h-3 rounded-full bg-amber-400" />
           </div>
         )}
       </div>
