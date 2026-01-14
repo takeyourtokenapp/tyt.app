@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
 import AoiAvatar from './AoiAvatar';
+import { getAoiImage } from '../config/aoiConfig';
+
+// Use portrait-close for chat messages
+const AOI_CHAT_AVATAR = getAoiImage('portraitClose');
 
 interface Message {
   id: string;
@@ -200,10 +204,21 @@ export default function AoiChatWidget({
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${
+            className={`flex gap-2 ${
               message.sender === 'user' ? 'justify-end' : 'justify-start'
             }`}
           >
+            {message.sender === 'aoi' && (
+              <img
+                src={AOI_CHAT_AVATAR}
+                alt="aOi"
+                className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/aoi/portrait-close.png';
+                }}
+              />
+            )}
             <div
               className={`max-w-[80%] rounded-2xl p-3 ${
                 message.sender === 'user'
@@ -214,7 +229,7 @@ export default function AoiChatWidget({
               {message.sender === 'aoi' && (
                 <div className="flex items-center gap-2 mb-1">
                   <Sparkles className="w-3 h-3 text-accent" />
-                  <span className="text-xs font-semibold text-accent">Aoi</span>
+                  <span className="text-xs font-semibold text-accent">aOi</span>
                 </div>
               )}
               <p className="text-sm whitespace-pre-wrap">{message.text}</p>
@@ -228,10 +243,19 @@ export default function AoiChatWidget({
           </div>
         ))}
         {isLoading && (
-          <div className="flex justify-start">
+          <div className="flex gap-2 justify-start">
+            <img
+              src={AOI_CHAT_AVATAR}
+              alt="aOi"
+              className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/aoi/portrait-close.png';
+              }}
+            />
             <div className="aoi-chat-bubble rounded-2xl p-3 flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin text-accent" />
-              <span className="text-sm text-primary-text font-medium">Aoi is thinking...</span>
+              <span className="text-sm text-primary-text font-medium">aOi is thinking...</span>
             </div>
           </div>
         )}

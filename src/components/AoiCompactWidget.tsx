@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send } from 'lucide-react';
 import AoiChatWidget from './AoiChatWidget';
-import { getAoiImages, getAoiLevelInfo } from '../config/aoiConfig';
+import { getAoiImage } from '../config/aoiConfig';
 
 interface AoiCompactWidgetProps {
   level?: 1 | 2 | 3 | 4;
@@ -9,7 +9,8 @@ interface AoiCompactWidgetProps {
   showOnlineStatus?: boolean;
 }
 
-const AOI_IMAGES = getAoiImages();
+// Use portrait-close for compact widget (header badge)
+const AOI_AVATAR_URL = getAoiImage('portraitClose');
 
 export default function AoiCompactWidget({
   level = 4,
@@ -91,14 +92,12 @@ export default function AoiCompactWidget({
           {/* Avatar with online status */}
           <div className="relative">
             <img
-              src={AOI_IMAGES[level]}
+              src={AOI_AVATAR_URL}
               alt="aOi"
               className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                if (!target.src.startsWith('/aoi/')) {
-                  target.src = `/aoi/${getAoiLevelInfo(level).image}`;
-                }
+                target.src = '/aoi/portrait-close.png';
               }}
             />
             {showOnlineStatus && (

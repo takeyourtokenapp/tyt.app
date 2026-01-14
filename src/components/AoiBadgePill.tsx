@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import { getAoiImages, getAoiLevelInfo } from '../config/aoiConfig';
+import { getAoiImage } from '../config/aoiConfig';
 
 interface AoiBadgePillProps {
   level?: 1 | 2 | 3 | 4;
@@ -9,7 +9,8 @@ interface AoiBadgePillProps {
   showOnlineStatus?: boolean;
 }
 
-const AOI_IMAGES = getAoiImages();
+// Use portrait-close for badge pill
+const AOI_BADGE_AVATAR = getAoiImage('portraitClose');
 
 export default function AoiBadgePill({
   level = 4,
@@ -38,14 +39,12 @@ export default function AoiBadgePill({
       {/* Avatar with online status */}
       <div className="relative">
         <img
-          src={AOI_IMAGES[level]}
+          src={AOI_BADGE_AVATAR}
           alt="aOi"
           className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            if (!target.src.startsWith('/aoi/')) {
-              target.src = `/aoi/${getAoiLevelInfo(level).image}`;
-            }
+            target.src = '/aoi/portrait-close.png';
           }}
         />
         {showOnlineStatus && (
