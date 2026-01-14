@@ -1,4 +1,11 @@
 {
+  "common": {
+    "getStarted": "Get Started",
+    "openApp": "Open App"
+  },
+  "auth": {
+    "signIn": "Sign In"
+  },
   "landing": {
     "hero": {
       "badge": "Mining with Purpose",

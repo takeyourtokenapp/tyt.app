@@ -1,4 +1,11 @@
 {
+  "common": {
+    "getStarted": "Начать",
+    "openApp": "Открыть Приложение"
+  },
+  "auth": {
+    "signIn": "Войти"
+  },
   "landing": {
     "hero": {
       "badge": "Майнинг с Целью",

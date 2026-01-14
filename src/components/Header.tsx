@@ -375,14 +375,14 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
-                  {t('common:auth.signIn')}
+                  {t('auth.signIn')}
                 </Link>
                 <Link
                   to="/signup"
                   className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold rounded-lg hover:shadow-md transition-all"
                 >
                   <UserPlus className="w-4 h-4" />
-                  {t('common:common.getStarted')}
+                  {t('common.getStarted')}
                 </Link>
               </>
             )}
@@ -441,7 +441,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block w-full text-center px-5 py-3 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg"
                 >
-                  {t('common:common.openApp')}
+                  {t('common.openApp')}
                 </Link>
               ) : (
                 <>
@@ -450,14 +450,14 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                     onClick={() => setMobileMenuOpen(false)}
                     className="block w-full text-center px-5 py-3 border border-gray-700 text-white font-medium rounded-lg hover:bg-gray-800"
                   >
-                    {t('common:auth.signIn')}
+                    {t('auth.signIn')}
                   </Link>
                   <Link
                     to="/signup"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block w-full text-center px-5 py-3 bg-gradient-to-r from-gold-500 to-amber-500 text-black font-semibold rounded-lg"
                   >
-                    {t('common:common.getStarted')}
+                    {t('common.getStarted')}
                   </Link>
                 </>
               )}

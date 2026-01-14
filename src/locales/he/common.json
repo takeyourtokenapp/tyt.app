@@ -1,4 +1,11 @@
 {
+  "common": {
+    "getStarted": "התחל",
+    "openApp": "פתח אפליקציה"
+  },
+  "auth": {
+    "signIn": "היכנס"
+  },
   "app": {
     "name": "פלטפורמת TYT",
     "tagline": "כרה BTC, תמוך במחקר, שנה חיים",
