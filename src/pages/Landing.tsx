@@ -192,7 +192,7 @@ export default function Landing() {
                             if (parent) {
                               parent.innerHTML = `
                                 <div class="text-center text-gray-700 dark:text-white p-8">
-                                  <div class="text-8xl mb-6 animate-bounce">🦉</div>
+                                  <div class="text-8xl mb-6">✨</div>
                                   <div class="text-3xl font-bold mb-3 drop-shadow-lg">aOi AI Assistant</div>
                                   <div class="text-lg opacity-90">Your intelligent guide to TYT Platform</div>
                                 </div>
@@ -659,12 +659,26 @@ export default function Landing() {
                   }}
                 >
                   <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white/20">
-                    <div className="text-center text-white p-10">
-                      <div className="text-9xl mb-6 animate-pulse">🦉</div>
-                      <div className="text-4xl font-bold mb-4 drop-shadow-lg">aOi</div>
-                      <div className="text-xl opacity-90 mb-2">AI-Powered Mining Guide</div>
-                      <div className="text-sm opacity-75">Available 24/7 to assist you</div>
-                    </div>
+                    <img
+                      src={getAoiImage('presenting')}
+                      alt="aOi - Your AI Assistant"
+                      className="w-full h-full object-contain p-8"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.innerHTML = `
+                            <div class="text-center text-white p-10">
+                              <div class="text-9xl mb-6">✨</div>
+                              <div class="text-4xl font-bold mb-4 drop-shadow-lg">aOi</div>
+                              <div class="text-xl opacity-90 mb-2">AI-Powered Mining Guide</div>
+                              <div class="text-sm opacity-75">Available 24/7 to assist you</div>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
                   </div>
                 </motion.div>
 
