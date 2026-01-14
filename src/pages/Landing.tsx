@@ -650,7 +650,7 @@ export default function Landing() {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
 
                 <motion.div
-                  className="relative z-10"
+                  className="relative z-10 flex flex-col items-center justify-center"
                   animate={{
                     y: [0, -15, 0]
                   }}
@@ -660,33 +660,22 @@ export default function Landing() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-4 border-white/20 p-12 overflow-hidden relative">
-                    {/* aOi Full Body Image */}
-                    <motion.div
-                      className="relative mb-4 flex items-center justify-center"
-                      animate={{
-                        y: [0, -10, 0]
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <img
-                        src="/aoi/aoi-fullbody-welcome.png"
-                        alt="aOi - Your AI Assistant"
-                        className="w-80 h-auto object-contain drop-shadow-2xl"
-                      />
-                      <div className="absolute inset-0 bg-white/10 blur-3xl animate-pulse" />
-                    </motion.div>
+                  {/* aOi Full Body Image - PNG with transparency */}
+                  <div className="relative mb-8">
+                    <img
+                      src="/aoi/aoi-fullbody-welcome.png"
+                      alt="aOi - Your AI Assistant"
+                      className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                    />
+                    {/* Subtle glow effect behind */}
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-3xl scale-75" />
+                  </div>
 
-                    {/* aOi Info */}
-                    <div className="text-center text-white mt-4">
-                      <h3 className="text-4xl font-bold mb-4 drop-shadow-lg">aOi</h3>
-                      <p className="text-xl mb-2 opacity-90">AI-Powered Mining Guide</p>
-                      <p className="text-sm opacity-75">Available 24/7 to assist you</p>
-                    </div>
+                  {/* aOi Info */}
+                  <div className="text-center">
+                    <h3 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">aOi</h3>
+                    <p className="text-xl mb-2 text-gray-700 dark:text-gray-300">AI-Powered Mining Guide</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Available 24/7 to assist you</p>
                   </div>
                 </motion.div>
 
