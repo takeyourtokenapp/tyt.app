@@ -660,27 +660,29 @@ export default function Landing() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-4 border-white/20 p-12">
-                    {/* Large aOi Icon */}
+                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-4 border-white/20 p-12 overflow-hidden relative">
+                    {/* aOi Full Body Image */}
                     <motion.div
-                      className="relative mb-8"
+                      className="relative mb-4 flex items-center justify-center"
                       animate={{
-                        rotate: [0, 10, -10, 0],
                         y: [0, -10, 0]
                       }}
                       transition={{
-                        rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-                        y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
                       }}
                     >
-                      <div className="w-56 h-56 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl">
-                        <Sparkles className="w-32 h-32 text-white" />
-                      </div>
-                      <div className="absolute inset-0 rounded-full bg-white/10 blur-2xl animate-pulse" />
+                      <img
+                        src="/aoi/aoi-fullbody-welcome.png"
+                        alt="aOi - Your AI Assistant"
+                        className="w-80 h-auto object-contain drop-shadow-2xl"
+                      />
+                      <div className="absolute inset-0 bg-white/10 blur-3xl animate-pulse" />
                     </motion.div>
 
                     {/* aOi Info */}
-                    <div className="text-center text-white">
+                    <div className="text-center text-white mt-4">
                       <h3 className="text-4xl font-bold mb-4 drop-shadow-lg">aOi</h3>
                       <p className="text-xl mb-2 opacity-90">AI-Powered Mining Guide</p>
                       <p className="text-sm opacity-75">Available 24/7 to assist you</p>
