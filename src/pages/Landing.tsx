@@ -155,433 +155,155 @@ export default function Landing() {
               className="relative"
               variants={fadeInUp}
             >
-              {/* Background gradient glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"></div>
+              {/* Hero Visual with aOi Celebration */}
+              <div className="relative min-h-[600px] flex items-center justify-center">
+                {/* Floating Coins - TYT Tokens */}
+                {[...Array(12)].map((_, i) => {
+                  const angle = (i / 12) * Math.PI * 2;
+                  const radius = 200 + Math.random() * 80;
+                  const x = Math.cos(angle) * radius;
+                  const y = Math.sin(angle) * radius;
 
-              {/* Hero Visual with aOi */}
-              <div className="relative">
-                <div className="relative z-10 flex items-center justify-center">
-                  {/* aOi Character */}
-                  <motion.div
-                    className="relative"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                  >
+                  return (
                     <motion.div
-                      className="relative w-full max-w-md mx-auto"
+                      key={i}
+                      className="absolute"
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                      }}
                       animate={{
-                        y: [0, -10, 0]
+                        x: [x, x + Math.cos(angle + Math.PI / 6) * 40, x],
+                        y: [y, y + Math.sin(angle + Math.PI / 6) * 40, y],
+                        rotate: [0, 360],
+                        scale: [1, 1.2, 1],
                       }}
                       transition={{
-                        duration: 4,
+                        duration: 4 + Math.random() * 2,
                         repeat: Infinity,
-                        ease: "easeInOut"
+                        ease: "easeInOut",
+                        delay: i * 0.2,
                       }}
                     >
-                      <div className="aoi-hero-container relative w-full h-[500px] bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-2 border-indigo-500/30 dark:border-indigo-400/30 backdrop-blur-sm overflow-hidden">
-                        {/* aOi Visual Representation */}
-                        <motion.div
-                          className="relative"
-                          animate={{
-                            rotate: [0, 360],
-                            scale: [1, 1.1, 1]
-                          }}
-                          transition={{
-                            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                            scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-                          }}
-                        >
-                          <div className="w-48 h-48 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
-                            <Sparkles className="w-24 h-24 text-white" />
-                          </div>
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/40 to-pink-400/40 blur-2xl animate-pulse" />
-                        </motion.div>
-
-                        <div className="mt-8 text-center">
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">aOi AI Assistant</h3>
-                          <p className="text-lg text-gray-600 dark:text-gray-300">Your intelligent guide to TYT Platform</p>
-                        </div>
-
-                        {/* Floating badge */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full border border-indigo-500/30 shadow-lg">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                            <span className="text-sm font-semibold text-gray-900 dark:text-white">Online & Ready</span>
-                          </div>
-                        </div>
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl flex items-center justify-center text-white font-bold text-xs border-2 border-yellow-300">
+                        TYT
                       </div>
                     </motion.div>
-                  </motion.div>
+                  );
+                })}
 
-                  {/* Orbital Crypto Coins - Circling Around aOi */}
+                {/* Bitcoin coins */}
+                {[...Array(8)].map((_, i) => {
+                  const angle = (i / 8) * Math.PI * 2 + Math.PI / 8;
+                  const radius = 160 + Math.random() * 60;
+                  const x = Math.cos(angle) * radius;
+                  const y = Math.sin(angle) * radius;
 
-                  {/* Inner Orbit - Fast (20s) */}
-
-                  {/* Bitcoin - Inner Orbit */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
+                  return (
                     <motion.div
+                      key={`btc-${i}`}
                       className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-200px", marginLeft: "-8px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                      }}
+                      animate={{
+                        x: [x, x - Math.cos(angle + Math.PI / 4) * 30, x],
+                        y: [y, y - Math.sin(angle + Math.PI / 4) * 30, y],
+                        rotate: [360, 0],
+                        scale: [1, 1.15, 1],
+                      }}
+                      transition={{
+                        duration: 3.5 + Math.random() * 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.15,
+                      }}
                     >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-amber-400/40 rounded-full blur-xl"></div>
-                        <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl border-4 border-white/20">
-                          ₿
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Ethereum - Inner Orbit (90° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 90 }}
-                    animate={{ rotate: 450 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-200px", marginLeft: "-7px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 3.8, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-blue-500/40 rounded-full blur-xl"></div>
-                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl border-4 border-white/20">
-                          Ξ
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Solana - Inner Orbit (180° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 180 }}
-                    animate={{ rotate: 540 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-200px", marginLeft: "-6px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 4.2, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-purple-500/40 rounded-full blur-xl"></div>
-                        <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-2xl border-4 border-white/20">
-                          SOL
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* BNB - Inner Orbit (270° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 270 }}
-                    animate={{ rotate: 630 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-200px", marginLeft: "-5.5px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-yellow-400/40 rounded-full blur-lg"></div>
-                        <div className="w-11 h-11 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
-                          BNB
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Middle Orbit - Medium Speed (28s) */}
-
-                  {/* TRON - Middle Orbit */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 45 }}
-                    animate={{ rotate: -315 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-260px", marginLeft: "-6px" }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-red-500/40 rounded-full blur-lg"></div>
-                        <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
-                          TRX
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* XRP - Middle Orbit (120° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 165 }}
-                    animate={{ rotate: -195 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-260px", marginLeft: "-5.5px" }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-gray-400/40 rounded-full blur-lg"></div>
-                        <div className="w-11 h-11 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
-                          XRP
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* TON - Middle Orbit (240° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 285 }}
-                    animate={{ rotate: -75 }}
-                    transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-260px", marginLeft: "-5px" }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 4.7, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-blue-400/40 rounded-full blur-lg"></div>
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
-                          TON
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Outer Orbit - Slow (36s) */}
-
-                  {/* Polygon MATIC - Outer Orbit */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 20 }}
-                    animate={{ rotate: 380 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-320px", marginLeft: "-5.5px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 5.5, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-purple-600/40 rounded-full blur-lg"></div>
-                        <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
-                          MATIC
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Avalanche - Outer Orbit (120° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 140 }}
-                    animate={{ rotate: 500 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-320px", marginLeft: "-5px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 5.2, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-red-600/40 rounded-full blur-lg"></div>
-                        <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-rose-700 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-2xl border-3 border-white/20">
-                          AVAX
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Polkadot - Outer Orbit (240° offset) */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ rotate: 260 }}
-                    animate={{ rotate: 620 }}
-                    transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <motion.div
-                      className="absolute"
-                      style={{ top: "50%", left: "50%", marginTop: "-320px", marginLeft: "-5px" }}
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-                    >
-                      <motion.div
-                        className="relative"
-                        animate={{ rotateY: 360 }}
-                        transition={{ duration: 5.8, repeat: Infinity, ease: "linear" }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <div className="absolute inset-0 bg-pink-500/40 rounded-full blur-lg"></div>
-                        <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/20">
-                          DOT
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Floating Stats Cards */}
-                  <motion.div
-                    className="absolute top-16 left-0"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-green-200 dark:border-green-800 rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-2 mb-1">
-                          <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
-                          <span className="text-xs tyt-text-tertiary">Daily Rewards</span>
-                        </div>
-                        <p className="text-lg font-bold text-green-600 dark:text-green-400">0.00045 BTC</p>
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl flex items-center justify-center text-white font-bold text-lg border-2 border-orange-300">
+                        ₿
                       </div>
                     </motion.div>
-                  </motion.div>
+                  );
+                })}
 
-                  <motion.div
-                    className="absolute top-40 -left-8"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                    >
-                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-blue-200 dark:border-blue-800 rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Cpu className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                          <span className="text-xs tyt-text-tertiary">Total Power</span>
-                        </div>
-                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">250 TH/s</p>
-                      </div>
-                    </motion.div>
-                  </motion.div>
+                {/* aOi Celebration Image - center with floating animation */}
+                <motion.div
+                  className="relative z-10"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    y: [0, -20, 0],
+                  }}
+                  transition={{
+                    opacity: { duration: 0.5 },
+                    scale: { duration: 0.5 },
+                    y: {
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                >
+                  <img
+                    src="/celebration.png"
+                    alt="aOi - Your AI Assistant"
+                    className="w-full max-w-lg h-auto object-contain drop-shadow-2xl"
+                  />
+                  {/* Magical energy glow */}
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-3xl animate-pulse" />
+                </motion.div>
 
-                  <motion.div
-                    className="absolute bottom-32 left-8"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, -12, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    >
-                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-purple-200 dark:border-purple-800 rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                          <span className="text-xs tyt-text-tertiary">Active Miners</span>
-                        </div>
-                        <p className="text-lg font-bold text-purple-600 dark:text-purple-400">5,247</p>
-                      </div>
-                    </motion.div>
-                  </motion.div>
+                {/* Energy waves emanating from aOi */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.1, 0.3],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <div className="w-96 h-96 rounded-full border-2 border-blue-400/30"></div>
+                </motion.div>
 
-                  <motion.div
-                    className="absolute bottom-12 -right-4"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                    >
-                      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-2 border-pink-200 dark:border-pink-800 rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Heart className="w-4 h-4 text-pink-600 dark:text-pink-400" />
-                          <span className="text-xs tyt-text-tertiary">Donated</span>
-                        </div>
-                        <p className="text-lg font-bold text-pink-600 dark:text-pink-400">$256K</p>
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.2, 0.05, 0.2],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5,
+                  }}
+                >
+                  <div className="w-[500px] h-[500px] rounded-full border-2 border-purple-400/20"></div>
+                </motion.div>
+
+                {/* aOi Info Badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20"
+                >
+                  <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg px-6 py-3 rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-3">
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">aOi AI Assistant</h3>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">Orchestrating your mining success</p>
                       </div>
-                    </motion.div>
-                  </motion.div>
-                </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
