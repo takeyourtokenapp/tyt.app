@@ -234,7 +234,7 @@ export default function Landing() {
                   animate={{
                     opacity: 1,
                     scale: 1,
-                    y: [0, -20, 0],
+                    y: [0, -15, 0],
                   }}
                   transition={{
                     opacity: { duration: 0.5 },
@@ -248,11 +248,11 @@ export default function Landing() {
                 >
                   <img
                     src="/celebration.png"
-                    alt="aOi - Your AI Assistant"
-                    className="w-full max-w-lg h-auto object-contain drop-shadow-2xl"
+                    alt="aOi"
+                    className="w-full max-w-xs h-auto object-contain drop-shadow-2xl"
                   />
                   {/* Magical energy glow */}
-                  <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-3xl animate-pulse" />
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-2xl animate-pulse" />
                 </motion.div>
 
                 {/* Energy waves emanating from aOi */}
@@ -268,7 +268,7 @@ export default function Landing() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="w-96 h-96 rounded-full border-2 border-blue-400/30"></div>
+                  <div className="w-64 h-64 rounded-full border-2 border-blue-400/20"></div>
                 </motion.div>
 
                 <motion.div
@@ -284,25 +284,7 @@ export default function Landing() {
                     delay: 0.5,
                   }}
                 >
-                  <div className="w-[500px] h-[500px] rounded-full border-2 border-purple-400/20"></div>
-                </motion.div>
-
-                {/* aOi Info Badge */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20"
-                >
-                  <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg px-6 py-3 rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center gap-3">
-                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">aOi AI Assistant</h3>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Orchestrating your mining success</p>
-                      </div>
-                    </div>
-                  </div>
+                  <div className="w-80 h-80 rounded-full border-2 border-purple-400/15"></div>
                 </motion.div>
 
                 {/* Additional Orbital Crypto Coins - All Supported Platforms */}
@@ -318,11 +300,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-8px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-180px", marginLeft: "-7px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl border-3 border-white/30">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-base shadow-2xl border-2 border-white/30">
                       Ξ
                     </div>
                   </motion.div>
@@ -338,11 +320,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-7px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-180px", marginLeft: "-6px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-13 h-13 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-11 h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       SOL
                     </div>
                   </motion.div>
@@ -358,11 +340,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-6px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-180px", marginLeft: "-5.5px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       BNB
                     </div>
                   </motion.div>
@@ -378,11 +360,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-6px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-180px", marginLeft: "-5px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       USDT
                     </div>
                   </motion.div>
@@ -400,11 +382,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-6px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-230px", marginLeft: "-5px" }}
                     animate={{ rotate: 360 }}
                     transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       TRX
                     </div>
                   </motion.div>
@@ -420,11 +402,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-5.5px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-230px", marginLeft: "-4.5px" }}
                     animate={{ rotate: 360 }}
                     transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-11 h-11 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-9 h-9 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       XRP
                     </div>
                   </motion.div>
@@ -440,11 +422,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-5px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-230px", marginLeft: "-4px" }}
                     animate={{ rotate: 360 }}
                     transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       TON
                     </div>
                   </motion.div>
@@ -462,11 +444,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-5px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-280px", marginLeft: "-4px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       MATIC
                     </div>
                   </motion.div>
@@ -482,11 +464,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-4.5px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-280px", marginLeft: "-3.5px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-9 h-9 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
+                    <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       AVAX
                     </div>
                   </motion.div>
@@ -502,11 +484,11 @@ export default function Landing() {
                 >
                   <motion.div
                     className="absolute"
-                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-4px" }}
+                    style={{ top: "50%", left: "50%", marginTop: "-280px", marginLeft: "-3px" }}
                     animate={{ rotate: -360 }}
                     transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
+                    <div className="w-7 h-7 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
                       DOT
                     </div>
                   </motion.div>
@@ -590,21 +572,14 @@ export default function Landing() {
                   }}
                 >
                   {/* aOi Full Body Image - PNG with transparency */}
-                  <div className="relative mb-8">
+                  <div className="relative">
                     <img
                       src="/aoi/aoi-fullbody-welcome.png"
-                      alt="aOi - Your AI Assistant"
-                      className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                      alt="aOi"
+                      className="w-full max-w-xs h-auto object-contain drop-shadow-2xl"
                     />
                     {/* Subtle glow effect behind */}
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-3xl scale-75" />
-                  </div>
-
-                  {/* aOi Info */}
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">aOi</h3>
-                    <p className="text-xl mb-2 text-gray-700 dark:text-gray-300">AI-Powered Mining Guide</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Available 24/7 to assist you</p>
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-2xl scale-75" />
                   </div>
                 </motion.div>
 
