@@ -304,6 +304,213 @@ export default function Landing() {
                     </div>
                   </div>
                 </motion.div>
+
+                {/* Additional Orbital Crypto Coins - All Supported Platforms */}
+
+                {/* Inner Orbit - Fast (20s) - Major Coins */}
+
+                {/* Ethereum - Inner Orbit */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-8px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-2xl border-3 border-white/30">
+                      Ξ
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Solana - Inner Orbit (90° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 90 }}
+                  animate={{ rotate: 450 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-7px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-13 h-13 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      SOL
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* BNB - Inner Orbit (180° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 180 }}
+                  animate={{ rotate: 540 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-6px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      BNB
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* USDT - Inner Orbit (270° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 270 }}
+                  animate={{ rotate: 630 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-240px", marginLeft: "-6px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      USDT
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Middle Orbit - Medium Speed (28s) */}
+
+                {/* TRON - Middle Orbit */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 45 }}
+                  animate={{ rotate: -315 }}
+                  transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-6px" }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      TRX
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* XRP - Middle Orbit (120° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 165 }}
+                  animate={{ rotate: -195 }}
+                  transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-5.5px" }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-11 h-11 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      XRP
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* TON - Middle Orbit (240° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 285 }}
+                  animate={{ rotate: -75 }}
+                  transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-300px", marginLeft: "-5px" }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      TON
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Outer Orbit - Slow (36s) */}
+
+                {/* Polygon MATIC - Outer Orbit */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 30 }}
+                  animate={{ rotate: 390 }}
+                  transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-5px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-3 border-white/30">
+                      MATIC
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Avalanche - Outer Orbit (120° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 150 }}
+                  animate={{ rotate: 510 }}
+                  transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-4.5px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-9 h-9 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
+                      AVAX
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Polkadot - Outer Orbit (240° offset) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ rotate: 270 }}
+                  animate={{ rotate: 630 }}
+                  transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <motion.div
+                    className="absolute"
+                    style={{ top: "50%", left: "50%", marginTop: "-360px", marginLeft: "-4px" }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-2xl border-2 border-white/30">
+                      DOT
+                    </div>
+                  </motion.div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
