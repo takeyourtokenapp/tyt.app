@@ -18,8 +18,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import LoadTest from './pages/LoadTest';
-import IconTest from './pages/IconTest';
 
 // Lazy load all other pages with retry logic
 const Terms = lazyWithRetry(() => import('./pages/Terms'), 'Terms');
@@ -31,8 +29,6 @@ const FoundationPublic = lazyWithRetry(() => import('./pages/Foundation'), 'Foun
 const Tokenomics = lazyWithRetry(() => import('./pages/Tokenomics'), 'Tokenomics');
 const VIP = lazyWithRetry(() => import('./pages/VIP'), 'VIP');
 const Community = lazyWithRetry(() => import('./pages/Community'), 'Community');
-const SupabaseTest = lazyWithRetry(() => import('./pages/SupabaseTest'), 'SupabaseTest');
-const AuthTest = lazyWithRetry(() => import('./pages/AuthTest'), 'AuthTest');
 
 // App pages - lazy loaded with retry logic
 const Dashboard = lazyWithRetry(() => import('./pages/app/Dashboard'), 'Dashboard');
@@ -126,10 +122,6 @@ function App() {
       <Route path="/tokenomics" element={<PublicLayout><Tokenomics /></PublicLayout>} />
       <Route path="/vip" element={<PublicLayout><VIP /></PublicLayout>} />
       <Route path="/community" element={<PublicLayout><Community /></PublicLayout>} />
-      <Route path="/test-supabase" element={<SupabaseTest />} />
-      <Route path="/test-auth" element={<AuthTest />} />
-      <Route path="/test-load" element={<LoadTest />} />
-      <Route path="/test-icons" element={<IconTest />} />
 
       <Route
         path="/app/*"
