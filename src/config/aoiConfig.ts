@@ -57,9 +57,21 @@ export const AOI_CONFIG = {
   // CDN configuration for aOi assets
   cdn: {
     baseUrl: 'https://tyt.foundation',
-    assetsPath: '/assets/aoi',
-    imagesPath: '/assets/aoi/images',
+    assetsPath: '/aoi',
+    imagesPath: '/aoi',
     fallbackToLocal: true, // Use local images if CDN unavailable
+  },
+
+  // aOi visual assets from tyt.foundation
+  images: {
+    fullbodyWelcome: 'aoi-fullbody-welcome.png',
+    guidingLeft: 'guiding-left.png',
+    pointingRight: 'pointing-right.png',
+    portraitClose: 'portrait-close.png',
+    presentingOpen: 'presenting-open.png',
+    standingNeutral: 'standing-neutral.png',
+    heroWelcome: 'hero-welcome.png',
+    placeholder: 'aoi-placeholder.svg',
   },
 
   evolution: {
@@ -69,28 +81,28 @@ export const AOI_CONFIG = {
         name: 'Beginner Guide',
         xpRequired: 0,
         description: 'Just starting your journey with Aoi',
-        image: 'chatgpt_image_24_дек._2025_г.,_22_53_12.png',
+        image: 'portrait-close.png',
       },
       {
         level: 2,
         name: 'Explorer Mentor',
         xpRequired: 100,
         description: 'Exploring the crypto world together',
-        image: '39afdcdf-bd3e-4c90-ac96-7d7672d2a91d.png',
+        image: 'guiding-left.png',
       },
       {
         level: 3,
         name: 'Builder Advisor',
         xpRequired: 500,
         description: 'Building knowledge and skills',
-        image: '6daa0cbd-bd97-4d5a-956f-5a2ff414214b.png',
+        image: 'presenting-open.png',
       },
       {
         level: 4,
         name: 'Guardian Master',
         xpRequired: 1500,
         description: 'Guardian of knowledge and compassion',
-        image: '04158264-901b-4e6d-9ab6-732b63335cbf.png',
+        image: 'standing-neutral.png',
       },
     ],
   },
@@ -103,6 +115,7 @@ export const AOI_CONFIG = {
       background: '#1F2937',
     },
     tagline: 'Your AI companion for learning and giving',
+    logo: 'logo.png',
   },
 };
 
@@ -156,7 +169,15 @@ export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string {
 }
 
 /**
- * Get all aOi images mapping
+ * Get specific aOi image by name
+ */
+export function getAoiImage(imageName: keyof typeof AOI_CONFIG.images): string {
+  const fileName = AOI_CONFIG.images[imageName];
+  return `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${fileName}`;
+}
+
+/**
+ * Get all aOi images mapping (for level-based avatars)
  */
 export function getAoiImages(): Record<1 | 2 | 3 | 4, string> {
   return {
@@ -165,4 +186,27 @@ export function getAoiImages(): Record<1 | 2 | 3 | 4, string> {
     3: getAoiImageUrl(3),
     4: getAoiImageUrl(4),
   };
+}
+
+/**
+ * Get all aOi special images
+ */
+export function getAoiSpecialImages() {
+  return {
+    fullbodyWelcome: getAoiImage('fullbodyWelcome'),
+    guidingLeft: getAoiImage('guidingLeft'),
+    pointingRight: getAoiImage('pointingRight'),
+    portraitClose: getAoiImage('portraitClose'),
+    presentingOpen: getAoiImage('presentingOpen'),
+    standingNeutral: getAoiImage('standingNeutral'),
+    heroWelcome: getAoiImage('heroWelcome'),
+    placeholder: getAoiImage('placeholder'),
+  };
+}
+
+/**
+ * Get TYT logo URL from tyt.foundation
+ */
+export function getTYTLogoUrl(): string {
+  return `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${AOI_CONFIG.branding.logo}`;
 }

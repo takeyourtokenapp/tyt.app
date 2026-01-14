@@ -39,6 +39,7 @@ import AoiCompactWidget from './AoiCompactWidget';
 import { useTheme, type Theme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SupportedLanguage } from '../utils/languageDetector';
+import { getTYTLogoUrl } from '../config/aoiConfig';
 
 interface HeaderProps {
   variant?: 'full' | 'compact';
@@ -241,9 +242,13 @@ export default function Header({ variant = 'full' }: HeaderProps) {
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
               <img
-                src="/logo.png"
+                src={getTYTLogoUrl()}
                 alt="TYT"
                 className="w-9 h-9 group-hover:scale-105 transition-transform"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
               />
               <div className="hidden sm:flex flex-col">
                 <span className="text-base font-bold text-gray-900 dark:text-white leading-tight">
@@ -283,9 +288,13 @@ export default function Header({ variant = 'full' }: HeaderProps) {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 group">
             <img
-              src="/logo.png"
+              src={getTYTLogoUrl()}
               alt="TYT"
               className="w-10 h-10 group-hover:scale-105 transition-transform"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
             <div className="hidden sm:block">
               <span className="text-xl font-bold text-gray-900 dark:text-white">

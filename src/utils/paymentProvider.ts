@@ -73,7 +73,7 @@ export async function initializeRampPurchase(params: {
     // Initialize Ramp widget
     new RampInstantSDK({
       hostAppName: 'TYT Platform',
-      hostLogoUrl: `${window.location.origin}/logo.png`,
+      hostLogoUrl: 'https://tyt.foundation/aoi/logo.png',
 
       // Asset configuration
       swapAsset: params.assetSymbol || 'MATIC_POLYGON',

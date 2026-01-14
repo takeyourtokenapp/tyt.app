@@ -7,6 +7,7 @@ import AoiAvatar from './AoiAvatar';
 import AoiChatWidget from './AoiChatWidget';
 import ThemeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
+import { getTYTLogoUrl } from '../config/aoiConfig';
 import {
   LayoutDashboard,
   Cpu,
@@ -232,7 +233,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between p-5 border-b border-secondary">
               <Link to="/app" className="flex items-center gap-3 group">
-                <img src="/logo.png" alt="TYT" className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all" />
+                <img
+                  src={getTYTLogoUrl()}
+                  alt="TYT"
+                  className="w-10 h-10 group-hover:drop-shadow-[0_0_10px_rgba(210,164,76,0.6)] transition-all"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
                 <div>
                   <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">TakeYourToken</span>
                   <div className="text-xs text-secondary-text">Owl Warrior Platform</div>

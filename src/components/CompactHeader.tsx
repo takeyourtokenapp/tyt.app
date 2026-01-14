@@ -7,6 +7,7 @@ import { useTheme, type Theme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SupportedLanguage } from '../utils/languageDetector';
 import AoiCompactWidget from './AoiCompactWidget';
+import { getTYTLogoUrl } from '../config/aoiConfig';
 
 export default function CompactHeader() {
   const { t } = useTranslation();
@@ -32,9 +33,13 @@ export default function CompactHeader() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src="/logo.png"
+              src={getTYTLogoUrl()}
               alt="TYT"
               className="w-9 h-9 group-hover:drop-shadow-[0_0_12px_rgba(210,164,76,0.6)] transition-all"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
             <div className="flex flex-col">
               <span className="text-base font-bold bg-owl-gradient bg-clip-text text-transparent leading-tight">

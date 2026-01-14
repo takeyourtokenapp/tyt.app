@@ -1,6 +1,7 @@
 import { Heart, Mail, Twitter, Github, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CONTACT_CONFIG } from '../config/contact';
+import { getTYTLogoUrl } from '../config/aoiConfig';
 
 export default function Footer() {
   return (
@@ -10,7 +11,15 @@ export default function Footer() {
           {/* О проекте */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="TYT" className="w-10 h-10" />
+              <img
+                src={getTYTLogoUrl()}
+                alt="TYT"
+                className="w-10 h-10"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
               <div>
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white">Take Your Token</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Owl Warrior Ecosystem</p>
