@@ -56,23 +56,23 @@ export const AOI_CONFIG = {
 
   // CDN configuration for aOi assets
   cdn: {
-    baseUrl: '', // Use local assets
+    baseUrl: 'https://tyt.foundation', // Future CDN for aOi assets
     assetsPath: '/aoi',
     imagesPath: '/aoi',
-    fallbackToLocal: true, // Use local images
+    fallbackToLocal: true,
   },
 
-  // aOi visual assets - using local image
+  // aOi visual assets - will be loaded from tyt.foundation when available
   images: {
-    fullbodyWelcome: 'image.png',
-    guidingLeft: 'image.png',
-    pointingRight: 'image.png',
-    portraitClose: 'image.png',
-    presentingOpen: 'image.png',
-    presenting: 'image.png',
-    standingNeutral: 'image.png',
-    heroWelcome: 'image.png',
-    placeholder: 'image.png',
+    fullbodyWelcome: 'aoi-fullbody-welcome.png',
+    guidingLeft: 'guiding-left.png',
+    pointingRight: 'pointing-right.png',
+    portraitClose: 'portrait-close.png',
+    presentingOpen: 'presenting-open.png',
+    presenting: 'presenting.png',
+    standingNeutral: 'standing-neutral.png',
+    heroWelcome: 'hero-welcome.png',
+    placeholder: 'aoi-placeholder.svg',
   },
 
   evolution: {
@@ -82,28 +82,28 @@ export const AOI_CONFIG = {
         name: 'Beginner Guide',
         xpRequired: 0,
         description: 'Just starting your journey with Aoi',
-        image: 'image.png',
+        image: 'portrait-close.png',
       },
       {
         level: 2,
         name: 'Explorer Mentor',
         xpRequired: 100,
         description: 'Exploring the crypto world together',
-        image: 'image.png',
+        image: 'guiding-left.png',
       },
       {
         level: 3,
         name: 'Builder Advisor',
         xpRequired: 500,
         description: 'Building knowledge and skills',
-        image: 'image.png',
+        image: 'presenting-open.png',
       },
       {
         level: 4,
         name: 'Guardian Master',
         xpRequired: 1500,
         description: 'Guardian of knowledge and compassion',
-        image: 'image.png',
+        image: 'standing-neutral.png',
       },
     ],
   },
@@ -151,22 +151,19 @@ export function getXpForNextLevel(currentXp: number): { current: number; next: n
 }
 
 /**
- * Get aOi image URL from local assets
- * All aOi visuals use the same local image
+ * Get aOi image URL - returns null for now (no images available)
+ * Images will be loaded from tyt.foundation CDN when available
  */
-export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string {
-  const levelInfo = getAoiLevelInfo(level);
-  const imageName = levelInfo.image;
-  return `/aoi/${imageName}`;
+export function getAoiImageUrl(level: 1 | 2 | 3 | 4): string | null {
+  return null; // No images available yet
 }
 
 /**
- * Get specific aOi image by name
- * Returns local image path
+ * Get specific aOi image by name - returns null for now
+ * Use Sparkles icon as visual representation
  */
-export function getAoiImage(imageName: keyof typeof AOI_CONFIG.images): string {
-  const fileName = AOI_CONFIG.images[imageName];
-  return `/aoi/${fileName}`;
+export function getAoiImage(imageName: keyof typeof AOI_CONFIG.images): string | null {
+  return null; // No images available yet
 }
 
 /**

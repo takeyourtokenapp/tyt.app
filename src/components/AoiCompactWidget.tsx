@@ -1,16 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send } from 'lucide-react';
 import AoiChatWidget from './AoiChatWidget';
-import { getAoiImage } from '../config/aoiConfig';
 
 interface AoiCompactWidgetProps {
   level?: 1 | 2 | 3 | 4;
   className?: string;
   showOnlineStatus?: boolean;
 }
-
-// Use portrait-close for compact widget (header badge)
-const AOI_AVATAR_URL = getAoiImage('portraitClose');
 
 export default function AoiCompactWidget({
   level = 4,
@@ -89,13 +85,11 @@ export default function AoiCompactWidget({
           `}
           aria-label="Chat with aOi"
         >
-          {/* Avatar with online status */}
+          {/* aOi Avatar - Sparkles icon */}
           <div className="relative">
-            <img
-              src={AOI_AVATAR_URL}
-              alt="aOi"
-              className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
-            />
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
             {showOnlineStatus && (
               <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
             )}

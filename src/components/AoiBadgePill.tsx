@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import { getAoiImage } from '../config/aoiConfig';
 
 interface AoiBadgePillProps {
   level?: 1 | 2 | 3 | 4;
@@ -8,9 +7,6 @@ interface AoiBadgePillProps {
   className?: string;
   showOnlineStatus?: boolean;
 }
-
-// Use portrait-close for badge pill
-const AOI_BADGE_AVATAR = getAoiImage('portraitClose');
 
 export default function AoiBadgePill({
   level = 4,
@@ -36,13 +32,11 @@ export default function AoiBadgePill({
       `}
       aria-label="Chat with aOi"
     >
-      {/* Avatar with online status */}
+      {/* aOi Avatar - Sparkles icon */}
       <div className="relative">
-        <img
-          src={AOI_BADGE_AVATAR}
-          alt="aOi"
-          className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
-        />
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all">
+          <Sparkles className="w-4 h-4 text-white" />
+        </div>
         {showOnlineStatus && (
           <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
         )}

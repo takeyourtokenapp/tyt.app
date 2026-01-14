@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Sparkles, MessageCircle } from 'lucide-react';
-import { getAoiImages, getAoiLevelInfo } from '../config/aoiConfig';
+import { getAoiLevelInfo } from '../config/aoiConfig';
 
 interface AoiAvatarProps {
   level?: 1 | 2 | 3 | 4;
@@ -12,13 +12,18 @@ interface AoiAvatarProps {
   className?: string;
 }
 
-const AOI_IMAGES = getAoiImages();
-
 const SIZE_CLASSES = {
   sm: 'w-10 h-10',
   md: 'w-16 h-16',
   lg: 'w-24 h-24',
   xl: 'w-32 h-32',
+};
+
+const ICON_SIZE_CLASSES = {
+  sm: 'w-5 h-5',
+  md: 'w-8 h-8',
+  lg: 'w-12 h-12',
+  xl: 'w-16 h-16',
 };
 
 export default function AoiAvatar({
@@ -64,23 +69,15 @@ export default function AoiAvatar({
         onClick={handleClick}
       >
         <div
-          className={`absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 to-lavender-400/30 blur-md transition-opacity duration-300 ${
+          className={`absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 to-purple-400/30 blur-md transition-opacity duration-300 ${
             pulseActive || isHovered ? 'opacity-100 animate-pulse' : 'opacity-0'
           }`}
         />
 
-        <img
-          src={AOI_IMAGES[level]}
-          alt={`Aoi - ${getAoiLevelInfo(level).name}`}
-          className="relative z-10 w-full h-full rounded-full object-cover border-2 border-blue-400/50 shadow-lg"
-          onError={(e) => {
-            // Fallback to local image if CDN fails
-            const target = e.target as HTMLImageElement;
-            if (!target.src.startsWith('/aoi/')) {
-              target.src = `/aoi/${getAoiLevelInfo(level).image}`;
-            }
-          }}
-        />
+        {/* aOi Icon - Sparkles as visual representation */}
+        <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center border-2 border-blue-400/50 shadow-lg">
+          <Sparkles className={`${ICON_SIZE_CLASSES[size]} text-white`} />
+        </div>
 
         {interactive && (
           <div

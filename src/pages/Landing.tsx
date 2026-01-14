@@ -179,19 +179,35 @@ export default function Landing() {
                         ease: "easeInOut"
                       }}
                     >
-                      <div className="aoi-hero-container relative w-full h-[500px] bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 rounded-3xl flex items-center justify-center shadow-2xl border-2 border-indigo-500/30 dark:border-indigo-400/30 backdrop-blur-sm overflow-hidden">
-                        {/* aOi Hero Image */}
-                        <img
-                          src={getAoiImage('heroWelcome')}
-                          alt="aOi - Your AI Guide"
-                          className="w-full h-full object-contain p-8"
-                        />
+                      <div className="aoi-hero-container relative w-full h-[500px] bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-2 border-indigo-500/30 dark:border-indigo-400/30 backdrop-blur-sm overflow-hidden">
+                        {/* aOi Visual Representation */}
+                        <motion.div
+                          className="relative"
+                          animate={{
+                            rotate: [0, 360],
+                            scale: [1, 1.1, 1]
+                          }}
+                          transition={{
+                            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                            scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                          }}
+                        >
+                          <div className="w-48 h-48 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
+                            <Sparkles className="w-24 h-24 text-white" />
+                          </div>
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/40 to-pink-400/40 blur-2xl animate-pulse" />
+                        </motion.div>
+
+                        <div className="mt-8 text-center">
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">aOi AI Assistant</h3>
+                          <p className="text-lg text-gray-600 dark:text-gray-300">Your intelligent guide to TYT Platform</p>
+                        </div>
 
                         {/* Floating badge */}
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full border border-indigo-500/30 shadow-lg">
                           <div className="flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-indigo-500" />
-                            <span className="text-sm font-semibold text-gray-900 dark:text-white">aOi AI Assistant</span>
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">Online & Ready</span>
                           </div>
                         </div>
                       </div>
@@ -644,12 +660,31 @@ export default function Landing() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white/20">
-                    <img
-                      src={getAoiImage('presenting')}
-                      alt="aOi - Your AI Assistant"
-                      className="w-full h-full object-contain p-8"
-                    />
+                  <div className="aoi-assistant-container w-full max-w-md mx-auto h-[600px] bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex flex-col items-center justify-center shadow-2xl border-4 border-white/20 p-12">
+                    {/* Large aOi Icon */}
+                    <motion.div
+                      className="relative mb-8"
+                      animate={{
+                        rotate: [0, 10, -10, 0],
+                        y: [0, -10, 0]
+                      }}
+                      transition={{
+                        rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                        y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                    >
+                      <div className="w-56 h-56 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl">
+                        <Sparkles className="w-32 h-32 text-white" />
+                      </div>
+                      <div className="absolute inset-0 rounded-full bg-white/10 blur-2xl animate-pulse" />
+                    </motion.div>
+
+                    {/* aOi Info */}
+                    <div className="text-center text-white">
+                      <h3 className="text-4xl font-bold mb-4 drop-shadow-lg">aOi</h3>
+                      <p className="text-xl mb-2 opacity-90">AI-Powered Mining Guide</p>
+                      <p className="text-sm opacity-75">Available 24/7 to assist you</p>
+                    </div>
                   </div>
                 </motion.div>
 
