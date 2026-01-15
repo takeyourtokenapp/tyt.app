@@ -288,8 +288,8 @@ export function getAoiSpecialImages() {
 }
 
 /**
- * Get TYT logo URL from tyt.foundation
+ * Get TYT logo URL - using local favicon
  */
 export function getTYTLogoUrl(): string {
-  return `${AOI_CONFIG.cdn.baseUrl}${AOI_CONFIG.cdn.imagesPath}/${AOI_CONFIG.branding.logo}`;
+  return '/favicon.svg';
 }
