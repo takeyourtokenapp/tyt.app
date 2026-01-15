@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
-import { getAoiImage } from '../config/aoiConfig';
-
-// Use specialized portrait for chat messages
-const AOI_CHAT_AVATAR = '/aoi/aoi-portrait-ai-chat.png';
+import { getAoiImage, getAoiChatPortrait } from '../config/aoiConfig';
 
 interface Message {
   id: string;
@@ -218,7 +215,7 @@ export default function AoiChatWidget({
           >
             {message.sender === 'aoi' && (
               <img
-                src={AOI_CHAT_AVATAR}
+                src={getAoiChatPortrait()}
                 alt="aOi"
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
               />
@@ -249,7 +246,7 @@ export default function AoiChatWidget({
         {isLoading && (
           <div className="flex gap-2 justify-start">
             <img
-              src={AOI_CHAT_AVATAR}
+              src={getAoiChatPortrait()}
               alt="aOi"
               className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
             />

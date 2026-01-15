@@ -91,6 +91,17 @@ export const AOI_CONFIG = {
     celebrating: 'contexts/aoi-celebrating.png', // Achievements
     thinking: 'contexts/aoi-thinking.png',      // Analysis
 
+    // Chat - specialized portrait for chat bubbles
+    chatPortrait: 'chat/aoi-portrait-ai-chat.png', // Chat avatar
+    fullbodyWelcome: 'fullbody/aoi-fullbody-welcome.png', // Landing page
+
+    // Legacy local paths (fallback to public/aoi/)
+    guidingLeft: 'guiding-left.png',
+    pointingRight: 'pointing-right.png',
+    portraitClose: 'portrait-close.png',
+    presentingOpen: 'presenting-open.png',
+    standingNeutral: 'standing-neutral.png',
+
     // Fallback
     placeholder: 'fallback/aoi-placeholder.svg',
   },
@@ -283,8 +294,17 @@ export function getAoiSpecialImages() {
     presentingOpen: getAoiImage('presentingOpen'),
     standingNeutral: getAoiImage('standingNeutral'),
     heroWelcome: getAoiImage('heroWelcome'),
+    chatPortrait: getAoiImage('chatPortrait'),
     placeholder: getAoiImage('placeholder'),
   };
+}
+
+/**
+ * Get aOi chat portrait specifically for chat widgets
+ * Falls back to local path if CDN unavailable
+ */
+export function getAoiChatPortrait(): string {
+  return '/aoi/aoi-portrait-ai-chat.png';
 }
 
 /**
