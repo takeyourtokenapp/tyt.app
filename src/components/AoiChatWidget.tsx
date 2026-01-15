@@ -3,8 +3,8 @@ import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
 import { getAoiImage } from '../config/aoiConfig';
 
-// Use portrait-close for chat messages (small circular avatars)
-const AOI_CHAT_AVATAR = getAoiImage('portraitClose');
+// Use portrait-ai-chat for chat messages (specialized chat portrait)
+const AOI_CHAT_AVATAR = '/aoi/aoi-portrait-ai-chat.png';
 
 interface Message {
   id: string;
@@ -223,7 +223,7 @@ export default function AoiChatWidget({
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = '/aoi/portrait-close.png';
+                  target.src = '/aoi/aoi-portrait-ai-chat.png';
                 }}
               />
             )}
@@ -258,7 +258,7 @@ export default function AoiChatWidget({
               className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/40 flex-shrink-0 self-end"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = '/aoi/portrait-close.png';
+                target.src = '/aoi/aoi-portrait-ai-chat.png';
               }}
             />
             <div className="aoi-chat-bubble rounded-2xl p-3 flex items-center gap-2">
