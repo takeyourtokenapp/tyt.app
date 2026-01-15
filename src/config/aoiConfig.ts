@@ -90,7 +90,6 @@ export const AOI_CONFIG = {
     helping: 'contexts/aoi-helping.png',        // Support
     celebrating: 'contexts/aoi-celebrating.png', // Achievements
     thinking: 'contexts/aoi-thinking.png',      // Analysis
-    portraitAiChat: 'aoi-portrait-ai-chat.png', // Chat widget portrait
 
     // Fallback
     placeholder: 'fallback/aoi-placeholder.svg',
