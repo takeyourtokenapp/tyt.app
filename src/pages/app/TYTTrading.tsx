@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWeb3 } from '@/contexts/Web3Context';
 import { useToast } from '@/contexts/ToastContext';
+import { getTYTLogoUrl } from '../../config/aoiConfig';
 import {
   getTYTTokenData,
   getUserTYTHoldings,
@@ -249,9 +250,11 @@ export default function TYTTrading() {
             <div className="bg-secondary rounded-xl border border-secondary p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-white" />
-                  </div>
+                  <img
+                    src={getTYTLogoUrl()}
+                    alt="TYT Token"
+                    className="w-12 h-12"
+                  />
                   <div>
                     <h2 className="text-2xl font-bold text-primary-text">TYT Token</h2>
                     <div className="flex items-center gap-2">
