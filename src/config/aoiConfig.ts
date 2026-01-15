@@ -291,5 +291,5 @@ export function getAoiSpecialImages() {
  * Get TYT logo URL - using local favicon
  */
 export function getTYTLogoUrl(): string {
-  return '/image.png';
+  return '/logo.png';
 }
