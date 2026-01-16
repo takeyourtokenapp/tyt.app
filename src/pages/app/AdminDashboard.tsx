@@ -56,44 +56,65 @@ function AdminDashboardContent() {
     try {
       setLoading(true);
 
-      const [
-        usersResult,
-        activeUsersResult,
-        kycResult,
-        minersResult,
-        messagesResult,
-        unreadMessagesResult,
-        foundationResult,
-        transactionsResult,
-      ] = await Promise.all([
-        supabase.from('profiles').select('id', { count: 'exact', head: true }),
-        supabase.from('profiles').select('id', { count: 'exact', head: true }).gte('last_seen', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
-        supabase.from('kyc_verifications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-        supabase.from('nft_miners').select('hashrate', { count: 'exact' }),
-        supabase.from('contact_messages').select('id', { count: 'exact', head: true }),
-        supabase.from('contact_messages').select('id', { count: 'exact', head: true }).eq('is_read', false),
-        supabase.from('foundation_donations').select('amount_usd'),
-        supabase.from('transactions').select('id', { count: 'exact', head: true }).gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()),
-      ]);
+      // Fetch total users count
+      const { count: totalUsersCount } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact', head: true });
 
-      const totalHashrate = minersResult.data?.reduce((sum, miner) => sum + (miner.hashrate || 0), 0) || 0;
-      const foundationTotal = foundationResult.data?.reduce((sum, donation) => sum + (donation.amount_usd || 0), 0) || 0;
+      // Fetch new users in last 7 days
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const { count: newUsers7d } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact', head: true })
+        .gte('created_at', sevenDaysAgo);
+
+      // Fetch miners data
+      const { data: minersData, count: minersCount } = await supabase
+        .from('nft_miners')
+        .select('hashrate', { count: 'exact' });
+
+      // Fetch messages
+      const { count: messagesCount } = await supabase
+        .from('contact_messages')
+        .select('id', { count: 'exact', head: true });
+
+      const { count: unreadCount } = await supabase
+        .from('contact_messages')
+        .select('id', { count: 'exact', head: true })
+        .eq('is_read', false);
+
+      // Fetch foundation donations
+      const { data: donationsData } = await supabase
+        .from('foundation_donations')
+        .select('amount_usd');
+
+      // Fetch recent transactions (last 24h)
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      const { count: recentTxCount } = await supabase
+        .from('wallet_transactions')
+        .select('id', { count: 'exact', head: true })
+        .gte('created_at', oneDayAgo);
+
+      // Calculate totals
+      const totalHashrate = minersData?.reduce((sum, miner) => sum + (Number(miner.hashrate) || 0), 0) || 0;
+      const foundationTotal = donationsData?.reduce((sum, donation) => sum + (Number(donation.amount_usd) || 0), 0) || 0;
 
       setStats({
-        totalUsers: usersResult.count || 0,
-        activeUsers: activeUsersResult.count || 0,
-        pendingKYC: kycResult.count || 0,
-        totalMiners: minersResult.count || 0,
+        totalUsers: totalUsersCount || 0,
+        activeUsers: newUsers7d || 0,
+        pendingKYC: 0, // KYC table doesn't exist yet
+        totalMiners: minersCount || 0,
         totalHashrate: totalHashrate,
-        totalMessages: messagesResult.count || 0,
-        unreadMessages: unreadMessagesResult.count || 0,
+        totalMessages: messagesCount || 0,
+        unreadMessages: unreadCount || 0,
         foundationDonations: foundationTotal,
-        recentTransactions: transactionsResult.count || 0,
+        recentTransactions: recentTxCount || 0,
         monthlyRevenue: 0,
       });
 
+      // Fetch recent activity from wallet_transactions
       const { data: activity } = await supabase
-        .from('transactions')
+        .from('wallet_transactions')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(10);
@@ -154,13 +175,23 @@ function AdminDashboardContent() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Admin Dashboard
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Platform overview and management
-          </p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Admin Dashboard
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Platform overview and management
+            </p>
+          </div>
+          <button
+            onClick={loadDashboardData}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-lg transition-colors"
+          >
+            <Activity className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            {loading ? 'Refreshing...' : 'Refresh Stats'}
+          </button>
         </div>
 
         {/* Quick Stats Grid */}
@@ -170,15 +201,14 @@ function AdminDashboardContent() {
             value={stats.totalUsers.toLocaleString()}
             icon={Users}
             color="bg-blue-500"
-            trend="+12% this month"
             link="/app/admin/users"
           />
           <StatCard
-            title="Active Users (7d)"
+            title="New Users (7d)"
             value={stats.activeUsers.toLocaleString()}
             icon={Activity}
             color="bg-green-500"
-            trend="+8% vs last week"
+            trend={stats.activeUsers > 0 ? `${stats.activeUsers} new registrations` : undefined}
           />
           <StatCard
             title="Unread Messages"
@@ -192,7 +222,6 @@ function AdminDashboardContent() {
             value={stats.pendingKYC}
             icon={AlertCircle}
             color="bg-orange-500"
-            trend="Requires attention"
           />
         </div>
 
