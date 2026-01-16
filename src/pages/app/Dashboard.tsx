@@ -81,7 +81,7 @@ export default function Dashboard() {
         const vipRes = await supabase
           .from('vip_tiers')
           .select('*')
-          .eq('level', profileRes.data.vip_level)
+          .eq('level', profileRes.data.vip_level || 0)
           .maybeSingle();
 
         if (vipRes.data) setVIPLevel(vipRes.data);
@@ -115,7 +115,7 @@ export default function Dashboard() {
 
     setPressingService(true);
     try {
-      const rewardAmount = vipLevel ? parseFloat(vipLevel.service_button_reward) : 10;
+      const rewardAmount = vipLevel ? Number(vipLevel.service_button_reward || 10) : 10;
 
       await supabase
         .from('profiles')
@@ -166,8 +166,8 @@ export default function Dashboard() {
   ) : null;
 
   const vipProgress = profile && vipLevel && nextVipLevel ? (
-    ((profile.total_spent - parseFloat(vipLevel.min_spent)) /
-      (parseFloat(vipLevel.max_spent) - parseFloat(vipLevel.min_spent))) * 100
+    ((Number(profile.total_spent || 0) - Number(vipLevel.min_spent || 0)) /
+      (Number(vipLevel.max_spent || 1) - Number(vipLevel.min_spent || 0))) * 100
   ) : 0;
 
   if (loading) {
@@ -359,13 +359,13 @@ export default function Dashboard() {
                   <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-lg">
                     <div className="text-xs tyt-text-secondary mb-1">Current Benefits</div>
                     <div className="text-sm font-semibold text-amber-600 dark:text-amber-400">
-                      {parseFloat(vipLevel.maintenance_discount).toFixed(0)}% Discount
+                      {Number(vipLevel.maintenance_discount_percent || 0).toFixed(0)}% Discount
                     </div>
                   </div>
                   <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-lg">
                     <div className="text-xs tyt-text-secondary mb-1">Total Spent</div>
                     <div className="text-sm font-semibold tyt-text-primary">
-                      ${parseFloat(profile.total_spent).toFixed(2)}
+                      ${Number(profile.total_spent || 0).toFixed(2)}
                     </div>
                   </div>
                 </div>
