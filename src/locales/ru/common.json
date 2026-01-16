@@ -1,7 +1,44 @@
 {
   "common": {
     "getStarted": "Начать",
-    "openApp": "Открыть Приложение"
+    "openApp": "Открыть Приложение",
+    "loading": "Загрузка...",
+    "view": "Просмотр",
+    "all": "Все"
+  },
+  "theme": {
+    "light": "Светлая",
+    "dark": "Темная",
+    "auto": "Авто"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "welcome": "С возвращением, {{username}}!",
+    "vipLevel": "VIP Уровень",
+    "balances": {
+      "btc": "Баланс BTC",
+      "tyt": "Баланс TYT"
+    },
+    "stats": {
+      "totalHashrate": "Общий Хешрейт",
+      "miners": "майнеров",
+      "miner": "майнер",
+      "dailyReward": "Ежедневная Награда",
+      "efficiency": "Эффективность",
+      "maintenanceNote": "Используется для обслуживания",
+      "efficiencyNote": "Средний W/TH"
+    },
+    "serviceButton": {
+      "title": "Ежедневная Кнопка Сервиса",
+      "pressTo": "Нажмите, чтобы заработать {{amount}} TYT токенов",
+      "totalPresses": "Всего Нажатий",
+      "processing": "Обработка...",
+      "availableIn": "Доступно через {{time}}",
+      "pressNow": "Нажать Сейчас"
+    },
+    "recentRewards": "Недавние Награды",
+    "myMiners": "Мои Майнеры",
+    "manageAll": "Управление Всеми"
   },
   "auth": {
     "signIn": "Войти"

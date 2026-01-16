@@ -1,7 +1,44 @@
 {
   "common": {
     "getStarted": "Get Started",
-    "openApp": "Open App"
+    "openApp": "Open App",
+    "loading": "Loading...",
+    "view": "View",
+    "all": "All"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {{username}}!",
+    "vipLevel": "VIP Level",
+    "balances": {
+      "btc": "BTC Balance",
+      "tyt": "TYT Balance"
+    },
+    "stats": {
+      "totalHashrate": "Total Hashrate",
+      "miners": "miners",
+      "miner": "miner",
+      "dailyReward": "Daily Reward",
+      "efficiency": "Efficiency",
+      "maintenanceNote": "Used for maintenance",
+      "efficiencyNote": "W/TH avg"
+    },
+    "serviceButton": {
+      "title": "Daily Service Button",
+      "pressTo": "Press to earn {{amount}} TYT tokens",
+      "totalPresses": "Total Presses",
+      "processing": "Processing...",
+      "availableIn": "Available in {{time}}",
+      "pressNow": "Press Now"
+    },
+    "recentRewards": "Recent Rewards",
+    "myMiners": "My Miners",
+    "manageAll": "Manage All"
   },
   "auth": {
     "signIn": "Sign In"
