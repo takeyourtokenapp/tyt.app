@@ -44,31 +44,32 @@ export default function Orbital() {
     try {
       setLoading(true);
 
+      // Use orbital_events table for witness data
       let query = supabase
-        .from('aoi_interactions')
+        .from('orbital_events')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('signed_at', { ascending: false })
         .limit(50);
 
       if (filterType !== 'all') {
-        query = query.eq('interaction_type', filterType);
+        query = query.eq('event_type', filterType);
       }
 
       const { data, error } = await query;
 
       if (error) throw error;
 
-      const mappedEvents: OrbitalEvent[] = (data || []).map((interaction) => ({
-        id: interaction.id,
-        event_type: interaction.interaction_type,
-        subject_type: 'user_action',
-        subject_id: interaction.user_id,
-        witness_hash: interaction.session_id || '',
-        block_number: null,
-        blockchain: null,
-        verified: true,
-        metadata: interaction.context || {},
-        created_at: interaction.created_at
+      const mappedEvents: OrbitalEvent[] = (data || []).map((event) => ({
+        id: event.id,
+        event_type: event.event_type,
+        subject_type: event.entity_type,
+        subject_id: event.entity_id,
+        witness_hash: event.signed_hash || '',
+        block_number: event.metadata?.block_number || null,
+        blockchain: event.metadata?.blockchain || null,
+        verified: !!event.signature,
+        metadata: event.metadata || {},
+        created_at: event.signed_at
       }));
 
       setEvents(mappedEvents);

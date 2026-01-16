@@ -28,27 +28,25 @@ export function AoiInsightFeed() {
 
     try {
       setLoading(true);
+      // Use aoi_events table for insights
       const { data, error } = await supabase
-        .from('aoi_interactions')
+        .from('aoi_events')
         .select('*')
-        .eq('user_id', user.id)
-        .in('interaction_type', ['xp_gained', 'level_up', 'achievement_earned'])
+        .eq('entity_type', 'user')
+        .eq('entity_id', user.id)
+        .in('severity', ['info', 'success'])
         .order('created_at', { ascending: false })
         .limit(5);
 
       if (error) throw error;
 
-      const generatedInsights: AoiInsight[] = data?.map((interaction) => ({
-        id: interaction.id,
-        type: interaction.interaction_type === 'achievement_earned' ? 'achievement' : 'info',
-        scope: 'ecosystem',
-        title: interaction.interaction_type === 'achievement_earned'
-          ? 'Achievement Unlocked!'
-          : interaction.interaction_type === 'level_up'
-          ? 'Level Up!'
-          : 'XP Earned',
-        message: interaction.response_summary || 'Keep up the great work!',
-        created_at: interaction.created_at
+      const generatedInsights: AoiInsight[] = data?.map((event) => ({
+        id: event.id,
+        type: event.event_type === 'achievement' ? 'achievement' : event.severity === 'success' ? 'tip' : 'info',
+        scope: (event.metadata?.scope || 'ecosystem') as 'rewards' | 'miners' | 'wallet' | 'ecosystem',
+        title: event.title || 'System Event',
+        message: event.description || 'Event recorded',
+        created_at: event.created_at
       })) || [];
 
       const staticInsights: AoiInsight[] = [

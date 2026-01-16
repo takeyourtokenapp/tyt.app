@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useAoi } from '../contexts/AoiContext';
+import { supabase } from '../lib/supabase';
 
 export type ExplainSubjectType =
   | 'reward_calculation'
@@ -27,6 +28,28 @@ export function useAoiExplain({ subjectType, subjectId, contextData }: UseAoiExp
     setIsExplaining(true);
 
     try {
+      // Check if explanation already exists in aoi_explanations table
+      if (subjectId) {
+        const { data: existingExplanation } = await supabase
+          .from('aoi_explanations')
+          .select('explanation_md')
+          .eq('entity_type', subjectType)
+          .eq('entity_id', subjectId)
+          .maybeSingle();
+
+        if (existingExplanation) {
+          // Use existing explanation
+          await askAoi(existingExplanation.explanation_md, {
+            type: 'cached_explanation',
+            subjectType,
+            subjectId,
+            contextData
+          });
+          return;
+        }
+      }
+
+      // Generate new explanation request
       const question = generateExplainQuestion(subjectType, contextData);
       await askAoi(question, {
         type: 'explanation_request',
