@@ -66,6 +66,7 @@ const Swap = lazyWithRetry(() => import('./pages/app/Swap'), 'Swap');
 const Bridge = lazyWithRetry(() => import('./pages/app/Bridge'), 'Bridge');
 const AdminContracts = lazyWithRetry(() => import('./pages/app/AdminContracts'), 'AdminContracts');
 const AoiProfile = lazyWithRetry(() => import('./pages/app/AoiProfile'), 'AoiProfile');
+const Orbital = lazyWithRetry(() => import('./pages/app/Orbital'), 'Orbital');
 
 // Loading component
 function PageLoader() {
@@ -151,6 +152,7 @@ function App() {
                 <Route path="referrals" element={<Referrals />} />
                 <Route path="notifications" element={<Notifications />} />
                 <Route path="governance" element={<Governance />} />
+                <Route path="orbital" element={<Orbital />} />
                 <Route path="certificates" element={<Certificates />} />
                 <Route path="burn-reports" element={<BurnReports />} />
                 <Route path="avatars" element={<Avatars />} />

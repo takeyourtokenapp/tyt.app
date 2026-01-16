@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { getAccountBalances, getLedgerHistory, type AccountBalance, type LedgerEntry } from '../utils/api/walletLedgerService';
 import { useToast } from '../contexts/ToastContext';
+import { AoiExplainButton } from './AoiExplainButton';
 
 const CURRENCY_CONFIG: Record<string, { symbol: string; color: string; decimals: number }> = {
   BTC: { symbol: 'BTC', color: 'orange', decimals: 8 },
@@ -211,13 +212,21 @@ export default function WalletBalances() {
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className={`font-semibold ${getColorClass(balance.currency)}`}>
-                      {formatBalance(balance.total, balance.currency)} {balance.currency}
+                  <div className="text-right flex items-center gap-2">
+                    <div>
+                      <div className={`font-semibold ${getColorClass(balance.currency)}`}>
+                        {formatBalance(balance.total, balance.currency)} {balance.currency}
+                      </div>
+                      <div className="text-sm text-gray-400">
+                        ${(balance.total * (balance.currency === 'BTC' ? 100000 : balance.currency === 'USDT' ? 1 : 0.001)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-400">
-                      ${(balance.total * (balance.currency === 'BTC' ? 100000 : balance.currency === 'USDT' ? 1 : 0.001)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </div>
+                    <AoiExplainButton
+                      subjectType="wallet_balance"
+                      contextData={{ currency: balance.currency, amount: balance.total }}
+                      variant="icon"
+                      size="sm"
+                    />
                   </div>
                 </div>
 
@@ -286,10 +295,19 @@ export default function WalletBalances() {
                     </div>
                   </div>
                 </div>
-                <div className={`font-semibold ${
-                  entry.credit > 0 ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {entry.credit > 0 ? '+' : '-'}{(entry.credit || entry.debit).toFixed(6)} {entry.currency}
+                <div className="flex items-center gap-2">
+                  <div className={`font-semibold ${
+                    entry.credit > 0 ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {entry.credit > 0 ? '+' : '-'}{(entry.credit || entry.debit).toFixed(6)} {entry.currency}
+                  </div>
+                  <AoiExplainButton
+                    subjectType="ledger_entry"
+                    subjectId={entry.id}
+                    contextData={{ type: entry.entry_type, amount: entry.credit || entry.debit, currency: entry.currency }}
+                    variant="icon"
+                    size="sm"
+                  />
                 </div>
               </div>
             ))

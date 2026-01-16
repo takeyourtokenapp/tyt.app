@@ -24,6 +24,7 @@ import type { CustodialWallet, NFTMiner, DailyReward, Profile, VIPLevel } from '
 import MinerPerformanceWidget from '../../components/MinerPerformanceWidget';
 import RewardsSummaryWidget from '../../components/RewardsSummaryWidget';
 import NetworkStatsWidget from '../../components/NetworkStatsWidget';
+import { AoiInsightFeed } from '../../components/AoiInsightFeed';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -415,9 +416,10 @@ export default function Dashboard() {
 
       <NetworkStatsWidget />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <MinerPerformanceWidget />
         <RewardsSummaryWidget />
+        <AoiInsightFeed />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

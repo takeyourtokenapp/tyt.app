@@ -17,6 +17,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import type { DailyReward, NFTMiner } from '../../types/database';
+import { EnhancedMerkleProofViewer } from '../../components/EnhancedMerkleProofViewer';
 
 type RewardWithMiner = DailyReward & { miner?: NFTMiner };
 type ModalType = 'proof' | 'chart' | null;
@@ -380,71 +381,36 @@ export default function Rewards() {
 
       {activeModal === 'proof' && selectedReward && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-secondary rounded-xl border border-secondary max-w-2xl w-full p-6">
+          <div className="bg-secondary rounded-xl border border-secondary max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold flex items-center gap-2">
-                <Shield className="w-6 h-6 text-green-500 dark:text-green-400" />
-                Merkle Proof
+                <Shield className="w-6 h-6 text-purple-500 dark:text-purple-400" />
+                Merkle Proof Verification
               </h3>
               <button onClick={() => setActiveModal(null)} className="text-tertiary-text hover:text-primary-text">
                 <X size={24} />
               </button>
             </div>
 
-            <div className="space-y-4">
-              <div className="bg-tertiary rounded-lg p-4">
-                <div className="text-sm text-tertiary-text mb-2">Reward Date</div>
-                <div className="font-semibold">{new Date(selectedReward.reward_date).toLocaleDateString()}</div>
-              </div>
+            <EnhancedMerkleProofViewer
+              data={{
+                leafHash: selectedReward.merkle_leaf || 'pending',
+                proof: selectedReward.merkle_proof ? JSON.parse(selectedReward.merkle_proof) : [],
+                root: selectedReward.merkle_root || 'pending',
+                index: parseInt(selectedReward.id?.slice(-4) || '0', 16),
+                verified: !!selectedReward.merkle_root,
+                epochOrDate: new Date(selectedReward.reward_date).toLocaleDateString(),
+                rewardAmount: selectedReward.net_btc,
+                minerId: selectedReward.miner_id
+              }}
+            />
 
-              <div className="bg-tertiary rounded-lg p-4">
-                <div className="text-sm text-tertiary-text mb-2">Miner ID</div>
-                <div className="font-mono text-sm break-all">{selectedReward.miner_id}</div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-tertiary rounded-lg p-4">
-                  <div className="text-sm text-tertiary-text mb-2">Gross BTC</div>
-                  <div className="font-bold text-green-500 dark:text-green-400">{selectedReward.gross_btc}</div>
-                </div>
-                <div className="bg-tertiary rounded-lg p-4">
-                  <div className="text-sm text-tertiary-text mb-2">Net BTC</div>
-                  <div className="font-bold text-amber-400">{selectedReward.net_btc}</div>
-                </div>
-              </div>
-
-              <div className="bg-tertiary rounded-lg p-4">
-                <div className="text-sm text-tertiary-text mb-2">Merkle Leaf</div>
-                <div className="font-mono text-xs break-all text-secondary-text bg-secondary p-3 rounded">
-                  {selectedReward.merkle_leaf || 'Not yet generated'}
-                </div>
-              </div>
-
-              {selectedReward.merkle_proof && (
-                <div className="bg-tertiary rounded-lg p-4">
-                  <div className="text-sm text-tertiary-text mb-2">Merkle Proof</div>
-                  <div className="font-mono text-xs break-all text-secondary-text bg-secondary p-3 rounded max-h-32 overflow-y-auto">
-                    {selectedReward.merkle_proof}
-                  </div>
-                </div>
-              )}
-
-              {selectedReward.merkle_root && (
-                <div className="bg-green-500/10 border border-green-500/50 rounded-lg p-4">
-                  <div className="text-sm text-secondary-text mb-2">Merkle Root (On-chain)</div>
-                  <div className="font-mono text-xs break-all text-green-500 dark:text-green-400">
-                    {selectedReward.merkle_root}
-                  </div>
-                </div>
-              )}
-
-              <button
-                onClick={() => setActiveModal(null)}
-                className="w-full px-4 py-3 bg-secondary rounded-lg font-semibold hover:bg-tertiary transition-all"
-              >
-                Close
-              </button>
-            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full mt-4 px-4 py-3 bg-secondary rounded-lg font-semibold hover:bg-tertiary transition-all"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

@@ -12,6 +12,7 @@ import {
   Gift
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { AoiExplainButton } from './AoiExplainButton';
 
 interface RewardsSummary {
   today: number;
@@ -153,6 +154,12 @@ export default function RewardsSummaryWidget() {
           <div className="flex items-center gap-1 text-xs text-tertiary-text mb-1">
             <Clock className="w-3 h-3" />
             Today
+            <AoiExplainButton
+              subjectType="reward_calculation"
+              contextData={{ amount: summary.today, period: 'today' }}
+              variant="icon"
+              size="sm"
+            />
           </div>
           <div className="font-bold text-green-500 dark:text-green-400">{formatValue(summary.today)}</div>
         </div>
@@ -209,7 +216,15 @@ export default function RewardsSummaryWidget() {
       <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg border border-green-500/20 p-4">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-tertiary-text mb-1">30-Day Projection</div>
+            <div className="text-sm text-tertiary-text mb-1 flex items-center gap-2">
+              30-Day Projection
+              <AoiExplainButton
+                subjectType="reward_calculation"
+                contextData={{ amount: summary.projected30Days, period: '30-day projection' }}
+                variant="icon"
+                size="sm"
+              />
+            </div>
             <div className="text-xl font-bold text-green-500 dark:text-green-400">{formatValue(summary.projected30Days)}</div>
           </div>
           <Link
