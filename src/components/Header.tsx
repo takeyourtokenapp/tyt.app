@@ -252,10 +252,10 @@ export default function Header({ variant = 'full' }: HeaderProps) {
               />
               <div className="hidden sm:flex flex-col">
                 <span className="text-base font-bold text-gray-900 dark:text-white leading-tight">
-                  TakeYourToken
+                  Take Your Token
                 </span>
                 <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
-                  Owl Warrior Platform
+                  Owl Warrior Ecosystem
                 </span>
               </div>
             </Link>
@@ -296,9 +296,12 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 target.style.display = 'none';
               }}
             />
-            <div className="hidden sm:block">
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                TakeYourToken
+            <div className="hidden sm:flex flex-col">
+              <span className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+                Take Your Token
+              </span>
+              <span className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+                Owl Warrior Ecosystem
               </span>
             </div>
           </Link>

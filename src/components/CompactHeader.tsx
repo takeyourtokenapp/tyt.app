@@ -43,10 +43,10 @@ export default function CompactHeader() {
             />
             <div className="flex flex-col">
               <span className="text-base font-bold bg-owl-gradient bg-clip-text text-transparent leading-tight">
-                TakeYourToken
+                Take Your Token
               </span>
               <span className="text-[10px] text-gray-500 leading-tight">
-                Owl Warrior Platform
+                Owl Warrior Ecosystem
               </span>
             </div>
           </Link>

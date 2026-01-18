@@ -243,8 +243,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                   }}
                 />
                 <div>
-                  <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">TakeYourToken</span>
-                  <div className="text-xs text-secondary-text">Owl Warrior Platform</div>
+                  <span className="text-xl font-bold bg-owl-gradient bg-clip-text text-transparent">Take Your Token</span>
+                  <div className="text-xs text-secondary-text">Owl Warrior Ecosystem</div>
                 </div>
               </Link>
               <button

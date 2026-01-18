@@ -198,7 +198,7 @@ export default function Footer() {
           </div>
 
           <p className="text-xs text-gray-500 leading-relaxed">
-            TakeYourToken operates as a digital mining service platform. All services are provided "as is" without warranties.
+            Take Your Token operates as a digital mining service platform. All services are provided "as is" without warranties.
             The platform is not available to residents of sanctioned jurisdictions or where cryptocurrency services are prohibited.
             KYC verification may be required for certain features and withdrawal limits.
             By using this platform, you agree to our <Link to="/terms" className="text-gray-400 hover:text-white">Terms</Link> and
