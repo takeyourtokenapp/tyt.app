@@ -49,23 +49,24 @@ function AdminUsersContent() {
   const loadUsers = async () => {
     setLoading(true);
     try {
-      const { data: profilesData } = await supabase
+      // Fetch profiles with email included (now available with new admin policy)
+      const { data: profilesData, error } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
+      if (error) {
+        console.error('Error loading profiles:', error);
+        return;
+      }
+
+      // Email is stored in profiles.email column, no need for auth.admin call
       if (profilesData) {
-        const usersWithEmails = await Promise.all(
-          profilesData.map(async (profile) => {
-            const { data: authData } = await supabase.auth.admin.getUserById(profile.id);
-            return {
-              ...profile,
-              email: authData?.user?.email || 'N/A',
-              last_seen: authData?.user?.last_sign_in_at || null
-            };
-          })
-        );
-        setUsers(usersWithEmails);
+        setUsers(profilesData.map(profile => ({
+          ...profile,
+          email: profile.email || 'N/A',
+          last_seen: profile.updated_at // Use updated_at as proxy for activity
+        })));
       }
     } catch (error) {
       console.error('Error loading users:', error);

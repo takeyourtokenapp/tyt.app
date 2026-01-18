@@ -56,13 +56,13 @@ function AdminDashboardContent() {
     try {
       setLoading(true);
 
-      // Use admin functions that bypass RLS
+      // Use admin functions that bypass RLS with individual error handling
       const [
-        { data: usersStats },
-        { data: minersStats },
-        { data: messagesStats },
-        { data: foundationStats },
-        { data: recentTxData }
+        { data: usersStats, error: usersError },
+        { data: minersStats, error: minersError },
+        { data: messagesStats, error: messagesError },
+        { data: foundationStats, error: foundationError },
+        { data: recentTxData, count: txCount, error: txError }
       ] = await Promise.all([
         supabase.rpc('get_admin_users_count'),
         supabase.rpc('get_admin_miners_stats'),
@@ -73,6 +73,13 @@ function AdminDashboardContent() {
           .select('id', { count: 'exact', head: true })
           .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
       ]);
+
+      // Log errors for debugging
+      if (usersError) console.error('Users stats error:', usersError);
+      if (minersError) console.error('Miners stats error:', minersError);
+      if (messagesError) console.error('Messages stats error:', messagesError);
+      if (foundationError) console.error('Foundation stats error:', foundationError);
+      if (txError) console.error('Transactions error:', txError);
 
       // Extract stats from RPC responses (they return arrays with single object)
       const users = usersStats?.[0] || {};
@@ -89,7 +96,7 @@ function AdminDashboardContent() {
         totalMessages: Number(messages.total_messages) || 0,
         unreadMessages: Number(messages.unread_messages) || 0,
         foundationDonations: Number(foundation.total_donations) || 0,
-        recentTransactions: recentTxData.count || 0,
+        recentTransactions: txCount || 0,
         monthlyRevenue: 0,
       });
 
