@@ -157,72 +157,54 @@ export default function Landing() {
             >
               {/* Hero Visual with aOi Celebration */}
               <div className="relative min-h-[600px] flex items-center justify-center">
-                {/* Floating Coins - TYT Tokens (reduced to 4) */}
-                {[...Array(4)].map((_, i) => {
-                  const angle = (i / 4) * Math.PI * 2;
-                  const radius = 210 + (i % 2) * 30;
-                  const x = Math.cos(angle) * radius;
-                  const y = Math.sin(angle) * radius;
-
+                {/* BTC coins - Ultra Fast Orbit (15s) */}
+                {[...Array(2)].map((_, i) => {
+                  const initialRotation = i * 180;
                   return (
                     <motion.div
-                      key={i}
-                      className="absolute z-20"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                      }}
-                      animate={{
-                        x: [x, x + Math.cos(angle + Math.PI / 6) * 40, x],
-                        y: [y, y + Math.sin(angle + Math.PI / 6) * 40, y],
-                        rotate: [0, 360],
-                        scale: [1, 1.2, 1],
-                      }}
-                      transition={{
-                        duration: 4 + Math.random() * 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.3,
-                      }}
+                      key={`btc-orbit-${i}`}
+                      className="absolute inset-0 flex items-center justify-center z-20"
+                      initial={{ rotate: initialRotation }}
+                      animate={{ rotate: initialRotation + 360 }}
+                      transition={{ duration: 15, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                      style={{ transformOrigin: "center center" }}
                     >
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl flex items-center justify-center text-white font-bold text-xs border-2 border-yellow-300">
-                        TYT
-                      </div>
+                      <motion.div
+                        className="absolute"
+                        style={{ top: "50%", left: "50%", marginTop: "-140px", marginLeft: "-6px" }}
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-2xl flex items-center justify-center text-white font-bold text-lg border-2 border-orange-300">
+                          ₿
+                        </div>
+                      </motion.div>
                     </motion.div>
                   );
                 })}
 
-                {/* Bitcoin coins (reduced to 3) */}
+                {/* TYT coins - Super Fast Orbit (18s) */}
                 {[...Array(3)].map((_, i) => {
-                  const angle = (i / 3) * Math.PI * 2 + Math.PI / 6;
-                  const radius = 170 + (i % 2) * 25;
-                  const x = Math.cos(angle) * radius;
-                  const y = Math.sin(angle) * radius;
-
+                  const initialRotation = i * 120;
                   return (
                     <motion.div
-                      key={`btc-${i}`}
-                      className="absolute z-20"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                      }}
-                      animate={{
-                        x: [x, x - Math.cos(angle + Math.PI / 4) * 30, x],
-                        y: [y, y - Math.sin(angle + Math.PI / 4) * 30, y],
-                        rotate: [360, 0],
-                        scale: [1, 1.15, 1],
-                      }}
-                      transition={{
-                        duration: 3.5 + Math.random() * 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.2,
-                      }}
+                      key={`tyt-orbit-${i}`}
+                      className="absolute inset-0 flex items-center justify-center z-20"
+                      initial={{ rotate: initialRotation }}
+                      animate={{ rotate: initialRotation + 360 }}
+                      transition={{ duration: 18, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+                      style={{ transformOrigin: "center center" }}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl flex items-center justify-center text-white font-bold text-lg border-2 border-orange-300">
-                        ₿
-                      </div>
+                      <motion.div
+                        className="absolute"
+                        style={{ top: "50%", left: "50%", marginTop: "-160px", marginLeft: "-7px" }}
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-2xl flex items-center justify-center text-white font-bold text-sm border-2 border-yellow-300">
+                          TYT
+                        </div>
+                      </motion.div>
                     </motion.div>
                   );
                 })}
@@ -285,6 +267,118 @@ export default function Landing() {
                   }}
                 >
                   <div className="w-80 h-80 rounded-full border-2 border-purple-400/15"></div>
+                </motion.div>
+
+                {/* Floating Statistics Blocks controlled by aOi */}
+                {/* Active Miners - Top Left */}
+                <motion.div
+                  className="absolute z-20"
+                  style={{ top: "15%", left: "5%" }}
+                  animate={{
+                    y: [0, -15, 0],
+                    rotate: [-2, 2, -2],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <div className="bg-card/90 backdrop-blur-sm rounded-xl border-2 border-amber-500/50 p-4 shadow-xl min-w-[140px]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-amber-500/20 rounded-lg">
+                        <Cpu className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-bold text-primary-text">5,234</div>
+                        <div className="text-xs text-tertiary-text">Active Miners</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Foundation - Top Right */}
+                <motion.div
+                  className="absolute z-20"
+                  style={{ top: "18%", right: "8%" }}
+                  animate={{
+                    y: [0, -12, 0],
+                    rotate: [2, -2, 2],
+                  }}
+                  transition={{
+                    duration: 3.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.3
+                  }}
+                >
+                  <div className="bg-card/90 backdrop-blur-sm rounded-xl border-2 border-pink-500/50 p-4 shadow-xl min-w-[140px]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-pink-500/20 rounded-lg">
+                        <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-bold text-primary-text">$250K</div>
+                        <div className="text-xs text-tertiary-text">Donated</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* TYT Burned - Bottom Left */}
+                <motion.div
+                  className="absolute z-20"
+                  style={{ bottom: "20%", left: "10%" }}
+                  animate={{
+                    y: [0, -10, 0],
+                    rotate: [-1, 1, -1],
+                  }}
+                  transition={{
+                    duration: 3.8,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.6
+                  }}
+                >
+                  <div className="bg-card/90 backdrop-blur-sm rounded-xl border-2 border-orange-500/50 p-4 shadow-xl min-w-[140px]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-orange-500/20 rounded-lg">
+                        <Flame className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-bold text-primary-text">12.5M</div>
+                        <div className="text-xs text-tertiary-text">TYT Burned</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Community - Bottom Right */}
+                <motion.div
+                  className="absolute z-20"
+                  style={{ bottom: "22%", right: "12%" }}
+                  animate={{
+                    y: [0, -13, 0],
+                    rotate: [1, -1, 1],
+                  }}
+                  transition={{
+                    duration: 4.2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.9
+                  }}
+                >
+                  <div className="bg-card/90 backdrop-blur-sm rounded-xl border-2 border-blue-500/50 p-4 shadow-xl min-w-[140px]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-blue-500/20 rounded-lg">
+                        <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-bold text-primary-text">15,847</div>
+                        <div className="text-xs text-tertiary-text">Community</div>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
 
                 {/* Additional Orbital Crypto Coins - All Supported Platforms */}
@@ -498,111 +592,6 @@ export default function Landing() {
           </div>
         </div>
       </motion.section>
-
-      {/* Ecosystem Statistics */}
-      <section className="py-16 bg-primary border-y border-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold text-primary-text mb-2">
-              {t('common:landing.stats.title', 'Live Ecosystem Statistics')}
-            </h3>
-            <p className="text-secondary-text">
-              {t('common:landing.stats.subtitle', 'Real-time data from TYT platform')}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.a
-              href="/app/miners"
-              className="group p-6 bg-card rounded-xl border border-secondary hover:border-amber-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-amber-500/10 rounded-lg group-hover:bg-amber-500/20 transition-colors">
-                  <Cpu className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary-text">5,234</div>
-                  <div className="text-sm text-tertiary-text">
-                    {t('common:landing.stats.activeMiners', 'Active Miners')}
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href="/app/foundation"
-              className="group p-6 bg-card rounded-xl border border-secondary hover:border-pink-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-pink-500/10 rounded-lg group-hover:bg-pink-500/20 transition-colors">
-                  <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary-text">$250K</div>
-                  <div className="text-sm text-tertiary-text">
-                    {t('common:landing.stats.donated', 'Foundation Raised')}
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href="/tokenomics"
-              className="group p-6 bg-card rounded-xl border border-secondary hover:border-orange-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-orange-500/10 rounded-lg group-hover:bg-orange-500/20 transition-colors">
-                  <Flame className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary-text">12.5M</div>
-                  <div className="text-sm text-tertiary-text">
-                    {t('common:landing.stats.burned', 'TYT Burned')}
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href="/community"
-              className="group p-6 bg-card rounded-xl border border-secondary hover:border-blue-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
-                  <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary-text">15,847</div>
-                  <div className="text-sm text-tertiary-text">
-                    {t('common:landing.stats.community', 'Community Members')}
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-          </div>
-        </div>
-      </section>
 
       <section id="meet-aoi" className="tyt-section relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Background gradient effects */}
