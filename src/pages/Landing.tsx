@@ -157,17 +157,17 @@ export default function Landing() {
             >
               {/* Hero Visual with aOi Celebration */}
               <div className="relative min-h-[600px] flex items-center justify-center">
-                {/* Floating Coins - TYT Tokens */}
-                {[...Array(12)].map((_, i) => {
-                  const angle = (i / 12) * Math.PI * 2;
-                  const radius = 200 + Math.random() * 80;
+                {/* Floating Coins - TYT Tokens (reduced to 4) */}
+                {[...Array(4)].map((_, i) => {
+                  const angle = (i / 4) * Math.PI * 2;
+                  const radius = 210 + (i % 2) * 30;
                   const x = Math.cos(angle) * radius;
                   const y = Math.sin(angle) * radius;
 
                   return (
                     <motion.div
                       key={i}
-                      className="absolute"
+                      className="absolute z-20"
                       style={{
                         left: '50%',
                         top: '50%',
@@ -182,7 +182,7 @@ export default function Landing() {
                         duration: 4 + Math.random() * 2,
                         repeat: Infinity,
                         ease: "easeInOut",
-                        delay: i * 0.2,
+                        delay: i * 0.3,
                       }}
                     >
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl flex items-center justify-center text-white font-bold text-xs border-2 border-yellow-300">
@@ -192,17 +192,17 @@ export default function Landing() {
                   );
                 })}
 
-                {/* Bitcoin coins */}
-                {[...Array(8)].map((_, i) => {
-                  const angle = (i / 8) * Math.PI * 2 + Math.PI / 8;
-                  const radius = 160 + Math.random() * 60;
+                {/* Bitcoin coins (reduced to 3) */}
+                {[...Array(3)].map((_, i) => {
+                  const angle = (i / 3) * Math.PI * 2 + Math.PI / 6;
+                  const radius = 170 + (i % 2) * 25;
                   const x = Math.cos(angle) * radius;
                   const y = Math.sin(angle) * radius;
 
                   return (
                     <motion.div
                       key={`btc-${i}`}
-                      className="absolute"
+                      className="absolute z-20"
                       style={{
                         left: '50%',
                         top: '50%',
@@ -217,7 +217,7 @@ export default function Landing() {
                         duration: 3.5 + Math.random() * 1.5,
                         repeat: Infinity,
                         ease: "easeInOut",
-                        delay: i * 0.15,
+                        delay: i * 0.2,
                       }}
                     >
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl flex items-center justify-center text-white font-bold text-lg border-2 border-orange-300">
@@ -293,7 +293,7 @@ export default function Landing() {
 
                 {/* Ethereum - Inner Orbit */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   style={{ transformOrigin: "center center" }}
@@ -312,7 +312,7 @@ export default function Landing() {
 
                 {/* Solana - Inner Orbit (90° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 90 }}
                   animate={{ rotate: 450 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -332,7 +332,7 @@ export default function Landing() {
 
                 {/* BNB - Inner Orbit (180° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 180 }}
                   animate={{ rotate: 540 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -352,7 +352,7 @@ export default function Landing() {
 
                 {/* USDT - Inner Orbit (270° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 270 }}
                   animate={{ rotate: 630 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -374,7 +374,7 @@ export default function Landing() {
 
                 {/* TRON - Middle Orbit */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 45 }}
                   animate={{ rotate: -315 }}
                   transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -394,7 +394,7 @@ export default function Landing() {
 
                 {/* XRP - Middle Orbit (120° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 165 }}
                   animate={{ rotate: -195 }}
                   transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -414,7 +414,7 @@ export default function Landing() {
 
                 {/* TON - Middle Orbit (240° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 285 }}
                   animate={{ rotate: -75 }}
                   transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -436,7 +436,7 @@ export default function Landing() {
 
                 {/* Polygon MATIC - Outer Orbit */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 30 }}
                   animate={{ rotate: 390 }}
                   transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -456,7 +456,7 @@ export default function Landing() {
 
                 {/* Avalanche - Outer Orbit (120° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 150 }}
                   animate={{ rotate: 510 }}
                   transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -476,7 +476,7 @@ export default function Landing() {
 
                 {/* Polkadot - Outer Orbit (240° offset) */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center z-20"
                   initial={{ rotate: 270 }}
                   animate={{ rotate: 630 }}
                   transition={{ duration: 36, repeat: Infinity, ease: "linear", repeatType: "loop" }}
@@ -498,6 +498,111 @@ export default function Landing() {
           </div>
         </div>
       </motion.section>
+
+      {/* Ecosystem Statistics */}
+      <section className="py-16 bg-primary border-y border-secondary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-2xl font-bold text-primary-text mb-2">
+              {t('common:landing.stats.title', 'Live Ecosystem Statistics')}
+            </h3>
+            <p className="text-secondary-text">
+              {t('common:landing.stats.subtitle', 'Real-time data from TYT platform')}
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.a
+              href="/app/miners"
+              className="group p-6 bg-card rounded-xl border border-secondary hover:border-amber-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-amber-500/10 rounded-lg group-hover:bg-amber-500/20 transition-colors">
+                  <Cpu className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-primary-text">5,234</div>
+                  <div className="text-sm text-tertiary-text">
+                    {t('common:landing.stats.activeMiners', 'Active Miners')}
+                  </div>
+                </div>
+              </div>
+            </motion.a>
+
+            <motion.a
+              href="/app/foundation"
+              className="group p-6 bg-card rounded-xl border border-secondary hover:border-pink-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-pink-500/10 rounded-lg group-hover:bg-pink-500/20 transition-colors">
+                  <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-primary-text">$250K</div>
+                  <div className="text-sm text-tertiary-text">
+                    {t('common:landing.stats.donated', 'Foundation Raised')}
+                  </div>
+                </div>
+              </div>
+            </motion.a>
+
+            <motion.a
+              href="/tokenomics"
+              className="group p-6 bg-card rounded-xl border border-secondary hover:border-orange-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-orange-500/10 rounded-lg group-hover:bg-orange-500/20 transition-colors">
+                  <Flame className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-primary-text">12.5M</div>
+                  <div className="text-sm text-tertiary-text">
+                    {t('common:landing.stats.burned', 'TYT Burned')}
+                  </div>
+                </div>
+              </div>
+            </motion.a>
+
+            <motion.a
+              href="/community"
+              className="group p-6 bg-card rounded-xl border border-secondary hover:border-blue-500/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+                  <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-primary-text">15,847</div>
+                  <div className="text-sm text-tertiary-text">
+                    {t('common:landing.stats.community', 'Community Members')}
+                  </div>
+                </div>
+              </div>
+            </motion.a>
+          </div>
+        </div>
+      </section>
 
       <section id="meet-aoi" className="tyt-section relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Background gradient effects */}
