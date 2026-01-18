@@ -237,7 +237,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
   // Compact mode rendering
   if (isCompactMode) {
     return (
-      <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
+      <header className="sticky top-0 z-50 bg-primary/90 backdrop-blur-xl border-b border-secondary">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
@@ -251,10 +251,10 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 }}
               />
               <div className="hidden sm:flex flex-col">
-                <span className="text-base font-bold text-gray-900 dark:text-white leading-tight">
+                <span className="text-base font-bold text-primary-text leading-tight">
                   Take Your Token
                 </span>
-                <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
+                <span className="text-[10px] text-tertiary-text leading-tight">
                   Owl Warrior Ecosystem
                 </span>
               </div>
@@ -297,10 +297,10 @@ export default function Header({ variant = 'full' }: HeaderProps) {
               }}
             />
             <div className="hidden sm:flex flex-col">
-              <span className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+              <span className="text-xl font-bold text-primary-text leading-tight">
                 Take Your Token
               </span>
-              <span className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+              <span className="text-[11px] text-tertiary-text leading-tight">
                 Owl Warrior Ecosystem
               </span>
             </div>
@@ -318,7 +318,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   className={`flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                     openDropdown === item.label
                       ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'text-secondary-text hover:text-primary-text hover:bg-tertiary'
                   }`}
                   onClick={() => handleDropdownToggle(item.label)}
                 >
@@ -327,7 +327,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 </button>
 
                 {openDropdown === item.label && item.children && (
-                  <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50">
+                  <div className="absolute top-full left-0 mt-1 w-72 bg-card border border-secondary rounded-xl shadow-xl overflow-hidden z-50">
                     <div className="p-2">
                       {item.children.map((child) => {
                         const Icon = child.icon || Info;
@@ -336,17 +336,17 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                             key={child.href}
                             to={child.href}
                             onClick={closeDropdown}
-                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group"
+                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-secondary transition-all group"
                           >
                             <div className="p-2 bg-amber-50 dark:bg-amber-500/10 rounded-lg group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 transition-colors">
                               <Icon className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                             </div>
                             <div>
-                              <div className="font-medium text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                              <div className="font-medium text-primary-text group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                                 {child.label}
                               </div>
                               {child.description && (
-                                <div className="text-xs text-gray-500 mt-0.5">
+                                <div className="text-xs text-tertiary-text mt-0.5">
                                   {child.description}
                                 </div>
                               )}
@@ -384,7 +384,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
               <>
                 <Link
                   to="/login"
-                  className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm text-secondary-text hover:text-primary-text font-medium transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
                   {t('auth.signIn')}
@@ -402,7 +402,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="lg:hidden p-2 text-secondary-text hover:text-primary-text"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -415,7 +415,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 <div key={item.label}>
                   <button
                     onClick={() => handleDropdownToggle(item.label)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg"
+                    className="w-full flex items-center justify-between px-4 py-3 text-left font-medium text-secondary-text hover:text-primary-text hover:bg-secondary rounded-lg"
                   >
                     {item.label}
                     <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === item.label ? 'rotate-180' : ''}`} />
@@ -433,7 +433,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                               setMobileMenuOpen(false);
                               closeDropdown();
                             }}
-                            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg"
+                            className="flex items-center gap-3 px-4 py-2 text-sm text-tertiary-text hover:text-primary-text hover:bg-secondary rounded-lg"
                           >
                             <Icon className="w-4 h-4 text-gold-400" />
                             {child.label}
@@ -460,7 +460,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                   <Link
                     to="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full text-center px-5 py-3 border border-gray-700 text-white font-medium rounded-lg hover:bg-gray-800"
+                    className="block w-full text-center px-5 py-3 border border-secondary text-primary-text font-medium rounded-lg hover:bg-secondary"
                   >
                     {t('auth.signIn')}
                   </Link>

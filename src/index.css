@@ -150,6 +150,41 @@
     background-color: rgb(var(--color-bg-card)) !important;
   }
 
+  /* Light theme text color overrides for better readability */
+  .text-gray-600 {
+    color: rgb(var(--color-text-secondary)) !important;
+  }
+
+  .text-gray-500 {
+    color: rgb(var(--color-text-tertiary)) !important;
+  }
+
+  .text-gray-400 {
+    color: rgb(var(--color-text-tertiary)) !important;
+  }
+
+  .text-gray-300 {
+    color: rgb(var(--color-text-secondary)) !important;
+  }
+
+  /* Light theme background overrides */
+  .bg-gray-100 {
+    background-color: rgb(var(--color-bg-tertiary)) !important;
+  }
+
+  .bg-gray-50 {
+    background-color: rgb(var(--color-bg-secondary)) !important;
+  }
+
+  /* Hover states for light theme */
+  .hover\:text-gray-900:hover {
+    color: rgb(var(--color-text-primary)) !important;
+  }
+
+  .hover\:bg-gray-100:hover {
+    background-color: rgb(var(--color-bg-tertiary)) !important;
+  }
+
   .dark .bg-slate-900,
   .dark .bg-slate-800 {
     background-color: rgb(var(--color-bg-card)) !important;
