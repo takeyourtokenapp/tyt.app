@@ -184,7 +184,7 @@ export async function getAuthHeaders(): Promise<Record<string, string>> {
   };
 }
 
-export function isAuthenticated(): boolean {
-  const session = supabase.auth.getSession();
+export async function isAuthenticated(): Promise<boolean> {
+  const session = await authService.getSession();
   return !!session;
 }

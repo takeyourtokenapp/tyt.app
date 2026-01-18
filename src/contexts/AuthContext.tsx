@@ -50,8 +50,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return;
 
-        console.log('Auth state changed:', event);
-
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           setSession(session);
           setUser(session?.user ?? null);
@@ -73,7 +71,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    console.log('Attempting sign in:', { email });
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -88,8 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw new Error(error.message || 'Failed to sign in');
       }
-
-      console.log('Sign in successful:', { userId: data.user?.id });
     } catch (err) {
       console.error('Sign in exception:', err);
       throw err;
@@ -97,8 +92,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, username?: string) => {
-    console.log('Attempting sign up:', { email, username });
-
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -119,11 +112,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw new Error(error.message || 'Failed to create account');
       }
-
-      console.log('Sign up successful:', {
-        userId: data.user?.id,
-        needsConfirmation: !data.session,
-      });
     } catch (err) {
       console.error('Sign up exception:', err);
       if (err instanceof TypeError && err.message.includes('fetch')) {
@@ -135,24 +123,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
-      console.log('AuthContext: Starting sign out process...');
-
-      // Clear local state immediately
       setUser(null);
       setSession(null);
 
-      // Sign out from Supabase
       const { error } = await supabase.auth.signOut();
 
       if (error) {
         console.error('Sign out error:', error);
         throw error;
       }
-
-      console.log('AuthContext: Sign out successful');
     } catch (err) {
       console.error('Sign out exception:', err);
-      // Still clear local state even if API call fails
       setUser(null);
       setSession(null);
       throw err;
@@ -169,8 +150,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Password reset error:', error);
         throw new Error(error.message || 'Failed to send reset email');
       }
-
-      console.log('Password reset email sent to:', email);
     } catch (err) {
       console.error('Password reset exception:', err);
       throw err;

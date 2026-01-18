@@ -27,8 +27,8 @@ export function sanitizeString(input: string, maxLength: number = 1000): string 
  * Validate email format
  */
 export function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email) && email.length <= 254;
+  const emailRegex = /^[a-zA-Z0-9]([a-zA-Z0-9._+-])*[a-zA-Z0-9]@[a-zA-Z0-9]([a-zA-Z0-9-])*[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email) && email.length >= 5 && email.length <= 254;
 }
 
 /**
@@ -138,19 +138,29 @@ export function validateURL(url: string, allowedProtocols: string[] = ['https:',
 }
 
 /**
- * Generate secure random string
+ * Generate secure random string using Web Crypto API
  */
 export function generateSecureToken(length: number = 32): string {
-  if (typeof window !== 'undefined' && window.crypto) {
-    const array = new Uint8Array(length);
-    window.crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  if (typeof window === 'undefined' || !window.crypto?.getRandomValues) {
+    throw new Error('Web Crypto API is not available. Secure random generation requires a secure context (HTTPS).');
   }
 
-  // Fallback (less secure, for non-crypto environments)
-  return Array.from({ length }, () =>
-    Math.floor(Math.random() * 16).toString(16)
-  ).join('');
+  const array = new Uint8Array(length);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Generate secure random ID (shorter, URL-safe)
+ */
+export function generateSecureId(length: number = 16): string {
+  if (typeof window === 'undefined' || !window.crypto?.getRandomValues) {
+    throw new Error('Web Crypto API is not available. Secure random generation requires a secure context (HTTPS).');
+  }
+
+  const array = new Uint8Array(length);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(36)).join('').substring(0, length);
 }
 
 /**
@@ -222,12 +232,21 @@ export function escapeHTML(str: string): string {
 
 /**
  * Content Security Policy generator
+ * Note: For production, use nonce-based CSP instead of 'unsafe-inline'
  */
-export function generateCSP(): string {
+export function generateCSP(nonce?: string): string {
+  const scriptSrc = nonce
+    ? `script-src 'self' 'nonce-${nonce}' https://cdn.jsdelivr.net`
+    : "script-src 'self' https://cdn.jsdelivr.net";
+
+  const styleSrc = nonce
+    ? `style-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com`
+    : "style-src 'self' https://fonts.googleapis.com";
+
   return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    scriptSrc,
+    styleSrc,
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https: blob:",
     "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.alchemy.com https://*.infura.io",

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import Toast from '../components/Toast';
+import { generateSecureId } from '../utils/security';
 
 interface ToastMessage {
   id: string;
@@ -20,7 +21,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const showToast = (message: string, type: 'success' | 'error' | 'warning') => {
-    const id = Math.random().toString(36).substring(7);
+    const id = generateSecureId(8);
     setToasts((prev) => [...prev, { id, message, type }]);
   };
 
