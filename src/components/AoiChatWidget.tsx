@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Loader2, Heart, ExternalLink } from 'lucide-react';
 import { useAoi } from '../contexts/AoiContext';
-import { getAoiImage, getAoiChatPortrait } from '../config/aoiConfig';
+import { getAoiChatPortrait } from '../config/aoiConfig';
 
 interface Message {
   id: string;
@@ -156,14 +156,14 @@ export default function AoiChatWidget({
     <div className="fixed bottom-4 right-4 z-50 w-96 max-h-[90vh] bg-secondary border-2 border-accent/50 rounded-2xl shadow-2xl aoi-widget flex flex-col overflow-hidden">
       <div className="bg-gradient-to-r from-accent to-amber-500 p-4 flex items-center justify-between border-b border-accent/30">
         <div className="flex items-center gap-3">
-          {/* Use presenting-open for chat header - welcoming and open gesture */}
+          {/* Use portrait for chat header - aOi's face */}
           <img
-            src={getAoiImage('presentingOpen')}
+            src={getAoiChatPortrait()}
             alt="aOi"
             className="w-10 h-10 rounded-full object-cover ring-2 ring-white/40 shadow-lg"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.src = '/aoi/presenting-open.png';
+              target.style.display = 'none';
             }}
           />
           <div>
