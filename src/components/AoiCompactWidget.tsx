@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send } from 'lucide-react';
 import AoiChatWidget from './AoiChatWidget';
-import AoiImage from './AoiImage';
+import { getAoiChatPortrait } from '../config/aoiConfig';
 
 interface AoiCompactWidgetProps {
   level?: 1 | 2 | 3 | 4;
@@ -86,15 +86,20 @@ export default function AoiCompactWidget({
           `}
           aria-label="Chat with aOi"
         >
-          {/* aOi Avatar from centralized CDN */}
+          {/* aOi Avatar - chat portrait */}
           <div className="relative">
-            <AoiImage
-              context="avatar"
-              size="sm"
-              level={level}
-              className="ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all"
-              showFallback={true}
-            />
+            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-indigo-500/40 group-hover:ring-indigo-400/70 transition-all">
+              <img
+                src={getAoiChatPortrait()}
+                alt="aOi AI Assistant"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to Sparkles icon if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+            </div>
             {showOnlineStatus && (
               <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
             )}
