@@ -56,59 +56,40 @@ function AdminDashboardContent() {
     try {
       setLoading(true);
 
-      // Fetch total users count
-      const { count: totalUsersCount } = await supabase
-        .from('profiles')
-        .select('id', { count: 'exact', head: true });
+      // Use admin functions that bypass RLS
+      const [
+        { data: usersStats },
+        { data: minersStats },
+        { data: messagesStats },
+        { data: foundationStats },
+        { data: recentTxData }
+      ] = await Promise.all([
+        supabase.rpc('get_admin_users_count'),
+        supabase.rpc('get_admin_miners_stats'),
+        supabase.rpc('get_admin_messages_stats'),
+        supabase.rpc('get_admin_foundation_stats'),
+        supabase
+          .from('wallet_transactions')
+          .select('id', { count: 'exact', head: true })
+          .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+      ]);
 
-      // Fetch new users in last 7 days
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      const { count: newUsers7d } = await supabase
-        .from('profiles')
-        .select('id', { count: 'exact', head: true })
-        .gte('created_at', sevenDaysAgo);
-
-      // Fetch miners data
-      const { data: minersData, count: minersCount } = await supabase
-        .from('nft_miners')
-        .select('hashrate', { count: 'exact' });
-
-      // Fetch messages
-      const { count: messagesCount } = await supabase
-        .from('contact_messages')
-        .select('id', { count: 'exact', head: true });
-
-      const { count: unreadCount } = await supabase
-        .from('contact_messages')
-        .select('id', { count: 'exact', head: true })
-        .eq('is_read', false);
-
-      // Fetch foundation donations
-      const { data: donationsData } = await supabase
-        .from('foundation_donations')
-        .select('amount_usd');
-
-      // Fetch recent transactions (last 24h)
-      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-      const { count: recentTxCount } = await supabase
-        .from('wallet_transactions')
-        .select('id', { count: 'exact', head: true })
-        .gte('created_at', oneDayAgo);
-
-      // Calculate totals
-      const totalHashrate = minersData?.reduce((sum, miner) => sum + (Number(miner.hashrate) || 0), 0) || 0;
-      const foundationTotal = donationsData?.reduce((sum, donation) => sum + (Number(donation.amount_usd) || 0), 0) || 0;
+      // Extract stats from RPC responses (they return arrays with single object)
+      const users = usersStats?.[0] || {};
+      const miners = minersStats?.[0] || {};
+      const messages = messagesStats?.[0] || {};
+      const foundation = foundationStats?.[0] || {};
 
       setStats({
-        totalUsers: totalUsersCount || 0,
-        activeUsers: newUsers7d || 0,
-        pendingKYC: 0, // KYC table doesn't exist yet
-        totalMiners: minersCount || 0,
-        totalHashrate: totalHashrate,
-        totalMessages: messagesCount || 0,
-        unreadMessages: unreadCount || 0,
-        foundationDonations: foundationTotal,
-        recentTransactions: recentTxCount || 0,
+        totalUsers: Number(users.total_users) || 0,
+        activeUsers: Number(users.new_users_7d) || 0,
+        pendingKYC: 0,
+        totalMiners: Number(miners.total_miners) || 0,
+        totalHashrate: Number(miners.total_hashrate) || 0,
+        totalMessages: Number(messages.total_messages) || 0,
+        unreadMessages: Number(messages.unread_messages) || 0,
+        foundationDonations: Number(foundation.total_donations) || 0,
+        recentTransactions: recentTxData.count || 0,
         monthlyRevenue: 0,
       });
 
