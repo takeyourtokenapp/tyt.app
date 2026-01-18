@@ -16,13 +16,15 @@ import {
   Sparkles,
   Flame,
   Lock,
-  PieChart
+  PieChart,
+  Eye
 } from 'lucide-react';
 import { CompactFAQ } from '../components/FAQWidget';
 import StatisticsCard, { StatisticsGrid } from '../components/StatisticsCard';
 import PriceTicker from '../components/PriceTicker';
 import IncomeCalculator from '../components/IncomeCalculator';
 import { FeeModelTooltip } from '../components/Tooltip';
+import { OrbitalBadge } from '../components/OrbitalBadge';
 import {
   BitcoinIcon,
   MiningIcon,
@@ -938,6 +940,126 @@ export default function Landing() {
               icon={<Coins className="w-8 h-8" />}
             />
           </div>
+        </div>
+      </section>
+
+      {/* Orbital Layer Section */}
+      <section id="orbital" className="tyt-section relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 dark:from-purple-900/20 dark:via-indigo-900/20 dark:to-blue-900/20"></div>
+
+        <div className="tyt-container relative z-10">
+          <div className="text-center mb-12">
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-500/10 border border-purple-300 dark:border-purple-500/30 rounded-full mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Eye className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <span className="text-purple-700 dark:text-purple-400 font-semibold">Orbital Witness Layer</span>
+            </motion.div>
+
+            <h2 className="tyt-heading-2 mb-4">
+              Transparency Through Orbital
+            </h2>
+            <p className="text-xl tyt-text-secondary max-w-3xl mx-auto">
+              Every transaction is witnessed and verified through our Orbital Layer, ensuring complete transparency and immutability
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+              className="tyt-card p-6 text-center hover:shadow-2xl transition-all"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="flex justify-center mb-4">
+                <OrbitalBadge type="reward" verified={true} size="lg" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Reward Distribution
+              </h3>
+              <p className="text-sm tyt-text-secondary">
+                All BTC rewards are cryptographically witnessed and recorded on-chain
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="tyt-card p-6 text-center hover:shadow-2xl transition-all"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="flex justify-center mb-4">
+                <OrbitalBadge type="burn" verified={true} size="lg" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Token Burns
+              </h3>
+              <p className="text-sm tyt-text-secondary">
+                Every TYT burn event is permanently witnessed and publicly verifiable
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="tyt-card p-6 text-center hover:shadow-2xl transition-all"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="flex justify-center mb-4">
+                <OrbitalBadge type="foundation" verified={true} size="lg" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Foundation Donations
+              </h3>
+              <p className="text-sm tyt-text-secondary">
+                All charitable donations tracked with complete transparency
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="tyt-card p-6 text-center hover:shadow-2xl transition-all"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="flex justify-center mb-4">
+                <OrbitalBadge type="maintenance" verified={true} size="lg" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Maintenance Payments
+              </h3>
+              <p className="text-sm tyt-text-secondary">
+                All maintenance fees recorded with blockchain proof of payment
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="mt-12 text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <Link
+              to="/app/orbital"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+            >
+              <Eye className="w-5 h-5" />
+              Explore Orbital Layer
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

@@ -91,7 +91,7 @@ function ThemeToggleCompact() {
         <Icon className="w-4 h-4" />
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-32 bg-secondary border border-secondary rounded-lg shadow-xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-1 w-32 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl overflow-hidden z-50">
           {themes.map(({ value, icon: ThemeIcon, label }) => (
             <button
               key={value}
@@ -142,7 +142,7 @@ function LanguageSelectorCompact() {
         <span className="text-sm">{currentLangConfig.flag}</span>
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-48 bg-secondary border border-secondary rounded-lg shadow-xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-1 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl overflow-hidden z-50">
           {(Object.keys(supportedLanguages) as SupportedLanguage[]).map((langCode) => {
             const lang = supportedLanguages[langCode];
             const isActive = langCode === currentLanguage;
@@ -327,7 +327,7 @@ export default function Header({ variant = 'full' }: HeaderProps) {
                 </button>
 
                 {openDropdown === item.label && item.children && (
-                  <div className="absolute top-full left-0 mt-1 w-72 bg-card border border-secondary rounded-xl shadow-xl overflow-hidden z-50">
+                  <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-2xl overflow-hidden z-50">
                     <div className="p-2">
                       {item.children.map((child) => {
                         const Icon = child.icon || Info;

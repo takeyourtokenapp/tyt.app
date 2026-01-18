@@ -73,7 +73,7 @@ export default function AoiCompactWidget({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Compact Badge */}
+        {/* Compact Badge with aOi Image */}
         <button
           onClick={() => setIsChatOpen(true)}
           className={`

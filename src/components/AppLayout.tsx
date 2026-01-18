@@ -7,6 +7,7 @@ import AoiAvatar from './AoiAvatar';
 import AoiChatWidget from './AoiChatWidget';
 import ThemeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
+import { OrbitalBadge } from './OrbitalBadge';
 import { getTYTLogoUrl } from '../config/aoiConfig';
 import {
   LayoutDashboard,
@@ -401,9 +402,14 @@ export default function AppLayout({ children }: AppLayoutProps) {
                   <Bell size={20} className="text-tertiary-text" />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full"></span>
                 </Link>
-                <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg border border-amber-500/30">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span className="text-sm font-semibold text-amber-400">Worker Owl</span>
+                <div className="hidden sm:flex items-center gap-2">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg border border-amber-500/30">
+                    <Sparkles className="w-4 h-4 text-amber-400" />
+                    <span className="text-sm font-semibold text-amber-400">Worker Owl</span>
+                  </div>
+                  <Link to="/app/orbital">
+                    <OrbitalBadge type="reward" verified={true} size="md" />
+                  </Link>
                 </div>
               </div>
             </div>
