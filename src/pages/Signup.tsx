@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Mail } from 'lucide-react';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -47,9 +47,7 @@ export default function Signup() {
       const result = await signUp(email, password);
       console.log('Sign up successful:', result);
       setSuccess(true);
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
+      // Don't redirect - show email verification message
     } catch (err) {
       console.error('Signup error details:', {
         error: err,
@@ -101,9 +99,53 @@ export default function Signup() {
           )}
 
           {success && (
-            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-lg flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-green-400">Account created successfully! Redirecting...</p>
+            <div className="mb-6 p-6 bg-green-500/10 border border-green-500/50 rounded-lg">
+              <div className="flex items-start gap-3 mb-4">
+                <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-lg font-bold text-green-400 mb-1">Account Created Successfully!</h3>
+                  <p className="text-sm text-gray-300">One more step to get started...</p>
+                </div>
+              </div>
+
+              <div className="bg-blue-500/10 border border-blue-500/50 rounded-lg p-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-blue-400 mb-1">Verify Your Email</h4>
+                    <p className="text-sm text-gray-300 mb-2">
+                      We've sent a verification link to <span className="font-medium text-white">{email}</span>
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      Please check your inbox and click the verification link to activate your account.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-xs text-gray-400">
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  Check your spam folder if you don't see it
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  The link expires in 24 hours
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  You can't log in until you verify your email
+                </p>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-green-500/30">
+                <Link
+                  to="/login"
+                  className="text-sm text-green-400 hover:text-green-300 font-medium inline-flex items-center gap-2"
+                >
+                  After verification, go to login →
+                </Link>
+              </div>
             </div>
           )}
 

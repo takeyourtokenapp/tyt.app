@@ -47,16 +47,30 @@ export default function EmailVerification({ userId, userEmail, onVerified }: Ema
   const handleSendVerification = async () => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email: userEmail
-      });
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-      if (error) throw error;
+      const response = await fetch(
+        `${supabaseUrl}/functions/v1/resend-verification-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+          },
+          body: JSON.stringify({ email: userEmail }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send verification email');
+      }
 
       setVerificationSent(true);
-      setResendCooldown(60);
-      toast.showSuccess('Verification email sent! Check your inbox.');
+      setResendCooldown(120); // 2 minutes cooldown
+      toast.showSuccess('Verification email sent! Check your inbox and spam folder.');
     } catch (error: any) {
       console.error('Error sending verification:', error);
       toast.showError(error.message || 'Failed to send verification email');
