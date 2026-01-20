@@ -12,11 +12,13 @@ import {
   AlertCircle,
   CheckCircle,
   Clock,
-  BarChart3
+  BarChart3,
+  PieChart
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import AccessGuard from '../../components/AccessGuard';
+import AdvancedAnalytics from '../../components/admin/AdvancedAnalytics';
 
 interface DashboardStats {
   totalUsers: number;
@@ -33,6 +35,7 @@ interface DashboardStats {
 
 function AdminDashboardContent() {
   const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState<'overview' | 'analytics'>('overview');
   const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 0,
     activeUsers: 0,
@@ -182,7 +185,38 @@ function AdminDashboardContent() {
           </button>
         </div>
 
-        {/* Quick Stats Grid */}
+        {/* Tab Navigation */}
+        <div className="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-1">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'overview'
+                  ? 'bg-blue-500 text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+            >
+              <BarChart3 className="w-5 h-5" />
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'analytics'
+                  ? 'bg-blue-500 text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+            >
+              <PieChart className="w-5 h-5" />
+              Advanced Analytics
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        {activeTab === 'overview' ? (
+          <>
+            {/* Quick Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Total Users"
@@ -411,6 +445,10 @@ function AdminDashboardContent() {
             </div>
           </div>
         </div>
+          </>
+        ) : (
+          <AdvancedAnalytics />
+        )}
       </div>
     </div>
   );

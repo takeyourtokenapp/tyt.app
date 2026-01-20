@@ -3,7 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { AoiProvider } from './contexts/AoiContext';
 import { AoiControlProvider } from './contexts/AoiControlContext';
-import ErrorBoundary from './components/ErrorBoundary';
+import { GlobalErrorBoundary } from './components/GlobalErrorBoundary';
+import { ComponentErrorBoundary } from './components/ComponentErrorBoundary';
 import CookieConsent from './components/CookieConsent';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import LiveSupportWidget from './components/LiveSupportWidget';
@@ -100,7 +101,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <ErrorBoundary>
+    <GlobalErrorBoundary>
       <AoiProvider>
         <AoiControlProvider>
           <AnnouncementBanner />
@@ -179,7 +180,7 @@ function App() {
       </Suspense>
         </AoiControlProvider>
       </AoiProvider>
-    </ErrorBoundary>
+    </GlobalErrorBoundary>
   );
 }
 
